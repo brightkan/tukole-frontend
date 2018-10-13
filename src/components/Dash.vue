@@ -41,14 +41,19 @@
       <section class="content-header">
         <div class="toolbar">
           <ul>
-            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq'" to="/projects">
+            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq' || currentRoute.urlPath == '/pip'" to="/projects">
               <a href="#"> 
                 Overview
               </a>
             </router-link>  
-            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq'" to="/boq">
+            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq' || currentRoute.urlPath == '/pip'" to="/boq">
               <a href="#">
                 BOQ
+              </a>
+            </router-link>  
+            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq' || currentRoute.urlPath == '/pip'" to="/pip">
+              <a href="#">
+                PIP
               </a>
             </router-link>  
             <router-link tag="li" v-if="currentRoute.urlPath == '/equipments'" to="/equipments">

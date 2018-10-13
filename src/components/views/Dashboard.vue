@@ -50,12 +50,16 @@
         <div class="box">
           <div class="container">
             <ul id="myTabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
-              <li class="active"><a href="#Commentary" data-toggle="tab">Commentary</a></li>
+              <li class="active"><a href="#Commentary" data-toggle="tab">Vehicles</a></li>
               <li><a href="#Videos" data-toggle="tab">Videos</a></li>
               <li><a href="#Events" data-toggle="tab">Events</a></li>
             </ul>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="Commentary">Commentary WP_Query goes here.</div>
+              <div role="tabpanel" class="tab-pane fade in active" id="Commentary">
+                <div id="canvas-holder" style="margin-top: 23px">
+                  <canvas id="chart-area" height="200" width="200"></canvas>
+                </div>
+              </div>
               <div role="tabpanel" class="tab-pane fade" id="Videos">Videos WP_Query goes here.</div>
               <div role="tabpanel" class="tab-pane fade" id="Events">Events WP_Query goes here.</div>
             </div>
@@ -150,32 +154,32 @@ export default {
         type: "line",
         data: {
           labels: [
-            "January",
-            "February",
-            "March",
-            "April",
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
             "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
           ],
           datasets: [
             {
               label: "CoPilot",
               fill: false,
-              borderColor: "#284184",
-              pointBackgroundColor: "#284184",
+              borderColor: "#256AE1",
+              pointBackgroundColor: "#256AE1",
               backgroundColor: "rgba(0, 0, 0, 0)",
               data: this.coPilotNumbers
             },
             {
               label: "Personal Site",
-              borderColor: "#4BC0C0",
-              pointBackgroundColor: "#4BC0C0",
+              borderColor: "#8BAEEA",
+              pointBackgroundColor: "#8BAEEA",
               backgroundColor: "rgba(0, 0, 0, 0)",
               data: this.personalNumbers
             }
@@ -186,18 +190,87 @@ export default {
           maintainAspectRatio: !this.isMobile,
           legend: {
             position: "bottom",
-            display: true
+            display: false
           },
           tooltips: {
             mode: "label",
             xPadding: 10,
             yPadding: 10,
             bodySpacing: 10
+          },
+          scales: {
+            xAxes: [
+              {
+                display: true,
+                scaleLabel: {
+                  display: false,
+                  labelString: "Month"
+                }
+              }
+            ],
+            yAxes: [
+              {
+                display: false,
+                scaleLabel: {
+                  display: false,
+                  labelString: "Value"
+                }
+              }
+            ]
           }
         }
       };
 
+      document.getElementById("trafficBar").height = 94;
       new Chart(ctx, config); // eslint-disable-line no-new
+
+      /**
+       * this is the for the dognut chart
+       */
+      var randomScalingFactor = function() {
+        return Math.round(Math.random() * 100);
+      };
+
+      var config2 = {
+        type: "doughnut",
+        data: {
+          datasets: [
+            {
+              data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+              ],
+              backgroundColor: ["#FF5F58", "#FA9917", "#2AC940", "#256AE1"],
+              label: "Dataset 1",
+              borderWidth: [2, 2, 2, 2]
+            }
+          ],
+          labels: ["Broken Down", "Assigned", "Available", "New"]
+        },
+        options: {
+          responsive: true,
+          legend: {
+            position: "bottom"
+          },
+          title: {
+            display: false,
+            text: "Chart.js Doughnut Chart"
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          },
+          circumference: 1.5 * Math.PI,
+          cutoutPercentage: 60
+        }
+      };
+
+      var ctx2 = document.getElementById("chart-area").getContext("2d");
+      document.getElementById("chart-area").height = 70;
+      document.getElementById("chart-area").width = 100;
+      new Chart(ctx2, config2); // eslint-disable-line no-new
 
       var map = new ol.Map({
         target: "map",
@@ -247,17 +320,6 @@ export default {
   padding: 0 72px;
 }
 
-.skills {
-  text-align: right;
-  color: white;
-  font-family: "Montserrat", sans-serif;
-  font-size: 8px;
-  font-weight: 700;
-  line-height: 10px;
-  padding: 2px 4px;
-  background-color: #265499;
-}
-
 .box {
   padding: 18px;
   background-color: #fff;
@@ -277,7 +339,7 @@ export default {
 .box .container .nav-pills li > a {
   color: #bdbdbd;
   font-family: "Montserrat", sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 13px;
 }
@@ -288,7 +350,7 @@ export default {
   border-top: none;
   color: #256ae1;
   font-family: "Montserrat", sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 13px;
 }
@@ -296,7 +358,7 @@ export default {
 .box > h4:nth-child(1) {
   color: #172233;
   font-family: "Montserrat", sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 13px;
 }
@@ -326,6 +388,17 @@ export default {
   line-height: 3em;
 }
 
+.skills {
+  text-align: right;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 10px;
+  padding: 6px 8px;
+  background-color: #265499;
+}
+
 .user-list {
   padding: 0;
   width: 100%;
@@ -334,17 +407,17 @@ export default {
 .user-list p {
   color: #172233;
   font-family: "Montserrat", sans-serif;
-  font-size: 7px;
+  font-size: 12px;
   line-height: 9px;
   margin: 0;
-  padding: 5px 15px 5px 5px;
+  padding: 10px 15px 10px 5px;
   border-left: 1px solid #cdd9ea;
 }
 
 .project-status.box h4 {
   color: #256ae1;
   font-family: "Montserrat", sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 13px;
 }
@@ -395,8 +468,8 @@ export default {
 .project-status.box ul li p {
   color: #333;
   font-family: "Montserrat", sans-serif;
-  font-size: 9px;
-  line-height: 11px;
+  font-size: 12px;
+  line-height: 13px;
   display: inline-block;
   margin: 0px;
 }
@@ -404,14 +477,13 @@ export default {
 .project-status.box ul li p span {
   color: #bdbdbd;
   font-family: "Montserrat", sans-serif;
-  font-size: 7px;
+  font-size: 10px;
   font-weight: 500;
-  line-height: 9px;
 }
 
 .map {
   width: 100%;
-  height: 160px;
+  height: 195px;
 }
 
 .project-locations .box {
@@ -423,7 +495,7 @@ export default {
   padding: 0 18px;
   color: #256ae1;
   font-family: "Montserrat", sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 13px;
 }
@@ -438,7 +510,7 @@ export default {
   display: inline-block;
   color: #333;
   font-family: "Montserrat", sans-serif;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 11px;
   margin-right: 15px;
 }
@@ -448,7 +520,7 @@ export default {
   color: #ed6a5f;
   padding-right: 0.3em;
   font-size: 40px;
-  line-height: 1em;
+  line-height: 1.1em;
   position: absolute;
   bottom: 6px;
 }

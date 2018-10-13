@@ -10,6 +10,7 @@ import EquipmentView from "./components/views/equipment.vue";
 import UserView from "./components/views/user.vue";
 import ProjectView from "./components/views/project.vue";
 import BoqView from "./components/views/boq.vue";
+import PipView from "./components/views/pip.vue";
 
 // Routes
 const routes = [
@@ -57,6 +58,12 @@ const routes = [
         component: BoqView,
         name: "BOQ",
         meta: { description: "List of our boq" }
+      },
+      {
+        path: "pip",
+        component: PipView,
+        name: "PIP",
+        meta: { description: "List of our pip" }
       }
     ]
   },
