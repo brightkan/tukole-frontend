@@ -58,13 +58,39 @@
           
           <div class="row timeline-content">
             <div class="col-md-2">
-              24th July 2018
+              24th - 26th July 2018
             </div>
             <div class="col-md-1">
               Stage 1
             </div>
             <div class="col-md-9">
               Delayed for 2 days due to terrential rains
+              <span type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <img src="../../../assets/imgs/down-arrow.png" />
+              </span>
+            </div>
+            <div class="col-md-12">
+              <div class="collapse" id="collapseExample">
+                <div class="row">
+                  <div class="col-md-2">
+                    26th July 2018
+                  </div>
+                  <div class="col-md-10">
+                    Rather than entering this information by hand, try the Clerk of Works Report mobile app. This contractor productivity 
+report template is especially beneficial for a clerk of works who needs to improve productivity among multiple general 
+contractors on a construction project.
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    26th July 2018
+                  </div>
+                  <div class="col-md-10">
+                    Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
+      fiber cable was laid.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -278,7 +304,7 @@ fiber cable was laid.
 </template>
 
 <script>
-import { select } from "../mixins/select";
+import { select } from "../../mixins/select";
 export default {
   mixins: [select],
   created() {},
@@ -359,6 +385,35 @@ export default {
 .timeline-content div {
   padding-top: 15px;
   padding-bottom: 15px;
+}
+.timeline-content div:nth-child(4) {
+  padding: 0;
+}
+.timeline-content div:nth-child(3) span {
+  float: right;
+  background: #f2f2f2;
+  padding: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.timeline-content div:nth-child(3) span img {
+  opacity: 0.2;
+  width: 10px;
+  height: 10px;
+}
+
+.timeline-content .collapse {
+  background-color: #fbfbfb;
+  padding: 0 25px;
+  font-size: 11px;
+}
+.timeline-content .collapse > .row {
+  padding: 10px 0;
+  margin: 0;
+}
+.timeline-content .collapse > .row div {
+  padding: 0;
 }
 ._projects {
   margin-top: 28px;

@@ -12,13 +12,13 @@
         <span class="page">Fleet</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/equipments">
+    <router-link tag="li" class="pageLink" to="/equipment_dash">
       <a>
         <i class="fa fa-tasks"></i>
         <span class="page">Equipments</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/projects">
+    <router-link tag="li" class="pageLink" to="/project">
       <a>
         <i class="fa fa-calendar"></i>
         <span class="page">Projects</span>

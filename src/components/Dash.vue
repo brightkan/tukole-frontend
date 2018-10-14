@@ -38,7 +38,7 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
-      <section class="content-header">
+      <!-- <section class="content-header">
         <div class="toolbar">
           <ul>
             <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq' || currentRoute.urlPath == '/pip'" to="/projects">
@@ -68,7 +68,7 @@
             </router-link>
           </ul>
         </div>
-      </section>
+      </section> -->
 
       <router-view :someProp="currentRoute" v-on:customEventForValChange="handleCustomEvent"></router-view>
     </div>

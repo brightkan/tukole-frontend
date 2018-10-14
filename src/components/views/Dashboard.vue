@@ -1,4 +1,10 @@
 <template>
+<div>
+  <section class="content-header">
+    <div class="toolbar">
+      
+    </div>
+  </section>
   <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
@@ -119,6 +125,7 @@
 
   </section>
   <!-- /.content -->
+</div>
 </template>
 
 <script>

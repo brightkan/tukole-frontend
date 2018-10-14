@@ -152,7 +152,7 @@ export default {
   margin: 0;
   font-size: 12px;
   display: inline-block;
-  width: 5%;
+  min-width: 5%;
 }
 </style>
 

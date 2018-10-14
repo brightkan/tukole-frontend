@@ -1,4 +1,10 @@
 <template>
+<div>
+  <section class="content-header">
+    <div class="toolbar">
+      
+    </div>
+  </section>
     <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
@@ -114,6 +120,7 @@
 
 
   </section>
+</div>
 </template>
 
 <script>
@@ -130,7 +137,7 @@ export default {
 
 <style>
 .content > .row:nth-child(1) {
-  padding: 20px 72px 10px;
+  padding: 15px 72px 10px;
   border-bottom: 1px solid #e0e0e0;
 }
 
