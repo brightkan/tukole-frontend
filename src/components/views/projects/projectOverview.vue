@@ -104,6 +104,9 @@ contractors on a construction project.
             <div class="col-md-9">
               Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
 fiber cable was laid.
+              <span type="button">
+                <img src="../../../assets/imgs/down-arrow.png" />
+              </span>
             </div>
           </div>
 
@@ -117,6 +120,9 @@ fiber cable was laid.
             <div class="col-md-9">
               Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
 fiber cable was laid.
+              <span type="button">
+                <img src="../../../assets/imgs/down-arrow.png" />
+              </span>
             </div>
           </div>
 
@@ -130,6 +136,9 @@ fiber cable was laid.
             <div class="col-md-9">
               Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
 fiber cable was laid.
+              <span type="button">
+                <img src="../../../assets/imgs/down-arrow.png" />
+              </span>
             </div>
           </div>
         </div>
@@ -321,10 +330,14 @@ export default {
   padding: 27px 38px;
 }
 
-.timeline-box h3,
-.timeline-activites-label {
-  padding-top: 40px;
+.timeline-box h3 {
+  margin: 0;
   padding-bottom: 10px;
+}
+
+.timeline-activites-label {
+  padding-bottom: 10px;
+  padding-top: 30px;
 }
 
 #stages {
@@ -381,6 +394,7 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
   line-height: 15px;
+  border-bottom: 1.5px solid #e0e0e0;
 }
 .timeline-content div {
   padding-top: 15px;
