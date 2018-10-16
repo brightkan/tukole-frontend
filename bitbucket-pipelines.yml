@@ -8,12 +8,17 @@ image: python:3.6.0
 pipelines:
   default:
   - step:
+      caches:
+      - pip
+      script: # Modify the commands below to build your repository.
+      - pip install ansible
+
+  - step:
       name: Deploy Frontend API
       caches:
       - pip
       deployment: test
       trigger: manual
       script:
-      - pip install ansible
       - cd provision
       - ./deploy_frontend.sh
