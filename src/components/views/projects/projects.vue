@@ -4,7 +4,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-2">
-        <h3>Projects</h3>
+        <h3>Sites</h3>
       </div>
 
       <div class="comp-title col-md-3">
@@ -29,7 +29,7 @@
 
       <div class="comp-title col-md-2">
         <button type="button" data-toggle="modal" data-target="#addMachinery">
-          Add Project
+          Add Site
         </button>
       </div>
     </div>
@@ -123,7 +123,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Project</button>
+            <button type="button" class="btn btn-primary">Add Site</button>
           </div>
         </div>
       </div>

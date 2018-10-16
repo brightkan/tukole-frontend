@@ -160,13 +160,14 @@ html, body{
   color: #5a89da;
 }
 .auth .card .error {
-	margin-bottom: 30px;
-	background-color: #eaaeae;
+  margin-bottom: 30px;
+  background-color: #e6bfbf;
+  padding: 5px;
 }
 .auth .card .error p {
 	margin: 0;
 	font-weight: normal;
-	font-size: initial;
-	color: #c30404;
+	font-size: 14px;
+  color: #6f0202;
 }
 </style>

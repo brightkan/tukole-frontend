@@ -6,6 +6,13 @@
         <span class="page">Overview</span>
       </a>
     </router-link>
+
+    <router-link tag="li" class="pageLink" to="/project">
+      <a>
+        <i class="fa fa-calendar"></i>
+        <span class="page">Sites</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/fleet">
       <a>
         <i class="fa fa-table"></i>
@@ -16,12 +23,6 @@
       <a>
         <i class="fa fa-tasks"></i>
         <span class="page">Equipments</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/project">
-      <a>
-        <i class="fa fa-calendar"></i>
-        <span class="page">Projects</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/users">
