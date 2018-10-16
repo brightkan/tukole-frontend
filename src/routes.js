@@ -2,6 +2,10 @@ import DashView from "./components/Dash.vue";
 import LoginView from "./components/Login.vue";
 import NotFoundView from "./components/404.vue";
 
+import CreateWorkSpaceView from './components/auth/CreateWorkSpace.vue'
+import UserSignUpView from "./components/auth/UserSignUp.vue";
+import SignUpConfirmView from "./components/auth/SignUpConfirm.vue";
+
 // Import Views - Dash
 import DashboardView from "./components/views/Dashboard.vue";
 
@@ -20,6 +24,18 @@ const routes = [
   {
     path: "/login",
     component: LoginView
+  },
+  {
+    path: "/create_workspace",
+    component: CreateWorkSpaceView
+  },
+  {
+    path: "/signup",
+    component: UserSignUpView
+  },
+  {
+    path: "/signup_confirm",
+    component: SignUpConfirmView
   },
   {
     path: "/",
