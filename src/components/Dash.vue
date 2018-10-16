@@ -37,39 +37,6 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <!-- <section class="content-header">
-        <div class="toolbar">
-          <ul>
-            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq' || currentRoute.urlPath == '/pip'" to="/projects">
-              <a href="#"> 
-                Overview
-              </a>
-            </router-link>  
-            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq' || currentRoute.urlPath == '/pip'" to="/boq">
-              <a href="#">
-                BOQ
-              </a>
-            </router-link>  
-            <router-link tag="li" v-if="currentRoute.urlPath == '/projects' || currentRoute.urlPath == '/boq' || currentRoute.urlPath == '/pip'" to="/pip">
-              <a href="#">
-                PIP
-              </a>
-            </router-link>  
-            <router-link tag="li" v-if="currentRoute.urlPath == '/equipments'" to="/equipments">
-              <a href="#">
-                Machinery
-              </a>
-            </router-link>            
-            <router-link tag="li" v-if="currentRoute.urlPath == '/equipments'" to="/">
-              <a>
-                Tools
-              </a>
-            </router-link>
-          </ul>
-        </div>
-      </section> -->
-
       <router-view :someProp="currentRoute" v-on:customEventForValChange="handleCustomEvent"></router-view>
     </div>
     <!-- /.content-wrapper -->
