@@ -1,0 +1,45 @@
+---
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+
+- name: download setup_5.x file to tmp dir
+  get_url:
+    url: https://deb.nodesource.com/setup_8.x
+    dest: /tmp/
+    mode: 0755
+
+- command: sh setup_8.x
+  args:
+    chdir: /tmp/
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+
+- name: install node
+  apt: name={{ item }} state=present
+  with_items:
+    - nodejs
+
+- file: path=/home/tukole/frontend/ mode=0755 state=directory
+
+- name: checkout from bitbucket
+  git: repo={{frontend_repo}} dest=/home/tukole/frontend/ key_file=/home/{{ user }}/.ssh/frontend accept_hostkey=true force=yes
+
+- command: 'npm install'
+  args:
+    chdir: /home/tukole/frontend/
+
+- file: path=/home/tukole/frontend/dist/ state=absent
+  become_user: root
+
+- command: 'npm run build --prod'
+  args:
+    chdir: /home/tukole/frontend/
+
+- file: path=/home/tukole/frontend/dist/ owner=www-data mode=0755 state=directory recurse=yes
+  become_user: root
+
+- service: name=nginx state=restarted
+  become_user: root
