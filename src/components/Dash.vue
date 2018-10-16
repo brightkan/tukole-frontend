@@ -136,6 +136,9 @@ export default {
 </script>
 
 <style>
+a {
+  color: white;
+}
 .wrapper.fixed_layout .main-header {
   position: fixed;
   width: 100%;
