@@ -11,7 +11,7 @@ pipelines:
       caches:
       - pip
       script: # Modify the commands below to build your repository.
-      - pip install ansible
+      - pip freeze
 
   - step:
       name: Deploy Frontend API
@@ -20,5 +20,6 @@ pipelines:
       deployment: test
       trigger: manual
       script:
+      - pip install ansible
       - cd provision
       - ./deploy_frontend.sh
