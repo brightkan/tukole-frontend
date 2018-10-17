@@ -1,6 +1,13 @@
 import axios from 'axios'
 import config from '../config'
 
+const HTTP = axios.create({
+  baseURL: config.serverURI,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+})
+
 export default {
   request (method, uri, data = null) {
     if (!method) {
@@ -14,6 +21,13 @@ export default {
     }
 
     var url = config.serverURI + uri
-    return axios({ method, url, data })
+    
+    if(method === 'post'){
+
+      return HTTP.post(url, data)
+    }else if(method === 'get'){
+      return HTTP.get(uri)
+    }
+    
   }
 }

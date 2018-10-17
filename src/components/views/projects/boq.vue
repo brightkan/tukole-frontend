@@ -19,7 +19,8 @@
               <td>Item</td>
               <td>Description</td>
               <td>Type</td>
-              <td>Quantity</td>
+              <td>Actual Quantity</td>
+              <td>Estimated Quantity</td>
               <td>Unit Cost</td>
               <td>Total Cost</td>
             </tr>
@@ -30,6 +31,7 @@
               <td>Grade 3 polythene</td>
               <td>Material</td>
               <td>100</td>
+              <td>120</td>
               <td>200</td>
               <td>20,000</td>
             </tr>
@@ -38,6 +40,7 @@
               <td>Grade 3 polythene</td>
               <td>Material</td>
               <td>100</td>
+              <td>120</td>
               <td>200</td>
               <td>20,000</td>
             </tr>
@@ -46,6 +49,7 @@
               <td>Grade 3 polythene</td>
               <td>Material</td>
               <td>100</td>
+              <td>120</td>
               <td>200</td>
               <td>20,000</td>
             </tr>
@@ -54,6 +58,7 @@
               <td>Grade 3 polythene</td>
               <td>Material</td>
               <td>100</td>
+              <td>120</td>
               <td>200</td>
               <td>20,000</td>
             </tr>
@@ -62,6 +67,7 @@
               <td>Grade 3 polythene</td>
               <td>Material</td>
               <td>100</td>
+              <td>120</td>
               <td>200</td>
               <td>20,000</td>
             </tr>

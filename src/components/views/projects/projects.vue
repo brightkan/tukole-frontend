@@ -4,7 +4,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-2">
-        <h3>Projects</h3>
+        <h3>Sites</h3>
       </div>
 
       <div class="comp-title col-md-3">
@@ -29,7 +29,7 @@
 
       <div class="comp-title col-md-2">
         <button type="button" data-toggle="modal" data-target="#addMachinery">
-          Add Project
+          Add Site
         </button>
       </div>
     </div>
@@ -90,7 +90,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add Site</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -108,7 +108,7 @@
 
             <form>
               <div class="form-group">
-                <label>Machinery Name</label>
+                <label>Site Name</label>
                 <input type="text" class="form-control"/>
               </div>
               <div class="form-group">
@@ -123,7 +123,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Project</button>
+            <button type="button" class="btn btn-primary">Add Site</button>
           </div>
         </div>
       </div>
@@ -183,8 +183,7 @@ export default {
   margin-right: -15px;
 }
 .project-card .status div {
-  text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 .project-card .status span {
   color: #333;
@@ -219,15 +218,18 @@ export default {
   margin-bottom: 0;
   margin-top: 5px;
 }
-.project-card ._timeline div:nth-child(1) {
+.project-card ._timeline div:nth-child(1),
+.project-card .status div:nth-child(1) {
   padding-left: 15px;
   padding-right: 5px;
 }
-.project-card ._timeline div:nth-child(2) {
+.project-card ._timeline div:nth-child(2),
+ .project-card .status div:nth-child(2){
   padding-left: 5px;
   padding-right: 5px;
 }
-.project-card ._timeline div:nth-child(3) {
+.project-card ._timeline div:nth-child(3),
+.project-card .status div:nth-child(3) {
   padding-left: 5px;
   padding-right: 15px;
 }
