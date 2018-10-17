@@ -9,7 +9,8 @@ import LoginView from "./components/auth/Login.vue";
 // Import Views - Dash
 import DashboardView from "./components/views/Dashboard.vue";
 
-import FleetView from "./components/views/fleet.vue";
+import ToolsView from "./components/views/tools.vue";
+import FleetView from "./components/views/tools/fleet.vue";
 import EquipmentDashView from "./components/views/tools/eqiupmentDash.vue";
 import EquipmentView from "./components/views/tools/equipment.vue";
 import UserView from "./components/views/user.vue";
@@ -22,7 +23,7 @@ import ProjectOverView from "./components/views/projects/projectOverview.vue";
 // Routes
 const routes = [
   {
-    path: "/login",
+    path: "",
     component: LoginView
   },
   {
@@ -38,7 +39,7 @@ const routes = [
     component: SignUpConfirmView
   },
   {
-    path: "/",
+    path: "/dash",
     component: DashView,
     children: [
       {
@@ -46,19 +47,19 @@ const routes = [
         alias: "",
         component: DashboardView,
         name: "Dashboard",
-        meta: { description: "Overview of environment" }
-      },
-      {
-        path: "fleet",
-        component: FleetView,
-        name: "Fleet",
-        meta: { description: "Show fleet of vehicles" }
+        meta: { description: "Overview of environment", requiresAuth: false }
       },
       {
         path: "users",
         component: UserView,
         name: "Users",
-        meta: { description: "List of our users" }
+        meta: { description: "List of our users", requiresAuth: false }
+      },
+      {
+        path: "tools",
+        component: ToolsView,
+        name: "Tools",
+        meta: { description: "Show tools", requiresAuth: false }
       },
       {
         path: "equipment_dash",
@@ -69,7 +70,13 @@ const routes = [
             path: "equipments",
             component: EquipmentView,
             name: "Equipment",
-            meta: { description: "List of equipments" }
+            meta: { description: "List of equipments", requiresAuth: false }
+          },
+          {
+            path: "fleet",
+            component: FleetView,
+            name: "Fleet",
+            meta: { description: "Show fleet of vehicles", requiresAuth: false }
           }
         ]
       },
@@ -82,25 +89,25 @@ const routes = [
             path: "projects",
             component: ProjectsView,
             name: "Projects",
-            meta: { description: "List of projects" }
+            meta: { description: "List of projects", requiresAuth: false  }
           },
           {
             path: "overview",
             component: ProjectOverView,
             name: "Overview",
-            meta: { description: "Project Overview" }
+            meta: { description: "Project Overview", requiresAuth: false  }
           },
           {
             path: "boq",
             component: BoqView,
             name: "BOQ",
-            meta: { description: "List of our boq" }
+            meta: { description: "List of our boq", requiresAuth: false }
           },
           {
             path: "pip",
             component: PipView,
             name: "PIP",
-            meta: { description: "List of our pip" }
+            meta: { description: "List of our pip", requiresAuth: false }
           }
         ]
       }

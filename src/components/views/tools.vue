@@ -10,10 +10,10 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-2">
-        <h3>Fleet</h3>
+        <h3>Tools</h3>
       </div>
 
-      <div class="comp-title col-md-4">
+      <div class="comp-title col-md-3">
         <label id="img_category_label" class="field" for="img_category" data-value="">
           <span>Status</span>
           <div id="img_category" class="psuedo_select" name="img_category">
@@ -27,36 +27,19 @@
         </label>
       </div>
 
-      <div class="comp-title col-md-6">
+      <div class="comp-title col-md-5">
         <form method="get" action="/search" class="fleet_search">
           <input name="q" type="text" size="40" placeholder="Search..." />
         </form>
       </div>
+
+      <div class="comp-title col-md-2">
+        <button type="button" data-toggle="modal" data-target="#addMachinery">
+          Add Tool
+        </button>
+      </div>
     </div>
     <!-- /.row -->
-
-    <div class="row">
-      <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6">3000</h3>
-          <p class="col-md-6">Total Number of vehicles</p>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6">200</h3>
-          <p class="col-md-6">Available vehicles</p>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6 text-danger">357</h3>
-          <p class="col-md-6">Broken down vehicles</p>
-        </div>
-      </div>
-    </div>
 
     <div class="row">
       <div class="col-md-12">
@@ -117,7 +100,49 @@
       </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="addMachinery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Tool</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="upload-image"></div>
+              </div>
+              <div class="col-md-6 text-center">
+                <p class="upload-img-text">Upload Thumbnail</p>
+                <button class="custom-btn">Select Image</button>
+              </div>
+            </div>
 
+            <form>
+              <div class="form-group">
+                <label>Tool Name</label>
+                <input type="text" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label>Type</label>
+                <input type="text" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label>Status</label>
+                <input type="text" class="form-control"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">Add Tool</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </section>
 </div>

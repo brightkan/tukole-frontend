@@ -1,31 +1,31 @@
 <template>
   <ul class="sidebar-menu">
-    <router-link tag="li" class="pageLink" to="/">
+    <router-link tag="li" class="pageLink" to="/dash">
       <a>
         <i class="fa fa-desktop"></i>
         <span class="page">Overview</span>
       </a>
     </router-link>
 
-    <router-link tag="li" class="pageLink" to="/project">
+    <router-link tag="li" class="pageLink" to="/dash/project">
       <a>
         <i class="fa fa-calendar"></i>
         <span class="page">Sites</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/fleet">
+    <router-link tag="li" class="pageLink" to="/dash/equipment_dash">
       <a>
         <i class="fa fa-table"></i>
-        <span class="page">Fleet</span>
+        <span class="page">Fleet and Machinery</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/equipment_dash">
+    <router-link tag="li" class="pageLink" to="/dash/tools">
       <a>
         <i class="fa fa-tasks"></i>
-        <span class="page">Equipments</span>
+        <span class="page">Tools</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/users">
+    <router-link tag="li" class="pageLink" to="/dash/users">
       <a>
         <i class="fa fa-users"></i>
         <span class="page">Users</span>

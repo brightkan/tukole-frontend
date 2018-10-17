@@ -21,6 +21,7 @@
           <div class="col-md-12 btn-wrapper">
             <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Submit</button>
           </div>
+          <p>Have no account? <router-link tag="a" to="/create_workspace">Sign Up</router-link></p>
         </form>
 
       </div>
@@ -60,19 +61,17 @@ export default {
     
 
           /* Setting user in the state and caching record to the localStorage */
-
-          console.log(response.data)
-
           if (data) {
-            var token = 'Bearer ' + data.token
+            var token = 'JWT ' + data.access
 
             this.$store.commit('SET_TOKEN', token)
 
             if (window.localStorage) {
-              window.localStorage.setItem('token', data.access)
+              window.localStorage.setItem('token', token)
             }
 
-            this.$router.push(data.redirect ? data.redirect : '/')
+            // this.$router.push(data.redirect ? data.redirect : '/dash')
+            window.location.href = '/dash';
           }
         })
         .catch(error => {

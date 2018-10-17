@@ -90,7 +90,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add Site</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -108,7 +108,7 @@
 
             <form>
               <div class="form-group">
-                <label>Machinery Name</label>
+                <label>Site Name</label>
                 <input type="text" class="form-control"/>
               </div>
               <div class="form-group">

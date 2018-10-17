@@ -4,7 +4,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-2">
-        <h3>Machinary</h3>
+        <h3>Machinery</h3>
       </div>
 
       <div class="comp-title col-md-3">
