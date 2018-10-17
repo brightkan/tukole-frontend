@@ -137,7 +137,7 @@ export default {
 
 <style>
 .content > .row:nth-child(1) {
-  padding: 15px 72px 10px;
+  padding: 15px 30px 10px;
   border-bottom: 1px solid #e0e0e0;
 }
 

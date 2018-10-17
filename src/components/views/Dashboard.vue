@@ -324,7 +324,7 @@ export default {
 }
 
 .content > .row {
-  padding: 0 72px;
+  padding: 0 30px;
 }
 
 .box {

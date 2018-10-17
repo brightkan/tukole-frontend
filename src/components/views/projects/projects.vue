@@ -183,8 +183,7 @@ export default {
   margin-right: -15px;
 }
 .project-card .status div {
-  text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 .project-card .status span {
   color: #333;
@@ -219,15 +218,18 @@ export default {
   margin-bottom: 0;
   margin-top: 5px;
 }
-.project-card ._timeline div:nth-child(1) {
+.project-card ._timeline div:nth-child(1),
+.project-card .status div:nth-child(1) {
   padding-left: 15px;
   padding-right: 5px;
 }
-.project-card ._timeline div:nth-child(2) {
+.project-card ._timeline div:nth-child(2),
+ .project-card .status div:nth-child(2){
   padding-left: 5px;
   padding-right: 5px;
 }
-.project-card ._timeline div:nth-child(3) {
+.project-card ._timeline div:nth-child(3),
+.project-card .status div:nth-child(3) {
   padding-left: 5px;
   padding-right: 15px;
 }
