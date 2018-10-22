@@ -151,7 +151,8 @@ fiber cable was laid.
             <ul id="myTabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
               <li class="active"><a href="#Commentary" data-toggle="tab">Team</a></li>
               <li><a href="#Videos" data-toggle="tab">Fleet</a></li>
-              <li><a href="#Events" data-toggle="tab">Tool/Machinery</a></li>
+              <li><a href="#Events" data-toggle="tab">Tool</a></li>
+              <li><a href="#Machinery" data-toggle="tab">Machinery</a></li>
             </ul>
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade in active" id="Commentary">
@@ -215,7 +216,7 @@ fiber cable was laid.
 
                   <div class="comp-title col-md-2">
                     <button type="button" data-toggle="modal" data-target="#addMachinery">
-                      Add Machinery
+                      Add Fleet
                     </button>
                   </div>
                 </div>
@@ -273,7 +274,58 @@ fiber cable was laid.
                 <table class="table">
                   <thead>
                     <tr>
-                      <td>Vehicle</td>
+                      <td>Tool</td>
+                      <td>Serial Number</td>
+                      <td>Type</td>
+                      <td>Status</td>
+                      <td>Creation Date</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="oval"></span>Catapiller Multrix</td>
+                      <td>TUK-CAT-1002</td>
+                      <td>Grader</td>
+                      <td><span class="green">Available</span></td>
+                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+                    </tr>
+                    <tr>
+                      <td><span class="oval"></span>Catapiller Multrix</td>
+                      <td>TUK-CAT-1002</td>
+                      <td>Grader</td>
+                      <td><span class="green">Available</span></td>
+                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+                    </tr>
+                    <tr>
+                      <td><span class="oval"></span>Catapiller Multrix</td>
+                      <td>TUK-CAT-1002</td>
+                      <td>Grader</td>
+                      <td><span class="green">Available</span></td>
+                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="Machinery">
+                <div class="row">
+                  <div class="col-md-5"></div>
+
+                  <div class="comp-title col-md-5">
+                    <form method="get" action="/search" class="fleet_search">
+                      <input name="q" type="text" size="40" placeholder="Search..." />
+                    </form>
+                  </div>
+
+                  <div class="comp-title col-md-2">
+                    <button type="button" data-toggle="modal" data-target="#addMachinery">
+                      Add Machine
+                    </button>
+                  </div>
+                </div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Machine</td>
                       <td>Serial Number</td>
                       <td>Type</td>
                       <td>Status</td>

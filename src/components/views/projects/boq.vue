@@ -21,7 +21,6 @@
               <td>Type</td>
               <td>Actual Quantity</td>
               <td>Estimated Quantity</td>
-              <td>Unit Cost</td>
               <td>Total Cost</td>
             </tr>
           </thead>
@@ -32,16 +31,14 @@
               <td>Material</td>
               <td>100</td>
               <td>120</td>
-              <td>200</td>
               <td>20,000</td>
             </tr>
-            <tr>
+            <tr class="text-danger">
               <td><span>2.</span> Fibre Casing</td>
               <td>Grade 3 polythene</td>
               <td>Material</td>
-              <td>100</td>
-              <td>120</td>
               <td>200</td>
+              <td>120</td>
               <td>20,000</td>
             </tr>
             <tr>
@@ -50,7 +47,6 @@
               <td>Material</td>
               <td>100</td>
               <td>120</td>
-              <td>200</td>
               <td>20,000</td>
             </tr>
             <tr>
@@ -59,7 +55,6 @@
               <td>Material</td>
               <td>100</td>
               <td>120</td>
-              <td>200</td>
               <td>20,000</td>
             </tr>
             <tr>
@@ -68,7 +63,6 @@
               <td>Material</td>
               <td>100</td>
               <td>120</td>
-              <td>200</td>
               <td>20,000</td>
             </tr>
           </tbody>
@@ -159,6 +153,9 @@ export default {
   font-size: 12px;
   display: inline-block;
   min-width: 5%;
+}
+.text-danger td{
+  color: red !important;
 }
 </style>
 

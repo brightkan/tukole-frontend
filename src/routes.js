@@ -8,7 +8,7 @@ import LoginView from "./components/auth/Login.vue";
 
 // Import Views - Dash
 import DashboardView from "./components/views/Dashboard.vue";
-
+import MaterialView from "./components/views/Material.vue";
 import ToolsView from "./components/views/tools.vue";
 import FleetView from "./components/views/tools/fleet.vue";
 import EquipmentDashView from "./components/views/tools/eqiupmentDash.vue";
@@ -60,6 +60,12 @@ const routes = [
         component: ToolsView,
         name: "Tools",
         meta: { description: "Show tools", requiresAuth: false }
+      },
+      {
+        path: "material",
+        component: MaterialView,
+        name: "Material",
+        meta: { description: "Show material", requiresAuth: false }
       },
       {
         path: "equipment_dash",

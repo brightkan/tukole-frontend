@@ -19,6 +19,12 @@
         <span class="page">Fleet and Machinery</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/dash/material">
+      <a>
+        <i class="fa fa-table"></i>
+        <span class="page">Material</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/dash/tools">
       <a>
         <i class="fa fa-tasks"></i>

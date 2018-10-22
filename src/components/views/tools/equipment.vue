@@ -4,7 +4,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-2">
-        <h3>Machinery</h3>
+        <h3>Machines</h3>
       </div>
 
       <div class="comp-title col-md-3">
@@ -29,7 +29,7 @@
 
       <div class="comp-title col-md-2">
         <button type="button" data-toggle="modal" data-target="#addMachinery">
-          Add Machinery
+          Add Machine
         </button>
       </div>
     </div>
@@ -41,7 +41,7 @@
           <thead>
             <tr>
               <td><span class="dot"></span></td>
-              <td>Mavhinary</td>
+              <td>Machine</td>
               <td>Serial Number</td>
               <td>Type</td>
               <td>status</td>
@@ -83,7 +83,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Machinery</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add Machine</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -101,7 +101,7 @@
 
             <form>
               <div class="form-group">
-                <label>Machinery Name</label>
+                <label>Machine Name</label>
                 <input type="text" class="form-control"/>
               </div>
               <div class="form-group">
@@ -116,7 +116,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Machinery</button>
+            <button type="button" class="btn btn-primary">Add Machine</button>
           </div>
         </div>
       </div>

@@ -56,18 +56,29 @@
         <div class="box">
           <div class="container">
             <ul id="myTabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
-              <li class="active"><a href="#Commentary" data-toggle="tab">Vehicles</a></li>
-              <li><a href="#Videos" data-toggle="tab">Videos</a></li>
-              <li><a href="#Events" data-toggle="tab">Events</a></li>
+              <li class="active">
+                <a href="#Vechicles" data-toggle="tab">Vehicles</a></li>
+              <li>
+                <a href="#Machines" data-toggle="tab">Machines</a></li>
+              <li>
+                <a href="#Tools" data-toggle="tab">Tools</a></li>
             </ul>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="Commentary">
-                <div id="canvas-holder" style="margin-top: 23px">
-                  <canvas id="chart-area" height="200" width="200"></canvas>
+              <div role="tabpanel" class="tab-pane fade in active" id="Vechicles">
+                <div id="canvas-vechicles" style="margin-top: 23px">
+                  <canvas id="chart-vechicles" height="200" width="200"></canvas>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane fade" id="Videos">Videos WP_Query goes here.</div>
-              <div role="tabpanel" class="tab-pane fade" id="Events">Events WP_Query goes here.</div>
+              <div role="tabpanel" class="tab-pane fade" id="Machines">
+                <div id="canvas-machines" style="margin-top: 23px">
+                  <canvas id="chart-machines" height="200" width="200"></canvas>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="Tools">
+                <div id="canvas-tools" style="margin-top: 23px">
+                  <canvas id="chart-tools" height="200" width="200"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -89,6 +100,20 @@
                 <p>
                   Kampala Fibre Cable extension <br>
                   <span>12 Oct 2018</span>
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  Soroti LTE extension <br>
+                  <span>12 Nov 2018</span>
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  Mbale Fibre cabling <br>
+                  <span>12 Jul 2018</span>
                 </p>
               </li>
 
@@ -145,49 +170,46 @@ export default {
   },
   computed: {
     coPilotNumbers() {
-      return this.generateRandomNumbers(12, 1000000, 10000);
+      return this.generateRandomNumbers(6, 1000000, 10000);
     },
     personalNumbers() {
-      return this.generateRandomNumbers(12, 1000000, 10000);
+      return this.generateRandomNumbers(6, 1000000, 10000);
     },
     isMobile() {
       return window.innerWidth <= 800 && window.innerHeight <= 600;
     }
   },
   mounted() {
+    this.loadDoughnutGraph('chart-vechicles');
+    this.loadDoughnutGraph('chart-machines');
+    this.loadDoughnutGraph('chart-tools');
+
     this.$nextTick(() => {
       var ctx = document.getElementById("trafficBar").getContext("2d");
       var config = {
-        type: "line",
+        type: "bar",
         data: {
           labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
+            "Project 1",
+            "Project 2",
+            "Project 3",
+            "Project 4",
+            "Project 5",
+            "Project 6"
           ],
           datasets: [
             {
-              label: "CoPilot",
-              fill: false,
-              borderColor: "#256AE1",
-              pointBackgroundColor: "#256AE1",
-              backgroundColor: "rgba(0, 0, 0, 0)",
+              label: "Estimated",
+              backgroundColor: '#256AE1',
+				      borderColor:'#256AE1',
+				      borderWidth: 1,
               data: this.coPilotNumbers
             },
             {
-              label: "Personal Site",
-              borderColor: "#8BAEEA",
-              pointBackgroundColor: "#8BAEEA",
-              backgroundColor: "rgba(0, 0, 0, 0)",
+              label: "Actual",
+              backgroundColor: '#8BAEEA',
+				      borderColor:'#8BAEEA',
+				      borderWidth: 1,
               data: this.personalNumbers
             }
           ]
@@ -217,7 +239,7 @@ export default {
             ],
             yAxes: [
               {
-                display: false,
+                display: true,
                 scaleLabel: {
                   display: false,
                   labelString: "Value"
@@ -231,6 +253,24 @@ export default {
       document.getElementById("trafficBar").height = 94;
       new Chart(ctx, config); // eslint-disable-line no-new
 
+      var map = new ol.Map({
+        target: "map",
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([37.41, 8.82]),
+          zoom: 4
+        })
+      });
+    });
+
+    this.$emit("customEventForValChange", this.$route.path);
+  },
+  methods: {
+    loadDoughnutGraph(canvas){
       /**
        * this is the for the dognut chart
        */
@@ -246,15 +286,14 @@ export default {
               data: [
                 randomScalingFactor(),
                 randomScalingFactor(),
-                randomScalingFactor(),
                 randomScalingFactor()
               ],
-              backgroundColor: ["#FF5F58", "#FA9917", "#2AC940", "#256AE1"],
+              backgroundColor: ["#FF5F58", "#FA9917", "#2AC940"],
               label: "Dataset 1",
-              borderWidth: [2, 2, 2, 2]
+              borderWidth: [2, 2, 2]
             }
           ],
-          labels: ["Broken Down", "Assigned", "Available", "New"]
+          labels: ["Broken Down", "Assigned", "Available"]
         },
         options: {
           responsive: true,
@@ -274,26 +313,11 @@ export default {
         }
       };
 
-      var ctx2 = document.getElementById("chart-area").getContext("2d");
-      document.getElementById("chart-area").height = 70;
-      document.getElementById("chart-area").width = 100;
+      var ctx2 = document.getElementById(canvas).getContext("2d");
+      document.getElementById(canvas).height = 70;
+      document.getElementById(canvas).width = 100;
       new Chart(ctx2, config2); // eslint-disable-line no-new
-
-      var map = new ol.Map({
-        target: "map",
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([37.41, 8.82]),
-          zoom: 4
-        })
-      });
-    });
-
-    this.$emit("customEventForValChange", this.$route.path);
+    }
   }
 };
 </script>
@@ -458,6 +482,8 @@ export default {
 .project-status.box ul {
   list-style: none;
   padding: 0;
+  max-height: 140px;
+  overflow: auto;
 }
 
 .project-status.box ul li {
