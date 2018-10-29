@@ -49,42 +49,33 @@ export default {
     checkCreds() {
       const { email, password, confirm_password } = this
 
+      if(password != confirm_password){
+        return;
+      }
+
       this.toggleLoading()
       this.resetResponse()
       this.$store.commit('TOGGLE_LOADING')
 
       /* Making API call to authenticate a user */
+      let reqObj = {
+        first_name: this.$store.state.user.firstname,
+        last_name: this.$store.state.user.lastname,
+        email: email,
+        type: 'admin',
+        contract_type: 'permanent',
+        phone_number: '0701618576',
+        workspace: (JSON.parse(window.localStorage.getItem('workspace'))).id,
+        password: password
+      };
       api
-        .request('post', '/ws_user', { email, password })
+        .request('post', '/users/', reqObj)
         .then(response => {
           this.toggleLoading()
-
           var data = response.data
-          /* Checking if error object was returned from the server */
-          if (data.error) {
-            var errorName = data.error.name
-            if (errorName) {
-              this.response =
-                errorName === 'InvalidCredentialsError'
-                  ? 'Username/Password incorrect. Please try again.'
-                  : errorName
-            } else {
-              this.response = data.error
-            }
-
-            return
-          }
-
+          
           /* Setting user in the state and caching record to the localStorage */
-          if (data.user) {
-            var token = 'Bearer ' + data.token
-
-            this.$store.commit('SET_EMAIL', data.first_name)
-
-            if (window.localStorage) {
-              window.localStorage.setItem('email', JSON.stringify(data.email))
-            }
-
+          if (data) {
             this.$router.push(data.redirect ? data.redirect : '/')
           }
         })

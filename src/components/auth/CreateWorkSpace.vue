@@ -52,45 +52,32 @@ export default {
 
       /* Making API call to authenticate a user */
       api
-        .request('post', 'create_workspace', { workspace })
+        .request('post', 'workspaces/', { name: workspace })
         .then(response => {
           this.toggleLoading()
 
           var data = response.data
-          /* Checking if error object was returned from the server */
-          if (data.error) {
-            var errorName = data.error.name
-            if (errorName) {
-              this.response =
-                errorName === 'InvalidCredentialsError'
-                  ? 'Username/Password incorrect. Please try again.'
-                  : errorName
-            } else {
-              this.response = data.error
-            }
 
-            return
-          }
+          console.log(data);
 
           /* Setting user in the state and caching record to the localStorage */
-          if (data.user) {
+          if (data) {
             var token = 'Bearer ' + data.token
 
-            this.$store.commit('SET_WORKSPACE', data.workspace)
+            this.$store.commit('SET_WORKSPACE', {id: data.id, name: data.name})
 
             if (window.localStorage) {
-              window.localStorage.setItem('workspace', JSON.stringify(data.workspace))
+              window.localStorage.setItem('workspace', JSON.stringify(data))
             }
 
-            this.$router.push(data.redirect ? data.redirect : '/')
+            this.$router.push(data.redirect ? data.redirect : '/signup')
           }
         })
         .catch(error => {
           this.$store.commit('TOGGLE_LOADING')
           console.log(error)
 
-          // this.response = 'Server appears to be offline'
-          this.$router.push('/signup')
+          this.$router.push('/')
           this.toggleLoading()
         })
     },

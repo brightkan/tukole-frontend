@@ -20,13 +20,16 @@ export default {
       return
     }
 
+    const auth = {
+      headers: {Authorization: window.localStorage.getItem('token')} 
+    }
+
     var url = config.serverURI + uri
     
     if(method === 'post'){
-
       return HTTP.post(url, data)
     }else if(method === 'get'){
-      return HTTP.get(uri)
+      return HTTP.get(url, auth)
     }
     
   }

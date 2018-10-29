@@ -97,7 +97,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.path);
+    
   }
 };
 </script>
@@ -252,5 +252,8 @@ hr.visible-xs-block {
 .toolbar {
   position: relative;
   text-align: center;
+}
+.user-menu a:hover{
+  background: transparent;
 }
 </style>

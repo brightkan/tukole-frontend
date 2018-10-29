@@ -55,41 +55,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="tool in tools" :key="tool.id">
               <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="green">Available</span></td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="red">Broken Down</span></td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="orange">ASsigned</span></td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="red">Broken Down</span></td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
+              <td><span class="oval"></span>{{ tool.name }}</td>
               <td>TUK-CAT-1002</td>
               <td>Grader</td>
               <td><span class="green">Available</span></td>
@@ -150,12 +118,30 @@
 
 <script>
 import { select } from "../mixins/select";
+import api from '../../api'
 
 export default {
   mixins: [select],
+  data() {
+    return {
+      tools: []
+    }
+  },
   created() {},
   mounted() {
     this.$emit("customEventForValChange", this.$route.path);
+
+    api
+        .request('get', 'tools/')
+        .then(response => {
+          var data = response.data
+          if (data) {
+            this.tools = data;
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
   }
 };
 </script>
