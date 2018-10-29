@@ -58,8 +58,8 @@
             <tr v-for="tool in tools" :key="tool.id">
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ tool.name }}</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
+              <td>{{ tool.humanUuid }}</td>
+              <td>{{ tool.type }}</td>
               <td><span class="green">Available</span></td>
               <td>12. 08. 2018</td>
             </tr>
@@ -79,16 +79,6 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="upload-image"></div>
-              </div>
-              <div class="col-md-6 text-center">
-                <p class="upload-img-text">Upload Thumbnail</p>
-                <button class="custom-btn">Select Image</button>
-              </div>
-            </div>
-
             <form>
               <div class="form-group">
                 <label>Tool Name</label>
@@ -118,44 +108,38 @@
 
 <script>
 import { select } from "../mixins/select";
-import api from '../../api'
+import api from "../../api";
+import { mapState } from 'vuex'
 
 export default {
   mixins: [select],
   data() {
     return {
-      tools: []
-    }
+    };
   },
   created() {},
   mounted() {
     this.$emit("customEventForValChange", this.$route.path);
-
-    api
-        .request('get', 'tools/')
+    this.$store.dispatch('loadToolTypes');
+    this.$store.dispatch('loadTools');
+  },
+  computed: mapState([
+    'tool_types',
+    'tools'
+  ]),
+  methods: {
+    getType(id) {
+      api
+        .request("get", "tools_types/" + id + "/")
         .then(response => {
-          var data = response.data
-          if (data) {
-            this.tools = data;
-          }
+          return response.type;
         })
         .catch(error => {
-          if(error.response.status == 401){
-          this.$router.push('/')
-        }
-        })
-
-    api
-      .request('get', 'tools_types/')
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        if(error.response.status == 401){
-          this.$router.push('/')
-        }
-      })
-    
+          if (error.response.status == 401) {
+            this.$router.push("/");
+          }
+        });
+    }
   }
 };
 </script>
