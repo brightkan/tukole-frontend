@@ -140,8 +140,22 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error)
+          if(error.response.status == 401){
+          this.$router.push('/')
+        }
         })
+
+    api
+      .request('get', 'tools_types/')
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        if(error.response.status == 401){
+          this.$router.push('/')
+        }
+      })
+    
   }
 };
 </script>

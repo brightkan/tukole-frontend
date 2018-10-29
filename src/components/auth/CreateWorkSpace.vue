@@ -17,7 +17,7 @@
           <div class="col-md-12 btn-wrapper">
             <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Next</button>
           </div>
-          <p>Already have an account? <router-link tag="a" to="/login">Log in</router-link></p>
+          <p>Already have an account? <router-link tag="a" to="/">Log in</router-link></p>
         </form>
       </div>
     </div>
