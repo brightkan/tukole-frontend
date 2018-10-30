@@ -1,19 +1,14 @@
-
 import api from "../api";
+import _ from 'lodash'
 
 export default {
-    loadToolTypes({ commit }) {
-        api
-            .request("get", "tools_types/")
-            .then(tool_types => {
-                commit('SET_TOOL_TYPES', tool_types)
-            });
-    },
-    loadTools({ commit }) {
-        api
-            .request("get", "tools/")
-            .then(response => {
-                commit('SET_TOOLS', response.data)
-            });
+    async loadUserWorkSpaces({ commit }) {
+        let user = window.localStorage.getItem('user');
+        const workspaces = await api.request("get", "/userworkspaces/?user=" + (JSON.parse(user)).user_id);
+        const enrichedWorkspaces = await Promise.all(_.map(workspaces.data, async (workspace) => {
+            const _workspace = await api.request("get", "workspaces/"+workspace.workspace+"/");
+            return _workspace.data;
+        }))
+        commit('SET_WORKSPACES', enrichedWorkspaces)
     }
 }

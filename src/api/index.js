@@ -38,7 +38,7 @@ export default {
     var url = config.serverURI + uri
 
     if (method === 'post') {
-      return HTTP.post(url, data)
+      return HTTP.post(url, data, auth)
     } else if (method === 'get') {
       return HTTP.get(url, auth)
     }

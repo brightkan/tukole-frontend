@@ -27,7 +27,12 @@
                 <!-- The user image in the navbar-->
                 <img v-bind:src="demo.avatar" class="user-image" alt="User Image">        
               </a>
+              <ul class="dropdown-menu">
+                  <li><a href="/" class="dropdown-item">Logout</a></li>
+              </ul>
             </li>
+
+            
           </ul>
         </div>
       </nav>
@@ -96,13 +101,32 @@ export default {
       /* this.currentRoute = newVal; */
     }
   },
-  mounted() {
-    
-  }
+  mounted() {}
 };
 </script>
 
 <style>
+.nav > li > a:hover,
+.nav > li > a:active,
+.nav > li > a:focus {
+  color: #ffffff;
+  background: transparent;
+}
+
+.dropdown.user.user-menu.open {
+  height: 50px;
+}
+
+.dropdown.user.user-menu.open a {
+  background: transparent;
+}
+
+.navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+  padding: 5px;
+  font-size: 16px;
+  width: 50%;
+}
+
 a {
   color: white;
 }
@@ -253,7 +277,7 @@ hr.visible-xs-block {
   position: relative;
   text-align: center;
 }
-.user-menu a:hover{
+.user-menu a:hover {
   background: transparent;
 }
 </style>

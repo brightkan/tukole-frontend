@@ -70,10 +70,10 @@ export default {
 
             if (window.localStorage) {
               window.localStorage.setItem("token", token);
+              window.localStorage.setItem("user", JSON.stringify(data) )
             }
 
-            // this.$router.push(data.redirect ? data.redirect : '/dash')
-            window.location.href = "/dash";
+            this.$router.push('/select_workspace')
 
             this.$store.commit("TOGGLE_LOADING");
           }

@@ -82,21 +82,25 @@
             <form>
               <div class="form-group">
                 <label>Tool Name</label>
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" v-model="tool.name"/>
               </div>
               <div class="form-group">
                 <label>Type</label>
-                <input type="text" class="form-control"/>
+                <select class="form-control" v-model="tool.type">
+                  <option v-for="tool_type in tool_types" v-bind:value="tool_type.id" :key="tool_type.id">
+                    {{ tool_type.type }}
+                  </option>
+                </select>
               </div>
               <div class="form-group">
-                <label>Status</label>
-                <input type="text" class="form-control"/>
+                <label>Serial Number</label>
+                <input type="text" class="form-control" v-model="tool.humanUuid"/>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Tool</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveTool" data-dismiss="modal">Add Tool</button>
           </div>
         </div>
       </div>
@@ -109,36 +113,32 @@
 <script>
 import { select } from "../mixins/select";
 import api from "../../api";
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   mixins: [select],
-  data() {
+  data(router) {
     return {
+      tool: {
+        name: "",
+        type: "",
+        humanUuid: ""
+      }
     };
   },
   created() {},
   mounted() {
     this.$emit("customEventForValChange", this.$route.path);
-    this.$store.dispatch('loadToolTypes');
-    this.$store.dispatch('loadTools');
+    //this.$store.dispatch("tools/loadToolTypes");
+    //this.$store.dispatch("tools/loadTools");
   },
-  computed: mapState([
-    'tool_types',
-    'tools'
-  ]),
+  computed: {
+    ...mapState('tools',["tool_types", "tools"])
+  },
   methods: {
-    getType(id) {
-      api
-        .request("get", "tools_types/" + id + "/")
-        .then(response => {
-          return response.type;
-        })
-        .catch(error => {
-          if (error.response.status == 401) {
-            this.$router.push("/");
-          }
-        });
+    saveTool() {
+      const { tool } = this;
+      //this.$store.dispatch("addTool", tool);
     }
   }
 };

@@ -94,7 +94,6 @@ export const select = {
         child = children[i];
 
         this.addStyle(child, "Opacity", 1);
-        console.log(child);
       }
       children = document.getElementsByClassName("psuedo_select");
       for (i = 0; i < children.length; i += 1) {

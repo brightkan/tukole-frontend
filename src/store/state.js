@@ -13,6 +13,5 @@ export default {
     notifications: [],
     tasks: []
   },
-  tools: [],
-  tool_types: []
+  workspaces: []
 }

@@ -14,10 +14,7 @@ export default {
   SET_WORKSPACE (state, workspace){
     state.workspace = workspace
   },
-  SET_TOOL_TYPES (state, tool_types) {
-    state.tool_types = tool_types
-  },
-  SET_TOOLS (state, tools) {
-    state.tools = tools
+  SET_WORKSPACES (state, workspaces){
+    state.workspaces = workspaces
   }
 }
