@@ -13,9 +13,10 @@
           <div id="img_category" class="psuedo_select" name="img_category">
             <span class="selected"></span>
             <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1">Avialable</li>
-              <li class="option" data-value="opt_2">Broken Down</li>
-              <li class="option" data-value="opt_2">ASsigned</li>
+              <li class="option" data-value="opt_1" v-on:click="filter('available')">Avialable</li>
+              <li class="option" data-value="opt_2" v-on:click="filter('broken')">Broken Down</li>
+              <li class="option" data-value="opt_3" v-on:click="filter('assigned')" >Assigned</li>
+              <li class="option" data-value="opt_4" v-on:click="filter('all')" >All</li>
             </ul>
           </div>
         </label>
@@ -49,7 +50,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="machine in machines" :key="machine.id">
+            <tr v-for="machine in getMachines" :key="machine.id">
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ machine.name }}</td>
               <td>{{ machine.humanUuid }}</td>
@@ -111,6 +112,7 @@
 <script>
 import { select } from "../../mixins/select";
 import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   mixins: [select],
@@ -133,12 +135,24 @@ export default {
     ...mapState({
       machines: state => state.machinery.machines,
       statuses: state => state.statuses
-    })
+    }),
+    ...mapGetters('machinery', ['getMachines'])
   },
   methods: {
     saveMachine() {
       const { machine } = this;
       this.$store.dispatch("machinery/addMachine", machine);
+    },
+    filter(type){
+      if(type === 'broken'){
+        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'Broken Down')
+      }else if(type === 'assigned'){
+        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'Assigned')
+      }else if(type === 'available'){
+        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'Avialable')
+      }else{
+        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'all')
+      }
     }
   }
 };

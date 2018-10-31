@@ -14,9 +14,10 @@
           <div id="img_category" class="psuedo_select" name="img_category">
             <span class="selected"></span>
             <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1">Avialable</li>
-              <li class="option" data-value="opt_2">Broken Down</li>
-              <li class="option" data-value="opt_2">Assigned</li>
+              <li class="option" data-value="opt_1" v-on:click="filter('available')">Avialable</li>
+              <li class="option" data-value="opt_2" v-on:click="filter('broken')">Broken Down</li>
+              <li class="option" data-value="opt_3" v-on:click="filter('assigned')" >Assigned</li>
+              <li class="option" data-value="opt_4" v-on:click="filter('all')" >All</li>
             </ul>
           </div>
         </label>
@@ -39,22 +40,29 @@
     <div class="row">
       <div class="col-md-3">
         <div class="summary-card row">
-          <h3 class="col-md-6">3000</h3>
+          <h3 class="col-md-6">{{ totalVehicles }}</h3>
           <p class="col-md-6">Total Number of vehicles</p>
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="summary-card row">
-          <h3 class="col-md-6">200</h3>
+          <h3 class="col-md-6">{{ availableVehicles.length }}</h3>
           <p class="col-md-6">Available vehicles</p>
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="summary-card row">
-          <h3 class="col-md-6 text-danger">357</h3>
+          <h3 class="col-md-6 text-danger">{{ brokenDownVehicles.length }}</h3>
           <p class="col-md-6">Broken down vehicles</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="summary-card row">
+          <h3 class="col-md-6 text-danger">{{ assignedVehicles.length }}</h3>
+          <p class="col-md-6">Assigned vehicles</p>
         </div>
       </div>
     </div>
@@ -73,11 +81,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="fleet in fleets" :key="fleet.id">
+            <tr v-for="fleet in getFleets" :key="fleet.id">
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ fleet.name }}</td>
               <td>{{ fleet.humanUuid }}</td>
-              <td>Grader</td>
+              <td>{{ fleet.vehicle_type }}</td>
               <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
               <td>12. 08. 2018</td>
             </tr>
@@ -143,7 +151,8 @@
 <script>
 import { select } from "../../mixins/select";
 import { mapState } from "vuex";
-
+import { mapGetters } from "vuex";
+ 
 export default {
   mixins: [select],
   data(router) {
@@ -167,12 +176,24 @@ export default {
       fleets: state => state.fleets.fleets,
       fleet_types: state => state.fleets.fleet_types,
       statuses: state => state.statuses
-    })
+    }),
+    ...mapGetters('fleets', ['totalVehicles', 'availableVehicles', 'assignedVehicles', 'brokenDownVehicles', 'getFleets'])
   },
   methods: {
     saveFleet() {
       const { fleet } = this;
       this.$store.dispatch("fleets/addFleet", fleet);
+    },
+    filter(type){
+      if(type === 'broken'){
+        this.$store.commit('fleets/CHANGE_LIST_TYPE', 'Broken Down')
+      }else if(type === 'assigned'){
+        this.$store.commit('fleets/CHANGE_LIST_TYPE', 'Assigned')
+      }else if(type === 'available'){
+        this.$store.commit('fleets/CHANGE_LIST_TYPE', 'Avialable')
+      }else{
+        this.$store.commit('fleets/CHANGE_LIST_TYPE', 'all')
+      }
     }
   }
 };

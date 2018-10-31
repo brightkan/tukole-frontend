@@ -11,7 +11,8 @@ export default {
             status: '',
             workspace: ''
         },
-        machines: []
+        machines: [],
+        listType: 'all'
     },
     mutations: {
         SET_MACHINES(state, machines) {
@@ -19,6 +20,9 @@ export default {
         },
         ADD_MACHINE(state, machine) {
             state.machines.push(machine)
+        },
+        CHANGE_LIST_TYPE(state, payLoad){
+            state.listType = payLoad
         }
     },
     actions: {
@@ -39,14 +43,37 @@ export default {
                     commit('SET_MACHINES', machines)
                 });
         },
-        addMachine({ commit, state }, payLoad) {
+        addMachine({ commit, rootState }, payLoad) {
             api
                 .request("post", "machinery/", payLoad)
                 .then(response => {
                     let machine = response.data;
 
+                    rootState.statuses.forEach(element => {
+                        if(machine.status === element.name){
+                            machine.status = element;
+                        }
+                    });
+
                     commit('ADD_MACHINE', machine)
                 });
+        }
+    },
+    getters: {
+        getMachines: (state, getters, rootState) => {
+            if(state.listType === 'all'){
+                return state.machines;
+            }else{
+                let machines = [];
+                rootState.statuses.forEach(element => {
+                    if(state.listType === element.name){
+                        machines = state.machines.filter(item => {
+                            return item.status.name === element.name;
+                        });
+                    }
+                });
+                return machines;
+            }
         }
     }
 }

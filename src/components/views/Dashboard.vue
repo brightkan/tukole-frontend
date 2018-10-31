@@ -155,6 +155,7 @@
 
 <script>
 import Chart from "chart.js";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -177,10 +178,15 @@ export default {
     },
     isMobile() {
       return window.innerWidth <= 800 && window.innerHeight <= 600;
-    }
+    },
+    //...mapGetters('fleets', ['availableVehicles', 'assignedVehicles', 'brokenDownVehicles'])
   },
   mounted() {
-    this.loadDoughnutGraph('chart-vechicles');
+    let res = this.$store.dispatch("fleets/loadFleets");
+    Promise .all([res]).then( ()=> {
+      this.loadDoughnutGraph('chart-vechicles');
+    });
+    
     this.loadDoughnutGraph('chart-machines');
     this.loadDoughnutGraph('chart-tools');
 
@@ -274,8 +280,19 @@ export default {
       /**
        * this is the for the dognut chart
        */
-      var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
+      let _this = this;
+      var getData = function(canvas, type) {
+        if(canvas === 'chart-vechicles'){
+          if(type === 'broken'){
+            return _this.$store.getters['fleets/brokenDownVehicles'].length
+          }else if(type === 'assigned'){
+            return _this.$store.getters['fleets/assignedVehicles'].length
+          }else {
+            return _this.$store.getters['fleets/availableVehicles'].length
+          }
+        }else{
+          return Math.round(Math.random() * 100);
+        }
       };
 
       var config2 = {
@@ -284,9 +301,9 @@ export default {
           datasets: [
             {
               data: [
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor()
+                getData(canvas, 'broken'),
+                getData(canvas, 'assigned'),
+                getData(canvas, 'available')
               ],
               backgroundColor: ["#FF5F58", "#FA9917", "#2AC940"],
               label: "Dataset 1",
