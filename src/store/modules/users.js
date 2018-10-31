@@ -1,0 +1,71 @@
+import api from "../../api";
+
+export default {
+    namespaced: true,
+    state: {
+        user: {
+            // user object
+        },
+        users: [],
+        listType: 'all'
+    },
+    mutations: {
+        SET_USERS(state, users) {
+            state.users = users
+        },
+        ADD_USER(state, user) {
+            state.users.push(user)
+        },
+        CHANGE_LIST_TYPE(state, payLoad){
+            state.listType = payLoad
+        },
+        DELETE_USER(state, payload){
+            var index = state.users.findIndex(user => user.id === payload.id);
+            state.users.splice(index, 1);
+        },
+        UPDATE_USER(state, payload){
+            state.users = state.users.map(user => {
+                if (user.id === payload.id) {
+                    return Object.assign({}, user, payload)
+                }
+                return user
+            })
+        }
+    },
+    actions: {
+        loadUsers({ commit, rootState }) {
+            api
+                .request("get", "users/")
+                .then(response => {
+                    let users = response.data
+                    
+                    commit('SET_USERS', users)
+                });
+        },
+        addUser({ commit, rootState }, payLoad) {
+            api
+                .request("post", "users/", payLoad)
+                .then(response => {
+                    let user = response.data;
+
+                    commit('ADD_USER', user)
+                });
+        },
+        updateUser({ commit, state, rootState }, payLoad) {
+            api
+                .request("patch", "users/"+payLoad.id+"/", payLoad)
+                .then(response => {
+                    let user = response.data;
+                    
+                    commit('UPDATE_USER', user)
+                });
+        },
+        deleteUser({commit}, payLoad){
+            api
+                .request("delete", "users/"+payLoad.id+"/")
+                .then(() => {
+                    commit('DELETE_USER', payLoad)
+                });
+        }
+    }
+}

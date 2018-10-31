@@ -19,9 +19,10 @@
           <div id="img_category" class="psuedo_select" name="img_category">
             <span class="selected"></span>
             <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1">Avialable</li>
-              <li class="option" data-value="opt_2">Broken Down</li>
-              <li class="option" data-value="opt_2">Assigned</li>
+              <li class="option" data-value="opt_1" v-on:click="filter('available')">Avialable</li>
+              <li class="option" data-value="opt_2" v-on:click="filter('broken')">Broken Down</li>
+              <li class="option" data-value="opt_3" v-on:click="filter('assigned')" >Assigned</li>
+              <li class="option" data-value="opt_4" v-on:click="filter('all')" >All</li>
             </ul>
           </div>
         </label>
@@ -34,7 +35,7 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addMachinery">
+        <button type="button" data-toggle="modal" data-target="#addTool" v-on:click="resetTool()">
           Add Tool
         </button>
       </div>
@@ -52,16 +53,24 @@
               <td>Type</td>
               <td>status</td>
               <td>Creation Date</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="tool in tools" :key="tool.id">
+            <tr v-for="tool in getTools" :key="tool.id">
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ tool.name }}</td>
               <td>{{ tool.humanUuid }}</td>
-              <td>{{ tool.type }}</td>
-              <td><span class="green">Available</span></td>
+              <td>{{ tool.type.type }}</td>
+              <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
               <td>12. 08. 2018</td>
+              <td class="text-right">
+                <i class="fa fa-edit" v-on:click="editTool(tool)" data-toggle="modal" data-target="#addTool"></i> 
+                <i class="fa fa-times" v-on:click="deleteTool(tool)"></i>
+              </td>
+            </tr>
+            <tr v-if="getTools.length <= 0">
+              <td colspan="7" class="text-center">No Tools Yet</td>
             </tr>
           </tbody>
         </table>
@@ -69,11 +78,11 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addMachinery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addTool" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Tool</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Tool</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -100,7 +109,9 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveTool" data-dismiss="modal">Add Tool</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveTool" data-dismiss="modal">
+              {{ editMode ? 'Edit' : 'Add'}} Tool
+            </button>
           </div>
         </div>
       </div>
@@ -114,15 +125,18 @@
 import { select } from "../mixins/select";
 import api from "../../api";
 import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   mixins: [select],
   data(router) {
     return {
+      editMode: false,
       tool: {
         name: "",
         type: "",
         humanUuid: "",
+        status: 'Avialable', // Todo: Noah should set up this field on the online mode
         workspace: window.localStorage.getItem("workspace")
       }
     };
@@ -133,12 +147,48 @@ export default {
     this.$store.dispatch("tools/loadTools");
   },
   computed: {
-    ...mapState('tools',["tool_types", "tools"])
+    ...mapState('tools',["tool_types"]),
+    ...mapGetters('tools', ['getTools'])
   },
   methods: {
     saveTool() {
       const { tool } = this;
-      this.$store.dispatch("tools/addTool", tool);
+      if(this.editMode){
+        this.$store.dispatch("tools/updateTool", tool);
+      }else{
+        this.$store.dispatch("tools/addTool", tool);
+      }
+    },
+    filter(type){
+      if(type === 'broken'){
+        this.$store.commit('tools/CHANGE_LIST_TYPE', 'Broken Down')
+      }else if(type === 'assigned'){
+        this.$store.commit('tools/CHANGE_LIST_TYPE', 'Assigned')
+      }else if(type === 'available'){
+        this.$store.commit('tools/CHANGE_LIST_TYPE', 'Avialable')
+      }else{
+        this.$store.commit('tools/CHANGE_LIST_TYPE', 'all')
+      }
+    },
+    editTool(tool){
+      this.editMode = true;
+      this.tool = Object.assign({}, tool);
+      this.tool.type = tool.type.id;
+    },
+    deleteTool(tool){
+      if (confirm(`are you sure you want to delete ${tool.name}?`)) {
+          this.$store.dispatch("tools/deleteTool", tool);
+      }
+    },
+    resetTool(){
+      this.editMode = false;
+      this.tool = {
+        name: '',
+        uuid: 'null',
+        humanUuid: '',
+        status: '',
+        workspace: window.localStorage.getItem("workspace")
+      }
     }
   }
 };

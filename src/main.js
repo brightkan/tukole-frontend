@@ -35,7 +35,6 @@ var router = new VueRouter({
 
 // Some middleware to help us ensure the user is authenticated.
 router.beforeEach((to, from, next) => {
-  console.log(window.localStorage.getItem("token"))
   if (
     to.matched.some(record => record.meta.requiresAuth) &&
     (!router.app.$store.state.token || router.app.$store.state.token === "null" || !window.localStorage.getItem("token"))

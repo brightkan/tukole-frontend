@@ -182,13 +182,16 @@ export default {
     //...mapGetters('fleets', ['availableVehicles', 'assignedVehicles', 'brokenDownVehicles'])
   },
   mounted() {
-    let res = this.$store.dispatch("fleets/loadFleets");
-    Promise .all([res]).then( ()=> {
+    let resFleets = this.$store.dispatch("fleets/loadFleets");
+    let resMachines = this.$store.dispatch("machinery/loadMachines");
+    let resTools = this.$store.dispatch("tools/loadTools");
+    Promise .all([resFleets, resMachines, resTools]).then( ()=> {
       this.loadDoughnutGraph('chart-vechicles');
+      this.loadDoughnutGraph('chart-machines');
+      this.loadDoughnutGraph('chart-tools');
     });
     
-    this.loadDoughnutGraph('chart-machines');
-    this.loadDoughnutGraph('chart-tools');
+    
 
     this.$nextTick(() => {
       var ctx = document.getElementById("trafficBar").getContext("2d");
@@ -290,8 +293,22 @@ export default {
           }else {
             return _this.$store.getters['fleets/availableVehicles'].length
           }
+        }else if(canvas === 'chart-machines') {
+          if(type === 'broken'){
+            return _this.$store.getters['machinery/brokenDown'].length
+          }else if(type === 'assigned'){
+            return _this.$store.getters['machinery/assigned'].length
+          }else {
+            return _this.$store.getters['machinery/available'].length
+          }
         }else{
-          return Math.round(Math.random() * 100);
+          if(type === 'broken'){
+            return _this.$store.getters['tools/brokenDown'].length
+          }else if(type === 'assigned'){
+            return _this.$store.getters['tools/assigned'].length
+          }else {
+            return _this.$store.getters['tools/available'].length
+          }
         }
       };
 

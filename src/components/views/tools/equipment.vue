@@ -29,7 +29,7 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addMachinery">
+        <button type="button" data-toggle="modal" data-target="#addMachinery" v-on:click="resetMachine()">
           Add Machine
         </button>
       </div>
@@ -59,8 +59,8 @@
               <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span></td>
               <td>12. 08. 2018</td>
               <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editMachine" ></i> 
-                <i class="fa fa-times" v-on:click="deleteMachine"></i>
+                <i class="fa fa-edit" v-on:click="editMachine(machine)" data-toggle="modal" data-target="#addMachinery"></i> 
+                <i class="fa fa-times" v-on:click="deleteMachine(machine)"></i>
               </td>
             </tr>
             <tr v-if="machines.length <= 0">
@@ -76,7 +76,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Machine</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Machine</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -104,7 +104,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" v-on:click="saveMachine" data-dismiss="modal">
-              Add Machine
+              {{ editMode ? 'Edit' : 'Add'}} Machine
             </button>
           </div>
         </div>
@@ -123,6 +123,7 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      editMode: false,
       machine: {
         name: '',
         uuid: 'null',
@@ -146,7 +147,12 @@ export default {
   methods: {
     saveMachine() {
       const { machine } = this;
-      this.$store.dispatch("machinery/addMachine", machine);
+      
+      if(this.editMode){
+        this.$store.dispatch("machinery/updateMachine", machine);
+      }else{
+        this.$store.dispatch("machinery/addMachine", machine);
+      }
     },
     filter(type){
       if(type === 'broken'){
@@ -159,11 +165,25 @@ export default {
         this.$store.commit('machinery/CHANGE_LIST_TYPE', 'all')
       }
     },
-    editMachine(){
-
+    editMachine(machine){
+      this.editMode = true;
+      this.machine = Object.assign({}, machine);
+      this.machine.status = machine.status.name;
     },
-    deleteMachine(){
-      
+    deleteMachine(machine){
+      if (confirm(`are you sure you want to delete ${machine.name}?`)) {
+          this.$store.dispatch("machinery/deleteMachine", machine);
+      }
+    },
+    resetMachine(){
+      this.editMode = false;
+      this.machine = {
+        name: '',
+        uuid: 'null',
+        humanUuid: '',
+        status: '',
+        workspace: window.localStorage.getItem("workspace")
+      }
     }
   }
 };

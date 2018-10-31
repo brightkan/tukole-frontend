@@ -24,7 +24,7 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addMachinery">
+        <button type="button" data-toggle="modal" data-target="#addMaterial" v-on:click="resetMaterial()">
           Add Material
         </button>
       </div>
@@ -52,6 +52,10 @@
               <td>{{ material.measurement }}</td>
               <td>{{ material.unit_cost }}</td>
               <td>12. 08. 2018</td>
+              <td class="text-right">
+                <i class="fa fa-edit" v-on:click="editMaterial(material)" data-toggle="modal" data-target="#addMaterial"></i> 
+                <i class="fa fa-times" v-on:click="deleteMaterial(material)"></i>
+              </td>
             </tr>
             <tr v-if="materials.length <= 0">
               <td colspan="6" class="text-center">No Materials Yet</td>
@@ -62,11 +66,11 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addMachinery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Material</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Material</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -90,7 +94,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" v-on:click="saveMaterial" data-dismiss="modal">
-              Add Material
+              {{ editMode ? 'Edit' : 'Add'}} Material
             </button>
           </div>
         </div>
@@ -108,6 +112,7 @@ import { mapState } from "vuex";
 export default {
   data(router) {
     return {
+      editMode: false,
       material: {
         name: "",
         workspace: window.localStorage.getItem("workspace"),
@@ -128,7 +133,29 @@ export default {
   methods: {
     saveMaterial() {
       const { material } = this;
-      this.$store.dispatch("materials/addMaterial", material);
+      if(this.editMode){
+        this.$store.dispatch("materials/updateMaterial", material);
+      }else{
+        this.$store.dispatch("materials/addMaterial", material);
+      }
+    },
+    editMaterial(material){
+      this.editMode = true;
+      this.material = Object.assign({}, material);
+    },
+    deleteMaterial(material){
+      if (confirm(`are you sure you want to delete ${material.name}?`)) {
+          this.$store.dispatch("materials/deleteMaterial", material);
+      }
+    },
+    resetMaterial(){
+      this.editMode = false;
+      this.material = {
+        name: "",
+        workspace: window.localStorage.getItem("workspace"),
+        measurement: "",
+        unit_cost: ""
+      }
     }
   }
 };
