@@ -41,6 +41,10 @@ export default {
       return HTTP.post(url, data, auth)
     } else if (method === 'get') {
       return HTTP.get(url, auth)
+    } else if (method === 'patch'){
+      return HTTP.patch(url, data, auth)
+    } else if (method === 'delete'){
+      return HTTP.delete(url, auth)
     }
 
   }

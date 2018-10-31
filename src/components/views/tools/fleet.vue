@@ -30,7 +30,7 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addFleet">
+        <button type="button" data-toggle="modal" data-target="#addFleet" v-on:click="resetFleet()">
           Add Fleet
         </button>
       </div>
@@ -78,6 +78,7 @@
               <td>Type</td>
               <td>status</td>
               <td>Creation Date</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -85,12 +86,16 @@
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ fleet.name }}</td>
               <td>{{ fleet.humanUuid }}</td>
-              <td>{{ fleet.vehicle_type }}</td>
+              <td>{{ fleet.vehicle_type.type }}</td>
               <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
               <td>12. 08. 2018</td>
+              <td class="text-right">
+                <i class="fa fa-edit" v-on:click="editFleet(fleet)" data-toggle="modal" data-target="#addFleet"></i> 
+                <i class="fa fa-times" v-on:click="deleteFleet(fleet)"></i>
+              </td>
             </tr>
             <tr v-if="fleets.length <= 0">
-              <td colspan="6" class="text-center">No fleets Yet</td>
+              <td colspan="7" class="text-center">No fleets Yet</td>
             </tr>
           </tbody>
         </table>
@@ -102,7 +107,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Tool</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Tool</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -137,7 +142,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveFleet" data-dismiss="modal">Add Fleet</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveFleet" data-dismiss="modal">{{ editMode ? 'Edit' : 'Add'}} Fleet</button>
           </div>
         </div>
       </div>
@@ -157,6 +162,7 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      editMode: false,
       fleet: {
         name: '',
         vehicle_type: '',
@@ -182,7 +188,11 @@ export default {
   methods: {
     saveFleet() {
       const { fleet } = this;
-      this.$store.dispatch("fleets/addFleet", fleet);
+      if(this.editMode){
+        this.$store.dispatch("fleets/updateFleet", fleet);
+      }else{
+        this.$store.dispatch("fleets/addFleet", fleet);
+      }
     },
     filter(type){
       if(type === 'broken'){
@@ -193,6 +203,28 @@ export default {
         this.$store.commit('fleets/CHANGE_LIST_TYPE', 'Avialable')
       }else{
         this.$store.commit('fleets/CHANGE_LIST_TYPE', 'all')
+      }
+    },
+    deleteFleet(fleet){
+      if (confirm(`are you sure you want to delete ${fleet.name}?`)) {
+          this.$store.dispatch("fleets/deleteFleet", fleet);
+      }
+    },
+    editFleet(fleet){
+      this.editMode = true;
+      this.fleet = Object.assign({}, fleet);
+      this.fleet.vehicle_type = fleet.vehicle_type.id;
+      this.fleet.status = fleet.status.name;
+    },
+    resetFleet(){
+      this.editMode = false;
+      this.fleet = {
+        name: '',
+        vehicle_type: '',
+        uuid: 'null',
+        humanUuid: '',
+        status: '',
+        workspace: window.localStorage.getItem("workspace")
       }
     }
   }

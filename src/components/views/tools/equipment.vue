@@ -47,6 +47,7 @@
               <td>Type</td>
               <td>status</td>
               <td>Creation Date</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -55,11 +56,15 @@
               <td><span class="oval"></span>{{ machine.name }}</td>
               <td>{{ machine.humanUuid }}</td>
               <td>Grader</td>
-              <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span> <i class="pull-right fa fa-ellipsis-h"></i></td>
-              <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+              <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span></td>
+              <td>12. 08. 2018</td>
+              <td class="text-right">
+                <i class="fa fa-edit" v-on:click="editMachine" ></i> 
+                <i class="fa fa-times" v-on:click="deleteMachine"></i>
+              </td>
             </tr>
             <tr v-if="machines.length <= 0">
-              <td colspan="6" class="text-center">No Machines Yet</td>
+              <td colspan="7" class="text-center">No Machines Yet</td>
             </tr>
           </tbody>
         </table>
@@ -153,6 +158,12 @@ export default {
       }else{
         this.$store.commit('machinery/CHANGE_LIST_TYPE', 'all')
       }
+    },
+    editMachine(){
+
+    },
+    deleteMachine(){
+      
     }
   }
 };
@@ -173,6 +184,11 @@ export default {
   line-height: 12px;
   border-radius: 20px;
   border: none;
+}
+.table tbody tr td:last-child i{
+  margin-right: 15px;
+  cursor: pointer;
+  color: #333
 }
 .modal-dialog {
   width: 500px;

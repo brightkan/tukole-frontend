@@ -26,8 +26,20 @@ export default {
         ADD_FLEET(state, fleet) {
             state.fleets.push(fleet)
         },
-        CHANGE_LIST_TYPE(state, payLoad){
-            state.listType = payLoad
+        CHANGE_LIST_TYPE(state, payload){
+            state.listType = payload
+        },
+        DELETE_FLEET(state, payload){
+            var index = state.fleets.findIndex(fleet => fleet.id === payload.id);
+            state.fleets.splice(index, 1);
+        },
+        UPDATE_FLEET(state, payload){
+            state.fleets = state.fleets.map(fleet => {
+                if (fleet.id === payload.id) {
+                    return Object.assign({}, fleet, payload)
+                }
+                return fleet
+            })
         }
     },
     actions: {
@@ -46,7 +58,7 @@ export default {
                     let fleets = response.data.map(fleet => {
                         state.fleet_types.forEach(element => {
                             if(fleet.vehicle_type === element.id){
-                                fleet.vehicle_type = element.type;
+                                fleet.vehicle_type = element;
                             }
                         });
                         rootState.statuses.forEach(element => {
@@ -66,7 +78,7 @@ export default {
                     let fleet = response.data;
                     state.fleet_types.forEach(element => {
                         if(fleet.vehicle_type === element.id){
-                            fleet.vehicle_type = element.type;
+                            fleet.vehicle_type = element;
                         }
                     });
                     rootState.statuses.forEach(element => {
@@ -75,6 +87,31 @@ export default {
                         }
                     });
                     commit('ADD_FLEET', fleet)
+                });
+        },
+        updateFleet({ commit, state, rootState }, payLoad) {
+            api
+                .request("patch", "fleets/"+payLoad.id+"/", payLoad)
+                .then(response => {
+                    let fleet = response.data;
+                    state.fleet_types.forEach(element => {
+                        if(fleet.vehicle_type === element.id){
+                            fleet.vehicle_type = element;
+                        }
+                    });
+                    rootState.statuses.forEach(element => {
+                        if(fleet.status === element.name){
+                            fleet.status = element;
+                        }
+                    });
+                    commit('UPDATE_FLEET', fleet)
+                });
+        },
+        deleteFleet({commit}, payLoad){
+            api
+                .request("delete", "fleets/"+payLoad.id+"/")
+                .then(() => {
+                    commit('DELETE_FLEET', payLoad)
                 });
         }
     },
