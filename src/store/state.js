@@ -13,5 +13,9 @@ export default {
     notifications: [],
     tasks: []
   },
-  workspaces: []
+  workspaces: [],
+  statuses: [
+    {name: 'Avialable', color: 'green'}, 
+    {name: 'Broken Down', color: 'red'}, 
+    {name: 'Assigned', color: 'orange'}]
 }

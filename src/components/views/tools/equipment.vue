@@ -49,29 +49,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="machine in machines" :key="machine.id">
               <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
+              <td><span class="oval"></span>{{ machine.name }}</td>
+              <td>{{ machine.humanUuid }}</td>
               <td>Grader</td>
-              <td><span class="green">Available</span> <i class="pull-right fa fa-ellipsis-h"></i></td>
+              <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span> <i class="pull-right fa fa-ellipsis-h"></i></td>
               <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
             </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="red">Broken Down</span> <i class="pull-right fa fa-ellipsis-h"></i></td>
-              <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="orange">ASsigned</span> <i class="pull-right fa fa-ellipsis-h"></i></td>
-              <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+            <tr v-if="machines.length <= 0">
+              <td colspan="6" class="text-center">No Machines Yet</td>
             </tr>
           </tbody>
         </table>
@@ -89,34 +76,30 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="upload-image"></div>
-              </div>
-              <div class="col-md-6 text-center">
-                <p class="upload-img-text">Upload Thumbnail</p>
-                <button class="custom-btn">Select Image</button>
-              </div>
-            </div>
-
             <form>
               <div class="form-group">
                 <label>Machine Name</label>
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" v-model="machine.name"/>
               </div>
               <div class="form-group">
-                <label>Type</label>
-                <input type="text" class="form-control"/>
+                <label>Serial number</label>
+                <input type="text" class="form-control"  v-model="machine.humanUuid"/>
               </div>
               <div class="form-group">
                 <label>Status</label>
-                <input type="text" class="form-control"/>
+                <select class="form-control" v-model="machine.status">
+                  <option v-for="status in statuses" v-bind:value="status.name" :key="status.id">
+                    {{ status.name }}
+                  </option>
+                </select>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Machine</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveMachine" data-dismiss="modal">
+              Add Machine
+            </button>
           </div>
         </div>
       </div>
@@ -127,12 +110,36 @@
 
 <script>
 import { select } from "../../mixins/select";
+import { mapState } from "vuex";
 
 export default {
   mixins: [select],
+  data(router) {
+    return {
+      machine: {
+        name: '',
+        uuid: 'null',
+        humanUuid: '',
+        status: '',
+        workspace: window.localStorage.getItem("workspace")
+      }
+    };
+  },
   created() {},
   mounted() {
-    this.$emit("customEventForValChange", this.$route.path);
+    this.$store.dispatch("machinery/loadMachines");
+  },
+  computed: {
+    ...mapState({
+      machines: state => state.machinery.machines,
+      statuses: state => state.statuses
+    })
+  },
+  methods: {
+    saveMachine() {
+      const { machine } = this;
+      this.$store.dispatch("machinery/addMachine", machine);
+    }
   }
 };
 </script>

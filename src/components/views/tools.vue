@@ -122,15 +122,15 @@ export default {
       tool: {
         name: "",
         type: "",
-        humanUuid: ""
+        humanUuid: "",
+        workspace: window.localStorage.getItem("workspace")
       }
     };
   },
   created() {},
   mounted() {
     this.$emit("customEventForValChange", this.$route.path);
-    //this.$store.dispatch("tools/loadToolTypes");
-    //this.$store.dispatch("tools/loadTools");
+    this.$store.dispatch("tools/loadTools");
   },
   computed: {
     ...mapState('tools',["tool_types", "tools"])
@@ -138,7 +138,7 @@ export default {
   methods: {
     saveTool() {
       const { tool } = this;
-      //this.$store.dispatch("addTool", tool);
+      this.$store.dispatch("tools/addTool", tool);
     }
   }
 };

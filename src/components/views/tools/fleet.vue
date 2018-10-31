@@ -29,7 +29,7 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addMachinery">
+        <button type="button" data-toggle="modal" data-target="#addFleet">
           Add Fleet
         </button>
       </div>
@@ -73,45 +73,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="fleet in fleets" :key="fleet.id">
               <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
+              <td><span class="oval"></span>{{ fleet.name }}</td>
+              <td>{{ fleet.humanUuid }}</td>
               <td>Grader</td>
-              <td><span class="green">Available</span></td>
+              <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
               <td>12. 08. 2018</td>
             </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="red">Broken Down</span></td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="orange">ASsigned</span></td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="red">Broken Down</span></td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td><span class="green">Available</span></td>
-              <td>12. 08. 2018</td>
+            <tr v-if="fleets.length <= 0">
+              <td colspan="6" class="text-center">No fleets Yet</td>
             </tr>
           </tbody>
         </table>
@@ -119,44 +90,46 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addMachinery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addFleet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Fleet</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add Tool</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="upload-image"></div>
-              </div>
-              <div class="col-md-6 text-center">
-                <p class="upload-img-text">Upload Thumbnail</p>
-                <button class="custom-btn">Select Image</button>
-              </div>
-            </div>
-
             <form>
               <div class="form-group">
                 <label>Fleet Name</label>
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" v-model="fleet.name"/>
               </div>
               <div class="form-group">
                 <label>Type</label>
-                <input type="text" class="form-control"/>
+                <select class="form-control" v-model="fleet.vehicle_type">
+                  <option v-for="fleet_type in fleet_types" v-bind:value="fleet_type.id" :key="fleet_type.id">
+                    {{ fleet_type.type }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Serial Number</label>
+                <input type="text" class="form-control" v-model="fleet.humanUuid"/>
               </div>
               <div class="form-group">
                 <label>Status</label>
-                <input type="text" class="form-control"/>
+                <select class="form-control" v-model="fleet.status">
+                  <option v-for="status in statuses" v-bind:value="status.name" :key="status.id">
+                    {{ status.name }}
+                  </option>
+                </select>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Fleet</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveFleet" data-dismiss="modal">Add Fleet</button>
           </div>
         </div>
       </div>
@@ -169,12 +142,38 @@
 
 <script>
 import { select } from "../../mixins/select";
+import { mapState } from "vuex";
 
 export default {
   mixins: [select],
+  data(router) {
+    return {
+      fleet: {
+        name: '',
+        vehicle_type: '',
+        uuid: 'null',
+        humanUuid: '',
+        status: '',
+        workspace: window.localStorage.getItem("workspace")
+      }
+    };
+  },
   created() {},
   mounted() {
-    this.$emit("customEventForValChange", this.$route.path);
+    this.$store.dispatch("fleets/loadFleets");
+  },
+  computed: {
+    ...mapState({
+      fleets: state => state.fleets.fleets,
+      fleet_types: state => state.fleets.fleet_types,
+      statuses: state => state.statuses
+    })
+  },
+  methods: {
+    saveFleet() {
+      const { fleet } = this;
+      this.$store.dispatch("fleets/addFleet", fleet);
+    }
   }
 };
 </script>

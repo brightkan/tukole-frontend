@@ -39,51 +39,22 @@
               <td><span class="dot"></span></td>
               <td>Material</td>
               <td>Serial Number</td>
-              <td>Type</td>
-              <td>Price</td>
+              <td>Measurement</td>
+              <td>Unit Cost</td>
               <td>Creation Date</td>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="material in materials" :key="material.id">
               <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
+              <td><span class="oval"></span>{{ material.name }}</td>
               <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td>230</td>
+              <td>{{ material.measurement }}</td>
+              <td>{{ material.unit_cost }}</td>
               <td>12. 08. 2018</td>
             </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td>230</td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td>230</td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td>230</td>
-              <td>12. 08. 2018</td>
-            </tr>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>Catapiller Multrix</td>
-              <td>TUK-CAT-1002</td>
-              <td>Grader</td>
-              <td>230</td>
-              <td>12. 08. 2018</td>
+            <tr v-if="materials.length <= 0">
+              <td colspan="6" class="text-center">No Materials Yet</td>
             </tr>
           </tbody>
         </table>
@@ -101,34 +72,26 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="upload-image"></div>
-              </div>
-              <div class="col-md-6 text-center">
-                <p class="upload-img-text">Upload Thumbnail</p>
-                <button class="custom-btn">Select Image</button>
-              </div>
-            </div>
-
             <form>
               <div class="form-group">
                 <label>Material Name</label>
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" v-model="material.name"/>
               </div>
               <div class="form-group">
-                <label>Type</label>
-                <input type="text" class="form-control"/>
+                <label>Measurement</label>
+                <input type="text" class="form-control" v-model="material.measurement"/>
               </div>
               <div class="form-group">
-                <label>Status</label>
-                <input type="text" class="form-control"/>
+                <label>Unit cost</label>
+                <input type="text" class="form-control" v-model="material.unit_cost"/>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Material</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveMaterial" data-dismiss="modal">
+              Add Material
+            </button>
           </div>
         </div>
       </div>
@@ -139,13 +102,34 @@
 </template>
 
 <script>
-import { select } from "../mixins/select";
+
+import { mapState } from "vuex";
 
 export default {
-  mixins: [select],
+  data(router) {
+    return {
+      material: {
+        name: "",
+        workspace: window.localStorage.getItem("workspace"),
+        measurement: "",
+        unit_cost: ""
+      }
+    };
+  },
   created() {},
   mounted() {
-    this.$emit("customEventForValChange", this.$route.path);
+    this.$store.dispatch("materials/loadMaterials");
+  },
+  computed: {
+    ...mapState({
+      materials: state => state.materials.materials
+    })
+  },
+  methods: {
+    saveMaterial() {
+      const { material } = this;
+      this.$store.dispatch("materials/addMaterial", material);
+    }
   }
 };
 </script>
