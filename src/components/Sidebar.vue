@@ -25,6 +25,9 @@ export default {
 }
 </script>
 <style scope="local">
+.main-sidebar{
+  position: fixed;
+}
 .user-panel .image img {
   border-radius: 50%;
 }

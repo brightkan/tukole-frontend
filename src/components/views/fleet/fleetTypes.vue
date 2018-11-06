@@ -1,42 +1,24 @@
 <template>
 <div>
-  <section class="content-header">
-    <div class="toolbar">
-      
-    </div>
-  </section>
     <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-2">
-        <h3>Tools</h3>
+        <h3>Fleet types</h3>
       </div>
 
       <div class="comp-title col-md-3">
-        <label id="img_category_label" class="field" for="img_category" data-value="">
-          <span>Status</span>
-          <div id="img_category" class="psuedo_select" name="img_category">
-            <span class="selected"></span>
-            <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1" v-on:click="filter('available')">Avialable</li>
-              <li class="option" data-value="opt_2" v-on:click="filter('broken')">Broken Down</li>
-              <li class="option" data-value="opt_3" v-on:click="filter('assigned')" >Assigned</li>
-              <li class="option" data-value="opt_4" v-on:click="filter('all')" >All</li>
-            </ul>
-          </div>
-        </label>
+        
       </div>
 
       <div class="comp-title col-md-5">
-        <form method="get" action="/search" class="fleet_search">
-          <input name="q" type="text" size="40" placeholder="Search..." />
-        </form>
+        
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addTool" v-on:click="resetTool()">
-          Add Tool
+        <button type="button" data-toggle="modal" data-target="#addFleetType" v-on:click="resetType()">
+          Add fleet type
         </button>
       </div>
     </div>
@@ -48,28 +30,24 @@
           <thead>
             <tr>
               <td><span class="dot"></span></td>
-              <td>Vehicle</td>
-              <td>Serial Number</td>
               <td>Type</td>
-              <td>status</td>
+              <td>Description</td>
               <td>Creation Date</td>
               <td></td>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="tool in getTools" :key="tool.id">
+            <tr v-for="type in fleet_types" :key="type.id">
               <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ tool.name }}</td>
-              <td>{{ tool.humanUuid }}</td>
-              <td>{{ tool.type.type }}</td>
-              <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
+              <td><span class="oval"></span>{{ type.type }}</td>
+              <td>{{ type.description }}</td>
               <td>12. 08. 2018</td>
               <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editTool(tool)" data-toggle="modal" data-target="#addTool"></i> 
-                <i class="fa fa-times" v-on:click="deleteTool(tool)"></i>
+                <i class="fa fa-edit" v-on:click="editType(type)" data-toggle="modal" data-target="#addFleetType"></i> 
+                <i class="fa fa-times" v-on:click="deleteType(type)"></i>
               </td>
             </tr>
-            <tr v-if="getTools.length <= 0">
+            <tr v-if="fleet_types.length <= 0">
               <td colspan="7" class="text-center">No Tools Yet</td>
             </tr>
           </tbody>
@@ -78,11 +56,11 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addTool" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addFleetType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Tool</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Tool type</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -90,27 +68,19 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label>Tool Name</label>
-                <input type="text" class="form-control" v-model="tool.name"/>
+                <label>Type Name</label>
+                <input type="text" class="form-control" v-model="type.type"/>
               </div>
               <div class="form-group">
-                <label>Type</label>
-                <select class="form-control" v-model="tool.type">
-                  <option v-for="tool_type in tool_types" v-bind:value="tool_type.id" :key="tool_type.id">
-                    {{ tool_type.type }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Serial Number</label>
-                <input type="text" class="form-control" v-model="tool.humanUuid"/>
+                <label>Type description</label>
+                <input type="text" class="form-control" v-model="type.description"/>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveTool" data-dismiss="modal">
-              {{ editMode ? 'Edit' : 'Add'}} Tool
+            <button type="button" class="btn btn-primary" v-on:click="saveType" data-dismiss="modal">
+              {{ editMode ? 'Edit' : 'Add'}} Tool type
             </button>
           </div>
         </div>
@@ -122,8 +92,7 @@
 </template>
 
 <script>
-import { select } from "../mixins/select";
-import api from "../../api";
+import { select } from "../../mixins/select";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 
@@ -132,62 +101,44 @@ export default {
   data(router) {
     return {
       editMode: false,
-      tool: {
-        name: "",
+      type: {
         type: "",
-        humanUuid: "",
-        status: 'Avialable', // Todo: Noah should set up this field on the online mode
-        workspace: window.localStorage.getItem("workspace")
+        description: ""
+        // workspace: window.localStorage.getItem("workspace")
       }
     };
   },
   created() {},
   mounted() {
-    this.$emit("customEventForValChange", this.$route.path);
-    this.$store.dispatch("tools/loadTools");
+    this.$store.dispatch("fleets/loadFleetTypes");
   },
   computed: {
-    ...mapState('tools',["tool_types"]),
-    ...mapGetters('tools', ['getTools'])
+    ...mapState('fleets',["fleet_types"])
   },
   methods: {
-    saveTool() {
-      const { tool } = this;
+    saveType() {
+      const { type } = this;
       if(this.editMode){
-        this.$store.dispatch("tools/updateTool", tool);
+        this.$store.dispatch("fleets/updateType", type);
       }else{
-        this.$store.dispatch("tools/addTool", tool);
+        this.$store.dispatch("fleets/addType", type);
       }
     },
-    filter(type){
-      if(type === 'broken'){
-        this.$store.commit('tools/CHANGE_LIST_TYPE', 'Broken Down')
-      }else if(type === 'assigned'){
-        this.$store.commit('tools/CHANGE_LIST_TYPE', 'Assigned')
-      }else if(type === 'available'){
-        this.$store.commit('tools/CHANGE_LIST_TYPE', 'Avialable')
-      }else{
-        this.$store.commit('tools/CHANGE_LIST_TYPE', 'all')
-      }
-    },
-    editTool(tool){
+    editType(type){
       this.editMode = true;
-      this.tool = Object.assign({}, tool);
-      this.tool.type = tool.type.id;
+      this.type = Object.assign({}, type);
     },
-    deleteTool(tool){
-      if (confirm(`are you sure you want to delete ${tool.name}?`)) {
-          this.$store.dispatch("tools/deleteTool", tool);
+    deleteType(type){
+      if (confirm(`are you sure you want to delete ${type.type}?`)) {
+          this.$store.dispatch("fleets/deleteType", type);
       }
     },
-    resetTool(){
+    resetType(){
       this.editMode = false;
-      this.tool = {
-        name: '',
-        uuid: 'null',
-        humanUuid: '',
-        status: '',
-        workspace: window.localStorage.getItem("workspace")
+      this.type = {
+        type: "",
+        description: ""
+        //workspace: window.localStorage.getItem("workspace")
       }
     }
   }
@@ -359,7 +310,7 @@ label.field.focused .psuedo_select ul {
   padding: 0;
 }
 .comp-title .fleet_search input {
-  background: url(../../../static/img/search-white.png) no-repeat 10px 10px;
+  background: url(../../../../static/img/search-white.png) no-repeat 10px 10px;
   background-color: #fff;
   border: 0 none;
   font-family: "Montserrat", sans-serif;

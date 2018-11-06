@@ -28,7 +28,7 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addMachinery">
+        <button type="button" data-toggle="modal" data-target="#addSite" v-on:click="resetSite()">
           Add Site
         </button>
       </div>
@@ -36,42 +36,20 @@
     <!-- /.row -->
 
     <div class="row">
-      <div class="col-md-3">
-        <a href="overview">
-          <div class="project-card">
-          <h3>Kampala Renovation project</h3>
-          <div class="row status">
-            <div class="col-md-4">
-              <img src="../../../assets/imgs/icons8-crane-96.png"/>
-              <span>6000</span>
-            </div>
-            <div class="col-md-4">
-              <img src="../../../assets/imgs/icons8-crane-96.png"/>
-              <span>640</span>
-            </div>
-            <div class="col-md-4">
-              <img src="../../../assets/imgs/Oval_2.png"/>
-              <span>60%</span>
-            </div>
-          </div>
+      <div class="col-md-4 site" v-for="site in sites" :key="site.id">
+        <a v-on:click="selectSite(site)">
+          <div class="project-card" v-bind:class="site.id == selectedSite ? 'active' : ''">
+          <h3>{{ site.site_name }}</h3>
           <div class="row _timeline">
-            <div class="col-md-4">
+            <div class="col-md-6">
               <span>
-                Start Date
+                Survey Date
               </span>
               <p>
-                12.08.2018
+                {{ site.start_date }}
               </p>
             </div>
-            <div class="col-md-4">
-              <span>
-                End Date
-              </span>
-              <p>
-                12.08.2018
-              </p>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6 text-right">
               <span>
                 Cost Estimate
               </span>
@@ -84,9 +62,12 @@
         </a>        
       </div>
     </div>
+    <div v-if="sites.length <= 0" class="row empty-site-list">
+      <h3 class="text-center">NO SITES YET</h3>
+    </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addMachinery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addSite" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -96,34 +77,49 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="upload-image"></div>
-              </div>
-              <div class="col-md-6 text-center">
-                <p class="upload-img-text">Upload Thumbnail</p>
-                <button class="custom-btn">Select Image</button>
-              </div>
-            </div>
 
             <form>
               <div class="form-group">
                 <label>Site Name</label>
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" v-model="site.site_name"/>
               </div>
               <div class="form-group">
-                <label>Type</label>
-                <input type="text" class="form-control"/>
+                <label>Location Latitude</label>
+                <input type="number" class="form-control" v-model="site.location_lat"/>
               </div>
               <div class="form-group">
-                <label>Status</label>
-                <input type="text" class="form-control"/>
+                <label>Location longitude</label>
+                <input type="number" class="form-control" v-model="site.location_long"/>
+              </div>
+              <div class="form-group">
+                <label>Start date</label>
+                <input type="date" class="form-control" v-model="site.start_date"/>
+              </div>
+              <div class="form-group">
+                <label>Expected end date</label>
+                <input type="date" class="form-control" v-model="site.expected_end_date"/>
+              </div>
+              <div class="form-group">
+                <label>Acknowledgement status</label>
+                <select class="form-control" v-model="site.ackStatus">
+                  <option v-bind:value="'true'">Yes</option>
+                  <option v-bind:value="'false'">No</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Archived status</label>
+                <select class="form-control" v-model="site.archivedStatus">
+                  <option v-bind:value="'true'">Yes</option>
+                  <option v-bind:value="'false'">No</option>
+                </select>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add Site</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveSite" data-dismiss="modal">
+              Add Site
+            </button>
           </div>
         </div>
       </div>
@@ -134,20 +130,89 @@
 
 <script>
 import { select } from "../../mixins/select";
-
-// progressbar.js@1.0.0 version is used
-// Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   mixins: [select],
-  created() {},
+  data(router) {
+    return {
+      selectedSite: window.localStorage.getItem("selectsite"),
+      editMode: false,
+      site: {
+        site_name: "",
+        location_lat: "",
+        location_long: "",
+        start_date: "",
+        expected_end_date: "",
+        archivedStatus: true,
+        clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        ackStatus: true,
+        current_stage: 0,
+        workspace: window.localStorage.getItem("workspace"),
+      }
+    };
+  },
   mounted() {
-    this.$emit("customEventForValChange", this.$route.path);
+    this.$store.dispatch("sites/loadSites");
+  },
+  computed: {
+    ...mapState('sites',["sites"]),
+    ...mapGetters('sites', ['getSites'])
+  },
+  methods: {
+    saveSite() {
+      const { site } = this;
+      if(this.editMode){
+        this.$store.dispatch("sites/updateSite", site);
+      }else{
+        this.$store.dispatch("sites/addSite", site);
+      }
+    },
+    editSite(site){
+      this.editMode = true;
+      this.site = Object.assign({}, site);
+    },
+    deleteSite(site){
+      if (confirm(`are you sure you want to delete ${site.site_name}?`)) {
+          this.$store.dispatch("sites/deleteSite", site);
+      }
+    },
+    resetSite(){
+      this.editMode = false;
+      this.site = {
+        site_name: "",
+        location_lat: "",
+        location_long: "",
+        start_date: "",
+        expected_end_date: "",
+        archivedStatus: true,
+        clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        ackStatus: true,
+        current_stage: 0,
+        workspace: window.localStorage.getItem("workspace"),
+      }
+    },
+    selectSite(site){
+      window.localStorage.setItem("selectsite", site.id)
+      window.location.href = "overview";
+    }
   }
 };
 </script>
 
 <style>
+.empty-site-list{
+  color: #c3c3c3;
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+}
+.site{
+  cursor: pointer;
+}
+.site .project-card.active{
+  border: 1px solid #256ae1;
+}
 .comp-title button {
   width: 100%;
 }
@@ -165,18 +230,17 @@ export default {
 }
 
 .project-card {
-  padding: 15px;
+  padding: 30px;
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 }
 .project-card h3 {
   color: #256ae1;
   font-family: "Montserrat", sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
-  line-height: 15px;
-  margin-top: 0;
-  margin-bottom: 40px;
+  padding: 0 0 30px;
+  margin: 0;
 }
 .project-card .status {
   margin-left: -15px;
@@ -206,7 +270,7 @@ export default {
 .project-card ._timeline span {
   color: #828282;
   font-family: "Montserrat", sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 7px;
 }
 .project-card ._timeline p {
@@ -214,7 +278,7 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
   font-weight: 500;
-  line-height: 10px;
+  line-height: 14px;
   margin-bottom: 0;
   margin-top: 5px;
 }

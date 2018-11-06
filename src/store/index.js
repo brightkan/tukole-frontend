@@ -7,6 +7,7 @@ import tools from './modules/tools'
 import fleets from './modules/fleets'
 import machinery from './modules/machinery'
 import materials from './modules/materials'
+import sites from './modules/sites'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     tools,
     fleets,
     machinery,
-    materials
+    materials,
+    sites
   },
   state,
   actions,

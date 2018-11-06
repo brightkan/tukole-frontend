@@ -10,10 +10,14 @@ import SelectWorkSpaceView from "./components/auth/SelectWorkSpace.vue";
 // Import Views - Dash
 import DashboardView from "./components/views/Dashboard.vue";
 import MaterialView from "./components/views/Material.vue";
-import ToolsView from "./components/views/tools.vue";
-import FleetView from "./components/views/tools/fleet.vue";
-import EquipmentDashView from "./components/views/tools/eqiupmentDash.vue";
-import EquipmentView from "./components/views/tools/equipment.vue";
+import ToolsView from "./components/views/tools/tools.vue";
+import ToolTypesView from "./components/views/tools/ToolTypes.vue";
+import ToolsDashView from "./components/views/tools/toolsDash.vue";
+import FleetView from "./components/views/fleet/fleet.vue";
+import FleetTypeView from "./components/views/fleet/fleetTypes.vue"
+import MachineryTypeView from "./components/views/fleet/machineryTypes.vue"
+import EquipmentDashView from "./components/views/fleet/eqiupmentDash.vue";
+import EquipmentView from "./components/views/fleet/equipment.vue";
 import UserView from "./components/views/user.vue";
 import BoqView from "./components/views/projects/boq.vue";
 import PipView from "./components/views/projects/pip.vue";
@@ -62,9 +66,23 @@ const routes = [
       },
       {
         path: "tools",
-        component: ToolsView,
+        component: ToolsDashView,
         name: "Tools",
-        meta: { description: "Show tools", requiresAuth: false }
+        redirect: "tools/overview",
+        children: [
+          {
+            path: "overview",
+            component: ToolsView,
+            name: "Tools overview",
+            meta: { description: "Tools overview", requiresAuth: false }
+          },
+          {
+            path: "types",
+            component: ToolTypesView,
+            name: "Tool types",
+            meta: { description: "Tools overview", requiresAuth: false }
+          }
+        ]
       },
       {
         path: "material",
@@ -88,6 +106,18 @@ const routes = [
             component: FleetView,
             name: "Fleet",
             meta: { description: "Show fleet of vehicles", requiresAuth: false }
+          },
+          {
+            path: "fleetTypes",
+            component: FleetTypeView,
+            name: "Fleet Type",
+            meta: {description: "fleet types", requiresAuth: false}
+          },
+          {
+            path: "machineryTypes",
+            component: MachineryTypeView,
+            name: "Machinery Type",
+            meta: {description: "machinery types", requiresAuth: false}
           }
         ]
       },

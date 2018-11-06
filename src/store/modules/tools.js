@@ -11,6 +11,11 @@ export default {
             status: '',
             workspace: '',
         },
+        type: {
+            type: "",
+            description: "",
+            //workspace: '',
+        },
         tools: [],
         tool_types: [],
         listType: 'all'
@@ -39,7 +44,22 @@ export default {
                 }
                 return tool
             })
-        }
+        },
+        ADD_TYPE(state, tool){
+            state.tool_types.push(tool);
+        },
+        DELETE_TYPE(state, payload){
+            var index = state.tool_types.findIndex(type => type.id === payload.id);
+            state.tool_types.splice(index, 1);
+        },
+        UPDATE_TYPE(state, payload){
+            state.tool_types = state.tool_types.map(type => {
+                if (type.id === payload.id) {
+                    return Object.assign({}, type, payload)
+                }
+                return type
+            })
+        },
     },
     actions: {
         async loadToolTypes({ commit }) {
@@ -96,6 +116,14 @@ export default {
                     commit('ADD_TOOL', tool)
                 });
         },
+        addType({ commit, state }, payLoad) {
+            api
+                .request("post", "tools_types/", payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('ADD_TYPE', type)
+                });
+        },
         updateTool({ commit, state, rootState }, payLoad) {
             api
                 .request("patch", "tools/"+payLoad.id+"/", payLoad)
@@ -118,11 +146,26 @@ export default {
                     commit('UPDATE_TOOL', tool)
                 });
         },
+        updateType({ commit }, payLoad) {
+            api
+                .request("patch", "tools_types/"+payLoad.id+"/", payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('UPDATE_TYPE', type)
+                });
+        },
         deleteTool({commit}, payLoad){
             api
                 .request("delete", "tools/"+payLoad.id+"/")
                 .then(() => {
                     commit('DELETE_TOOL', payLoad)
+                });
+        },
+        deleteType({commit}, payLoad){
+            api
+                .request("delete", "tools_types/"+payLoad.id+"/")
+                .then(() => {
+                    commit('DELETE_TYPE', payLoad)
                 });
         }
     },

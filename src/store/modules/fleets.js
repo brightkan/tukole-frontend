@@ -40,7 +40,22 @@ export default {
                 }
                 return fleet
             })
-        }
+        },
+        ADD_TYPE(state, tool){
+            state.fleet_types.push(tool);
+        },
+        DELETE_TYPE(state, payload){
+            var index = state.fleet_types.findIndex(type => type.id === payload.id);
+            state.fleet_types.splice(index, 1);
+        },
+        UPDATE_TYPE(state, payload){
+            state.fleet_types = state.fleet_types.map(type => {
+                if (type.id === payload.id) {
+                    return Object.assign({}, type, payload)
+                }
+                return type
+            })
+        },
     },
     actions: {
         async loadFleetTypes({ commit }) {
@@ -112,6 +127,29 @@ export default {
                 .request("delete", "fleets/"+payLoad.id+"/")
                 .then(() => {
                     commit('DELETE_FLEET', payLoad)
+                });
+        },
+        deleteType({commit}, payLoad){
+            api
+                .request("delete", "fleet_types/"+payLoad.id+"/")
+                .then(() => {
+                    commit('DELETE_TYPE', payLoad)
+                });
+        },
+        updateType({ commit }, payLoad) {
+            api
+                .request("patch", "fleet_types/"+payLoad.id+"/", payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('UPDATE_TYPE', type)
+                });
+        },
+        addType({ commit, state }, payLoad) {
+            api
+                .request("post", "fleet_types/", payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('ADD_TYPE', type)
                 });
         }
     },

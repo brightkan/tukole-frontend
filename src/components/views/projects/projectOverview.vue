@@ -4,7 +4,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-12">
-        <h3>Kampala Renovation project</h3>
+        <h3>{{ site.site_name }}</h3>
       </div>
     </div>
     <!-- /.row -->
@@ -148,7 +148,7 @@ fiber cable was laid.
     <div class="row _projects">
       <div class="col-md-12">
         <div class="project-roles-box">
-            <ul id="myTabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+            <ul id="listTabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
               <li class="active"><a href="#Commentary" data-toggle="tab">Team</a></li>
               <li><a href="#Videos" data-toggle="tab">Fleet</a></li>
               <li><a href="#Events" data-toggle="tab">Tool</a></li>
@@ -361,21 +361,145 @@ fiber cable was laid.
         </div>
       </div>
     </div>
+
+    <div class="row site-images">
+      <div class="col-md-12">
+        <div class="project-roles-box">
+          <div class="row">
+            <div class="col-md-9">
+              <h3>Survey Results</h3>
+            </div>
+
+            <div class="comp-title col-md-3">
+              <button type="button" data-toggle="modal" data-target="#addSurveyResult" 
+              v-on:click="resetSurveyResult()"
+              v-if="surveyResults.length > 0">
+                Upload survey result
+              </button>
+            </div>
+          </div>
+          <div class="row" v-if="surveyResults.length == 0">
+            <div class="col-md-12 empty-upload-btn">
+              <button type="button" data-toggle="modal" data-target="#addSurveyResult" v-on:click="resetSurveyResult()">
+                Upload survey result
+              </button>
+            </div>
+          </div>
+
+          <table class="table" v-if="surveyResults.length > 0">
+            <thead>
+              <tr>
+                <td>File</td>
+                <td>Status</td>
+                <td>Creation Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a target="_blank" href="https://ppsnc.com/wp-content/uploads/2015/09/Land-Survey-picture-s.jpg" download>
+                  Link to downloadable file
+                  </a>
+                </td>
+                <td>Accepted</td>
+                <td>12. 08. 2018</td>
+                <td>
+                  <a>comments</a> 
+                  <button>Accept</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>          
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addSurveyResult" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add survey result</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="upload-image"></div>
+              </div>
+              <div class="col-md-6 text-center">
+                <p class="upload-img-text">Upload Thumbnail</p>
+                <button class="custom-btn">Select Image</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveSurveyResult" data-dismiss="modal">
+              Add survey result
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
 import { select } from "../../mixins/select";
+import { mapState } from "vuex";
 export default {
   mixins: [select],
+  data(router) {
+    return {
+      surveyResult: {
+        file: ""
+        // workspace: window.localStorage.getItem("workspace")
+      }
+    };
+  },
   created() {},
+  computed: {
+    ...mapState("sites", ["site", "surveyResults"])
+  },
   mounted() {
     this.$emit("customEventForValChange", this.$route.path);
+    this.$store.dispatch(
+      "sites/loadSite",
+      window.localStorage.getItem("selectsite")
+    );
+  },
+  methods: {
+    saveSurveyResult() {
+      const { surveyResult } = this;
+      this.$store.dispatch("sites/addSurveyResult", surveyResult);
+    },
+    deleteSurveyResult(surveyResult){
+      if (confirm(`are you sure you want to delete ${surveyResult}?`)) {
+          this.$store.dispatch("sites/deleteSurveyResult", surveyResult);
+      }
+    },
+    resetSurveyResult(){
+      this.surveyResult = {
+        file: ""
+        //workspace: window.localStorage.getItem("workspace")
+      }
+    }
   }
+
 };
 </script>
 
 <style>
+#listTabs.nav > li:hover {
+  border-bottom: 3px solid #256ae1;
+}
+#listTabs.nav > li > a {
+  color: #333;
+}
 .timeline-box {
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -481,7 +605,7 @@ export default {
 .timeline-content .collapse > .row div {
   padding: 0;
 }
-._projects {
+._projects, .site-images {
   margin-top: 28px;
 }
 .project-roles-box {
@@ -526,6 +650,51 @@ export default {
   border-bottom: 1.5px solid;
   border-color: #ececec;
 }
+.site-images h3{
+  font-size: 24px;
+}
+.site-images .project-roles-box > .row:first-child{
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+.empty-upload-btn button{
+  background-color: #256ae1;
+  color: white;
+  padding: 10px 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 12px;
+  border-radius: 20px;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: block;
+  margin-top: 70px;
+  margin-bottom: 50px;
+}
+
+.site-images .table tbody tr td:last-child{
+  text-align: right;
+}
+.site-images .table a{
+  color: #142235;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  line-height: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+.site-images .table tbody tr td:last-child a{
+  margin-right: 15px;
+  text-decoration: underline;
+}
+.site-images .table tbody tr td:last-child a:hover{
+  text-decoration: none;
+}
+
 </style>
 
 

@@ -106,6 +106,13 @@ export default {
 </script>
 
 <style>
+.main-header{
+  position: fixed;
+  width: 100%;
+}
+.content-wrapper{
+  margin-top: 51px;
+}
 .nav > li > a:hover,
 .nav > li > a:active,
 .nav > li > a:focus {

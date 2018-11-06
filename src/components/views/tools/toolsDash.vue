@@ -3,14 +3,14 @@
   <section class="content-header">
     <div class="toolbar">
       <ul>
-        <router-link tag="li" to="/dash/equipment_dash/fleet">
+        <router-link tag="li" to="/dash/tools/overview">
           <a href="#">
-            Fleet
+            Tools
           </a>
         </router-link>            
-        <router-link tag="li" to="/dash/equipment_dash/equipments">
+        <router-link tag="li" to="/dash/tools/types">
           <a>
-            Machinery
+            Tool Types
           </a>
         </router-link>
       </ul>

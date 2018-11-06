@@ -2,7 +2,7 @@
   <ul class="sidebar-menu">
     <router-link tag="li" class="pageLink" to="/dash">
       <a>
-        <i class="fa fa-desktop"></i>
+        <i class="fas fa-tachometer-alt"></i>
         <span class="page">Overview</span>
       </a>
     </router-link>
@@ -70,10 +70,11 @@ export default {
   border-right: 5px solid transparent;
   border-left: none;
   margin-left: 15px;
+
+  font-size: 16px;
 }
 
 .skin-blue .sidebar-menu > li > a i {
-  margin-left: 25px;
   margin-right: 15px;
 }
 
@@ -81,6 +82,7 @@ export default {
   border-right: 5px solid transparent;
   border-left: none;
   margin-left: 0;
+  font-size: 16px;
 }
 
 .sidebar-mini.sidebar-collapse .sidebar-menu > li > a i {
@@ -91,14 +93,4 @@ export default {
 .sidebar-mini.sidebar-collapse .sidebar-menu > li > a span {
   display: none;
 }
-
-/* @keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(-90deg);
-  }
-} */
 </style>
