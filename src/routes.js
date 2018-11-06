@@ -11,7 +11,7 @@ import SelectWorkSpaceView from "./components/auth/SelectWorkSpace.vue";
 import DashboardView from "./components/views/Dashboard.vue";
 import MaterialView from "./components/views/Material.vue";
 import ToolsView from "./components/views/tools/tools.vue";
-import ToolTypesView from "./components/views/tools/ToolTypes.vue";
+import ToolTypesView from "./components/views/tools/toolTypes.vue";
 import ToolsDashView from "./components/views/tools/toolsDash.vue";
 import FleetView from "./components/views/fleet/fleet.vue";
 import FleetTypeView from "./components/views/fleet/fleetTypes.vue"
