@@ -398,19 +398,86 @@ fiber cable was laid.
             <tbody>
               <tr>
                 <td>
-                  <a target="_blank" href="https://ppsnc.com/wp-content/uploads/2015/09/Land-Survey-picture-s.jpg" download>
+                  <p>
                   Link to downloadable file
-                  </a>
+                  </p>
                 </td>
                 <td>Accepted</td>
                 <td>12. 08. 2018</td>
                 <td>
-                  <a>comments</a> 
-                  <button>Accept</button>
+                  <a class="custom-btn" data-toggle="modal" data-target="#surveyResultsComment">comments</a>
+                  <a class="custom-btn btn-light" target="_blank" href="https://ppsnc.com/wp-content/uploads/2015/09/Land-Survey-picture-s.jpg" download>Download</a>
                 </td>
               </tr>
             </tbody>
           </table>          
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="surveyResultsComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Survey Result title
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="detailBox">
+              <div class="commentBox">
+                  <form class="form-inline" role="form">
+                      <div class="form-group">
+                          <input class="form-control" type="text" placeholder="Your comments" />
+                      </div>
+                      <div class="form-group">
+                          <button class="btn btn-default">Add</button>
+                      </div>
+                  </form>
+              </div>
+              <div class="actionBox">
+                  <ul class="commentList">
+                      <li>
+                          <div class="commenterImage">
+                            <img src="http://placekitten.com/50/50" />
+                          </div>
+                          <div class="commentText">
+                              <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                          </div>
+                      </li>
+                      <li>
+                          <div class="commenterImage">
+                            <img src="http://placekitten.com/45/45" />
+                          </div>
+                          <div class="commentText">
+                              <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                          </div>
+                      </li>
+                      <li>
+                          <div class="commenterImage">
+                            <img src="http://placekitten.com/40/40" />
+                          </div>
+                          <div class="commentText">
+                              <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <select class="form-control">
+              <option>Accepted</option>
+              <option>Pending</option>
+            </select>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
         </div>
       </div>
     </div>
@@ -678,21 +745,80 @@ export default {
 .site-images .table tbody tr td:last-child{
   text-align: right;
 }
-.site-images .table a{
-  color: #142235;
-  font-family: "Montserrat", sans-serif;
-  font-size: 12px;
-  line-height: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  cursor: pointer;
-}
 .site-images .table tbody tr td:last-child a{
   margin-right: 15px;
-  text-decoration: underline;
 }
 .site-images .table tbody tr td:last-child a:hover{
-  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+}
+.custom-btn.btn-light{
+  background-color: #142235;
+}
+.modal-lg{
+  width: 50%
+}
+
+.modal-footer select{
+  width: 150px;
+  float: left;
+}
+
+
+/* comments box */
+.commentBox {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+.commentBox .form-inline{
+  padding: 0
+}
+.commentBox .form-inline input,.commentBox .form-inline button{
+  width: 100%;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:80%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:18%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+    max-height:200px;
+    overflow:auto;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commenterImage {
+    width:30px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+}
+.commenterImage img {
+    width:100%;
+    border-radius:50%;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+    padding:10px;
 }
 
 </style>

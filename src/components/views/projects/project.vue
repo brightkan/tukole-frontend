@@ -3,19 +3,29 @@
   <section class="content-header">
     <div class="toolbar">
       <ul>
-        <router-link tag="li" to="/dash/project/overview">
+        <router-link tag="li" to="/dash/project/overview" v-if="this.$route.name == 'ProjectOverview'">
           <a href="#"> 
             Overview
           </a>
         </router-link>  
-        <router-link tag="li" to="/dash/project/boq">
+        <router-link tag="li" to="/dash/project/boq" v-if="this.$route.name == 'ProjectOverview'">
           <a href="#">
             BOQ
           </a>
         </router-link>  
-        <router-link tag="li" to="/dash/project/pip">
+        <router-link tag="li" to="/dash/project/pip" v-if="this.$route.name == 'ProjectOverview'">
           <a href="#">
             PIP
+          </a>
+        </router-link>  
+        <router-link tag="li" to="/dash/project/projects" v-if="this.$route.name == 'Projects'">
+          <a href="#">
+            Current Sites
+          </a>
+        </router-link>  
+        <router-link tag="li" to="/dash/project/requests" v-if="this.$route.name == 'Projects'">
+          <a href="#">
+            Survey Requests
           </a>
         </router-link>  
       </ul>
@@ -35,7 +45,9 @@ import { select } from "../../mixins/select";
 export default {
   mixins: [select],
   created() {},
-  mounted() {}
+  mounted() {
+    
+  }
 };
 </script>
 

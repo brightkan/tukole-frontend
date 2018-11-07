@@ -23,6 +23,7 @@ import BoqView from "./components/views/projects/boq.vue";
 import PipView from "./components/views/projects/pip.vue";
 import ProjectView from "./components/views/projects/project.vue";
 import ProjectsView from "./components/views/projects/projects.vue";
+import RequestsView from "./components/views/projects/requests.vue";
 import ProjectOverView from "./components/views/projects/projectOverview.vue";
 
 // Routes
@@ -133,21 +134,27 @@ const routes = [
             meta: { description: "List of projects", requiresAuth: false  }
           },
           {
+            path: "requests",
+            component: RequestsView,
+            name: "Projects",
+            meta: { description: "List of survey requests", requiresAuth: false  }
+          },
+          {
             path: "overview",
             component: ProjectOverView,
-            name: "Overview",
+            name: "ProjectOverview",
             meta: { description: "Project Overview", requiresAuth: false  }
           },
           {
             path: "boq",
             component: BoqView,
-            name: "BOQ",
+            name: "ProjectOverview",
             meta: { description: "List of our boq", requiresAuth: false }
           },
           {
             path: "pip",
             component: PipView,
-            name: "PIP",
+            name: "ProjectOverview",
             meta: { description: "List of our pip", requiresAuth: false }
           }
         ]

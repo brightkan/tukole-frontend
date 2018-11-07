@@ -18,7 +18,9 @@ export default {
         },
         surveyResults: [],
         sites: [],
-        listType: 'all'
+        listType: 'all',
+        requests: [],
+        requestStatus: ['accepted','pending','all']
     },
     mutations: {
         SET_SITE(state, site) {
@@ -50,7 +52,20 @@ export default {
         },
         ADD_SURVEY_RESULT(state, payload){
             state.surveyResults.push(payload);
-        }
+        },
+        SET_SITE_REQUESTS(state, payload){
+            state.requests = payload;
+        },
+        ADD_SITE_REQUEST(state, payload){
+            state.requests.push(payload);
+        },
+        DELETE_SITE_REQUEST(state, payload){
+            var index = state.requests.findIndex(site => request.id === payload.id);
+            state.requests.splice(index, 1);
+        },
+        CHANGE_LIST_TYPE(state, payLoad){
+            state.listType = payLoad
+        },
     },
     actions: {
         async loadCurrentStage({commit}, payload){
@@ -107,13 +122,40 @@ export default {
         addSurveyResult({commit}, payload){
             // some api to get image
             commit('ADD_SURVEY_RESULT', payload)
-        }
+        },
+        loadRequests({commit}, payload){
+            // some api to get image
+            commit('SET_SITE_REQUESTS', payload)
+        },
+        addRequest({commit}, payload){
+            // some api to get image
+            commit('ADD_SITE_REQUEST', payload)
+        },
+        deleteRequest({commit}, payload){
+            // some api to get image
+            commit('DELETE_SITE_REQUEST', payload)
+        },
     },
     getters: {
         getSites: (state) => {
             //logic goes here
 
             return state.sites
+        },
+        getRequests: (state) => {
+            if(state.listType === 'all'){
+                return state.requests;
+            }else{
+                let requests = [];
+                state.requestStatus.forEach(element => {
+                    if(state.listType === element.name){
+                        requests = state.requests.filter(item => {
+                            return item.status === element;
+                        });
+                    }
+                });
+                return requests;
+            }
         }
     }
 }

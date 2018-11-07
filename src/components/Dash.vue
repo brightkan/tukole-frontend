@@ -16,9 +16,65 @@
                 <input name="q" type="text" size="40" placeholder="Search..." />
               </form>
             </li>
-            <li>
+            <!-- <li>
               <a href="javascript:;">Settings</a>
+            </li> -->
+
+            <li class="dropdown notifications">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification (<b>5</b>)</a>
+              <ul class="dropdown-menu notify-drop">
+                <div class="notify-drop-title">
+                  <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">Notifications (<b>5</b>)</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="tümü okundu."><i class="fa fa-dot-circle-o"></i></a></div>
+                  </div>
+                </div>
+                <!-- end notify title -->
+                <!-- notify content -->
+                <div class="drop-content">
+                  <li>
+                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                    
+                    <hr>
+                    <p class="time">5 mins ago</p><button class="mark-read">Mark as read</button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                    <p>Lorem ipsum sit dolor amet consilium.</p>
+                    <p class="time">2 hours ago</p><button class="mark-read">Mark as read</button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                    <p>Lorem ipsum sit dolor amet consilium.</p>
+                    <p class="time">29 september 2018</p><button class="mark-read">Mark as read</button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                    <p>Lorem ipsum sit dolor amet consilium.</p>
+                    <p class="time">13:18</p><button class="mark-read">Mark as read</button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                    <p>Lorem ipsum sit dolor amet consilium.</p>
+                    <p class="time">2 weeks ago</p><button class="mark-read">Mark as read</button>
+                    </div>
+                  </li>
+                </div>
+                <div class="notify-drop-footer text-center">
+                  <a href=""><i class="fa fa-eye"></i> View More</a>
+                </div>
+              </ul>
             </li>
+
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -31,8 +87,6 @@
                   <li><a href="/" class="dropdown-item">Logout</a></li>
               </ul>
             </li>
-
-            
           </ul>
         </div>
       </nav>
@@ -286,5 +340,142 @@ hr.visible-xs-block {
 }
 .user-menu a:hover {
   background: transparent;
+}
+
+/* Notification Ui*/
+.notifications a{
+  color: #256ae1;
+}
+.notifications a.dropdown-toggle{
+  color: #fff;
+}
+.notifications.open a{
+  background-color: transparent; 
+}
+
+.nav .notifications.open > a, .nav .notifications.open > a:focus, .nav .notifications.open > a:hover {
+  background-color: transparent;
+  border: none;
+}
+
+.notifications .dropdown-menu.notify-drop {
+  min-width: 330px;
+  background-color: #fff;
+  min-height: 360px;
+  max-height: 360px;
+  box-shadow: 0 2px 2px#666;
+}
+.notifications .dropdown-menu.notify-drop .notify-drop-title {
+  border-bottom: 1px solid #e2e2e2;
+  padding: 5px 15px 10px 15px;
+}
+.notifications .dropdown-menu.notify-drop .drop-content {
+  min-height: 280px;
+  max-height: 280px;
+  overflow-y: scroll;
+}
+.notifications .dropdown-menu.notify-drop .drop-content .mark-read{
+  float: right;
+}
+.notifications .dropdown-menu.notify-drop .drop-content::-webkit-scrollbar-track
+{
+  background-color: #F5F5F5;
+}
+
+.notifications .dropdown-menu.notify-drop .drop-content::-webkit-scrollbar
+{
+  width: 8px;
+  background-color: #F5F5F5;
+}
+
+.notifications .dropdown-menu.notify-drop .drop-content::-webkit-scrollbar-thumb
+{
+  background-color: #ccc;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li {
+  border-bottom: 1px solid #e2e2e2;
+  padding: 10px 0px 5px 0px;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li:nth-child(2n+0) {
+  background-color: #fafafa;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li:hover {
+  background-color: #fcfcfc;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li:last-child {
+  border-bottom: none;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li .notify-img {
+  float: left;
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  margin: 0px 0px 8px 0px;
+}
+.notifications .dropdown-menu.notify-drop .allRead {
+  margin-right: 7px;
+}
+.notifications .dropdown-menu.notify-drop .rIcon {
+  float: right;
+  color: #999;
+}
+.notifications .dropdown-menu.notify-drop .rIcon:hover {
+  color: #333;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li a {
+  font-size: 12px;
+  font-weight: normal;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li {
+  font-weight: bold;
+  font-size: 11px;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li hr {
+  margin: 5px 0;
+  width: 70%;
+  border-color: #e2e2e2;
+}
+.notifications .dropdown-menu.notify-drop .drop-content .pd-l0 {
+  padding-left: 0;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li p {
+  font-size: 11px;
+  color: #666;
+  font-weight: normal;
+  margin: 3px 0;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li p.time {
+  font-size: 10px;
+  font-weight: 600;
+  top: -6px;
+  margin: 8px 0px 0px 0px;
+  padding: 0px 3px;
+  border: 1px solid #e2e2e2;
+  position: relative;
+  background-image: linear-gradient(#fff,#f2f2f2);
+  display: inline-block;
+  border-radius: 2px;
+  color: #B97745;
+}
+.notifications .dropdown-menu.notify-drop .drop-content > li p.time:hover {
+  background-image: linear-gradient(#fff,#fff);
+}
+.notifications .dropdown-menu.notify-drop .notify-drop-footer {
+  border-top: 1px solid #e2e2e2;
+  bottom: 0;
+  position: relative;
+  padding: 8px 15px;
+}
+.notifications .dropdown-menu.notify-drop .notify-drop-footer a {
+  color: #777;
+  text-decoration: none;
+}
+.notifications .dropdown-menu.notify-drop .notify-drop-footer a:hover {
+  color: #333;
 }
 </style>

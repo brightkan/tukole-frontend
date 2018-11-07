@@ -12,6 +12,11 @@ export default {
             status: '',
             workspace: ''
         },
+        type: {
+            type: "",
+            description: "",
+            //workspace: '',
+        },
         fleets: [],
         fleet_types: [],
         listType: 'all'
