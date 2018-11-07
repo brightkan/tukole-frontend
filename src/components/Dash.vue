@@ -70,7 +70,7 @@
                   </li>
                 </div>
                 <div class="notify-drop-footer text-center">
-                  <a href=""><i class="fa fa-eye"></i> View More</a>
+                  <a href="/dash/notifications"><i class="fa fa-eye"></i> View More</a>
                 </div>
               </ul>
             </li>

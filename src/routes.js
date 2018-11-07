@@ -25,6 +25,7 @@ import ProjectView from "./components/views/projects/project.vue";
 import ProjectsView from "./components/views/projects/projects.vue";
 import RequestsView from "./components/views/projects/requests.vue";
 import ProjectOverView from "./components/views/projects/projectOverview.vue";
+import NotificationsView from "./components/views/notifications.vue"
 
 // Routes
 const routes = [
@@ -64,6 +65,12 @@ const routes = [
         component: UserView,
         name: "Users",
         meta: { description: "List of our users", requiresAuth: false }
+      },
+      {
+        path: "notifications",
+        component: NotificationsView,
+        name: "Notifications",
+        meta: { description: "List of notifications", requiresAuth: false }
       },
       {
         path: "tools",

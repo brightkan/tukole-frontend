@@ -7,7 +7,10 @@ export default {
             // user object
         },
         users: [],
-        listType: 'all'
+        listType: 'all',
+        listTypes: [
+            'admin', 'super_admin', 'client', 'warehouse_manager', 'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc'
+        ]
     },
     mutations: {
         SET_USERS(state, users) {
@@ -33,8 +36,8 @@ export default {
         }
     },
     actions: {
-        loadUsers({ commit, rootState }) {
-            api
+        async loadUsers({ commit, rootState }) {
+            await api
                 .request("get", "users/")
                 .then(response => {
                     let users = response.data
@@ -66,6 +69,26 @@ export default {
                 .then(() => {
                     commit('DELETE_USER', payLoad)
                 });
+        }
+    },
+    getters: {
+        getUsers: (state) => {
+            if(state.listType === 'all'){
+                return state.users;
+            }else{
+                let users = [];
+                state.listTypes.forEach(element => {
+                    if(state.listType === element){
+                        users = state.users.filter(item => {
+                            return item.type === element;
+                        });
+                    }
+                });
+                return users;
+            }
+        },
+        userCount: (state) => (payload) => {
+            return state.users.filter(item => { return item.type === payload }).length
         }
     }
 }
