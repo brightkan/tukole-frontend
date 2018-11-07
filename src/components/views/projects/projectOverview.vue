@@ -3,8 +3,14 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-12">
+      <div class="comp-title col-md-8">
         <h3>{{ site.site_name }}</h3>
+      </div>
+      <div class="comp-title col-md-4">
+        <p class="pull-left">
+          <small class="text-muted">Survey Status</small>Done 
+        </p>
+        <p class="pull-right"><small class="text-muted">Site Access</small>Accessible </p>
       </div>
     </div>
     <!-- /.row -->
@@ -592,6 +598,12 @@ export default {
 </script>
 
 <style>
+.comp-title p {
+  max-width: 200px;
+}
+.comp-title p small{
+  margin-right: 15px;
+}
 #listTabs.nav > li:hover {
   border-bottom: 3px solid #256ae1;
 }
