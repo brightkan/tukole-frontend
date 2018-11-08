@@ -12,10 +12,32 @@
         <!-- login form -->
         <form @submit.prevent="checkCreds">
           <div class="input-group">
-            <input class="form-control" name="first_name" placeholder="First Name" type="text" v-model="firstname">
+            <input class="form-control" name="first_name" placeholder="First Name" type="text" v-model="user.first_name">
           </div>
           <div class="input-group">
-            <input class="form-control" name="last_name" placeholder="Last Name" type="text" v-model="lastname">
+            <input class="form-control" name="last_name" placeholder="Last Name" type="text" v-model="user.last_name">
+          </div>
+          <div class="input-group">
+            <input placeholder="email" type="email" class="form-control" v-model="user.email"/>
+          </div>
+          <div class="input-group">
+            <input placeholder="Phone Number" type="number" class="form-control" v-model="user.phone_number"/>
+          </div>
+          <div class="input-group">
+            <select placeholder="Type" class="form-control"  v-model="user.type">
+              <option value="" disabled selected>Select type</option>
+              <option v-bind:value="'admin'">admin</option>
+              <option v-bind:value="'super_admin'">Super admin</option>
+              <option v-bind:value="'employee'">Employee</option>
+              <option v-bind:value="'client'">Client</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <select placeholder="Contract type" class="form-control" v-model="user.contract_type">
+              <option value="" disabled selected>Select Contract type</option>
+              <option v-bind:value="'permanent'">Permament</option>
+              <option v-bind:value="'temporary'">Temporary</option>
+            </select>
           </div>
           <div class="col-md-12 btn-wrapper">
             <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Next</button>
@@ -36,9 +58,14 @@ export default {
     return {
       section: 'SignUp',
       loading: '',
-      firstname: '',
-      lastname: '',
-      response: ''
+      user: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        type: '',
+        contract_type: '',
+        phone_number:  ''
+      }
     }
   },
   computed: {
@@ -53,21 +80,17 @@ export default {
   },
   methods: {
     checkCreds() {
-      const { firstname, lastname } = this
+      const { user } = this
 
       this.toggleLoading()
-      this.resetResponse()
       this.$store.commit('TOGGLE_LOADING')
 
-      this.$store.commit('SET_USER', {firstname: firstname, lastname: lastname})
+      this.$store.commit('SET_USER', user)
 
       this.$router.push('/signup_confirm')
     },
     toggleLoading() {
       this.loading = this.loading === '' ? 'loading' : ''
-    },
-    resetResponse() {
-      this.response = ''
     }
   }
 }
@@ -76,6 +99,12 @@ export default {
 <style>
 .auth .card h4 a{
   color: #5a89da;
+}
+option[value=""][disabled] {
+  display: none;
+}
+option {
+  color: #999;
 }
 </style>
 

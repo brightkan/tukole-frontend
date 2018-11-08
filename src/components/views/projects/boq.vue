@@ -95,6 +95,7 @@ export default {
   padding: 36px;
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  width: 100%;
 }
 .boq-list h3 {
   margin-top: 0;

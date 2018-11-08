@@ -1,40 +1,45 @@
 <template>
   <ul class="sidebar-menu">
-    <router-link tag="li" class="pageLink" to="/dash">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash">
       <a>
         <i class="fas fa-tachometer-alt"></i>
         <span class="page">Overview</span>
       </a>
     </router-link>
-
     <router-link tag="li" class="pageLink" to="/dash/project">
       <a>
         <i class="fa fa-calendar"></i>
         <span class="page">Sites</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/dash/equipment_dash">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/equipment_dash">
       <a>
         <i class="fa fa-table"></i>
         <span class="page">Fleet and Machinery</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/dash/material">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/material">
       <a>
         <i class="fa fa-table"></i>
         <span class="page">Material</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/dash/tools">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/tools">
       <a>
         <i class="fa fa-tasks"></i>
         <span class="page">Tools</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/dash/users">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/users">
       <a>
         <i class="fa fa-users"></i>
         <span class="page">Users</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/dash/notifications">
+      <a>
+        <i class="fas fa-bell"></i>
+        <span class="page">Notifications</span>
       </a>
     </router-link>
   </ul>

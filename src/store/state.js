@@ -4,6 +4,7 @@ export default {
   serverURI: 'http://10.110.1.136:8080',
   user: null,
   token: null,
+  user_type: 'admin',
   workspace: {
     id: null,
     name: null,

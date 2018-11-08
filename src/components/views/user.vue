@@ -56,6 +56,7 @@
               <td><span class="dot"></span></td>
               <td>Name</td>
               <td>Contact</td>
+              <td>Email</td>
               <td>Role</td>
               <td>Creation Date</td>
               <td></td>
@@ -66,6 +67,7 @@
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ user.first_name }} {{ user.last_name}}</td>
               <td>{{ user.phone_number }}</td>
+              <td>{{ user.email }}</td>
               <td>{{ user.type }}</td>
               <td>12. 08. 2018</td>
               <td class="text-right">
@@ -109,6 +111,9 @@
                 <label>Type</label>
                 <select class="form-control"  v-model="user.type">
                   <option v-bind:value="'admin'">admin</option>
+                  <option v-bind:value="'super_admin'">Super admin</option>
+                  <option v-bind:value="'employee'">Employee</option>
+                  <option v-bind:value="'client'">Client</option>
                 </select>
               </div>
               <div class="form-group">
@@ -148,13 +153,12 @@ export default {
     return {
       editMode: false,
       user: {
-        first_name: '',
-        last_name: '',
-        email: '',
-        type: '',
-        contract_type: '',
-        phone_number: '',
-        password: '12345',
+        first_name: "",
+        last_name: "",
+        email: "",
+        type: "",
+        contract_type: "",
+        phone_number: "",
         workspace: window.localStorage.getItem("workspace")
       }
     };
@@ -172,7 +176,7 @@ export default {
       if(this.editMode){
         this.$store.dispatch("users/updateUser", user);
       }else{
-        this.$store.dispatch("users/addUser", user);
+        this.$store.dispatch("users/inviteUser", user);
       }
     },
     filter(type){

@@ -21,22 +21,24 @@
         </label>
       </div>
 
-      <div class="comp-title col-md-5">
+      <div class="comp-title" v-bind:class="$store.state.user_type != 'client' ? 'col-md-5' : 'col-md-7'">
         <form method="get" action="/search" class="fleet_search">
           <input name="q" type="text" size="40" placeholder="Search..." />
         </form>
       </div>
 
-      <div class="comp-title col-md-2">
+      <div v-if="$store.state.user_type != 'client'" class="comp-title col-md-2">
         <button type="button" data-toggle="modal" data-target="#addSite" v-on:click="resetSite()">
           Add Site
         </button>
       </div>
+
+
     </div>
     <!-- /.row -->
 
     <div class="row">
-      <div class="col-md-4 site" v-for="site in sites" :key="site.id">
+      <div class="col-md-4 site" v-for="site in getSites" :key="site.id">
         <a v-on:click="selectSite(site)">
           <div class="project-card" v-bind:class="site.id == selectedSite ? 'active' : ''">
           <h3>{{ site.site_name }}</h3>

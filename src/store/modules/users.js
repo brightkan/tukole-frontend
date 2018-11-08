@@ -54,6 +54,15 @@ export default {
                     commit('ADD_USER', user)
                 });
         },
+        inviteUser({ commit, rootState }, payLoad) {
+            api
+                .request("post", "users/invite/", payLoad)
+                .then(response => {
+                    let user = response.data;
+
+                    commit('ADD_USER', user)
+                });
+        },
         updateUser({ commit, state, rootState }, payLoad) {
             api
                 .request("patch", "users/"+payLoad.id+"/", payLoad)

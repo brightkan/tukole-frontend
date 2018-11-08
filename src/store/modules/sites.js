@@ -19,7 +19,7 @@ export default {
         surveyResults: [],
         sites: [],
         listType: 'all',
-        requests: [],
+        requestListType: 'all',
         requestStatus: ['accepted','pending','all'],
         siteRoles: [],
         siteFleets: []
@@ -33,9 +33,6 @@ export default {
         },
         ADD_SITE(state, site) {
             state.sites.push(site)
-        },
-        CHANGE_LIST_TYPE(state, payLoad){
-            state.listType = payLoad
         },
         DELETE_SITE(state, payload){
             var index = state.sites.findIndex(site => site.id === payload.id);
@@ -55,18 +52,11 @@ export default {
         ADD_SURVEY_RESULT(state, payload){
             state.surveyResults.push(payload);
         },
-        SET_SITE_REQUESTS(state, payload){
-            state.requests = payload;
-        },
-        ADD_SITE_REQUEST(state, payload){
-            state.requests.push(payload);
-        },
-        DELETE_SITE_REQUEST(state, payload){
-            var index = state.requests.findIndex(request => request.id === payload.id);
-            state.requests.splice(index, 1);
-        },
         CHANGE_LIST_TYPE(state, payLoad){
             state.listType = payLoad
+        },
+        CHANGE_REQUEST_LIST(state, payLoad){
+            state.requestListType = payLoad
         },
         SET_SITE_ROLES(state, payload){
             state.siteRoles = payload;
@@ -133,7 +123,7 @@ export default {
         },
         deleteSite({commit}, payload){
             api
-                .request("delete", "sites/"+payload.id+"/")
+                .request("patch", "sites/"+payload.id+"/", {site_deleted: true})
                 .then(() => {
                     commit('DELETE_SITE', payload)
                 });
@@ -243,21 +233,21 @@ export default {
         getSites: (state) => {
             //logic goes here
 
-            return state.sites
+            return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
         },
         getRequests: (state) => {
-            if(state.listType === 'all'){
-                return state.requests;
+            if(state.requestListType === 'all'){
+                return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
             }else{
                 let requests = [];
                 state.requestStatus.forEach(element => {
-                    if(state.listType === element.name){
-                        requests = state.requests.filter(item => {
-                            return item.status === element;
-                        });
+                    if(state.requestListType === 'pending'){
+                        requests = state.sites.filter(item => !item.ackStatus);
+                    }else if(state.requestListType === 'accepted'){
+                        requests = state.sites.filter(item => item.ackStatus);
                     }
                 });
-                return requests;
+                return requests.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
             }
         }
     }

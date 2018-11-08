@@ -5,6 +5,7 @@ import CreateWorkSpaceView from './components/auth/CreateWorkSpace.vue'
 import UserSignUpView from "./components/auth/UserSignUp.vue";
 import SignUpConfirmView from "./components/auth/SignUpConfirm.vue";
 import LoginView from "./components/auth/Login.vue";
+import AddPasswordView from "./components/auth/addPassword.vue";
 import SelectWorkSpaceView from "./components/auth/SelectWorkSpace.vue";
 
 // Import Views - Dash
@@ -48,6 +49,10 @@ const routes = [
   {
     path: "/signup_confirm",
     component: SignUpConfirmView
+  },
+  {
+    path: "/users/accept/:id/",
+    component: AddPasswordView
   },
   {
     path: "/dash",

@@ -55,16 +55,16 @@
       <div class="col-md-4">
         <div class="box">
           <div class="container">
-            <ul id="myTabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
-              <li class="active">
-                <a href="#Vechicles" data-toggle="tab">Vehicles</a></li>
+            <ul id="myTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
+              <li>
+                <a class="active show" href="#Vechicles" data-toggle="tab">Vehicles</a></li>
               <li>
                 <a href="#Machines" data-toggle="tab">Machines</a></li>
               <li>
                 <a href="#Tools" data-toggle="tab">Tools</a></li>
             </ul>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="Vechicles">
+              <div role="tabpanel" class="tab-pane fade show active" id="Vechicles">
                 <div id="canvas-vechicles" style="margin-top: 23px">
                   <canvas id="chart-vechicles" height="200" width="200"></canvas>
                 </div>
@@ -396,20 +396,21 @@ export default {
   width: 100%;
 }
 
-.box .container .nav-pills {
+.box .container .nav-tabs {
   background: transparent;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.box .container .nav-pills li > a {
+.box .container .nav-tabs li > a {
   color: #bdbdbd;
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
   font-weight: 700;
   line-height: 13px;
+  padding: 0 15px;
 }
 
-.box .container .nav-pills li.active > a {
+.box .container .nav-tabs li > a.active {
   border-bottom: 3px solid #256ae1;
   background: transparent;
   border-top: none;

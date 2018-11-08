@@ -13,9 +13,9 @@
           <div id="img_category" class="psuedo_select" name="img_category">
             <span class="selected"></span>
             <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1">Accepted</li>
-              <li class="option" data-value="opt_2">Pending</li>
-              <li class="option" data-value="opt_3">All</li>
+              <li class="option" data-value="opt_1" v-on:click="filter('all')">All</li>
+              <li class="option" data-value="opt_2" v-on:click="filter('accepted')">Accepted</li>
+              <li class="option" data-value="opt_3" v-on:click="filter('pending')">Pending</li>
             </ul>
           </div>
         </label>
@@ -25,7 +25,8 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addRequest" v-on:click="resetRequest()">
+        <button v-if="$store.state.user_type == 'client' || $store.state.user_type == 'admin'" 
+          type="button" data-toggle="modal" data-target="#addRequest" v-on:click="resetRequest()">
           Add Request
         </button>
       </div>
@@ -46,11 +47,11 @@
           <tbody>
             <tr v-for="request in getRequests" :key="request.id">
               <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ request.name }}</td>
+              <td><span class="oval"></span>{{ request.site_name }}</td>
               <td>12. 08. 2018</td>
               <td class="text-right">
-                <a>Accept</a>
-                <i class="fa fa-times" v-on:click="deleteRequest(request)"></i>
+                <button v-if="!request.ackStatus" v-on:click="ackSite(site)">Acknowledge site</button>
+                <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteRequest(request)"></i>
               </td>
             </tr>
             <tr v-if="getRequests.length <= 0">
@@ -75,15 +76,15 @@
             <form>
               <div class="form-group">
                 <label>Request Name</label>
-                <input type="text" class="form-control" v-model="request.name"/>
+                <input type="text" class="form-control" v-model="site.site_name"/>
               </div>
               <div class="form-group">
                 <label>Location Latitude</label>
-                <input type="number" class="form-control" v-model="request.location_lat"/>
+                <input type="number" class="form-control" v-model="site.location_lat"/>
               </div>
               <div class="form-group">
                 <label>Location longitude</label>
-                <input type="number" class="form-control" v-model="request.location_long"/>
+                <input type="number" class="form-control" v-model="site.location_long"/>
               </div>
               <div class="form-group">
                 <label>Select Surveyor</label>
@@ -95,7 +96,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveRequest" data-dismiss="modal">
+            <button type="button" class="btn btn-primary" v-on:click="saveSite" data-dismiss="modal">
               Add Request
             </button>
           </div>
@@ -115,39 +116,61 @@ export default {
   mixins: [select],
   data(router) {
     return {
-      request: {
-        name: "",
+      selectedSite: window.localStorage.getItem("selectsite"),
+      editMode: false,
+      site: {
+        site_name: "",
         location_lat: "",
         location_long: "",
+        archivedStatus: false,
+        clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        ackStatus: false,
         workspace: window.localStorage.getItem("workspace"),
       }
     };
   },
   mounted() {
-    //this.$store.dispatch("sites/loadRequests");
+    this.$store.dispatch("sites/loadSites");
   },
   computed: {
-    ...mapState('sites',["requests"]),
+    ...mapState('sites',["sites"]),
     ...mapGetters('sites', ['getRequests'])
   },
   methods: {
-    saveRequest() {
-      const { request } = this;
-      this.$store.dispatch("sites/addRequest", request);
-    },
-    deleteRequest(request){
-      if (confirm(`are you sure you want to delete ${request.name}?`)) {
-          this.$store.dispatch("sites/deleteRequest", request);
+    saveSite() {
+      const { site } = this;
+      if(this.editMode){
+        this.$store.dispatch("sites/updateSite", site);
+      }else{
+        this.$store.dispatch("sites/addSite", site);
       }
     },
-    resetRequest(){
-      this.request = {
-        name: "",
+    ackSite(site){
+      this.editMode = true;
+      this.site = Object.assign({}, site);
+      this.site.ackStatus = true;
+      this.saveSite();
+    },
+    deleteSite(site){
+      if (confirm(`are you sure you want to delete ${site.site_name}?`)) {
+          this.$store.dispatch("sites/deleteSite", site);
+      }
+    },
+    resetSite(){
+      this.editMode = false;
+      this.site = {
+        site_name: "",
         location_lat: "",
         location_long: "",
+        archivedStatus: false,
+        clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        ackStatus: false,
         workspace: window.localStorage.getItem("workspace"),
       }
-    }
+    },
+    filter(type){
+      this.$store.commit('sites/CHANGE_REQUEST_LIST', type)
+    },
   }
 };
 </script>

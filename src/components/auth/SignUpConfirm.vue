@@ -61,10 +61,10 @@ export default {
       let reqObj = {
         first_name: this.$store.state.user.firstname,
         last_name: this.$store.state.user.lastname,
-        email: email,
-        type: 'admin',
-        contract_type: 'permanent',
-        phone_number: '0701618576',
+        email: this.$store.state.user.email,
+        type: this.$store.state.user.type,
+        contract_type: this.$store.state.user.contract_type,
+        phone_number:  this.$store.state.user.phone_number,
         workspace: (JSON.parse(window.localStorage.getItem('workspace'))).id,
         password: password
       };

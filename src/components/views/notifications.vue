@@ -18,37 +18,37 @@
     <div class="row">
       <div class="col-md-12">
           <ul class="notifications-list">
-            <li>
+            <li class="row">
               <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
               <hr>
               <p class="time">5 mins ago</p><button class="mark-read">Mark as read</button>
               </div>
             </li>
-            <li>
+            <li class="row">
               <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
               <p>Lorem ipsum sit dolor amet consilium.</p>
               <p class="time">2 hours ago</p><button class="mark-read">Mark as read</button>
               </div>
             </li>
-            <li>
+            <li class="row">
               <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
               <p>Lorem ipsum sit dolor amet consilium.</p>
               <p class="time">29 september 2018</p><button class="mark-read">Mark as read</button>
               </div>
             </li>
-            <li>
+            <li class="row">
               <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
               <p>Lorem ipsum sit dolor amet consilium.</p>
               <p class="time">13:18</p><button class="mark-read">Mark as read</button>
               </div>
             </li>
-            <li>
+            <li class="row">
               <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
               <p>Lorem ipsum sit dolor amet consilium.</p>
               <p class="time">2 weeks ago</p><button class="mark-read">Mark as read</button>
               </div>
@@ -82,8 +82,14 @@ export default {
   list-style: none;
   padding: 0;
 }
+.notifications-list  > .row{
+  margin-bottom: 5px;
+}
 .notifications-list .mark-read{
   float: right;
+  box-shadow: none;
+  border: 1px solid #666;
+  border-radius: 5px;
 }
 .notifications-list::-webkit-scrollbar-track
 {
@@ -123,7 +129,7 @@ export default {
   display: inline-block;
   width: 45px;
   height: 45px;
-  margin: 0px 0px 8px 0px;
+  margin: 10px;
 }
 .notifications-list > li a {
   font-size: 12px;
@@ -135,7 +141,7 @@ export default {
 }
 .notifications-list > li hr {
   margin: 5px 0;
-  width: 70%;
+  width: 100%;
   border-color: #e2e2e2;
 }
 .notifications-list .pd-l0 {

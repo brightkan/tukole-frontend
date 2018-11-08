@@ -32,38 +32,37 @@
                 <!-- end notify title -->
                 <!-- notify content -->
                 <div class="drop-content">
-                  <li>
-                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-                    
+                  <li class="row">
+                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
                     <hr>
                     <p class="time">5 mins ago</p><button class="mark-read">Mark as read</button>
                     </div>
                   </li>
-                  <li>
-                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                  <li class="row">
+                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
                     <p>Lorem ipsum sit dolor amet consilium.</p>
                     <p class="time">2 hours ago</p><button class="mark-read">Mark as read</button>
                     </div>
                   </li>
-                  <li>
-                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                  <li class="row">
+                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
                     <p>Lorem ipsum sit dolor amet consilium.</p>
                     <p class="time">29 september 2018</p><button class="mark-read">Mark as read</button>
                     </div>
                   </li>
-                  <li>
-                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                  <li class="row">
+                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
                     <p>Lorem ipsum sit dolor amet consilium.</p>
                     <p class="time">13:18</p><button class="mark-read">Mark as read</button>
                     </div>
                   </li>
-                  <li>
-                    <div class="col-md-3 col-sm-3 col-xs-3"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 col-sm-9 col-xs-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
+                  <li class="row">
+                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
+                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
                     <p>Lorem ipsum sit dolor amet consilium.</p>
                     <p class="time">2 weeks ago</p><button class="mark-read">Mark as read</button>
                     </div>
@@ -160,6 +159,9 @@ export default {
 </script>
 
 <style>
+.main-header .sidebar-toggle {
+    padding: 0 15px;
+}
 .main-header{
   position: fixed;
   width: 100%;
@@ -181,9 +183,14 @@ export default {
 .dropdown.user.user-menu.open a {
   background: transparent;
 }
+.navbar-custom-menu > .navbar-nav{
+  display: block;
+};
+.navbar-custom-menu > .navbar-nav > li {
+    display: inline-block;
+}
 
 .navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
-  padding: 5px;
   font-size: 16px;
   width: 50%;
 }
@@ -268,7 +275,6 @@ hr.visible-xs-block {
 
 #nav_search {
   padding: 0;
-  margin-top: 12px;
   margin-right: 45px;
 }
 
@@ -342,6 +348,13 @@ hr.visible-xs-block {
   background: transparent;
 }
 
+.navbar-nav > .user-menu .user-image{
+  margin-top: 0
+}
+.dropdown-menu{
+  margin-top: 15px;
+}
+
 /* Notification Ui*/
 .notifications a{
   color: #256ae1;
@@ -376,6 +389,9 @@ hr.visible-xs-block {
 }
 .notifications .dropdown-menu.notify-drop .drop-content .mark-read{
   float: right;
+  box-shadow: none;
+  border: 1px solid #666;
+  border-radius: 5px;
 }
 .notifications .dropdown-menu.notify-drop .drop-content::-webkit-scrollbar-track
 {
@@ -395,6 +411,8 @@ hr.visible-xs-block {
 .notifications .dropdown-menu.notify-drop .drop-content > li {
   border-bottom: 1px solid #e2e2e2;
   padding: 10px 0px 5px 0px;
+  width: 100%;
+  margin: 0;
 }
 .notifications .dropdown-menu.notify-drop .drop-content > li:nth-child(2n+0) {
   background-color: #fafafa;
@@ -437,11 +455,14 @@ hr.visible-xs-block {
 }
 .notifications .dropdown-menu.notify-drop .drop-content > li hr {
   margin: 5px 0;
-  width: 70%;
+  width: 100%;
   border-color: #e2e2e2;
 }
 .notifications .dropdown-menu.notify-drop .drop-content .pd-l0 {
   padding-left: 0;
+}
+.notifications .dropdown-menu.notify-drop .drop-content .ld-l0 {
+  padding-right: 0;
 }
 .notifications .dropdown-menu.notify-drop .drop-content > li p {
   font-size: 11px;

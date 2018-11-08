@@ -7,10 +7,10 @@
         <h3>{{ site.site_name }}</h3>
       </div>
       <div class="comp-title col-md-4">
-        <p class="pull-left">
+        <p class="float-left">
           <small class="text-muted">Survey Status</small>Done 
         </p>
-        <p class="pull-right"><small class="text-muted">Site Access</small>Accessible </p>
+        <p class="float-right"><small class="text-muted">Site Access</small>Accessible </p>
       </div>
     </div>
     <!-- /.row -->
@@ -142,14 +142,14 @@ fiber cable was laid.
     <div class="row _projects">
       <div class="col-md-12">
         <div class="project-roles-box">
-            <ul id="listTabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
-              <li class="active"><a href="#Commentary" data-toggle="tab">Team</a></li>
-              <li><a href="#Videos" data-toggle="tab" v-on:click="loadSiteFleets()">Fleet</a></li>
-              <li><a href="#Events" data-toggle="tab">Tool</a></li>
-              <li><a href="#Machinery" data-toggle="tab">Machinery</a></li>
+            <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
+              <li><a class="active" href="#Commentary" data-toggle="tab" role="tab">Team</a></li>
+              <li><a href="#Videos" data-toggle="tab" role="tab" v-on:click="loadSiteFleets()">Fleet</a></li>
+              <li><a href="#Events" data-toggle="tab" role="tab">Tool</a></li>
+              <li><a href="#Machinery" data-toggle="tab" role="tab">Machinery</a></li>
             </ul>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="Commentary">
+              <div role="tabpanel" class="tab-pane fade show active" id="Commentary">
                 <div class="row">
                   <div class="col-md-5"></div>
 
@@ -604,7 +604,7 @@ export default {
 .comp-title p small{
   margin-right: 15px;
 }
-#listTabs.nav > li:hover {
+#listTabs.nav > li:hover a {
   border-bottom: 3px solid #256ae1;
 }
 #listTabs.nav > li > a {
@@ -724,15 +724,15 @@ export default {
   padding: 27px 38px;
 }
 
-.project-roles-box .nav-justified > li {
-  display: inline-table;
+.project-roles-box .nav-tabs > li > a{
+  padding: 0px 15px;
 }
 
 .project-roles-box .nav-justified {
   border-bottom: 2px solid #e0e0e0;
 }
 
-.project-roles-box .nav-justified > li.active {
+.project-roles-box .nav-tabs > li a.active {
   border-bottom: 3px solid #256ae1;
 }
 .nav-pills > li.active > a,

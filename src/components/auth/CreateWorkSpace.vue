@@ -94,7 +94,6 @@ export default {
 <style>
 html{
   background-color: #f5f5f5;
-  background-image: url('http://laoblogger.com/images/fiber-background-clipart-2.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;

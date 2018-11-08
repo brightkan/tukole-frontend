@@ -27,3 +27,12 @@
     }
   }
 </script>
+<style>
+  #app{
+    height: 100%;
+  }
+  #app > .row{
+    height: 100%;
+  }
+</style>
+
