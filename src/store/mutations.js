@@ -16,5 +16,8 @@ export default {
   },
   SET_WORKSPACES (state, workspaces){
     state.workspaces = workspaces
-  }
+  },
+  SET_USER_TYPE (state, user_type){
+    state.user_type = user_type
+  },
 }

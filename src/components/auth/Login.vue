@@ -7,7 +7,7 @@
         <form @submit.prevent="checkCreds">
           <div class="form-group">
             <label>Workspace Name</label>
-            <input class="form-control" name="wk_name" type="text" v-model="wk_name">
+            <input class="form-control" name="wk_name" type="text" v-model="workspace">
           </div>
 
           <div class="form-group">
@@ -41,7 +41,7 @@
           <div class="overlay-effect h-100 w-100">
             <div class="container">
             <div class="carousel-caption text-left">
-              <h1>Example headline.</h1>
+              <h1>Soliton Uganda</h1>
             </div>
           </div>
           </div>
@@ -68,6 +68,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -82,13 +83,13 @@ export default {
       loading: "",
       email: "",
       password: "",
-      wk_name: "",
+      workspace: "",
       response: ""
     };
   },
   methods: {
     checkCreds() {
-      const { email, password } = this;
+      const { email, password, workspace } = this;
 
       this.toggleLoading();
       this.resetResponse();
@@ -96,7 +97,7 @@ export default {
 
       /* Making API call to authenticate a user */
       api
-        .request("post", "token/", { email, password })
+        .request("post", "token/", { email, password, workspace })
         .then(response => {
           this.toggleLoading();
 
@@ -113,9 +114,19 @@ export default {
               window.localStorage.setItem("user", JSON.stringify(data));
             }
 
-            console.log(data);
+            this.$store.commit("SET_USER_TYPE", data.user_type);
 
-            this.$router.push("/select_workspace");
+            if(data.part_of_workspace){
+              window.localStorage.setItem("workspace", data.workspace)
+              if(data.user_type === 'client'){
+                this.$router.push('/dash/project/projects')
+              }{
+                window.location.href = "/dash";
+              }
+              
+            }else{
+              this.response = "Error, check your workspace";
+            }
 
             this.$store.commit("TOGGLE_LOADING");
           }
@@ -154,7 +165,7 @@ body {
 
 /* Carousel base class */
 .carousel {
-  height: 100%;
+  height: 100vh;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -164,6 +175,17 @@ body {
 
 .carousel-inner {
   height: 100%;
+}
+
+.carousel-indicators li {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.carousel-indicators li.active {
+  width: 30px;
+  border-radius: 50px;
 }
 
 /* Declare heights because of positioning of img element */
@@ -207,6 +229,13 @@ body {
 }
 
 .auth-form  h3{
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #256AE1;
+}
+
+.auth-form  h4{
+  font-size: 16px;
   margin-bottom: 30px;
   font-weight: bold;
   color: #256AE1;
