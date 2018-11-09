@@ -95,7 +95,7 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <router-view :someProp="currentRoute" v-on:customEventForValChange="handleCustomEvent"></router-view>
+      <router-view></router-view>
     </div>
     <!-- /.content-wrapper -->
 
@@ -129,9 +129,6 @@ export default {
         hide_logo: config.hideLogoOnMobile
       },
       error: "",
-      currentRoute: {
-        urlPath: null
-      }
     };
   },
   computed: {
@@ -146,15 +143,14 @@ export default {
     }
   },
   methods: {
-    changeloading() {
-      this.$store.commit("TOGGLE_SEARCHING");
-    },
-    handleCustomEvent(newVal) {
-      this.$set(this.currentRoute, "urlPath", newVal);
-      /* this.currentRoute = newVal; */
-    }
   },
-  mounted() {}
+  mounted() {
+    if(this.$store.state.user_type === 'client'){
+      this.$router.push('/dash/project');
+    }else{
+      this.$router.push('/dash/dashboard');
+    }
+  }
 };
 </script>
 

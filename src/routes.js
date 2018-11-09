@@ -60,7 +60,6 @@ const routes = [
     children: [
       {
         path: "dashboard",
-        alias: "",
         component: DashboardView,
         name: "Dashboard",
         meta: { description: "Overview of environment", requiresAuth: false }
@@ -143,31 +142,31 @@ const routes = [
             path: "projects",
             component: ProjectsView,
             name: "Projects",
-            meta: { description: "List of projects", requiresAuth: false  }
+            meta: { description: "List of projects", requiresAuth: false, type: 'Projects' }
           },
           {
             path: "requests",
             component: RequestsView,
-            name: "Projects",
-            meta: { description: "List of survey requests", requiresAuth: false  }
+            name: "Requests",
+            meta: { description: "List of survey requests", requiresAuth: false, type: 'Projects' }
           },
           {
             path: "overview",
             component: ProjectOverView,
-            name: "ProjectOverview",
-            meta: { description: "Project Overview", requiresAuth: false  }
+            name: "Overview",
+            meta: { description: "Project Overview", requiresAuth: false, type: 'ProjectOverview' }
           },
           {
             path: "boq",
             component: BoqView,
-            name: "ProjectOverview",
-            meta: { description: "List of our boq", requiresAuth: false }
+            name: "Boq",
+            meta: { description: "List of our boq", requiresAuth: false, type: 'ProjectOverview' }
           },
           {
             path: "pip",
             component: PipView,
-            name: "ProjectOverview",
-            meta: { description: "List of our pip", requiresAuth: false }
+            name: "PIP",
+            meta: { description: "List of our pip", requiresAuth: false, type: 'ProjectOverview' }
           }
         ]
       }

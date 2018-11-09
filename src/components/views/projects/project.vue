@@ -3,27 +3,27 @@
   <section class="content-header">
     <div class="toolbar">
       <ul>
-        <router-link tag="li" to="/dash/project/overview" v-if="this.$route.name == 'ProjectOverview'">
+        <router-link tag="li" to="/dash/project/overview" v-if="this.$route.meta.type == 'ProjectOverview'">
           <a href="#"> 
             Overview
           </a>
         </router-link>  
-        <router-link tag="li" to="/dash/project/boq" v-if="this.$route.name == 'ProjectOverview'">
+        <router-link tag="li" to="/dash/project/boq" v-if="this.$route.meta.type == 'ProjectOverview'">
           <a href="#">
             BOQ
           </a>
         </router-link>  
-        <router-link tag="li" to="/dash/project/pip" v-if="this.$route.name == 'ProjectOverview'">
+        <router-link tag="li" to="/dash/project/pip" v-if="this.$route.meta.type == 'ProjectOverview'">
           <a href="#">
             PIP
           </a>
         </router-link>  
-        <router-link tag="li" to="/dash/project/projects" v-if="this.$route.name == 'Projects'">
+        <router-link tag="li" to="/dash/project/projects" v-if="this.$route.meta.type == 'Projects'">
           <a href="#">
             Current Sites
           </a>
         </router-link>  
-        <router-link tag="li" to="/dash/project/requests" v-if="this.$route.name == 'Projects'">
+        <router-link tag="li" to="/dash/project/requests" v-if="this.$route.meta.type == 'Projects'">
           <a href="#">
             Survey Requests
           </a>
@@ -46,7 +46,6 @@ export default {
   mixins: [select],
   created() {},
   mounted() {
-    
   }
 };
 </script>

@@ -118,12 +118,7 @@ export default {
 
             if(data.part_of_workspace){
               window.localStorage.setItem("workspace", data.workspace)
-              if(data.user_type === 'client'){
-                this.$router.push('/dash/project/projects')
-              }{
-                window.location.href = "/dash";
-              }
-              
+              this.$router.push('/dash')
             }else{
               this.response = "Error, check your workspace";
             }
