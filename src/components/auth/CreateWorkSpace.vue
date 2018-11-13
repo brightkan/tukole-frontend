@@ -107,7 +107,7 @@ export default {
               window.localStorage.setItem('workspace', JSON.stringify(data))
             }
 
-            this.$router.push(data.redirect ? data.redirect : '/signup')
+            this.$router.push('/signup')
           }
         })
         .catch(error => {

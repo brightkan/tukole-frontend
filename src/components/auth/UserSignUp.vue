@@ -23,24 +23,6 @@
             <label>Phone Number</label>
             <input type="number" class="form-control" v-model="user.phone_number"/>
           </div>
-          <div class="form-group">
-            <label>User type</label>
-            <select placeholder="Type" class="form-control"  v-model="user.type">
-              <option value="" disabled selected>Select type</option>
-              <option v-bind:value="'admin'">admin</option>
-              <option v-bind:value="'super_admin'">Super admin</option>
-              <option v-bind:value="'employee'">Employee</option>
-              <option v-bind:value="'client'">Client</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Contract type</label>
-            <select placeholder="Contract type" class="form-control" v-model="user.contract_type">
-              <option value="" disabled selected>Select Contract type</option>
-              <option v-bind:value="'permanent'">Permament</option>
-              <option v-bind:value="'temporary'">Temporary</option>
-            </select>
-          </div>
 
           <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
             :disabled="loading == 'loading'">
@@ -106,8 +88,8 @@ export default {
         first_name: '',
         last_name: '',
         email: '',
-        type: '',
-        contract_type: '',
+        type: 'admin',
+        contract_type: 'permanent',
         phone_number:  ''
       }
     }

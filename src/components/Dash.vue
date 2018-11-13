@@ -145,7 +145,8 @@ export default {
   methods: {
   },
   mounted() {
-    if(this.$store.state.user_type === 'client'){
+    this.$store.commit("SET_USER_TYPE", window.localStorage.getItem('clientType'));
+    if(window.localStorage.getItem('clientType') === 'client'){
       this.$router.push('/dash/project');
     }else{
       this.$router.push('/dash/dashboard');

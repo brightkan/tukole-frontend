@@ -22,7 +22,8 @@ export default {
         requestListType: 'all',
         requestStatus: ['accepted','pending','all'],
         siteRoles: [],
-        siteFleets: []
+        siteFleets: [],
+        siteTools: []
     },
     mutations: {
         SET_SITE(state, site) {
@@ -77,6 +78,16 @@ export default {
         DELETE_SITE_FLEET(state, payload){
             var index = state.siteFleets.findIndex(siteFleet => siteFleet.id === payload.id);
             state.siteFleets.splice(index, 1);
+        },
+        SET_SITE_TOOLS(state, payload){
+            state.siteTools = payload;
+        },
+        ADD_SITE_TOOL(state, payload){
+            state.siteTools.push(payload);
+        },
+        DELETE_SITE_TOOL(state, payload){
+            var index = state.siteTools.findIndex(siteTool => siteTool.id === payload.id);
+            state.siteTools.splice(index, 1);
         }
     },
     actions: {
@@ -227,17 +238,67 @@ export default {
                 .then(() => {
                     commit('DELETE_SITE_FLEET', payload)
                 });
+        },
+
+
+
+        async loadSiteTools({dispatch, commit, rootState}, payload){
+            await dispatch("tools/loadTools",{}, {root:true});
+            await api
+                .request("get", "sitetools/?site="+payload)
+                .then((response) => {
+                    let sitetools = response.data.map(item => {
+                        let siteTool = item;
+                        rootState.tools.tools.forEach(tool => {
+                            if(item.tool === tool.id){
+                                siteTool.tool = tool;
+                            }
+                        })
+                        return siteTool;
+                    });
+                    commit('SET_SITE_TOOLS', sitetools)
+                });
+        },
+        addSiteTool({commit, rootState}, payload){
+            api
+                .request("post", "sitetools/", payload)
+                .then(response => {
+                    let siteTool = response.data;
+
+                    rootState.tools.tools.forEach(tool => {
+                        if(siteTool.tool === tool.id){
+                            siteTool.tool =  tool;
+                        }
+                    })
+
+                    commit('ADD_SITE_TOOL', siteTool)
+                });
+        },
+        deleteSiteTool({commit}, payload){
+            api
+                .request("delete", "sitetools/"+payload.id+"/")
+                .then(() => {
+                    commit('DELETE_SITE_TOOL', payload)
+                });
         }
     },
     getters: {
         getSites: (state) => {
             //logic goes here
 
-            return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
+            if(window.localStorage.getItem('clientType') === 'client'){
+                return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus);
+            }else{
+                return state.sites.filter(item => item.ackStatus);
+            }   
         },
         getRequests: (state) => {
             if(state.requestListType === 'all'){
-                return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
+                if(window.localStorage.getItem('clientType') === 'client'){
+                    return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
+                }else{
+                    return state.sites;
+                }   
             }else{
                 let requests = [];
                 state.requestStatus.forEach(element => {
@@ -247,7 +308,14 @@ export default {
                         requests = state.sites.filter(item => item.ackStatus);
                     }
                 });
-                return requests.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
+
+                if(window.localStorage.getItem('clientType') === 'client'){
+                    return requests.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
+                }else{
+                    return requests;
+                }   
+
+                
             }
         }
     }

@@ -3,14 +3,14 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-8">
+      <div class="comp-title col-md-6">
         <h3>{{ site.site_name }}</h3>
       </div>
-      <div class="comp-title col-md-4">
+      <div class="comp-title col-md-6">
         <p class="float-left">
-          <small class="text-muted">Survey Status</small>Done 
+          <small class="text-muted">Survey Status</small> {{ site.site_surveyed ? 'Complete': 'Not Complete'}} 
         </p>
-        <p class="float-right"><small class="text-muted">Site Access</small>Accessible </p>
+        <p class="float-right"><small class="text-muted">Site Access</small> {{ site.site_accessible ? 'Accessible' : 'Not Accessible'}} </p>
       </div>
     </div>
     <!-- /.row -->
@@ -145,7 +145,7 @@ fiber cable was laid.
             <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
               <li><a class="active" href="#Commentary" data-toggle="tab" role="tab">Team</a></li>
               <li><a href="#Videos" data-toggle="tab" role="tab" v-on:click="loadSiteFleets()">Fleet</a></li>
-              <li><a href="#Events" data-toggle="tab" role="tab">Tool</a></li>
+              <li><a href="#Events" data-toggle="tab" role="tab" v-on:click="loadSiteTools()">Tool</a></li>
               <li><a href="#Machinery" data-toggle="tab" role="tab">Machinery</a></li>
             </ul>
             <div class="tab-content">
@@ -274,7 +274,7 @@ fiber cable was laid.
                   </div>
 
                   <div class="comp-title col-md-2">
-                    <button type="button" data-toggle="modal" data-target="#addMachinery">
+                    <button type="button" v-on:click="addSiteTool = true">
                       Add Tool
                     </button>
                   </div>
@@ -286,26 +286,37 @@ fiber cable was laid.
                       <td>Serial Number</td>
                       <td>Type</td>
                       <td>Creation Date</td>
+                      <td></td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td><span class="oval"></span>Catapiller Multrix</td>
-                      <td>TUK-CAT-1002</td>
-                      <td>Grader</td>
-                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+                    <tr v-if="addSiteTool">
+                      <td colspan="7">
+                        <form class="form-inline" role="form">
+                            <div class="form-group col-md-10">
+                                <select class="form-control" v-model="siteTool.tool" style="width: 100%">
+                                  <option v-for="tool in tools" :key="tool.id" v-bind:value="tool.id">
+                                    {{ tool.name }}
+                                  </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <button style="width: 100%" type="button" class="btn btn-default" v-on:click="saveSiteTool()">Add</button>
+                            </div>
+                        </form>
+                      </td>
                     </tr>
-                    <tr>
-                      <td><span class="oval"></span>Catapiller Multrix</td>
-                      <td>TUK-CAT-1002</td>
-                      <td>Grader</td>
-                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+
+                    <tr v-for="siteTool in siteTools" :key="siteTool.id">
+                      <td><span class="oval"></span>{{ siteTool.tool.name }}</td>
+                      <td>{{ siteTool.tool.humanUuid }}</td>
+                      <td>{{ siteTool.tool.type.type }}</td>
+                      <td>12. 08. 2018</td>
+                      <td><i class="fa fa-times" v-on:click="deleteSiteTool(siteTool)"></i></td>
                     </tr>
-                    <tr>
-                      <td><span class="oval"></span>Catapiller Multrix</td>
-                      <td>TUK-CAT-1002</td>
-                      <td>Grader</td>
-                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+
+                    <tr v-if="siteTools.length <= 0">
+                      <td colspan="7" class="text-center">No Site Tools Yet</td>
                     </tr>
                   </tbody>
                 </table>
@@ -524,6 +535,7 @@ export default {
     return {
       addSiteRole: false,
       addSiteFleet: false,
+      addSiteTool: false,
       siteRole:{
         site: window.localStorage.getItem("selectsite"),
         user: ''
@@ -531,6 +543,10 @@ export default {
       siteFleet:{
         site: window.localStorage.getItem("selectsite"),
         fleet: ''
+      },
+      siteTool:{
+        site: window.localStorage.getItem("selectsite"),
+        tool: ''
       },
       surveyResult: {
         file: ""
@@ -545,7 +561,9 @@ export default {
       surveyResults: state => state.sites.surveyResults,
       siteRoles: state => state.sites.siteRoles,
       siteFleets: state => state.sites.siteFleets,
+      siteTools: state => state.sites.siteTools,
       fleets: state => state.fleets.fleets,
+      tools: state => state.tools.tools,
     }),
     ...mapGetters('users', ['getUsers'])
   },
@@ -556,6 +574,9 @@ export default {
   methods: {
     loadSiteFleets(){
       this.$store.dispatch("sites/loadSiteFleets", window.localStorage.getItem("selectsite"));
+    },
+    loadSiteTools(){
+      this.$store.dispatch("sites/loadSiteTools", window.localStorage.getItem("selectsite"));
     },
     saveSurveyResult() {
       const { surveyResult } = this;
@@ -576,6 +597,11 @@ export default {
           this.$store.dispatch("sites/deleteSiteFleet", siteFleet);
       }
     },
+    deleteSiteTool(siteTool){
+      if (confirm(`are you sure you want to delete ${siteTool.tool.name}?`)) {
+          this.$store.dispatch("sites/deleteSiteTool", siteTool);
+      }
+    },
     resetSurveyResult(){
       this.surveyResult = {
         file: ""
@@ -591,6 +617,11 @@ export default {
       this.addSiteFleet = false;
       const { siteFleet } = this;
       this.$store.dispatch("sites/addSiteFleet", siteFleet);
+    },
+    saveSiteTool(tool){
+      this.addSiteTool = false;
+      const { siteTool } = this;
+      this.$store.dispatch("sites/addSiteTool", siteTool);
     }
   }
 

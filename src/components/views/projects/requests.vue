@@ -25,7 +25,7 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button v-if="$store.state.user_type == 'client' || $store.state.user_type == 'admin'" 
+        <button v-if="$store.state.user_type == 'client'" 
           type="button" data-toggle="modal" data-target="#addRequest" v-on:click="resetRequest()">
           Add Request
         </button>
@@ -41,6 +41,7 @@
               <td><span class="dot"></span></td>
               <td>Request</td>
               <td>Creation Date</td>
+              <td>Acknowledgement Status</td>
               <td></td>
             </tr>
           </thead>
@@ -49,8 +50,9 @@
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ request.site_name }}</td>
               <td>12. 08. 2018</td>
+              <td>{{ request.ackStatus ? 'Acknowledged' : 'Not Acknowledged' }}</td>
               <td class="text-right">
-                <button v-if="!request.ackStatus" v-on:click="ackSite(site)">Acknowledge site</button>
+                <button v-if="!request.ackStatus && $store.state.user_type != 'client'" v-on:click="ackSite(request)">Acknowledge site</button>
                 <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteRequest(request)"></i>
               </td>
             </tr>

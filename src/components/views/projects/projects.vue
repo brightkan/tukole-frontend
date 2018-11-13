@@ -197,7 +197,7 @@ export default {
     },
     selectSite(site){
       window.localStorage.setItem("selectsite", site.id)
-      window.location.href = "overview";
+      this.$router.push('overview')
     }
   }
 };
@@ -235,6 +235,7 @@ export default {
   padding: 30px;
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  margin-bottom: 25px;
 }
 .project-card h3 {
   color: #256ae1;

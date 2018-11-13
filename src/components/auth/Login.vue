@@ -114,9 +114,8 @@ export default {
               window.localStorage.setItem("user", JSON.stringify(data));
             }
 
-            this.$store.commit("SET_USER_TYPE", data.user_type);
-
             if(data.part_of_workspace){
+              window.localStorage.setItem("clientType", data.user_type)
               window.localStorage.setItem("workspace", data.workspace)
               this.$router.push('/dash')
             }else{
