@@ -83,7 +83,7 @@
                 <img v-bind:src="demo.avatar" class="user-image" alt="User Image">        
               </a>
               <ul class="dropdown-menu">
-                  <li><a href="/" class="dropdown-item">Logout</a></li>
+                  <li><a href="#" v-on:click="Logout()" class="dropdown-item">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -143,6 +143,10 @@ export default {
     }
   },
   methods: {
+    Logout(){
+      window.localStorage.removeItem('token');
+      this.$router.push('/');
+    }
   },
   mounted() {
     this.$store.commit("SET_USER_TYPE", window.localStorage.getItem('clientType'));

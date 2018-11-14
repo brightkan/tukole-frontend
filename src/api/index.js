@@ -13,7 +13,7 @@ HTTP.interceptors.response.use((response) => { // intercept the global error
 }, function (error) {
   if (error.response.status === 401) { // if the error is 401 and hasent already been retried
     console.log('you managed ti get here');
-    window.location.href = '/'
+    this.$router.push('/');
   }
   // Do something with response error
   return Promise.reject(error)
@@ -31,8 +31,11 @@ export default {
       return
     }
 
-    const auth = {
-      headers: { Authorization: window.localStorage.getItem('token') }
+    var auth = {};
+    if(window.localStorage.getItem('token')){
+      auth = {
+        headers: { Authorization: window.localStorage.getItem('token') }
+      }
     }
 
     var url = config.serverURI + uri
