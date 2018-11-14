@@ -31,24 +31,37 @@ export default {
       return
     }
 
-    var auth = {};
-    if(window.localStorage.getItem('token')){
-      auth = {
-        headers: { Authorization: window.localStorage.getItem('token') }
-      }
+    const auth = {
+      headers: { Authorization: window.localStorage.getItem('token') }
     }
 
     var url = config.serverURI + uri
 
-    if (method === 'post') {
-      return HTTP.post(url, data, auth)
-    } else if (method === 'get') {
-      return HTTP.get(url, auth)
-    } else if (method === 'patch'){
-      return HTTP.patch(url, data, auth)
-    } else if (method === 'delete'){
-      return HTTP.delete(url, auth)
+    if(window.localStorage.getItem('token')){
+      if (method === 'post') {
+        return HTTP.post(url, data, auth)
+      } else if (method === 'get') {
+        return HTTP.get(url, auth)
+      } else if (method === 'patch'){
+        return HTTP.patch(url, data, auth)
+      } else if (method === 'delete'){
+        return HTTP.delete(url, auth)
+      }
+    }else{
+      if (method === 'post') {
+        return HTTP.post(url, data)
+      } else if (method === 'get') {
+        return HTTP.get(url)
+      } else if (method === 'patch'){
+        return HTTP.patch(url, data)
+      } else if (method === 'delete'){
+        return HTTP.delete(url)
+      }
     }
+
+    
+
+    
 
   }
 }
