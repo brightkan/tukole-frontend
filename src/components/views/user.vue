@@ -165,7 +165,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.$store.dispatch("users/loadUsers");
+    this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
   },
   computed: {
     ...mapGetters('users', ['getUsers'])

@@ -36,9 +36,9 @@ export default {
         }
     },
     actions: {
-        async loadUsers({ commit, rootState }) {
+        async loadUsers({ commit, rootState }, payload) {
             await api
-                .request("get", "users/")
+                .request("get", "users/?workspace="+payload)
                 .then(response => {
                     let users = response.data
                     

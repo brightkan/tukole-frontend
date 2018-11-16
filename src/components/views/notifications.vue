@@ -10,7 +10,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-12">
-        <h3>Notifications (<b>5</b>)</h3>
+        <h3>Notifications (<b>{{  notifications.length }}</b>)</h3>
       </div>
     </div>
     <!-- /.row -->
@@ -18,40 +18,17 @@
     <div class="row">
       <div class="col-md-12">
           <ul class="notifications-list">
-            <li class="row">
+            <li class="row" v-for="notification in notifications" :key="notification.id">
               <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-              <hr>
-              <p class="time">5 mins ago</p><button class="mark-read">Mark as read</button>
+              <div class="col-md-11">
+                <!-- <a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a> -->
+                <p>{{ notification.notification }}</p>
+                <p class="time">{{ notification.created | moment("dddd, MMMM Do YYYY") }}</p>
+                <button v-if="!notification.read" class="mark-read" v-on:click="editNotification(notification)">Mark as read</button>
               </div>
             </li>
-            <li class="row">
-              <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-              <p>Lorem ipsum sit dolor amet consilium.</p>
-              <p class="time">2 hours ago</p><button class="mark-read">Mark as read</button>
-              </div>
-            </li>
-            <li class="row">
-              <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-              <p>Lorem ipsum sit dolor amet consilium.</p>
-              <p class="time">29 september 2018</p><button class="mark-read">Mark as read</button>
-              </div>
-            </li>
-            <li class="row">
-              <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-              <p>Lorem ipsum sit dolor amet consilium.</p>
-              <p class="time">13:18</p><button class="mark-read">Mark as read</button>
-              </div>
-            </li>
-            <li class="row">
-              <div class="col-md-1"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-              <div class="col-md-11"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-              <p>Lorem ipsum sit dolor amet consilium.</p>
-              <p class="time">2 weeks ago</p><button class="mark-read">Mark as read</button>
-              </div>
+            <li class="row" v-if="notifications.length <= 0">
+              <p>you have no notifications</p>
             </li>
           </ul>
       </div>
@@ -62,10 +39,45 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
-  created() {
+  data(router) {
+    return {
+      editMode: false,
+      notification: {
+        user: "",
+        notification: "",
+        read: false,
+        created: ""
+      }
+    };
   },
+  created() {},
   mounted() {
+    this.$store.dispatch("notifications/loadNotifications", (JSON.parse(window.localStorage.getItem('user'))).user_id);
+  },
+  computed: {
+    ...mapState({
+      notifications: state => state.notifications.notifications
+    }),
+    ...mapGetters('notifications', ['getReadNotifications', 'getUnReadNotifications'])
+  },
+  methods: {
+    editNotification(notification){
+      notification.read = true;
+      this.$store.dispatch("notifications/updateNotification", notification);
+    },
+    resetMaterial(){
+      this.editMode = false;
+      this.material = {
+        user: "",
+        notification: "",
+        read: false,
+        created: ""
+      }
+    }
   }
 };
 </script>

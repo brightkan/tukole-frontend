@@ -156,7 +156,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("sites/loadSites");
+    this.$store.dispatch("sites/loadSites", window.localStorage.getItem("workspace"));
   },
   computed: {
     ...mapState('sites',["sites"]),

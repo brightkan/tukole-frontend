@@ -10,12 +10,27 @@
         <p class="float-left">
           <small class="text-muted">Survey Status</small> {{ site.site_surveyed ? 'Complete': 'Not Complete'}} 
         </p>
-        <p class="float-right"><small class="text-muted">Site Access</small> {{ site.site_accessible ? 'Accessible' : 'Not Accessible'}} </p>
+        <p v-if="!editAccessible"  class="float-right"><small class="text-muted">Site Access</small> 
+          {{ site.site_accessible ? 'Accessible' : 'Not Accessible' }} 
+          <span v-if="$store.state.user_type == 'client'" style="margin-left: 10px" v-on:click="editAccessible = true"><i class="fas fa-pencil-alt"></i></span>
+        </p>
+
+        <form v-if="editAccessible" class="form-inline" role="form">
+            <div class="form-group col-md-8" style="padding-right: 0px">
+                <select class="form-control ac_select" v-model="siteAccessibility" style="width: 100%">
+                  <option v-bind:value="'true'">Yes</option>
+                  <option v-bind:value="'false'">False</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateAccessible(site)">Edit</button>
+            </div>
+        </form>
       </div>
     </div>
     <!-- /.row -->
 
-    <div class="row">
+    <div class="row" v-if="$store.state.user_type != 'client'">
       <div class="col-md-3">
         <div class="summary-card row">
           <h3 class="col-md-6">{{ siteFleets.length }}</h3>
@@ -139,7 +154,7 @@ fiber cable was laid.
       </div>
     </div>
 
-    <div class="row _projects">
+    <div class="row _projects" v-if="$store.state.user_type != 'client'">
       <div class="col-md-12">
         <div class="project-roles-box">
             <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
@@ -533,6 +548,8 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      siteAccessibility: false,
+      editAccessible: false,
       addSiteRole: false,
       addSiteFleet: false,
       addSiteTool: false,
@@ -572,6 +589,12 @@ export default {
     this.$store.dispatch("sites/loadSite", window.localStorage.getItem("selectsite"));
   },
   methods: {
+    updateAccessible(site){
+      const { siteAccessibility } = this;
+      site.site_accessible = siteAccessibility
+      this.$store.dispatch("sites/updateSite", site);
+      this.editAccessible = false;
+    },
     loadSiteFleets(){
       this.$store.dispatch("sites/loadSiteFleets", window.localStorage.getItem("selectsite"));
     },
@@ -629,8 +652,22 @@ export default {
 </script>
 
 <style>
+
+.comp-title .ac_select{
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid gray;
+  background: no-repeat;
+  font-size: 14px;
+  padding: 0;
+}
+
+.ac_btn:hover{
+  background: #256ae1;
+}
+
 .comp-title p {
-  max-width: 200px;
+  max-width: 250px;
 }
 .comp-title p small{
   margin-right: 15px;

@@ -9,6 +9,7 @@ import machinery from './modules/machinery'
 import materials from './modules/materials'
 import sites from './modules/sites'
 import users from './modules/users'
+import notifications from './modules/notifications'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     machinery,
     materials,
     sites,
-    users
+    users,
+    notifications
   },
   state,
   actions,

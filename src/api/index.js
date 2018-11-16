@@ -58,10 +58,5 @@ export default {
         return HTTP.delete(url)
       }
     }
-
-    
-
-    
-
   }
 }

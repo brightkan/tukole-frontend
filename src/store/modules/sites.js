@@ -94,9 +94,9 @@ export default {
         async loadCurrentStage({commit}, payload){
             return await api.request("get", "sitestatus/?site"+payload.id);
         },
-        loadSites({ commit, state }) {
+        loadSites({ commit, state }, payload) {
             api
-                .request("get", "sites/")
+                .request("get", "sites/?workspace="+payload)
                 .then(response => {
                     let sites = response.data
 

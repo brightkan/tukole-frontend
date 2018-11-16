@@ -22,6 +22,14 @@ Vue.filter("prettyDate", prettyDate);
 Vue.filter("pluralize", pluralize);
 
 Vue.use(VueRouter);
+//Vue.use(require('vue-moment'));
+
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
+ 
+Vue.use(VueMoment, {
+    moment,
+})
 
 // Routing logic
 var router = new VueRouter({

@@ -6,7 +6,7 @@
         <!-- Sidebar toggle button-->
         <a href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
-          <span class="hidden-xs">Dashboard</span>
+          <span class="hidden-xs">{{account_type == 'client' ? 'Client' : 'Admin' }} Dashboard</span>
         </a>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
@@ -21,55 +21,27 @@
             </li> -->
 
             <li class="dropdown notifications">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification (<b>5</b>)</a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification (<b>{{getUnReadNotifications.length}}</b>)</a>
               <ul class="dropdown-menu notify-drop">
                 <div class="notify-drop-title">
                   <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">Notifications (<b>5</b>)</div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">Notifications (<b>{{getUnReadNotifications.length}}</b>)</div>
                     <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="tümü okundu."><i class="fa fa-dot-circle-o"></i></a></div>
                   </div>
                 </div>
                 <!-- end notify title -->
                 <!-- notify content -->
                 <div class="drop-content">
-                  <li class="row">
+                  <li class="row" v-for="notification in getUnReadNotifications" :key="notification.id" v-on:click="showNotifications()">
                     <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-                    <hr>
-                    <p class="time">5 mins ago</p><button class="mark-read">Mark as read</button>
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-                    <p>Lorem ipsum sit dolor amet consilium.</p>
-                    <p class="time">2 hours ago</p><button class="mark-read">Mark as read</button>
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-                    <p>Lorem ipsum sit dolor amet consilium.</p>
-                    <p class="time">29 september 2018</p><button class="mark-read">Mark as read</button>
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-                    <p>Lorem ipsum sit dolor amet consilium.</p>
-                    <p class="time">13:18</p><button class="mark-read">Mark as read</button>
-                    </div>
-                  </li>
-                  <li class="row">
-                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 pd-l0"><a href="">Ahmet</a> yorumladı. <a href="">Çicek bahçeleri...</a> <a href="" class="rIcon"><i class="fa fa-dot-circle-o"></i></a>
-                    <p>Lorem ipsum sit dolor amet consilium.</p>
-                    <p class="time">2 weeks ago</p><button class="mark-read">Mark as read</button>
+                    <div class="col-md-9 pd-l0">
+                      <p>{{ notification.notification }}</p>
+                      <p class="time">{{ notification.created | moment("dddd, MMMM Do YYYY") }}</p>
                     </div>
                   </li>
                 </div>
                 <div class="notify-drop-footer text-center">
-                  <a href="/dash/notifications"><i class="fa fa-eye"></i> View More</a>
+                  <a href="" v-on:click="showNotifications()"><i class="fa fa-eye"></i> View More</a>
                 </div>
               </ul>
             </li>
@@ -115,6 +87,8 @@ import config from "../config";
 import Sidebar from "./Sidebar";
 import "hideseek";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "Dash",
   components: {
@@ -122,6 +96,7 @@ export default {
   },
   data: function() {
     return {
+      account_type: window.localStorage.getItem("clientType"),
       // section: 'Dash',
       year: new Date().getFullYear(),
       classes: {
@@ -133,6 +108,7 @@ export default {
   },
   computed: {
     ...mapState(["userInfo"]),
+    ...mapGetters('notifications', ['getReadNotifications', 'getUnReadNotifications']),
     demo() {
       return {
         displayName: faker.name.findName(),
@@ -145,10 +121,23 @@ export default {
   methods: {
     Logout(){
       window.localStorage.removeItem('token');
+
+      console.log(window.localStorage.getItem('token'));
+
+      if(window.localStorage.getItem('token')){
+        console.log("Here")
+      }else{
+        console.log("there")
+      }
+
       this.$router.push('/');
+    },
+    showNotifications(){
+      this.$router.push('/dash/notifications');
     }
   },
   mounted() {
+    this.$store.dispatch("notifications/loadNotifications", (JSON.parse(window.localStorage.getItem('user'))).user_id);
     this.$store.commit("SET_USER_TYPE", window.localStorage.getItem('clientType'));
     if(window.localStorage.getItem('clientType') === 'client'){
       this.$router.push('/dash/project');
