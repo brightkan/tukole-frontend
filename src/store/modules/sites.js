@@ -23,7 +23,8 @@ export default {
         requestStatus: ['accepted','pending','all'],
         siteRoles: [],
         siteFleets: [],
-        siteTools: []
+        siteTools: [],
+        siteBoqs: []
     },
     mutations: {
         SET_SITE(state, site) {
@@ -88,7 +89,10 @@ export default {
         DELETE_SITE_TOOL(state, payload){
             var index = state.siteTools.findIndex(siteTool => siteTool.id === payload.id);
             state.siteTools.splice(index, 1);
-        }
+        },
+        SET_SITE_BOQS(state, payload){
+            state.siteBoqs = payload;
+        },
     },
     actions: {
         async loadCurrentStage({commit}, payload){
@@ -160,7 +164,7 @@ export default {
             commit('DELETE_SITE_REQUEST', payload)
         },
         async loadSiteRoles({dispatch, commit, rootState}, payload){
-            await dispatch("users/loadUsers",{}, {root:true});
+            await dispatch("users/loadUsers",window.localStorage.getItem("workspace"), {root:true});
             await api
                 .request("get", "siteroles/?site="+payload)
                 .then((response) => {
@@ -280,9 +284,24 @@ export default {
                 .then(() => {
                     commit('DELETE_SITE_TOOL', payload)
                 });
+        },
+        loadBoqs({commit}, payload){
+            api
+                .request("get", "siteboqs/?site="+payload)
+                .then((response) => {
+                    
+                    commit('SET_SITE_BOQS', response.data)
+                });
         }
     },
     getters: {
+        getBoqTotal: (state) => {
+            let total = 0;
+            state.siteBoqs.forEach(boq => {
+                total += boq.estimate_quantity * boq.material_unit_cost
+            })
+            return total
+        },
         getSites: (state) => {
             //logic goes here
 

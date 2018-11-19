@@ -4,7 +4,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-12">
-        <h3>Kampala Renovation project</h3>
+        <h3>{{ site.site_name }}</h3>
       </div>
     </div>
     <!-- /.row -->
@@ -17,7 +17,7 @@
           <thead>
             <tr>
               <td>Item</td>
-              <td>Description</td>
+              <td>Measurement Unit</td>
               <td>Type</td>
               <td>Actual Quantity</td>
               <td>Estimated Quantity</td>
@@ -25,45 +25,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><span>1.</span> Fibre Casing</td>
-              <td>Grade 3 polythene</td>
-              <td>Material</td>
-              <td>100</td>
-              <td>120</td>
-              <td>20,000</td>
+            <tr v-for="boq in boqs" :key="boq.id" > 
+              <td><span>1.</span> {{ boq.material_name }}</td>
+              <td>{{ boq.material_measurement }}</td>
+              <td>{{ boq.boq_type == 0 ? 'Surveyor Boq' : 'Worker Boq'}}</td>
+              <td>{{ boq.actual_quantity | formatNumber}}</td>
+              <td>{{ boq.estimate_quantity | formatNumber}}</td>
+              <td>{{ boq.estimate_quantity * boq.material_unit_cost | formatNumber}}</td>
             </tr>
-            <tr class="text-danger">
-              <td><span>2.</span> Fibre Casing</td>
-              <td>Grade 3 polythene</td>
-              <td>Material</td>
-              <td>200</td>
-              <td>120</td>
-              <td>20,000</td>
-            </tr>
-            <tr>
-              <td><span>3.</span> Fibre Casing</td>
-              <td>Grade 3 polythene</td>
-              <td>Material</td>
-              <td>100</td>
-              <td>120</td>
-              <td>20,000</td>
-            </tr>
-            <tr>
-              <td><span>4.</span> Fibre Casing</td>
-              <td>Grade 3 polythene</td>
-              <td>Material</td>
-              <td>100</td>
-              <td>120</td>
-              <td>20,000</td>
-            </tr>
-            <tr>
-              <td><span>5.</span> Fibre Casing</td>
-              <td>Grade 3 polythene</td>
-              <td>Material</td>
-              <td>100</td>
-              <td>120</td>
-              <td>20,000</td>
+            <tr v-if="boqs.length <= 0">
+              <td colspan="6" class="text-center">No Boqs Yet</td>
             </tr>
           </tbody>
         </table>
@@ -72,7 +43,7 @@
           Total Project cost
           
           <span>
-            USD 100,0000
+            USD {{getBoqTotal | formatNumber}}
           </span>
         </p>
       </div>
@@ -82,10 +53,20 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
   created() {},
   mounted() {
-    this.$emit("customEventForValChange", this.$route.path);
+    this.$store.dispatch("sites/loadBoqs", window.localStorage.getItem("selectsite"));
+  },
+  computed: {
+    ...mapState({
+      site: state => state.sites.site,
+      boqs: state => state.sites.siteBoqs
+    }),
+    ...mapGetters('sites', ['getBoqTotal'])
   }
 };
 </script>

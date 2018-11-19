@@ -21,6 +21,12 @@ Vue.filter("domain", domain);
 Vue.filter("prettyDate", prettyDate);
 Vue.filter("pluralize", pluralize);
 
+var numeral = require("numeral");
+
+Vue.filter("formatNumber", function (value) {
+  return numeral(value).format("0,0"); // displaying other groupings/separators is possible, look at the docs
+});
+
 Vue.use(VueRouter);
 //Vue.use(require('vue-moment'));
 

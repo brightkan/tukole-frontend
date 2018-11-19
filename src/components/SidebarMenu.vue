@@ -1,6 +1,6 @@
 <template>
   <ul class="sidebar-menu">
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/dashboard">
       <a>
         <i class="fas fa-tachometer-alt"></i>
         <span class="page">Overview</span>
