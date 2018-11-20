@@ -16,12 +16,12 @@
                 <input name="q" type="text" size="40" placeholder="Search..." />
               </form>
             </li>
-            <!-- <li>
-              <a href="javascript:;">Settings</a>
-            </li> -->
+            <li>
+              <a style="margin-right: 15px" href="javascript:;">{{ user.first_name }} {{ user.last_name }}</a>
+            </li>
 
             <li class="dropdown notifications">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification (<b>{{getUnReadNotifications.length}}</b>)</a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> (<b>{{getUnReadNotifications.length}}</b>)</a>
               <ul class="dropdown-menu notify-drop">
                 <div class="notify-drop-title">
                   <div class="row">
@@ -107,7 +107,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["userInfo", "user"]),
     ...mapGetters('notifications', ['getReadNotifications', 'getUnReadNotifications']),
     demo() {
       return {
@@ -137,6 +137,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch("getUser", (JSON.parse(window.localStorage.getItem('user'))).user_id)
     this.$store.dispatch("notifications/loadNotifications", (JSON.parse(window.localStorage.getItem('user'))).user_id);
     this.$store.commit("SET_USER_TYPE", window.localStorage.getItem('clientType'));
     if(window.localStorage.getItem('clientType') === 'client'){

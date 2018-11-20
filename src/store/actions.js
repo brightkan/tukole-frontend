@@ -10,5 +10,14 @@ export default {
             return _workspace.data;
         }))
         commit('SET_WORKSPACES', enrichedWorkspaces)
+    },
+
+    getUser({ commit }, payload) {
+        api
+            .request("get", "users/"+payload+"/")
+            .then(response => {
+                let user = response.data
+                commit('SET_USER', user)
+            });
     }
 }
