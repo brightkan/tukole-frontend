@@ -497,11 +497,13 @@ fiber cable was laid.
           </div>
           </div>
           <div class="modal-footer">
-            <select class="form-control">
+            <select class="form-control" style="position: absolute; left: 15px;">
               <option>Accepted</option>
               <option>Pending</option>
             </select>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            <button type="submit" class="btn btn-primary" data-dismiss="modal">Save</button>
+            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
