@@ -57,6 +57,7 @@
               <td>Name</td>
               <td>Contact</td>
               <td>Email</td>
+              <td>Account Type</td>
               <td>Role</td>
               <td>Creation Date</td>
               <td></td>
@@ -69,6 +70,7 @@
               <td>{{ user.phone_number }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.type }}</td>
+              <td>{{ user.role }}</td>
               <td>12. 08. 2018</td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
@@ -124,6 +126,18 @@
                 </select>
               </div>
               <div class="form-group">
+                <label>Role</label>
+                <select class="form-control" v-model="user.role">
+                  <option v-bind:value="'driver'">Driver</option>
+                  <option v-bind:value="'isp'">ISP</option>
+                  <option v-bind:value="'quality'">Quality</option>
+                  <option v-bind:value="'ofc'">OFC</option>
+                  <option v-bind:value="'surveyor'">Surveyor</option>
+                  <option v-bind:value="'project_manager'">Project Manager</option>
+                  <option v-bind:value="'fleet_manager'">Fleet Manager</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label>Phone Number</label>
                 <input type="text" class="form-control" v-model="user.phone_number"/>
               </div>
@@ -159,6 +173,7 @@ export default {
         type: "",
         contract_type: "",
         phone_number: "",
+        role: "",
         workspace: window.localStorage.getItem("workspace")
       }
     };

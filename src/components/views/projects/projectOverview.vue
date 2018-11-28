@@ -195,12 +195,19 @@ fiber cable was laid.
                       <tr v-if="addSiteRole">
                         <td colspan="7">
                           <form class="form-inline" role="form">
-                              <div class="form-group col-md-10">
+                              <div class="form-group col-md-5">
                                   <select class="form-control" v-model="siteRole.user" style="width: 100%">
-                                    <option v-for="user in getUsers" :key="user.id" v-bind:value="user.id">
+                                    <option v-for="user in getUsers" :key="user.id" v-bind:value="user">
                                       {{ user.first_name }} {{ user.last_name }}
                                     </option>
                                   </select>
+                              </div>
+                              <div class="form-group col-md-5">
+                                <select v-if="siteRole.user.role == 'driver'" class="form-control" v-model="userFleet" style="width: 100%">
+                                  <option v-for="siteFleet in siteFleets" :key="siteFleet.id" v-bind:value="siteFleet.id">
+                                    {{ siteFleet.fleet.name }}
+                                  </option>
+                                </select>
                               </div>
                               <div class="form-group col-md-2">
                                   <button style="width: 100%" type="button" class="btn btn-default" v-on:click="saveSiteRole()">Add</button>
@@ -211,7 +218,7 @@ fiber cable was laid.
                       <tr v-for="siteRole in siteRoles" :key="siteRole.id">
                         <td><span class="oval"></span>{{ siteRole.user.first_name }} {{ siteRole.user.last_name }}</td>
                         <td>{{ siteRole.user.phone_number }}</td>
-                        <td>{{ siteRole.user.type }}</td>
+                        <td>{{ siteRole.user.role }}</td>
                         <td>12. 08. 2018</td>
                         <td><i class="fa fa-times" v-on:click="deleteSiteRole(siteRole)"></i></td>
                       </tr>
@@ -550,6 +557,7 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      userFleet: null,
       siteAccessibility: false,
       editAccessible: false,
       addSiteRole: false,
@@ -636,7 +644,15 @@ export default {
     saveSiteRole(role){
       this.addSiteRole = false;
       const { siteRole } = this;
+
+      siteRole.user = siteRole.user.id
+
+      console.log(this.userFleet)
+      if(this.userFleet != null){
+        this.$store.dispatch("sites/addUserSiteFleet", {user: siteRole.user, site_fleet: this.userFleet});
+      }
       this.$store.dispatch("sites/addSiteRole", siteRole);
+      this.userFleet = null
     },
     saveSiteFleet(role){
       this.addSiteFleet = false;

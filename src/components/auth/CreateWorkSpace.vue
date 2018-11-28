@@ -99,14 +99,11 @@ export default {
 
           /* Setting user in the state and caching record to the localStorage */
           if (data) {
-            var token = 'Bearer ' + data.token
-
             this.$store.commit('SET_WORKSPACE', {id: data.id, name: data.name})
 
             if (window.localStorage) {
               window.localStorage.setItem('workspace', JSON.stringify(data))
             }
-
             this.$router.push('/signup')
           }
         })
@@ -124,6 +121,9 @@ export default {
     resetResponse() {
       this.response = ''
     }
+  },
+  mounted(){
+    window.localStorage.removeItem('token');
   }
 }
 </script>

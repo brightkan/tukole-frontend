@@ -202,8 +202,14 @@ export default {
                     commit('DELETE_SITE_ROLE', payload)
                 });
         },
+        addUserSiteFleet({commit}, payload){
+            api
+                .request("post", "usersitefleets/", payload)
+                .then(response => {
+                    console.log("" + response.data );
+                });
+        },
 
-        
         async loadSiteFleets({dispatch, commit, rootState}, payload){
             await dispatch("fleets/loadFleets",{}, {root:true});
             await api
