@@ -122,14 +122,6 @@ export default {
     Logout(){
       window.localStorage.removeItem('token');
 
-      console.log(window.localStorage.getItem('token'));
-
-      if(window.localStorage.getItem('token')){
-        console.log("Here")
-      }else{
-        console.log("there")
-      }
-
       this.$router.push('/');
     },
     showNotifications(){

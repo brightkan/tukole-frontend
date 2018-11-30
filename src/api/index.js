@@ -12,7 +12,6 @@ HTTP.interceptors.response.use((response) => { // intercept the global error
   return response
 }, function (error) {
   if (error.response.status === 401) { // if the error is 401 and hasent already been retried
-    console.log('you managed ti get here');
     this.$router.push('/');
   }
   // Do something with response error

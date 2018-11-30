@@ -24,7 +24,8 @@ export default {
         siteRoles: [],
         siteFleets: [],
         siteTools: [],
-        siteBoqs: []
+        siteBoqs: [],
+        siteCosts: []
     },
     mutations: {
         SET_SITE(state, site) {
@@ -93,6 +94,9 @@ export default {
         SET_SITE_BOQS(state, payload){
             state.siteBoqs = payload;
         },
+        SET_SITE_COSTS(state, payload){
+            state.siteCosts = payload;
+        }
     },
     actions: {
         async loadCurrentStage({commit}, payload){
@@ -297,6 +301,14 @@ export default {
                 .then((response) => {
                     
                     commit('SET_SITE_BOQS', response.data)
+                });
+        },
+        loadCosts({commit}, payload) {
+            api
+                .request("get", "cost/?site="+payload)
+                .then((response) => {
+                    
+                    commit('SET_SITE_COSTS', response.data)
                 });
         }
     },

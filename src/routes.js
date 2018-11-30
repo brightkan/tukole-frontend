@@ -22,6 +22,8 @@ import EquipmentView from "./components/views/fleet/equipment.vue";
 import UserView from "./components/views/user.vue";
 import BoqView from "./components/views/projects/boq.vue";
 import PipView from "./components/views/projects/pip.vue";
+import ProjectCostsView from "./components/views/projects/costs.vue";
+import ProjectDocumentationView from "./components/views/projects/documentation.vue";
 import ProjectView from "./components/views/projects/project.vue";
 import ProjectsView from "./components/views/projects/projects.vue";
 import RequestsView from "./components/views/projects/requests.vue";
@@ -167,6 +169,18 @@ const routes = [
             component: PipView,
             name: "PIP",
             meta: { description: "List of our pip", requiresAuth: false, type: 'ProjectOverview' }
+          },
+          {
+            path: "costs",
+            component: ProjectCostsView,
+            name: "COSTS",
+            meta: { description: "Project costs", requiresAuth: false, type: 'ProjectOverview' }
+          },
+          {
+            path: "documentation",
+            component: ProjectDocumentationView,
+            name: "DOCUMENTATION",
+            meta: { description: "Project documentation", requiresAuth: false, type: 'ProjectOverview' }
           }
         ]
       }

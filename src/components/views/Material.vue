@@ -40,6 +40,7 @@
               <td>Material</td>
               <td>Serial Number</td>
               <td>Measurement</td>
+              <td>Running Out</td>
               <td>Unit Cost</td>
               <td>Creation Date</td>
             </tr>
@@ -50,6 +51,7 @@
               <td><span class="oval"></span>{{ material.name }}</td>
               <td>TUK-CAT-1002</td>
               <td>{{ material.measurement }}</td>
+              <td>{{ material.running_out }}</td>
               <td>{{ material.unit_cost }}</td>
               <td>12. 08. 2018</td>
               <td class="text-right">
@@ -84,6 +86,13 @@
               <div class="form-group">
                 <label>Measurement</label>
                 <input type="text" class="form-control" v-model="material.measurement"/>
+              </div>
+              <div class="form-group">
+                <label>Running out</label>
+                <select class="form-control" v-model="material.running_out">
+                  <option v-bind:value="'true'">True</option>
+                  <option v-bind:value="'false'">False</option>
+                </select>
               </div>
               <div class="form-group">
                 <label>Unit cost</label>
