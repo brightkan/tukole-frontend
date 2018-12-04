@@ -42,7 +42,6 @@
               <td>Measurement</td>
               <td>Running Out</td>
               <td>Unit Cost</td>
-              <td>Creation Date</td>
             </tr>
           </thead>
           <tbody>
@@ -50,10 +49,9 @@
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ material.name }}</td>
               <td>TUK-CAT-1002</td>
-              <td>{{ material.measurement }}</td>
-              <td>{{ material.running_out }}</td>
+              <td style="text-transform: uppercase">{{ material.measurement }}</td>
+              <td>{{ material.running_out ? "Running out" : "Available" }}</td>
               <td>{{ material.unit_cost }}</td>
-              <td>12. 08. 2018</td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editMaterial(material)" data-toggle="modal" data-target="#addMaterial"></i> 
                 <i class="fa fa-times" v-on:click="deleteMaterial(material)"></i>
