@@ -25,7 +25,11 @@ export default {
         siteFleets: [],
         siteTools: [],
         siteBoqs: [],
-        siteCosts: []
+        siteCosts: [],
+        siteManholes: [],
+        siteReInstallations: [],
+        siteRoadCrossings: [],
+        siteTrenchDistances: []
     },
     mutations: {
         SET_SITE(state, site) {
@@ -96,7 +100,19 @@ export default {
         },
         SET_SITE_COSTS(state, payload){
             state.siteCosts = payload;
-        }
+        },
+        SET_SITE_MANHOLES(state, payload){
+            state.siteManholes = payload;
+        },
+        SET_SITE_RE_INSTALLATIONS(state, payload){
+            state.siteReInstallations = payload;
+        },
+        SET_SITE_ROAD_CROSSINGS(state, payload){
+            state.siteRoadCrossings = payload;
+        },
+        SET_SITE_TRENCH_DISTANCES(state, payload){
+            state.siteTrenchDistances = payload;
+        },
     },
     actions: {
         async loadCurrentStage({commit}, payload){
@@ -310,7 +326,60 @@ export default {
                     
                     commit('SET_SITE_COSTS', response.data)
                 });
-        }
+        },
+        loadSiteManholes({commit}, payload) {
+            api
+                .request("get", "manholes/?site="+payload)
+                .then((response) => {
+                    
+                    commit('SET_SITE_MANHOLES', response.data)
+                });
+        },
+        async loadSiteReInstallations({dispatch, commit, rootState}, payload) {
+            await dispatch("materials/loadMaterials",{}, {root:true});
+            await api
+                .request("get", "reinstallation/?site="+payload)
+                .then((response) => {
+                    let reinstallations = response.data.map(item => {
+                        let reinstallation = item;
+                        rootState.materials.materials.forEach(material => {
+                            if(item.material === material.id){
+                                reinstallation.material = material;
+                            }
+                        })
+                        return reinstallation;
+                    });
+
+                    commit('SET_SITE_RE_INSTALLATIONS', reinstallations)
+                });
+        },
+        async loadSiteRoadCrossings({dispatch, commit, rootState}, payload) {
+            await dispatch("tools/loadTools",{}, {root:true});
+            await api
+                .request("get", "roadcrossing/?site="+payload)
+                .then((response) => {
+
+                    let roadcrossings = response.data.map(item => {
+                        let roadcrossing = item;
+                        rootState.tools.tools.forEach(tool => {
+                            if(item.tool === tool.id){
+                                roadcrossing.tool = tool;
+                            }
+                        })
+                        return roadcrossing;
+                    });
+                    
+                    commit('SET_SITE_ROAD_CROSSINGS', roadcrossings)
+                });
+        },
+        loadSiteTrenchDistance({commit}, payload) {
+            api
+                .request("get", "distance/trenched/?site="+payload)
+                .then((response) => {
+                    
+                    commit('SET_SITE_TRENCH_DISTANCES', response.data)
+                });
+        },
     },
     getters: {
         getBoqTotal: (state) => {

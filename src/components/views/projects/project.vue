@@ -27,6 +27,11 @@
           <a href="#">
             Documentation
           </a>
+        </router-link> 
+        <router-link tag="li" to="/dash/project/reports" v-if="this.$route.meta.type == 'ProjectOverview' && $store.state.user_type != 'client'">
+          <a href="#">
+            Reports
+          </a>
         </router-link>  
         <router-link tag="li" to="/dash/project/projects" v-if="this.$route.meta.type == 'Projects'">
           <a href="#">

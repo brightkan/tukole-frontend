@@ -28,6 +28,7 @@ import ProjectView from "./components/views/projects/project.vue";
 import ProjectsView from "./components/views/projects/projects.vue";
 import RequestsView from "./components/views/projects/requests.vue";
 import ProjectOverView from "./components/views/projects/projectOverview.vue";
+import ProjectReportsView from "./components/views/projects/reports.vue"
 import NotificationsView from "./components/views/notifications.vue"
 
 // Routes
@@ -181,6 +182,12 @@ const routes = [
             component: ProjectDocumentationView,
             name: "DOCUMENTATION",
             meta: { description: "Project documentation", requiresAuth: false, type: 'ProjectOverview' }
+          },
+          {
+            path: "reports",
+            component: ProjectReportsView,
+            name: "REPORTS",
+            meta: { description: "Project reports", requiresAuth: false, type: 'ProjectOverview' }
           }
         ]
       }
