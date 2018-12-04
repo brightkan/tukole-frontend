@@ -30,17 +30,17 @@
       </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img class="first-slide" src="http://www.ledcor.com/getmedia/bdd91491-a49d-4a61-9c6c-e8ecd7dddf6a/uufoci_8_5_2.jpg.aspx?width=960&height=600&ext=.jpg&maxsidesize=960" alt="First slide">
+          <img class="first-slide" src="../../assets/imgs/construction.jpg" alt="First slide">
           <div class="overlay-effect h-100 w-100">
             <div class="container">
             <div class="carousel-caption text-left">
-              <h1>Example headline.</h1>
+              <h1>Soliton Uganda</h1>
             </div>
           </div>
           </div>
         </div>
         <div class="carousel-item">
-          <img class="second-slide" src="http://nnimgt-a.akamaihd.net/transform/v1/resize/frm/storypad-qtXAEZC67LbMeemRuC2bYX/c329a32b-fa17-4aef-b127-4e2ea7ec7802.jpg/w1200_h678_fmax.jpg" alt="Second slide">
+          <img class="second-slide" src="../../assets/imgs/dev_bg.jpg" alt="Second slide">
           <div class="overlay-effect h-100 w-100">
             <div class="container">
             <div class="carousel-caption text-left">
@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="carousel-item">
-          <img class="third-slide" src="http://www.chinacablesbuy.com/wp-content/uploads/2016/08/underground-fiber-installation.jpg" alt="Third slide">
+          <img class="third-slide" src="../../assets/imgs/industries.jpg" alt="Third slide">
           <div class="overlay-effect h-100 w-100">
             <div class="container">
             <div class="carousel-caption text-left">
