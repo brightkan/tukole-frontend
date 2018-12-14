@@ -3,16 +3,17 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-12">
+      <div class="comp-title col-md-6">
         <h3>{{ site.site_name }}</h3>
+      </div>
+      <div class="text-right col-md-6">
+        <p>project reports</p>
       </div>
     </div>
     <!-- /.row -->
 
     <div class="row">
-      <div class="boq-list">
-        <h3>Project Reports</h3>
-
+      <div class="col-md-12">
         <div class="project-roles-box">
             <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
               <li><a class="active" href="#manhole" data-toggle="tab" role="tab">Manholes</a></li>
@@ -111,7 +112,6 @@
               </div>
             </div>
         </div>
-
       </div>
     </div>
 

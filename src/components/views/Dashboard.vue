@@ -17,20 +17,16 @@
 
     <div class="row">
       <div class="col-md-4">
-        <div class="box">
-          <h4>Users</h4>
-          <div class="container user-list">
-            <div class="skills" v-bind:style="{ width: '80%' }">90</div>
-            <p>ISP</p>
-            <div class="skills" v-bind:style="{ width: '85%' }">90</div>
-            <p>Drivers</p>
-            <div class="skills" v-bind:style="{ width: '40%' }">90</div>
-            <p>QSP</p>
-            <div class="skills" v-bind:style="{ width: '90%' }">90</div>
-            <p>0FC</p>
-            <div class="skills" v-bind:style="{ width: '65%' }">90</div>
-            <p>Supervisor</p>
-          </div>
+        <div class="box project-status">
+          <h4>Material Status <small class="float-right text-muted">running out</small></h4>
+          <ul>
+            <li v-for="material in runningOut" :key="material.id">
+              <p>
+                {{ material.name }} <br>
+                <span>{{ material.measurement }}</span>
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -85,53 +81,21 @@
       </div>
 
       <div class="col-md-3">
-          <div class="box project-status">
-            <h4>Projects Status</h4>
-
-            <select>
-              <option>Delayed</option>
-              <option>On Time</option>
-            </select>
-
-            <h3>40</h3>
-
-            <ul>
-              <li>
-                <p>
-                  Kampala Fibre Cable extension <br>
-                  <span>12 Oct 2018</span>
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Soroti LTE extension <br>
-                  <span>12 Nov 2018</span>
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Mbale Fibre cabling <br>
-                  <span>12 Jul 2018</span>
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Soroti LTE extension <br>
-                  <span>12 Nov 2018</span>
-                </p>
-              </li>
-
-              <li>
-                <p>
-                  Mbale Fibre cabling <br>
-                  <span>12 Jul 2018</span>
-                </p>
-              </li>
-            </ul>
+        <div class="box">
+          <h4>Users</h4>
+          <div class="container user-list">
+            <div class="skills" v-bind:style="{ width: '80%' }">90</div>
+            <p>ISP</p>
+            <div class="skills" v-bind:style="{ width: '85%' }">90</div>
+            <p>Drivers</p>
+            <div class="skills" v-bind:style="{ width: '40%' }">90</div>
+            <p>QSP</p>
+            <div class="skills" v-bind:style="{ width: '90%' }">90</div>
+            <p>0FC</p>
+            <div class="skills" v-bind:style="{ width: '65%' }">90</div>
+            <p>Supervisor</p>
           </div>
+        </div>
       </div>
 
       <div class="col-md-5 project-locations">
@@ -179,9 +143,10 @@ export default {
     isMobile() {
       return window.innerWidth <= 800 && window.innerHeight <= 600;
     },
-    //...mapGetters('fleets', ['availableVehicles', 'assignedVehicles', 'brokenDownVehicles'])
+    ...mapGetters('materials', ['runningOut'])
   },
   mounted() {
+    this.$store.dispatch("materials/loadMaterials");
     let resFleets = this.$store.dispatch("fleets/loadFleets");
     let resMachines = this.$store.dispatch("machinery/loadMachines");
     let resTools = this.$store.dispatch("tools/loadTools");
@@ -386,6 +351,7 @@ export default {
 }
 
 .box {
+  height: 100%;
   padding: 18px;
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
@@ -517,7 +483,7 @@ export default {
 .project-status.box ul {
   list-style: none;
   padding: 0;
-  max-height: 140px;
+  height: 210px;
   overflow: auto;
 }
 
@@ -588,9 +554,8 @@ export default {
   color: #ed6a5f;
   padding-right: 0.3em;
   font-size: 40px;
-  line-height: 1.1em;
+  line-height: 0.4em;
   position: absolute;
-  bottom: 6px;
 }
 
 .project-locations .box ul li span {

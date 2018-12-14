@@ -3,27 +3,39 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-12">
+      <div class="comp-title col-md-6">
         <h3>{{ site.site_name }}</h3>
+      </div>
+      <div class="text-right col-md-6">
+        <p>project costs</p>
       </div>
     </div>
     <!-- /.row -->
 
     <div class="row">
       <div class="boq-list">
-        <h3>Project Costs</h3>
+        <div class="comp-title col-md-2">
+          <button type="button" data-toggle="modal" data-target="#addCost" v-on:click="resetCost()">
+            Add Cost
+          </button>
+        </div>
 
         <table class="table">
           <thead>
             <tr>
               <td>Cost Name</td>
               <td>Value</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
             <tr v-for="cost in costs" :key="cost.id" > 
               <td><span>1.</span> {{ cost.name }}</td>
-              <td>{{ cost.value }}</td>
+              <td>{{ cost.value | formatNumber }}</td>
+              <td class="text-right">
+                <i class="fa fa-edit" v-on:click="editCost(cost)" data-toggle="modal" data-target="#addCost"></i> 
+                <i class="fa fa-times" v-on:click="deleteCost(cost)"></i>
+              </td>
             </tr>
             <tr v-if="costs.length <= 0">
               <td colspan="6" class="text-center">No costs Yet</td>
@@ -35,9 +47,41 @@
           Total Project cost
           
           <span>
-            USD {{'0000000000' | formatNumber}}
+            USD {{getCostTotal | formatNumber}}
           </span>
         </p>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addCost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Cost</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label>Cost Name</label>
+                <input type="text" class="form-control" v-model="cost.name"/>
+              </div>
+              <div class="form-group">
+                <label>Amount</label>
+                <input type="number" class="form-control" v-model="cost.value"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveCost" data-dismiss="modal">
+              {{ editMode ? 'Edit' : 'Add'}} Cost
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -49,6 +93,17 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 
 export default {
+  data(router) {
+    return {
+      editMode: false,
+      cost: {
+        name: "",
+        user: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        value: "",
+        site: window.localStorage.getItem("selectsite")
+      }
+    };
+  },
   created() {},
   mounted() {
     this.$store.dispatch("sites/loadCosts", window.localStorage.getItem("selectsite"));
@@ -59,6 +114,34 @@ export default {
       costs: state => state.sites.siteCosts
     }),
     ...mapGetters('sites', ['getCostTotal'])
+  },
+  methods: {
+    saveCost() {
+      const { cost } = this;
+      if(this.editMode){
+        this.$store.dispatch("sites/updateCost", cost);
+      }else{
+        this.$store.dispatch("sites/addCost", cost);
+      }
+    },
+    editCost(cost){
+      this.editMode = true;
+      this.cost = Object.assign({}, cost);
+    },
+    deleteCost(cost){
+      if (confirm(`are you sure you want to delete ${cost.name}?`)) {
+          this.$store.dispatch("sites/deleteCost", cost);
+      }
+    },
+    resetCost(){
+      this.editMode = false;
+      this.cost = {
+        name: "",
+        user: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        value: "",
+        site: window.localStorage.getItem("selectsite")
+      }
+    }
   }
 };
 </script>

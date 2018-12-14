@@ -10,6 +10,7 @@ import materials from './modules/materials'
 import sites from './modules/sites'
 import users from './modules/users'
 import notifications from './modules/notifications'
+import challenges from './modules/challenges'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     materials,
     sites,
     users,
-    notifications
+    notifications,
+    challenges
   },
   state,
   actions,

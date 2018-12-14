@@ -38,7 +38,6 @@
             <tr>
               <td><span class="dot"></span></td>
               <td>Material</td>
-              <td>Serial Number</td>
               <td>Measurement</td>
               <td>Running Out</td>
               <td>Unit Cost</td>
@@ -48,7 +47,6 @@
             <tr v-for="material in materials" :key="material.id">
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ material.name }}</td>
-              <td>TUK-CAT-1002</td>
               <td style="text-transform: uppercase">{{ material.measurement }}</td>
               <td>{{ material.running_out ? "Running out" : "Available" }}</td>
               <td>{{ material.unit_cost }}</td>

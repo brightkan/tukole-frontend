@@ -405,7 +405,7 @@ fiber cable was laid.
 
             <div class="comp-title col-md-3">
               <button type="button" data-toggle="modal" data-target="#addSurveyResult" 
-              v-on:click="resetSurveyResult()"
+              v-on:click="resetSurveyResult(); reset();"
               v-if="surveyResults.length > 0">
                 Upload survey result
               </button>
@@ -413,7 +413,7 @@ fiber cable was laid.
           </div>
           <div class="row" v-if="surveyResults.length == 0">
             <div class="col-md-12 empty-upload-btn">
-              <button type="button" data-toggle="modal" data-target="#addSurveyResult" v-on:click="resetSurveyResult()">
+              <button type="button" data-toggle="modal" data-target="#addSurveyResult" v-on:click="resetSurveyResult(); reset()">
                 Upload survey result
               </button>
             </div>
@@ -422,24 +422,20 @@ fiber cable was laid.
           <table class="table" v-if="surveyResults.length > 0">
             <thead>
               <tr>
-                <td>File</td>
+                <td>Title</td>
                 <td>Status</td>
                 <td>Creation Date</td>
                 <td></td>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="surveyResult in surveyResults" :key="surveyResult.id">
+                <td>{{ surveyResult.title }}</td>
+                <td>{{ surveyResult.acceptStatus }}</td>
+                <td>{{ surveyResult.created | moment("dddd, MMMM Do YYYY") }}</td>
                 <td>
-                  <p>
-                  Link to downloadable file
-                  </p>
-                </td>
-                <td>Accepted</td>
-                <td>12. 08. 2018</td>
-                <td>
-                  <a class="custom-btn" data-toggle="modal" data-target="#surveyResultsComment">comments</a>
-                  <a class="custom-btn btn-light" target="_blank" href="https://ppsnc.com/wp-content/uploads/2015/09/Land-Survey-picture-s.jpg" download>Download</a>
+                  <a class="custom-btn" data-toggle="modal" data-target="#surveyResultsComment" v-on:click="getSurveyComments(surveyResult)">comments</a>
+                  <a class="custom-btn btn-light" target="_blank" v-bind:href="surveyResult.file_url" download>Download</a>
                 </td>
               </tr>
             </tbody>
@@ -464,39 +460,21 @@ fiber cable was laid.
               <div class="commentBox">
                   <form class="form-inline" role="form">
                       <div class="form-group">
-                          <input class="form-control" type="text" placeholder="Your comments" />
+                          <input class="form-control" v-model="surveyResultComment.comment" type="text" placeholder="Your comments" />
                       </div>
                       <div class="form-group">
-                          <button class="btn btn-default">Add</button>
+                          <button type="button" class="btn btn-default" v-on:click="saveSurveyComment()">Add</button>
                       </div>
                   </form>
               </div>
               <div class="actionBox">
                   <ul class="commentList">
-                      <li>
+                      <li v-for="surveyComment in surveyComments" :key="surveyComment.id">
                           <div class="commenterImage">
                             <img src="http://placekitten.com/50/50" />
                           </div>
                           <div class="commentText">
-                              <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
-                          </div>
-                      </li>
-                      <li>
-                          <div class="commenterImage">
-                            <img src="http://placekitten.com/45/45" />
-                          </div>
-                          <div class="commentText">
-                              <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
-
-                          </div>
-                      </li>
-                      <li>
-                          <div class="commenterImage">
-                            <img src="http://placekitten.com/40/40" />
-                          </div>
-                          <div class="commentText">
-                              <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
-
+                              <p class="">{{ surveyComment.comment }}</p> <span class="date sub-text">on {{ surveyComment.created | moment("dddd, MMMM Do YYYY") }}</span>
                           </div>
                       </li>
                   </ul>
@@ -504,13 +482,15 @@ fiber cable was laid.
           </div>
           </div>
           <div class="modal-footer">
-            <select class="form-control" style="position: absolute; left: 15px;">
-              <option>Accepted</option>
-              <option>Pending</option>
-            </select>
+            <form>
+              <select class="form-control" v-model="selectedSurveyResult.acceptStatus" style="position: absolute; left: 15px;">
+                <option v-bind:value="'true'">Accepted</option>
+                <option v-bind:value="'false'">Not Accepted</option>
+              </select>
 
-            <button type="submit" class="btn btn-primary" data-dismiss="modal">Save</button>
-            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" v-on:click="surveyResultAcceptance" data-dismiss="modal">Save</button>
+              <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </form>
           </div>
         </div>
       </div>
@@ -527,15 +507,28 @@ fiber cable was laid.
             </button>
           </div>
           <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="upload-image"></div>
+            <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="dropbox">
+                    <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+                      accept="image/*" class="input-file">
+                      <p v-if="isInitial">
+                        Drag your file(s) here to begin<br> or click to browse
+                      </p>
+                      <p v-if="isSaving">
+                        Uploading {{ fileCount }} files...
+                        <br> {{ fileNames }}
+                      </p>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-6 text-center">
-                <p class="upload-img-text">Upload Thumbnail</p>
-                <button class="custom-btn">Select Image</button>
+              <br>
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" v-model="surveyResult.title"/>
               </div>
-            </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -553,6 +546,9 @@ fiber cable was laid.
 import { select } from "../../mixins/select";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
+
+const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
+
 export default {
   mixins: [select],
   data(router) {
@@ -576,9 +572,24 @@ export default {
         tool: ''
       },
       surveyResult: {
-        file: ""
-        // workspace: window.localStorage.getItem("workspace")
-      }
+        file_url: "",
+        title: ""
+      },
+
+      //this is for the upload
+      fileCount: 0,
+      uploadedFiles: [],
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: 'photos'.mapState,
+      formData: new FormData(),
+      fileNames: [],
+      surveyResultComment: {
+        comment: "",
+        survey_result: "",
+        readStatus: false
+      },
+      selectedSurveyResult: ""
     };
   },
   created() {},
@@ -591,12 +602,31 @@ export default {
       siteTools: state => state.sites.siteTools,
       fleets: state => state.fleets.fleets,
       tools: state => state.tools.tools,
+      surveyComments: state => state.sites.surveyComments,
     }),
-    ...mapGetters('users', ['getUsers'])
+    ...mapGetters('users', ['getUsers']),
+
+    //this is for the upload
+    isInitial() {
+      return this.currentStatus === STATUS_INITIAL;
+    },
+    isSaving() {
+      return this.currentStatus === STATUS_SAVING;
+    },
+    isSuccess() {
+      return this.currentStatus === STATUS_SUCCESS;
+    },
+    isFailed() {
+      return this.currentStatus === STATUS_FAILED;
+    }
   },
   mounted() {
     this.$store.commit('users/CHANGE_LIST_TYPE', 'all');
     this.$store.dispatch("sites/loadSite", window.localStorage.getItem("selectsite"));
+    this.$store.dispatch("sites/getSurveyImages", window.localStorage.getItem("selectsite"));
+
+    //this is for the upload
+    this.reset();
   },
   methods: {
     updateAccessible(site){
@@ -613,7 +643,13 @@ export default {
     },
     saveSurveyResult() {
       const { surveyResult } = this;
-      this.$store.dispatch("sites/addSurveyResult", surveyResult);
+
+      this.formData.append('title', surveyResult.title)
+      this.formData.append('site', window.localStorage.getItem("selectsite"))
+      this.formData.append('surveyor', (JSON.parse(window.localStorage.getItem('user'))).user_id)
+      this.formData.append('acceptStatus', 'false')
+
+      this.$store.dispatch("sites/addSurveyResult", this.formData);
     },
     deleteSurveyResult(surveyResult){
       if (confirm(`are you sure you want to delete ${surveyResult}?`)) {
@@ -638,16 +674,12 @@ export default {
     resetSurveyResult(){
       this.surveyResult = {
         file: ""
-        //workspace: window.localStorage.getItem("workspace")
       }
     },
     saveSiteRole(role){
       this.addSiteRole = false;
       const { siteRole } = this;
-
       siteRole.user = siteRole.user.id
-
-      console.log(this.userFleet)
       if(this.userFleet != null){
         this.$store.dispatch("sites/addUserSiteFleet", {user: siteRole.user, site_fleet: this.userFleet});
       }
@@ -663,6 +695,46 @@ export default {
       this.addSiteTool = false;
       const { siteTool } = this;
       this.$store.dispatch("sites/addSiteTool", siteTool);
+    },
+    getSurveyComments(survey_result){
+      //show loading
+      this.selectedSurveyResult = survey_result
+      this.$store.commit("sites/SET_SURVEY_COMMENTS", []);
+      this.surveyResultComment.survey_result = survey_result.id
+      this.$store.dispatch("sites/getSurveyComments", survey_result.id);
+    },
+    saveSurveyComment(){
+      const { surveyResultComment } = this;
+      this.$store.dispatch("sites/addSurveyComment", surveyResultComment);
+      //this.surveyResultComment.comment = "";
+    },
+    surveyResultAcceptance(){
+      const { selectedSurveyResult } = this;
+      this.$store.dispatch("sites/updateSurveyResult", selectedSurveyResult);
+    },
+
+    //this is for the upload
+    reset() {
+      // reset form to initial state
+      this.formData = new FormData(),
+      this.currentStatus = STATUS_INITIAL;
+      this.uploadedFiles = [];
+      this.uploadError = null;
+    },
+    filesChange(fieldName, fileList) {
+      // handle file changes
+      if (!fileList.length) return;
+
+      // append the files to FormData
+      Array
+        .from(Array(fileList.length).keys())
+        .map(x => {
+          this.formData.append('file_url', fileList[x], fileList[x].name);
+          this.fileNames.push(fileList[x].name)
+        });
+
+      
+      this.currentStatus = STATUS_SAVING;
     }
   }
 
@@ -670,6 +742,36 @@ export default {
 </script>
 
 <style>
+
+.dropbox {
+    outline: 2px dashed grey; /* the dash box */
+    outline-offset: -10px;
+    background: lightcyan;
+    color: dimgray;
+    padding: 10px 10px;
+    min-height: 200px; /* minimum height */
+    position: relative;
+    cursor: pointer;
+  }
+
+  .input-file {
+    opacity: 0; /* invisible but it's there! */
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .dropbox:hover {
+    background: lightblue; /* when mouse over to the drop zone, change color */
+  }
+
+  .dropbox p {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 50px 0;
+  }
+
 
 .comp-title .ac_select{
   width: 100%;

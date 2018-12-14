@@ -17,6 +17,7 @@ export default {
             workspace: 0
         },
         surveyResults: [],
+        surveyComments: [],
         sites: [],
         listType: 'all',
         requestListType: 'all',
@@ -29,7 +30,8 @@ export default {
         siteManholes: [],
         siteReInstallations: [],
         siteRoadCrossings: [],
-        siteTrenchDistances: []
+        siteTrenchDistances: [],
+        siteImages: []
     },
     mutations: {
         SET_SITE(state, site) {
@@ -58,6 +60,20 @@ export default {
         },
         ADD_SURVEY_RESULT(state, payload){
             state.surveyResults.push(payload);
+        },
+        UPDATE_SURVEY_RESULT(state, payload){
+            state.surveyResults = state.surveyResults.map(surveyResult => {
+                if (surveyResult.id === payload.id) {
+                    return Object.assign({}, surveyResult, payload)
+                }
+                return surveyResult
+            })
+        },
+        SET_SURVEY_COMMENTS(state, payload){
+            state.surveyComments = payload;
+        },
+        ADD_SURVEY_COMMENT(state, payload){
+            state.surveyComments.push(payload);
         },
         CHANGE_LIST_TYPE(state, payLoad){
             state.listType = payLoad
@@ -101,6 +117,21 @@ export default {
         SET_SITE_COSTS(state, payload){
             state.siteCosts = payload;
         },
+        UPDATE_COST(state, payload){
+            state.siteCosts = state.siteCosts.map(cost => {
+                if (cost.id === payload.id) {
+                    return Object.assign({}, cost, payload)
+                }
+                return cost
+            })
+        },
+        ADD_COST(state, payload){
+            state.siteCosts.push(payload)
+        },
+        DELETE_SITE_COST(state, payload){
+            var index = state.siteCosts.findIndex(cost => cost.id === payload.id);
+            state.siteCosts.splice(index, 1);
+        },
         SET_SITE_MANHOLES(state, payload){
             state.siteManholes = payload;
         },
@@ -113,6 +144,9 @@ export default {
         SET_SITE_TRENCH_DISTANCES(state, payload){
             state.siteTrenchDistances = payload;
         },
+        SET_SITE_IMAGES(state, payload){
+            state.siteImages = payload;
+        }
     },
     actions: {
         async loadCurrentStage({commit}, payload){
@@ -164,12 +198,41 @@ export default {
                 });
         },
         getSurveyImages({commit}, payload){
-            // some api to get image
-            commit('SET_SURVEY_RESULTS', payload)
+            api
+                .request("get", "survey_results/?site="+payload)
+                .then(response => {
+                    commit('SET_SURVEY_RESULTS', response.data)
+                }); 
         },
         addSurveyResult({commit}, payload){
-            // some api to get image
-            commit('ADD_SURVEY_RESULT', payload)
+            api
+                .request("post", "survey_results/", payload)
+                .then(response => {
+                    commit('ADD_SURVEY_RESULT', response.data)
+                }); 
+        },
+        updateSurveyResult({ commit }, payload) {
+            api
+                .request("patch", "survey_results/"+payload.id+"/", {'acceptStatus' : payload.acceptStatus})
+                .then(response => {
+                    let survey_result = response.data;
+                    
+                    commit('UPDATE_SURVEY_RESULT', survey_result)
+                });
+        },
+        getSurveyComments({commit}, payload){
+            api
+                .request("get", "survey_result_comments/?survey_result="+payload)
+                .then(response => {
+                    commit('SET_SURVEY_COMMENTS', response.data)
+                }); 
+        },
+        addSurveyComment({commit}, payload){
+            api
+                .request("post", "survey_result_comments/", payload)
+                .then(response => {
+                    commit('ADD_SURVEY_COMMENT', response.data)
+                }); 
         },
         loadRequests({commit}, payload){
             // some api to get image
@@ -269,9 +332,6 @@ export default {
                     commit('DELETE_SITE_FLEET', payload)
                 });
         },
-
-
-
         async loadSiteTools({dispatch, commit, rootState}, payload){
             await dispatch("tools/loadTools",{}, {root:true});
             await api
@@ -327,6 +387,30 @@ export default {
                     commit('SET_SITE_COSTS', response.data)
                 });
         },
+        deleteCosts({commit}, payload){
+            api
+                .request("delete", "cost/"+payload.id+"/")
+                .then(() => {
+                    commit('DELETE_SITE_COST', payload) 
+                });
+        },
+        updateCost({ commit, state, rootState }, payload) {
+            api
+                .request("patch", "cost/"+payload.id+"/", payload)
+                .then(response => {
+                    let cost = response.data;
+                    commit('UPDATE_COST', cost) 
+                });
+        },
+        addCost({ commit, rootState }, payload) {
+            api
+                .request("post", "cost/", payload)
+                .then(response => {
+                    let cost = response.data;
+
+                    commit('ADD_COST', cost) 
+                });
+        },
         loadSiteManholes({commit}, payload) {
             api
                 .request("get", "manholes/?site="+payload)
@@ -380,6 +464,14 @@ export default {
                     commit('SET_SITE_TRENCH_DISTANCES', response.data)
                 });
         },
+        loadSiteImages({commit}, payload) {
+            api
+                .request("get", "sitesimages/?site="+payload)
+                .then((response) => {
+                    
+                    commit('SET_SITE_IMAGES', response.data)
+                });
+        }
     },
     getters: {
         getBoqTotal: (state) => {
@@ -420,9 +512,21 @@ export default {
                 }else{
                     return requests;
                 }   
-
-                
             }
-        }
+        },
+        getBeforeImages: (state) => {
+            return state.siteImages.filter(image => { return image.status === 'before'})
+        },
+        getAfterImages: (state) => {
+            return state.siteImages.filter(image => { return image.status === 'after'})
+        },
+        getCostTotal: (state) => {
+            let total = 0
+            state.siteCosts.forEach(cost => {
+                total += cost.value
+            })
+            return total
+        },
+
     }
 }

@@ -69,5 +69,10 @@ export default {
                     commit('DELETE_MATERIAL', payLoad)
                 });
         }
+    },
+    getters: {
+        runningOut: (state) => {
+            return state.materials.filter(material => { return material.running_out })
+        }
     }
 }

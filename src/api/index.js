@@ -8,13 +8,12 @@ const HTTP = axios.create({
   }
 })
 
-HTTP.interceptors.response.use((response) => { // intercept the global error
+HTTP.interceptors.response.use((response) => { 
   return response
 }, function (error) {
-  if (error.response.status === 401) { // if the error is 401 and hasent already been retried
-    this.$router.push('/');
+  if (error.response.status === 401) { 
+    window.location.href = '/'
   }
-  // Do something with response error
   return Promise.reject(error)
 })
 

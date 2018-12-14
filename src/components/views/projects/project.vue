@@ -43,6 +43,16 @@
             Survey Requests
           </a>
         </router-link>  
+        <router-link tag="li" to="/dash/project/gallery" v-if="this.$route.meta.type == 'ProjectOverview'">
+          <a href="#">
+            Gallery
+          </a>
+        </router-link> 
+        <router-link tag="li" to="/dash/project/challenges" v-if="this.$route.meta.type == 'ProjectOverview'">
+          <a href="#">
+            Challenges / Incidents
+          </a>
+        </router-link> 
       </ul>
     </div>
   </section>

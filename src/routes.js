@@ -24,6 +24,8 @@ import BoqView from "./components/views/projects/boq.vue";
 import PipView from "./components/views/projects/pip.vue";
 import ProjectCostsView from "./components/views/projects/costs.vue";
 import ProjectDocumentationView from "./components/views/projects/documentation.vue";
+import GalleryView from "./components/views/projects/gallery.vue"
+import ChallengesView from "./components/views/projects/challengesIncidents.vue"
 import ProjectView from "./components/views/projects/project.vue";
 import ProjectsView from "./components/views/projects/projects.vue";
 import RequestsView from "./components/views/projects/requests.vue";
@@ -188,6 +190,18 @@ const routes = [
             component: ProjectReportsView,
             name: "REPORTS",
             meta: { description: "Project reports", requiresAuth: false, type: 'ProjectOverview' }
+          },
+          {
+            path: "gallery",
+            component: GalleryView,
+            name: "GALLERY",
+            meta: { description: "Project images", requiresAuth: false, type: 'ProjectOverview' }
+          },
+          {
+            path: "challenges",
+            component: ChallengesView,
+            name: "Challenges",
+            meta: { description: "Project challenges", requiresAuth: false, type: 'ProjectOverview' }
           }
         ]
       }
