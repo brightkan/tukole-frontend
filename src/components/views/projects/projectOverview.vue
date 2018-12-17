@@ -720,6 +720,7 @@ export default {
       this.currentStatus = STATUS_INITIAL;
       this.uploadedFiles = [];
       this.uploadError = null;
+      this.fileNames = [];
     },
     filesChange(fieldName, fileList) {
       // handle file changes

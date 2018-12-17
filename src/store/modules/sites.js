@@ -31,7 +31,9 @@ export default {
         siteReInstallations: [],
         siteRoadCrossings: [],
         siteTrenchDistances: [],
-        siteImages: []
+        siteImages: [],
+        pips: [],
+        documents: []
     },
     mutations: {
         SET_SITE(state, site) {
@@ -146,7 +148,32 @@ export default {
         },
         SET_SITE_IMAGES(state, payload){
             state.siteImages = payload;
-        }
+        },
+
+        SET_SITE_PIP(state, payload){
+            state.pips = payload;
+        },
+        UPDATE_PIP(state, payload){
+            state.pips = state.pips.map(plan => {
+                if (plan.id === payload.id) {
+                    return Object.assign({}, plan, payload)
+                }
+                return plan
+            })
+        },
+        ADD_PIP(state, payload){
+            state.pips.push(payload)
+        },
+        DELETE_SITE_PIP(state, payload){
+            var index = state.pips.findIndex(plan => plan.id === payload.id);
+            state.pips.splice(index, 1);
+        },
+        SET_SITE_DOCUMENTS(state, payload){
+            state.documents = payload;
+        },
+        ADD_DOCUMENTS(state, payload){
+            state.documents.push(payload)
+        },
     },
     actions: {
         async loadCurrentStage({commit}, payload){
@@ -471,6 +498,61 @@ export default {
                     
                     commit('SET_SITE_IMAGES', response.data)
                 });
+        },
+        loadPIP({commit}, payload) {
+            /* api
+                .request("get", "pip/?site="+payload)
+                .then((response) => {
+                    
+                    commit('SET_SITE_PIP', response.data)
+                }); */
+
+            commit('SET_SITE_PIP', [])
+        },
+        deletePIP({commit}, payload){
+            /* api
+                .request("delete", "pip/"+payload.id+"/")
+                .then(() => {
+                    commit('DELETE_SITE_PIP', payload) 
+                }); */
+            
+            commit('DELETE_SITE_PIP', payload)
+
+        },
+        updatePIP({ commit, state, rootState }, payload) {
+            /* api
+                .request("patch", "pip/"+payload.id+"/", payload)
+                .then(response => {
+                    let pip = response.data;
+                    commit('UPDATE_PIP', pip) 
+                }); */
+
+            commit('UPDATE_PIP', payload) 
+        },
+        addPIP({ commit, rootState }, payload) {
+            /* api
+                .request("post", "cost/", payload)
+                .then(response => {
+                    let pip = response.data;
+
+                    commit('ADD_PIP', pip) 
+                }); */
+
+            commit('ADD_PIP', payload) 
+        },
+        getSiteDocuments({ commit, rootState }, payload) {
+
+            //.....
+
+            commit('SET_SITE_DOCUMENTS', [])
+        },
+        addDocument({ commit, state }, payload) {
+
+            //.....
+
+            console.log(payload.get('title'));
+
+            commit('ADD_DOCUMENTS', { 'id': state.documents.length, 'title': payload.get('title'), 'url': 'http://someurl.com'})
         }
     },
     getters: {

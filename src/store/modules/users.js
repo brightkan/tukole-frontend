@@ -11,7 +11,8 @@ export default {
         listTypes: [
             'admin', 'super_admin', 'client', 'warehouse_manager', 'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc'
         ],
-        manholes: []
+        manholes: [],
+        assignedManholes: []
     },
     mutations: {
         SET_USERS(state, users) {
@@ -37,7 +38,10 @@ export default {
         },
         SET_MANHOLES(state, payload) {
             state.manholes = payload
-        }
+        },
+        ADD_ASSIGNED_MANHOLE(state, payload) {
+            state.assignedManholes.push(payload)
+        },
     },
     actions: {
         async loadUsers({ commit, rootState }, payload) {
@@ -93,23 +97,14 @@ export default {
                 });
         },
         assignManhole({ commit, state, rootState }, payload) {
-            console.log(payload.user)
-            console.log(payload.manhole)
 
-            //make api call
-            state.users = state.users.map(user => {
-                if (user.id === payload.user.id) {
-                    if(user.manholes){
-                        payload.user.manholes = user.manholes.push(payload.manhole)
-                    }else{
-                        payload.user.manholes = [payload.manhol]
-                    }
-                    
-                    return Object.assign({}, user, payload.user)
+            state.manholes.forEach(item => {
+                if(payload.manhole == item.id){
+                    payload.manhole = item.number
                 }
-                return user
             })
 
+            commit('ADD_ASSIGNED_MANHOLE', payload)
         },
     },
     getters: {
@@ -132,7 +127,15 @@ export default {
             return state.users.filter(item => { return item.type === payload }).length
         },
         getOFCUsers: (state) => {
-            return state.users.filter(item => { return item.role === 'ofc' })
+            return state.users.filter(item => { return item.role === 'ofc' }).map(element => {
+                element.assignManholes = [];
+                state.assignedManholes.forEach(manholeEntry => {
+                    if(manholeEntry.user === element.id){
+                        element.assignManholes.push(manholeEntry.manhole)
+                    }
+                })
+                return element;
+            })
         },
     }
 }

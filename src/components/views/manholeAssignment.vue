@@ -32,7 +32,7 @@
               <td><span class="dot"></span></td>
               <td><span class="oval"></span>{{ user.first_name }} {{ user.last_name}}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.manholeList }}</td>
+              <td>{{ user.assignManholes.join(', ') }}</td>
               <td class="text-right">
                 <a class="custom-btn text-white" data-toggle="modal" data-target="#showManHoleAssignment" v-on:click="selectUser(user)" style="padding-top: 5px; padding-bottom: 5px;">
                   Assign Manhole</a>  
@@ -112,7 +112,7 @@ export default {
       this.$store.dispatch("users/assignManhole", selectedManhole);
     },
     selectUser(user){
-      this.selectedManhole.user = user
+      this.selectedManhole.user = user.id
     }
   }
 };
