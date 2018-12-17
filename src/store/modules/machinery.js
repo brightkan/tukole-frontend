@@ -18,7 +18,8 @@ export default {
         },
         types: [],
         machines: [],
-        listType: 'all'
+        listType: 'all',
+        history: []
     },
     mutations: {
         SET_MACHINES(state, machines) {
@@ -59,6 +60,12 @@ export default {
         },
         SET_TYPES(state, types) {
             state.types = types
+        },
+        SET_HISTORY(state, payload){
+            state.history = payload
+        },
+        ADD_HISTORY(state, payload){
+            state.history.push(payload)
         },
     },
     actions: {
@@ -150,7 +157,43 @@ export default {
                     let type = response.data;
                     commit('ADD_TYPE', type)
                 });
-        }
+        },
+        getHistory({ commit, state }, payLoad) {
+            /* api
+                .request("post", "fleet_history/", payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('SET_HISTORY', type)
+                }); */
+
+                commit('SET_HISTORY', [
+                    {
+                        id: 1,
+                        type: "fault_fix",
+                        reason: "Damaged handle. repaired the handle",
+                        cost: "300",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    },
+                    {
+                        id: 2,
+                        type: "assignment",
+                        reason: "Assigned to Joel Tunga",
+                        cost: "",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    }
+                ])
+        },
+        saveFix({ dispatch, commit, state }, payLoad) {
+            api
+                .request("post", "machine/fix", payLoad)
+                .then(response => {
+                    dispatch('updateFleet', {'id': payLoad.fleet.id, 'status': 'Avialable'})
+                    let history = response.data;
+                    commit('ADD_HISTORY', history)
+                });
+
+            dispatch('updateMachine', {'id': payLoad.machine.id, 'status': 'Avialable'})
+        },
     },
     getters: {
         available: state => state.machines.filter(item => { return item.status.name === 'Avialable' }),
@@ -170,6 +213,12 @@ export default {
                 });
                 return machines;
             }
+        },
+        faultHistory: (state, getters, rootState) => {
+            return state.history.filter(item => { return item.type == 'fault_fix'})
+        },
+        assignmentHistory: (state, getters, rootState) => {
+            return state.history.filter(item => { return item.type == 'assignment'})
         }
     }
 }

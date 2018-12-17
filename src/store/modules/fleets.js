@@ -19,7 +19,8 @@ export default {
         },
         fleets: [],
         fleet_types: [],
-        listType: 'all'
+        listType: 'all',
+        history: []
     },
     mutations: {
         SET_FLEET_TYPES(state, fleet_types) {
@@ -60,6 +61,12 @@ export default {
                 }
                 return type
             })
+        },
+        SET_HISTORY(state, payload){
+            state.history = payload
+        },
+        ADD_HISTORY(state, payload){
+            state.history.push(payload)
         },
     },
     actions: {
@@ -156,7 +163,57 @@ export default {
                     let type = response.data;
                     commit('ADD_TYPE', type)
                 });
-        }
+        },
+        getFleetHistory({ commit, state }, payLoad) {
+            /* api
+                .request("post", "fleet_history/", payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('SET_HISTORY', type)
+                }); */
+
+                commit('SET_HISTORY', [
+                    {
+                        id: 1,
+                        type: "fault_fix",
+                        reason: "punctured front tires. I had to buy new tires and replace them the faulty ones",
+                        cost: "2000",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    },
+                    {
+                        id: 2,
+                        type: "fault_fix",
+                        reason: "Damaged brakes, brake pads where worn out. got new ones for all the four wheels",
+                        cost: "300",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    },
+                    {
+                        id: 3,
+                        type: "assignment",
+                        reason: "Assigned to Joel Tunga",
+                        cost: "",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    },
+                    {
+                        id: 4,
+                        type: "assignment",
+                        reason: "Assigned to Katuula Joel",
+                        cost: "",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    }
+                ])
+        },
+        saveFix({ dispatch, commit, state }, payLoad) {
+            api
+                .request("post", "fleet/fix", payLoad)
+                .then(response => {
+                    dispatch('updateFleet', {'id': payLoad.fleet.id, 'status': 'Avialable'})
+                    let history = response.data;
+                    commit('ADD_HISTORY', history)
+                });
+
+            dispatch('updateFleet', {'id': payLoad.fleet.id, 'status': 'Avialable'})
+        },
     },
     getters: {
         totalVehicles: state => state.fleets.length,
@@ -177,6 +234,12 @@ export default {
                 });
                 return fleets;
             }
+        },
+        faultHistory: (state, getters, rootState) => {
+            return state.history.filter(item => { return item.type == 'fault_fix'})
+        },
+        assignmentHistory: (state, getters, rootState) => {
+            return state.history.filter(item => { return item.type == 'assignment'})
         }
     }
 }

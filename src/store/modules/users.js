@@ -10,7 +10,8 @@ export default {
         listType: 'all',
         listTypes: [
             'admin', 'super_admin', 'client', 'warehouse_manager', 'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc'
-        ]
+        ],
+        manholes: []
     },
     mutations: {
         SET_USERS(state, users) {
@@ -33,6 +34,9 @@ export default {
                 }
                 return user
             })
+        },
+        SET_MANHOLES(state, payload) {
+            state.manholes = payload
         }
     },
     actions: {
@@ -78,7 +82,35 @@ export default {
                 .then(() => {
                     commit('DELETE_USER', payLoad)
                 });
-        }
+        },
+        loadManHoles({ commit, rootState }, payload) {
+            api
+                .request("get", "manholes/")
+                .then(response => {
+                    let manholes = response.data
+                    
+                    commit('SET_MANHOLES', manholes)
+                });
+        },
+        assignManhole({ commit, state, rootState }, payload) {
+            console.log(payload.user)
+            console.log(payload.manhole)
+
+            //make api call
+            state.users = state.users.map(user => {
+                if (user.id === payload.user.id) {
+                    if(user.manholes){
+                        payload.user.manholes = user.manholes.push(payload.manhole)
+                    }else{
+                        payload.user.manholes = [payload.manhol]
+                    }
+                    
+                    return Object.assign({}, user, payload.user)
+                }
+                return user
+            })
+
+        },
     },
     getters: {
         getUsers: (state) => {
@@ -98,6 +130,9 @@ export default {
         },
         userCount: (state) => (payload) => {
             return state.users.filter(item => { return item.type === payload }).length
-        }
+        },
+        getOFCUsers: (state) => {
+            return state.users.filter(item => { return item.role === 'ofc' })
+        },
     }
 }

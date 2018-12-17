@@ -18,7 +18,8 @@ export default {
         },
         tools: [],
         tool_types: [],
-        listType: 'all'
+        listType: 'all',
+        history: []
     },
     mutations: {
         SET_TOOL_TYPES(state, tool_types) {
@@ -60,6 +61,12 @@ export default {
                 return type
             })
         },
+        SET_HISTORY(state, payload){
+            state.history = payload
+        },
+        ADD_HISTORY(state, payload){
+            state.history.push(payload)
+        },
     },
     actions: {
         async loadToolTypes({ commit }) {
@@ -76,7 +83,8 @@ export default {
                 .then(response => {
                     let tools = response.data.map(tool => {
 
-                        tool.status = 'Avialable'; //noah should update the model to have status
+                        if(tool.status == null)
+                            tool.status = 'Avialable'; 
 
                         state.tool_types.forEach(element => {
                             if(tool.type === element.id){
@@ -104,8 +112,6 @@ export default {
                             tool.type = element;
                         }
                     });
-
-                    tool.status = 'Avialable'; //noah should update the model to have status
 
                     rootState.statuses.forEach(element => {
                         if(tool.status === element.name){
@@ -136,8 +142,6 @@ export default {
                         }
                     });
 
-                    tool.status = 'Avialable'; //noah should update the model to have status
-
                     rootState.statuses.forEach(element => {
                         if(tool.status === element.name){
                             tool.status = element;
@@ -167,7 +171,57 @@ export default {
                 .then(() => {
                     commit('DELETE_TYPE', payLoad)
                 });
-        }
+        },
+        getHistory({ commit, state }, payLoad) {
+            /* api
+                .request("post", "fleet_history/", payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('SET_HISTORY', type)
+                }); */
+
+                commit('SET_HISTORY', [
+                    {
+                        id: 1,
+                        type: "fault_fix",
+                        reason: "Damaged handle. repaired the handle",
+                        cost: "300",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    },
+                    {
+                        id: 2,
+                        type: "assignment",
+                        reason: "Assigned to Katuula Joel",
+                        cost: "",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    },
+                    {
+                        id: 3,
+                        type: "assignment",
+                        reason: "Assigned to Katuula Joel",
+                        cost: "",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    },
+                    {
+                        id: 4,
+                        type: "assignment",
+                        reason: "Assigned to Katuula Joel",
+                        cost: "",
+                        created: "2018-10-29T09:51:24.282608Z"
+                    }
+                ])
+        },
+        saveFix({ dispatch, commit, state }, payLoad) {
+            api
+                .request("post", "tool/fix", payLoad)
+                .then(response => {
+                    dispatch('updateFleet', {'id': payLoad.fleet.id, 'status': 'Avialable'})
+                    let history = response.data;
+                    commit('ADD_HISTORY', history)
+                });
+
+            dispatch('updateTool', {'id': payLoad.tool.id, 'status': 'Avialable'})
+        },
     },
     getters: {
         available: state => state.tools.filter(item => { return item.status.name === 'Avialable' }),
@@ -187,6 +241,12 @@ export default {
                 });
                 return tools;
             }
+        },
+        faultHistory: (state, getters, rootState) => {
+            return state.history.filter(item => { return item.type == 'fault_fix'})
+        },
+        assignmentHistory: (state, getters, rootState) => {
+            return state.history.filter(item => { return item.type == 'assignment'})
         }
     }
 }

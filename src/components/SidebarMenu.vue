@@ -26,7 +26,7 @@
     </router-link>
     <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/tools">
       <a>
-        <i class="fa fa-tasks"></i>
+        <i class="fa fa-toolbox"></i>
         <span class="page">Tools</span>
       </a>
     </router-link>
@@ -34,6 +34,24 @@
       <a>
         <i class="fa fa-users"></i>
         <span class="page">Users</span>
+      </a>
+    </router-link>
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/manhole">
+      <a>
+        <i class="fa fa-warehouse"></i>
+        <span class="page">Manhole assignment</span>
+      </a>
+    </router-link>
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/warehouse">
+      <a>
+        <i class="fa fa-warehouse"></i>
+        <span class="page">WareHouse</span>
+      </a>
+    </router-link>
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/mechanic">
+      <a>
+        <i class="fa fa-cogs"></i>
+        <span class="page">Mechanic</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/dash/notifications">

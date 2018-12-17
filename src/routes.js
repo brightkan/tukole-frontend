@@ -32,6 +32,12 @@ import RequestsView from "./components/views/projects/requests.vue";
 import ProjectOverView from "./components/views/projects/projectOverview.vue";
 import ProjectReportsView from "./components/views/projects/reports.vue"
 import NotificationsView from "./components/views/notifications.vue"
+import WarehouseView from "./components/views/warehouse.vue"
+import MechanicView from "./components/views/mechanic/mechanic.vue"
+import MechanicFleetView from "./components/views/mechanic/mechanicFleets.vue"
+import MechanicMachineryView from "./components/views/mechanic/mechanicMachinery.vue"
+import MechanicToolsView from "./components/views/mechanic/mechanicTools.vue"
+import ManholeAssignmentView from "./components/views/manholeAssignment.vue";
 
 // Routes
 const routes = [
@@ -76,10 +82,47 @@ const routes = [
         meta: { description: "List of our users", requiresAuth: false }
       },
       {
+        path: "manhole",
+        component: ManholeAssignmentView,
+        name: "Manhole Assignment",
+        meta: { description: "AssignManholes to users", requiresAuth: false }
+      },
+      {
         path: "notifications",
         component: NotificationsView,
         name: "Notifications",
         meta: { description: "List of notifications", requiresAuth: false }
+      },
+      {
+        path: "warehouse",
+        component: WarehouseView,
+        name: "Warehouse",
+        meta: { description: "Warehouse management", requiresAuth: false }
+      },
+      {
+        path: "mechanic",
+        component: MechanicView,
+        redirect: "mechanic/fleets",
+        children: [
+          {
+            path: "fleets",
+            component: MechanicFleetView,
+            name: "Mechanic fleets",
+            meta: { description: "List of faulty fleets", requiresAuth: false }
+          },
+          {
+            path: "machinery",
+            component: MechanicMachineryView,
+            name: "Mechanic machinery",
+            meta: { description: "List of faulty machinery", requiresAuth: false }
+          },
+          {
+            path: "tools",
+            component: MechanicToolsView,
+            name: "Mechanic tools",
+            meta: {description: "List of faulty tools", requiresAuth: false}
+          }
+        ]
       },
       {
         path: "tools",

@@ -11,6 +11,7 @@ import sites from './modules/sites'
 import users from './modules/users'
 import notifications from './modules/notifications'
 import challenges from './modules/challenges'
+import warehouse from './modules/warehouse'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
     sites,
     users,
     notifications,
-    challenges
+    challenges,
+    warehouse
   },
   state,
   actions,

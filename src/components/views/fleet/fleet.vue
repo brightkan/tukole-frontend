@@ -79,6 +79,7 @@
               <td>status</td>
               <td>Creation Date</td>
               <td></td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -88,7 +89,11 @@
               <td>{{ fleet.humanUuid }}</td>
               <td>{{ fleet.vehicle_type.type }}</td>
               <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
-              <td>12. 08. 2018</td>
+              <td>{{ fleet.created | moment("DD. MM. YY") }}</td>
+              <td>
+                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectItem(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
+                  show history</a>  
+              </td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editFleet(fleet)" data-toggle="modal" data-target="#addFleet"></i> 
                 <i class="fa fa-times" v-on:click="deleteFleet(fleet)"></i>
@@ -107,7 +112,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Tool</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Fleet</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -148,6 +153,37 @@
       </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="showHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ selectedItem.name }} history
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="detailBox">
+              <div class="actionBox">
+                  <ul class="commentList">
+                      <li v-for="history in assignmentHistory" :key="history.id">
+                          <div class="commentText">
+                              <p class="">{{ history.reason }}</p> <span class="date sub-text">on {{ history.created | moment("dddd, MMMM Do YYYY") }}</span>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   </section>
 </div>
@@ -162,6 +198,7 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      selectedItem: {},
       editMode: false,
       fleet: {
         name: '',
@@ -183,7 +220,7 @@ export default {
       fleet_types: state => state.fleets.fleet_types,
       statuses: state => state.statuses
     }),
-    ...mapGetters('fleets', ['totalVehicles', 'availableVehicles', 'assignedVehicles', 'brokenDownVehicles', 'getFleets'])
+    ...mapGetters('fleets', ['totalVehicles', 'availableVehicles', 'assignedVehicles', 'brokenDownVehicles', 'getFleets', 'assignmentHistory'])
   },
   methods: {
     saveFleet() {
@@ -226,6 +263,11 @@ export default {
         status: '',
         workspace: window.localStorage.getItem("workspace")
       }
+    },
+    selectItem(fleet){
+      this.selectedItem = fleet;
+      this.$store.commit("fleets/SET_HISTORY", []);
+      this.$store.dispatch("fleets/getFleetHistory", fleet.id);
     }
   }
 };

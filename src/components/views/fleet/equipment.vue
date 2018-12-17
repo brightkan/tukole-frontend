@@ -48,6 +48,7 @@
               <td>status</td>
               <td>Creation Date</td>
               <td></td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -57,7 +58,11 @@
               <td>{{ machine.humanUuid }}</td>
               <td>Grader</td>
               <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span></td>
-              <td>12. 08. 2018</td>
+              <td>{{ machine.created | moment("DD. MM. YY") }}</td>
+              <td>
+                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectItem(machine)" style="padding-top: 5px; padding-bottom: 5px;">
+                  show history</a>  
+              </td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editMachine(machine)" data-toggle="modal" data-target="#addMachinery"></i> 
                 <i class="fa fa-times" v-on:click="deleteMachine(machine)"></i>
@@ -111,6 +116,37 @@
       </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="showHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ selectedItem.name }} history
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="detailBox">
+              <div class="actionBox">
+                  <ul class="commentList">
+                      <li v-for="history in assignmentHistory" :key="history.id">
+                          <div class="commentText">
+                              <p class="">{{ history.reason }}</p> <span class="date sub-text">on {{ history.created | moment("dddd, MMMM Do YYYY") }}</span>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 </template>
 
@@ -123,6 +159,7 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      selectedItem: {},
       editMode: false,
       machine: {
         name: '',
@@ -142,7 +179,7 @@ export default {
       machines: state => state.machinery.machines,
       statuses: state => state.statuses
     }),
-    ...mapGetters('machinery', ['getMachines'])
+    ...mapGetters('machinery', ['getMachines', 'assignmentHistory'])
   },
   methods: {
     saveMachine() {
@@ -184,6 +221,11 @@ export default {
         status: '',
         workspace: window.localStorage.getItem("workspace")
       }
+    },
+    selectItem(machine){
+      this.selectedItem = machine;
+      this.$store.commit("machinery/SET_HISTORY", []);
+      this.$store.dispatch("machinery/getHistory", machine.id);
     }
   }
 };

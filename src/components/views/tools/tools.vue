@@ -49,6 +49,7 @@
               <td>status</td>
               <td>Creation Date</td>
               <td></td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -58,7 +59,11 @@
               <td>{{ tool.humanUuid }}</td>
               <td>{{ tool.type.type }}</td>
               <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
-              <td>12. 08. 2018</td>
+              <td>{{ tool.created | moment("DD, MM, YY") }}</td>
+              <td>
+                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectItem(tool)" style="padding-top: 5px; padding-bottom: 5px;">
+                  show history</a>  
+              </td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editTool(tool)" data-toggle="modal" data-target="#addTool"></i> 
                 <i class="fa fa-times" v-on:click="deleteTool(tool)"></i>
@@ -100,6 +105,14 @@
                 <label>Serial Number</label>
                 <input type="text" class="form-control" v-model="tool.humanUuid"/>
               </div>
+              <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" v-model="tool.status">
+                  <option v-for="status in statuses" v-bind:value="status.name" :key="status.id">
+                    {{ status.name }}
+                  </option>
+                </select>
+              </div>
             </form>
           </div>
           <div class="modal-footer">
@@ -107,6 +120,37 @@
             <button type="button" class="btn btn-primary" v-on:click="saveTool" data-dismiss="modal">
               {{ editMode ? 'Edit' : 'Add'}} Tool
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="showHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ selectedItem.name }} history
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="detailBox">
+              <div class="actionBox">
+                  <ul class="commentList">
+                      <li v-for="history in assignmentHistory" :key="history.id">
+                          <div class="commentText">
+                              <p class="">{{ history.reason }}</p> <span class="date sub-text">on {{ history.created | moment("dddd, MMMM Do YYYY") }}</span>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
@@ -125,6 +169,9 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      selectedItem: {
+
+      },
       editMode: false,
       tool: {
         name: "",
@@ -141,8 +188,11 @@ export default {
     this.$store.dispatch("tools/loadTools");
   },
   computed: {
-    ...mapState('tools',["tool_types"]),
-    ...mapGetters('tools', ['getTools'])
+    ...mapState({
+      tool_types: state => state.tools.tool_types,
+      statuses: state => state.statuses
+    }),
+    ...mapGetters('tools', ['getTools', 'assignmentHistory'])
   },
   methods: {
     saveTool() {
@@ -168,6 +218,7 @@ export default {
       this.editMode = true;
       this.tool = Object.assign({}, tool);
       this.tool.type = tool.type.id;
+      this.tool.status = tool.status.name;
     },
     deleteTool(tool){
       if (confirm(`are you sure you want to delete ${tool.name}?`)) {
@@ -183,6 +234,11 @@ export default {
         status: '',
         workspace: window.localStorage.getItem("workspace")
       }
+    },
+    selectItem(tool){
+      this.selectedItem = tool;
+      this.$store.commit("tools/SET_HISTORY", []);
+      this.$store.dispatch("tools/getHistory", tool.id);
     }
   }
 };
