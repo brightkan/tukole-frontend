@@ -319,7 +319,6 @@ export default {
                     console.log("" + response.data );
                 });
         },
-
         async loadSiteFleets({dispatch, commit, rootState}, payload){
             await dispatch("fleets/loadFleets",{}, {root:true});
             await api
@@ -500,59 +499,52 @@ export default {
                 });
         },
         loadPIP({commit}, payload) {
-            /* api
-                .request("get", "pip/?site="+payload)
+            api
+                .request("get", "sitespips/?site="+payload)
                 .then((response) => {
-                    
-                    commit('SET_SITE_PIP', response.data)
-                }); */
-
-            commit('SET_SITE_PIP', [])
+                    let pips = response.data
+                    commit('SET_SITE_PIP', pips)
+                });
         },
         deletePIP({commit}, payload){
-            /* api
-                .request("delete", "pip/"+payload.id+"/")
+            api
+                .request("delete", "sitespips/"+payload.id+"/")
                 .then(() => {
                     commit('DELETE_SITE_PIP', payload) 
-                }); */
-            
-            commit('DELETE_SITE_PIP', payload)
-
+                });
         },
         updatePIP({ commit, state, rootState }, payload) {
-            /* api
-                .request("patch", "pip/"+payload.id+"/", payload)
+            api
+                .request("patch", "sitespips/"+payload.id+"/", payload)
                 .then(response => {
                     let pip = response.data;
                     commit('UPDATE_PIP', pip) 
-                }); */
+                });
 
             commit('UPDATE_PIP', payload) 
         },
         addPIP({ commit, rootState }, payload) {
-            /* api
-                .request("post", "cost/", payload)
+            api
+                .request("post", "sitespips/", payload)
                 .then(response => {
                     let pip = response.data;
 
                     commit('ADD_PIP', pip) 
-                }); */
-
-            commit('ADD_PIP', payload) 
+                });
         },
         getSiteDocuments({ commit, rootState }, payload) {
-
-            //.....
-
-            commit('SET_SITE_DOCUMENTS', [])
+            api
+                .request("get", "sitesdocuments/?site="+payload)
+                .then(response => {
+                    commit('SET_SITE_DOCUMENTS', response.data)
+                }); 
         },
         addDocument({ commit, state }, payload) {
-
-            //.....
-
-            console.log(payload.get('title'));
-
-            commit('ADD_DOCUMENTS', { 'id': state.documents.length, 'title': payload.get('title'), 'url': 'http://someurl.com'})
+            api
+                .request("post", "sitesdocuments/", payload)
+                .then(response => {
+                    commit('ADD_DOCUMENTS', response.data)
+                }); 
         }
     },
     getters: {

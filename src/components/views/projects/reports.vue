@@ -17,7 +17,7 @@
         <div class="project-roles-box">
             <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
               <li><a class="active" href="#manhole" data-toggle="tab" role="tab">Manholes</a></li>
-              <li><a href="#reInstallations" data-toggle="tab" role="tab" v-on:click="loadSiteReInstallations()">ReInstallations</a></li>
+              <li><a href="#reInstallations" data-toggle="tab" role="tab" v-on:click="loadSiteReInstallations()">Reinstatements</a></li>
               <li><a href="#roadCrossings" data-toggle="tab" role="tab" v-on:click="loadSiteRoadCrossings()">RoadCrossing</a></li>
               <li><a href="#trenchDistances" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Trench Distance</a></li>
             </ul>

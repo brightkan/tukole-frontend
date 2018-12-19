@@ -10,6 +10,7 @@ export default {
             measurement: "",
             unit_cost: ""
         },
+        warehouses: [],
         wareHouseMaterials: [],
     },
     mutations: {

@@ -42,14 +42,42 @@ export default {
         ADD_ASSIGNED_MANHOLE(state, payload) {
             state.assignedManholes.push(payload)
         },
+        SET_ASSIGNED_MANHOLES(state, payload){
+            payload.forEach(item => {
+                state.assignedManholes.push(item)
+            })
+        }
     },
     actions: {
-        async loadUsers({ commit, rootState }, payload) {
+        async getUserAssignedManholes({ commit, rootState }, payload){
+            await api
+                .request("get", "manholesassignment/")
+                .then(response => {
+                    let manholes = response.data.map(item => {
+                        state.manholes.forEach(element => {
+                            if(item.manhole == element.id){
+                                item.manhole = element.number
+                            }
+                        })
+                        return item
+                    });
+
+                    commit('SET_ASSIGNED_MANHOLES', manholes)
+                });
+        },
+        async loadUsers({ dispatch, commit, rootState }, payload) {
             await api
                 .request("get", "users/?workspace="+payload)
                 .then(response => {
                     let users = response.data
                     
+                    users.filter(item => { 
+                        if(item.role === 'ofc'){
+                            dispatch("getUserAssignedManholes", item.id);
+                        }
+                        return item.role === 'ofc' 
+                    })
+
                     commit('SET_USERS', users)
                 });
         },
@@ -97,14 +125,19 @@ export default {
                 });
         },
         assignManhole({ commit, state, rootState }, payload) {
+            api
+                .request("post", "manholes/"+payload.manhole+"/assign/", payload)
+                .then(response => {
+                    let manhole = response.data
 
-            state.manholes.forEach(item => {
-                if(payload.manhole == item.id){
-                    payload.manhole = item.number
-                }
-            })
+                    state.manholes.forEach(item => {
+                        if(manhole.manhole == item.id){
+                            manhole.manhole = item.number
+                        }
+                    })
 
-            commit('ADD_ASSIGNED_MANHOLE', payload)
+                    commit('ADD_ASSIGNED_MANHOLE', manhole)
+                });
         },
     },
     getters: {
@@ -129,8 +162,11 @@ export default {
         getOFCUsers: (state) => {
             return state.users.filter(item => { return item.role === 'ofc' }).map(element => {
                 element.assignManholes = [];
+                console.log(JSON.stringify(state.assignedManholes))
                 state.assignedManholes.forEach(manholeEntry => {
+                    //console.log(JSON.stringify(manholeEntry))
                     if(manholeEntry.user === element.id){
+                        console.log(manholeEntry.number)
                         element.assignManholes.push(manholeEntry.manhole)
                     }
                 })

@@ -165,14 +165,14 @@ export default {
                 });
         },
         getFleetHistory({ commit, state }, payLoad) {
-            /* api
-                .request("post", "fleet_history/", payLoad)
+            api
+                .request("get", "repairhistory/?fleet="+payLoad)
                 .then(response => {
                     let type = response.data;
                     commit('SET_HISTORY', type)
-                }); */
+                });
 
-                commit('SET_HISTORY', [
+                /* commit('SET_HISTORY', [
                     {
                         id: 1,
                         type: "fault_fix",
@@ -201,13 +201,13 @@ export default {
                         cost: "",
                         created: "2018-10-29T09:51:24.282608Z"
                     }
-                ])
+                ]) */
         },
         saveFix({ dispatch, commit, state }, payLoad) {
             api
-                .request("post", "fleet/fix", payLoad)
+                .request("post", "repairhistory/", payLoad)
                 .then(response => {
-                    dispatch('updateFleet', {'id': payLoad.fleet.id, 'status': 'Avialable'})
+                    dispatch('updateFleet', {'id': payLoad.fleet, 'status': 'Avialable'})
                     let history = response.data;
                     commit('ADD_HISTORY', history)
                 });

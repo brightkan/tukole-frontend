@@ -89,6 +89,7 @@
 
 <script>
 import { mapState } from "vuex";
+import moment from 'moment'
 
 export default {
   data(router) {
@@ -114,6 +115,8 @@ export default {
   methods: {
     savePIP() {
       const { pip } = this;
+      pip.start = moment(pip.start).format("YYYY-MM-DD[T]HH:mm:ss")
+      pip.end = moment(pip.end).format("YYYY-MM-DD[T]HH:mm:ss")
       if(this.editMode){
         this.$store.dispatch("sites/updatePIP", pip);
       }else{

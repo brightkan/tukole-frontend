@@ -25,8 +25,10 @@
 
       <div class="row">
         <div class="col-md-3" v-for="document in documents" :key="document.id">
-          <a class="text-center text-black" v-bind:href="document.url" target="_blank">
-            <p style="font-size: 40px"><i class="fas fa-file"></i></p>
+          <a class="text-center text-black" v-bind:href="document.file" target="_blank">
+            <p style="font-size: 40px">
+               <i v-html="getFileType(document.file)"></i>
+            </p>
             <p>{{ document.title }}</p>
           </a>
         </div>
@@ -52,7 +54,7 @@
                 <div class="col-md-12">
                   <div class="dropbox">
                     <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-                      accept="image/*" class="input-file">
+                      accept="*" class="input-file">
                       <p v-if="isInitial">
                         Drag your file(s) here to begin<br> or click to browse
                       </p>
@@ -161,10 +163,25 @@ export default {
       Array
         .from(Array(fileList.length).keys())
         .map(x => {
-          this.formData.append('file_url', fileList[x], fileList[x].name);
+          this.formData.append('file', fileList[x], fileList[x].name);
           this.fileNames.push(fileList[x].name)
         });
       this.currentStatus = STATUS_SAVING;
+    },
+    getFileType(file){
+      var patt1 = /\.([0-9a-z]+)(?:[\?#]|$)/i;
+      var m3 = (file).match(patt1);
+
+      switch(m3[1]){
+        case "png":
+          return "<i class=\"fas fa-image\"></i>"
+        case "jpg": 
+          return "<i class=\"fas fa-image\"></i>"
+        case "pdf": 
+          return "<i class=\"fas fa-file-pdf\"></i>"
+        default: 
+          return "<i class=\"fas fa-file\"></i>"
+      }
     }
   }
 };
