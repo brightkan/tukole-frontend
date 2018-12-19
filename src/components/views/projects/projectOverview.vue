@@ -40,7 +40,7 @@
 
       <div class="col-md-3">
         <div class="summary-card row">
-          <h3 class="col-md-6"><small>USD 3000</small></h3>
+          <h3 class="col-md-6"><small>{{ getBoqTotal | formatNumber }}</small></h3>
           <p class="col-md-6">Estimated Budget</p>
         </div>
       </div>
@@ -604,7 +604,13 @@ export default {
       tools: state => state.tools.tools,
       surveyComments: state => state.sites.surveyComments,
     }),
-    ...mapGetters('users', ['getUsers']),
+
+    getUsers () {
+      return this.$store.getters['users/getUsers'];
+    },
+    getBoqTotal () {
+      return this.$store.getters['sites/getBoqTotal'];
+    },
 
     //this is for the upload
     isInitial() {
@@ -624,6 +630,7 @@ export default {
     this.$store.commit('users/CHANGE_LIST_TYPE', 'all');
     this.$store.dispatch("sites/loadSite", window.localStorage.getItem("selectsite"));
     this.$store.dispatch("sites/getSurveyImages", window.localStorage.getItem("selectsite"));
+    this.$store.dispatch("sites/loadBoqs", window.localStorage.getItem("selectsite"));
 
     //this is for the upload
     this.reset();
