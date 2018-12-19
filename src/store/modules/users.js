@@ -43,13 +43,11 @@ export default {
             state.assignedManholes.push(payload)
         },
         SET_ASSIGNED_MANHOLES(state, payload){
-            payload.forEach(item => {
-                state.assignedManholes.push(item)
-            })
+            state.assignedManholes = payload
         }
     },
     actions: {
-        async getUserAssignedManholes({ commit, rootState }, payload){
+        async getUserAssignedManholes({ commit, state }, payload){
             await api
                 .request("get", "manholesassignment/")
                 .then(response => {
@@ -162,11 +160,8 @@ export default {
         getOFCUsers: (state) => {
             return state.users.filter(item => { return item.role === 'ofc' }).map(element => {
                 element.assignManholes = [];
-                console.log(JSON.stringify(state.assignedManholes))
                 state.assignedManholes.forEach(manholeEntry => {
-                    //console.log(JSON.stringify(manholeEntry))
                     if(manholeEntry.user === element.id){
-                        console.log(manholeEntry.number)
                         element.assignManholes.push(manholeEntry.manhole)
                     }
                 })
