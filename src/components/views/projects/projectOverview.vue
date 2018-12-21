@@ -395,12 +395,31 @@ fiber cable was laid.
       </div>
     </div>
 
-    <div class="row site-images">
+    <div class="row site-images" v-if="$store.state.user_type != 'client' || ($store.state.user_type == 'client' && site.can_client_view_survey_reports)">
       <div class="col-md-12">
         <div class="project-roles-box">
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-5">
               <h3>Survey Results</h3>
+            </div>
+
+            <div class="comp-title col-md-4">
+              <p v-if="!userAccessible"  class="float-right"><small class="text-muted">User Access</small> 
+                {{ site.can_client_view_survey_reports ? 'Accessible' : 'Not Accessible' }} 
+                <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="userAccessible = true"><i class="fas fa-pencil-alt"></i></span>
+              </p>
+
+              <form v-if="userAccessible" class="form-inline" role="form">
+                  <div class="form-group col-md-8" style="padding-right: 0px">
+                      <select class="form-control ac_select" v-model="userAccessibility" style="width: 100%">
+                        <option v-bind:value="'true'">Yes</option>
+                        <option v-bind:value="'false'">False</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateUserAccessible(site)">Edit</button>
+                  </div>
+              </form>
             </div>
 
             <div class="comp-title col-md-3">
@@ -554,6 +573,8 @@ export default {
   data(router) {
     return {
       userFleet: null,
+      userAccessible: false,
+      userAccessibility: false,
       siteAccessibility: false,
       editAccessible: false,
       addSiteRole: false,
@@ -641,6 +662,12 @@ export default {
       site.site_accessible = siteAccessibility
       this.$store.dispatch("sites/updateSite", site);
       this.editAccessible = false;
+    },
+    updateUserAccessible(site){
+      const { userAccessibility } = this;
+      site.can_client_view_survey_reports = userAccessibility
+      this.$store.dispatch("sites/updateSite", site);
+      this.userAccessible = false;
     },
     loadSiteFleets(){
       this.$store.dispatch("sites/loadSiteFleets", window.localStorage.getItem("selectsite"));
