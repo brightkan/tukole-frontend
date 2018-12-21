@@ -33,8 +33,8 @@
                     </thead>
                     <tbody>
                       <tr v-for="manhole in manholes" :key="manhole.id">
-                        <td><span class="oval"></span>{{ manhole.number }}</td>
-                        <td>12. 08. 2018</td>
+                        <td>{{ manhole.number }}</td>
+                        <td>{{ manhole.created | moment("dddd, MMMM Do YYYY") }}</td>
                       </tr>
                       <tr v-if="manholes.length <= 0">
                         <td colspan="7" class="text-center">No ManHoles installed Yet</td>
@@ -55,10 +55,10 @@
                   </thead>
                   <tbody>
                     <tr v-for="reInstallation in reInstallations" :key="reInstallation.id">
-                      <td><span class="oval"></span>{{ reInstallation.type }}</td>
+                      <td>{{ reInstallation.type }}</td>
                       <td>{{ reInstallation.material.name }}</td>
                       <td>{{ reInstallation.amount }} {{ reInstallation.material.measurement }}</td>
-                      <td>12. 08. 2018</td>
+                      <td>{{ reInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
                     </tr>
                     <tr v-if="reInstallations.length <= 0">
                       <td colspan="7" class="text-center">No Site ReInstallations Yet</td>
@@ -77,9 +77,9 @@
                   </thead>
                   <tbody>
                     <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
-                      <td><span class="oval"></span>{{ roadCrossing.distance_crossed }} meters</td>
+                      <td>{{ roadCrossing.distance_crossed }} meters</td>
                       <td>{{ roadCrossing.tool.name }}</td>
-                      <td>12. 08. 2018</td>
+                      <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
                     </tr>
 
                     <tr v-if="roadCrossings.length <= 0">
@@ -99,9 +99,9 @@
                   </thead>
                   <tbody>
                     <tr v-for="trenchDistance in trenchDistances" :key="trenchDistance.id">
-                      <td><span class="oval"></span>{{ trenchDistance.distance }} meters</td>
+                      <td>{{ trenchDistance.distance }} meters</td>
                       <td>{{ trenchDistance.depth }} meters</td>
-                      <td>12. 08. 2018</td>
+                      <td>{{ trenchDistance.created | moment("dddd, MMMM Do YYYY") }}</td>
                     </tr>
 
                     <tr v-if="trenchDistances.length <= 0">

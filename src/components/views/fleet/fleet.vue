@@ -72,7 +72,6 @@
         <table class="table">
           <thead>
             <tr>
-              <td><span class="dot"></span></td>
               <td>Vehicle</td>
               <td>Serial Number</td>
               <td>Type</td>
@@ -84,8 +83,7 @@
           </thead>
           <tbody>
             <tr v-for="fleet in getFleets" :key="fleet.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ fleet.name }}</td>
+              <td>{{ fleet.name }}</td>
               <td>{{ fleet.humanUuid }}</td>
               <td>{{ fleet.vehicle_type.type }}</td>
               <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
@@ -514,8 +512,8 @@ label.field.focused .psuedo_select ul {
 
 .table tbody tr {
   background-color: #fff;
-  border-top: 5px solid;
-  border-bottom: 5px solid;
+  border-top: 0;
+  border-bottom: 0;
   border-color: #ebf0f5;
 }
 

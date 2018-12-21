@@ -386,8 +386,8 @@ label.field.focused .psuedo_select ul {
 
 .table tbody tr {
   background-color: #fff;
-  border-top: 5px solid;
-  border-bottom: 5px solid;
+  border-top: 0;
+  border-bottom: 0;
   border-color: #ebf0f5;
 }
 
