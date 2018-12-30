@@ -20,12 +20,12 @@
         </router-link> 
         <router-link tag="li" to="/dash/project/costs" v-if="this.$route.meta.type == 'ProjectOverview' && $store.state.user_type != 'client'">
           <a href="#">
-            Project Costs
+            Site Costs
           </a>
         </router-link>  
         <router-link tag="li" to="/dash/project/documentation" v-if="this.$route.meta.type == 'ProjectOverview' && $store.state.user_type != 'client'">
           <a href="#">
-            Documentation
+            Documents
           </a>
         </router-link> 
         <router-link tag="li" to="/dash/project/reports" v-if="this.$route.meta.type == 'ProjectOverview' && $store.state.user_type != 'client'">

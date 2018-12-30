@@ -24,6 +24,7 @@ export default {
         requestStatus: ['accepted','pending','all'],
         siteRoles: [],
         siteFleets: [],
+        siteMachinery: [],
         siteTools: [],
         siteBoqs: [],
         siteCosts: [],
@@ -113,6 +114,20 @@ export default {
             var index = state.siteTools.findIndex(siteTool => siteTool.id === payload.id);
             state.siteTools.splice(index, 1);
         },
+
+
+        SET_SITE_MACHINERY(state, payload){
+            state.siteMachinery = payload;
+        },
+        ADD_SITE_MACHINERY(state, payload){
+            state.siteMachinery.push(payload);
+        },
+        DELETE_SITE_MACHINERY(state, payload){
+            var index = state.siteMachinery.findIndex(siteMachine => siteMachine.id === payload.id);
+            state.siteMachinery.splice(index, 1);
+        },
+
+
         SET_SITE_BOQS(state, payload){
             state.siteBoqs = payload;
         },
@@ -397,6 +412,48 @@ export default {
                     commit('DELETE_SITE_TOOL', payload)
                 });
         },
+
+        async loadSiteMachinery({dispatch, commit, rootState}, payload){
+            await dispatch("machinery/loadMachines",{}, {root:true});
+            await api
+                .request("get", "sitemachines/?site="+payload)
+                .then((response) => {
+                    let siteMachinery = response.data.map(item => {
+                        let siteMachine = item;
+                        rootState.machinery.machines.forEach(machine => {
+                            if(item.machine === machine.id){
+                                siteMachine.machine = machine;
+                            }
+                        })
+                        return siteMachine;
+                    });
+                    commit('SET_SITE_MACHINERY', siteMachinery)
+                });
+        },
+        addSiteMachinery({commit, rootState}, payload){
+            api
+                .request("post", "sitemachines/", payload)
+                .then(response => {
+                    let siteMachine = response.data;
+
+                    rootState.machinery.machines.forEach(machine => {
+                        if(siteMachine.machine === machine.id){
+                            siteMachine.machine =  machine;
+                        }
+                    })
+
+                    commit('ADD_SITE_MACHINERY', siteMachine)
+                });
+        },
+        deleteSiteMachinery({commit}, payload){
+            api
+                .request("delete", "sitemachines/"+payload.id+"/")
+                .then(() => {
+                    commit('DELETE_SITE_MACHINERY', payload)
+                });
+        },
+
+
         loadBoqs({commit}, payload){
             api
                 .request("get", "siteboqs/?site="+payload)

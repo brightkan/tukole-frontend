@@ -29,7 +29,6 @@
         <table class="table">
           <thead>
             <tr>
-              <td><span class="dot"></span></td>
               <td>Type</td>
               <td>Description</td>
               <td>Creation Date</td>
@@ -38,8 +37,7 @@
           </thead>
           <tbody>
             <tr v-for="type in fleet_types" :key="type.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ type.type }}</td>
+              <td>{{ type.type }}</td>
               <td>{{ type.description }}</td>
               <td>12. 08. 2018</td>
               <td class="text-right">
@@ -386,8 +384,8 @@ label.field.focused .psuedo_select ul {
 
 .table tbody tr {
   background-color: #fff;
-  border-top: 5px solid;
-  border-bottom: 5px solid;
+  border-top: 0;
+  border-bottom: 0;
   border-color: #ebf0f5;
 }
 

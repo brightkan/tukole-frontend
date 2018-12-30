@@ -37,6 +37,8 @@
             <select class="pull-right">
               <option>Daily</option>
               <option>Weekly</option>
+              <option>Monthly</option>
+              <option>Quaterly</option>
               <option>Yearly</option>
             </select>
           </h4>

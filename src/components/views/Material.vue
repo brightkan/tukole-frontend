@@ -36,7 +36,6 @@
         <table class="table">
           <thead>
             <tr>
-              <td><span class="dot"></span></td>
               <td>Material</td>
               <td>Measurement</td>
               <td>Running Out</td>
@@ -45,8 +44,7 @@
           </thead>
           <tbody>
             <tr v-for="material in materials" :key="material.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ material.name }}</td>
+              <td>{{ material.name }}</td>
               <td style="text-transform: uppercase">{{ material.measurement }}</td>
               <td>{{ material.running_out ? "Running out" : "Available" }}</td>
               <td>{{ material.unit_cost }}</td>
@@ -167,6 +165,10 @@ export default {
 </script>
 
 <style>
+.table td:nth-child(1){
+  padding-left: 30px
+}
+
 .content > .row:nth-child(1) {
   padding: 15px 30px 10px;
   border-bottom: 1px solid #e0e0e0;
@@ -407,8 +409,8 @@ label.field.focused .psuedo_select ul {
 
 .table tbody tr {
   background-color: #fff;
-  border-top: 5px solid;
-  border-bottom: 5px solid;
+  border-top: 0;
+  border-bottom: 0;
   border-color: #ebf0f5;
 }
 

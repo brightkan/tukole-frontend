@@ -3,8 +3,23 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-12">
+      <div class="comp-title col-md-6">
         <h3>{{ site.site_name }}</h3>
+      </div>
+      <div class="col-md-6">
+        <p v-if="!editAccessible"  class="float-right"><small class="text-muted">Estimated End:</small> 
+          {{ site.expected_end_date | moment("dddd, MMMM Do YYYY") }} 
+          <span style="margin-left: 10px" v-on:click="editAccessible = true"><i class="fas fa-pencil-alt"></i></span>
+        </p>
+
+        <form v-if="editAccessible" class="form-inline" role="form">
+            <div class="form-group col-md-8" style="padding-right: 0px">
+                <input type="date" class="form-control" v-model="expected_end_date" style="width: 100%"/>
+            </div>
+            <div class="form-group col-md-4">
+                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateExptectedEnd(site)">Edit</button>
+            </div>
+        </form>
       </div>
     </div>
     <!-- /.row -->
@@ -94,6 +109,8 @@ import moment from 'moment'
 export default {
   data(router) {
     return {
+      editAccessible: false,
+      expected_end_date: '',
       editMode: false,
       pip: {
         task: "",
@@ -140,6 +157,12 @@ export default {
         start: "",
         end: ""
       }
+    },
+    updateExptectedEnd(site){
+      const { expected_end_date } = this;
+      site.expected_end_date = expected_end_date
+      this.$store.dispatch("sites/updateSite", site);
+      this.editAccessible = false;
     }
   }
 };

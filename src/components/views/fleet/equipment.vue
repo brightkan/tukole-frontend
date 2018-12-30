@@ -41,7 +41,6 @@
         <table class="table">
           <thead>
             <tr>
-              <td><span class="dot"></span></td>
               <td>Machine</td>
               <td>Serial Number</td>
               <td>Type</td>
@@ -53,8 +52,7 @@
           </thead>
           <tbody>
             <tr v-for="machine in getMachines" :key="machine.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ machine.name }}</td>
+              <td>{{ machine.name }}</td>
               <td>{{ machine.humanUuid }}</td>
               <td>Grader</td>
               <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span></td>

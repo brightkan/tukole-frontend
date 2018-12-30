@@ -3,10 +3,25 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-6">
+      <div class="comp-title col-md-4">
         <h3>{{ site.site_name }}</h3>
       </div>
-      <div class="comp-title col-md-6">
+      <div class="comp-title col-md-3">
+        <p v-if="!editPercentage" class="float-left">
+          <small class="text-muted">Percentage completed:</small> {{ site.current_stage }}% 
+          <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="editPercentage = true"><i class="fas fa-pencil-alt"></i></span>
+        </p>
+
+        <form v-if="editPercentage" class="form-inline" role="form">
+            <div class="form-group col-md-8" style="padding-right: 0px">
+                <input type="text" class="form-control" v-model="sitePercentage" style="width: 100%"/>
+            </div>
+            <div class="form-group col-md-4">
+                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updatePercentage(site)">Edit</button>
+            </div>
+        </form>
+      </div>
+      <div class="comp-title col-md-5">
         <p class="float-left">
           <small class="text-muted">Survey Status</small> {{ site.site_surveyed ? 'Complete': 'Not Complete'}} 
         </p>
@@ -161,7 +176,7 @@ fiber cable was laid.
               <li><a class="active" href="#Commentary" data-toggle="tab" role="tab">Team</a></li>
               <li><a href="#Videos" data-toggle="tab" role="tab" v-on:click="loadSiteFleets()">Fleet</a></li>
               <li><a href="#Events" data-toggle="tab" role="tab" v-on:click="loadSiteTools()">Tool</a></li>
-              <li><a href="#Machinery" data-toggle="tab" role="tab">Machinery</a></li>
+              <li><a href="#Machinery" data-toggle="tab" role="tab" v-on:click="loadSiteMachinery()">Machinery</a></li>
             </ul>
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade show active" id="Commentary">
@@ -195,31 +210,42 @@ fiber cable was laid.
                       <tr v-if="addSiteRole">
                         <td colspan="7">
                           <form class="form-inline" role="form">
-                              <div class="form-group col-md-5">
+                              <div class="form-group col-md-3">
                                   <select class="form-control" v-model="siteRole.user" style="width: 100%">
                                     <option v-for="user in getUsers" :key="user.id" v-bind:value="user">
                                       {{ user.first_name }} {{ user.last_name }}
                                     </option>
                                   </select>
                               </div>
-                              <div class="form-group col-md-5">
-                                <select v-if="siteRole.user.role == 'driver'" class="form-control" v-model="userFleet" style="width: 100%">
+                              <div class="form-group col-md-3">
+                                  <select class="form-control" v-model="siteRole.role" style="width: 100%">
+                                    <option v-bind:value="'driver'">Driver</option>
+                                    <option v-bind:value="'isp'">ISP</option>
+                                    <option v-bind:value="'quality'">Quality</option>
+                                    <option v-bind:value="'ofc'">OFC</option>
+                                    <option v-bind:value="'surveyor'">Surveyor</option>
+                                    <option v-bind:value="'project_manager'">Project Manager</option>
+                                    <option v-bind:value="'fleet_manager'">Fleet Manager</option>
+                                  </select>
+                              </div>
+                              <div class="form-group col-md-3">
+                                <select v-if="siteRole.role == 'driver'" class="form-control" v-model="userFleet" style="width: 100%">
                                   <option v-for="siteFleet in siteFleets" :key="siteFleet.id" v-bind:value="siteFleet.id">
                                     {{ siteFleet.fleet.name }}
                                   </option>
                                 </select>
                               </div>
-                              <div class="form-group col-md-2">
+                              <div class="form-group col-md-3">
                                   <button style="width: 100%" type="button" class="btn btn-default" v-on:click="saveSiteRole()">Add</button>
                               </div>
                           </form>
                         </td>
                       </tr>
                       <tr v-for="siteRole in siteRoles" :key="siteRole.id">
-                        <td><span class="oval"></span>{{ siteRole.user.first_name }} {{ siteRole.user.last_name }}</td>
+                        <td>{{ siteRole.user.first_name }} {{ siteRole.user.last_name }}</td>
                         <td>{{ siteRole.user.phone_number }}</td>
-                        <td>{{ siteRole.user.role }}</td>
-                        <td>12. 08. 2018</td>
+                        <td>{{ siteRole.role }}</td>
+                        <td>{{ siteRole.created | moment("dddd, MMMM Do YYYY") }}</td>
                         <td><i class="fa fa-times" v-on:click="deleteSiteRole(siteRole)"></i></td>
                       </tr>
                       <tr v-if="siteRoles.length <= 0">
@@ -273,10 +299,10 @@ fiber cable was laid.
                       </td>
                     </tr>
                     <tr v-for="siteFleet in siteFleets" :key="siteFleet.id">
-                      <td><span class="oval"></span>{{ siteFleet.fleet.name }}</td>
+                      <td>{{ siteFleet.fleet.name }}</td>
                       <td>{{ siteFleet.fleet.humanUuid }}</td>
                       <td>{{ siteFleet.fleet.vehicle_type.type }}</td>
-                      <td>12. 08. 2018</td>
+                      <td>{{ siteFleet.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td><i class="fa fa-times" v-on:click="deleteSiteFleet(siteFleet)"></i></td>
                     </tr>
                     <tr v-if="siteFleets.length <= 0">
@@ -330,10 +356,10 @@ fiber cable was laid.
                     </tr>
 
                     <tr v-for="siteTool in siteTools" :key="siteTool.id">
-                      <td><span class="oval"></span>{{ siteTool.tool.name }}</td>
+                      <td>{{ siteTool.tool.name }}</td>
                       <td>{{ siteTool.tool.humanUuid }}</td>
                       <td>{{ siteTool.tool.type.type }}</td>
-                      <td>12. 08. 2018</td>
+                      <td>{{ siteTool.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td><i class="fa fa-times" v-on:click="deleteSiteTool(siteTool)"></i></td>
                     </tr>
 
@@ -354,7 +380,7 @@ fiber cable was laid.
                   </div>
 
                   <div class="comp-title col-md-2">
-                    <button type="button" data-toggle="modal" data-target="#addMachinery">
+                    <button type="button" v-on:click="addSiteMachinery = true">
                       Add Machine
                     </button>
                   </div>
@@ -364,29 +390,39 @@ fiber cable was laid.
                     <tr>
                       <td>Machine</td>
                       <td>Serial Number</td>
-                      <td>Type</td>
                       <td>Creation Date</td>
+                      <td></td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td><span class="oval"></span>Catapiller Multrix</td>
-                      <td>TUK-CAT-1002</td>
-                      <td>Grader</td>
-                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+                    <tr v-if="addSiteMachinery">
+                      <td colspan="7">
+                        <form class="form-inline" role="form">
+                            <div class="form-group col-md-10">
+                                <select class="form-control" v-model="siteMachinery.machine" style="width: 100%">
+                                  <option v-for="machine in machines" :key="machine.id" v-bind:value="machine.id">
+                                    {{ machine.name }}
+                                  </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <button style="width: 100%" type="button" class="btn btn-default" v-on:click="saveSiteMachinery()">Add</button>
+                            </div>
+                        </form>
+                      </td>
                     </tr>
-                    <tr>
-                      <td><span class="oval"></span>Catapiller Multrix</td>
-                      <td>TUK-CAT-1002</td>
-                      <td>Grader</td>
-                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+
+                    <tr v-for="siteMachine in siteMachines" :key="siteMachine.id">
+                      <td>{{ siteMachine.machine.name }}</td>
+                      <td>{{ siteMachine.machine.humanUuid }}</td>
+                      <td>{{ siteMachine.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td><i class="fa fa-times" v-on:click="deleteSiteMachinery(siteMachine)"></i></td>
                     </tr>
-                    <tr>
-                      <td><span class="oval"></span>Catapiller Multrix</td>
-                      <td>TUK-CAT-1002</td>
-                      <td>Grader</td>
-                      <td>12. 08. 2018 <i class="pull-right fa fa-ellipsis-v"></i></td>
+
+                    <tr v-if="siteMachines.length <= 0">
+                      <td colspan="7" class="text-center">No Site Machines Yet</td>
                     </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -395,12 +431,31 @@ fiber cable was laid.
       </div>
     </div>
 
-    <div class="row site-images">
+    <div class="row site-images" v-if="$store.state.user_type != 'client' || ($store.state.user_type == 'client' && site.can_client_view_survey_reports)">
       <div class="col-md-12">
         <div class="project-roles-box">
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-5">
               <h3>Survey Results</h3>
+            </div>
+
+            <div class="comp-title col-md-4">
+              <p v-if="!userAccessible"  class="float-right"><small class="text-muted">User Access</small> 
+                {{ site.can_client_view_survey_reports ? 'Accessible' : 'Not Accessible' }} 
+                <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="userAccessible = true"><i class="fas fa-pencil-alt"></i></span>
+              </p>
+
+              <form v-if="userAccessible" class="form-inline" role="form">
+                  <div class="form-group col-md-8" style="padding-right: 0px">
+                      <select class="form-control ac_select" v-model="userAccessibility" style="width: 100%">
+                        <option v-bind:value="'true'">Yes</option>
+                        <option v-bind:value="'false'">False</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateUserAccessible(site)">Edit</button>
+                  </div>
+              </form>
             </div>
 
             <div class="comp-title col-md-3">
@@ -553,15 +608,21 @@ export default {
   mixins: [select],
   data(router) {
     return {
-      userFleet: null,
+      sitePercentage: 0,
+      editPercentage: false,
+      userAccessible: false,
+      userAccessibility: false,
       siteAccessibility: false,
       editAccessible: false,
+      userFleet: null,
       addSiteRole: false,
       addSiteFleet: false,
       addSiteTool: false,
+      addSiteMachinery: false,
       siteRole:{
         site: window.localStorage.getItem("selectsite"),
-        user: ''
+        user: '', 
+        role: ''
       },
       siteFleet:{
         site: window.localStorage.getItem("selectsite"),
@@ -570,6 +631,10 @@ export default {
       siteTool:{
         site: window.localStorage.getItem("selectsite"),
         tool: ''
+      },
+      siteMachinery:{
+        site: window.localStorage.getItem("selectsite"),
+        machine: ''
       },
       surveyResult: {
         file_url: "",
@@ -600,8 +665,10 @@ export default {
       siteRoles: state => state.sites.siteRoles,
       siteFleets: state => state.sites.siteFleets,
       siteTools: state => state.sites.siteTools,
+      siteMachines: state => state.sites.siteMachinery,
       fleets: state => state.fleets.fleets,
       tools: state => state.tools.tools,
+      machines: state => state.machinery.machines,
       surveyComments: state => state.sites.surveyComments,
     }),
 
@@ -642,11 +709,26 @@ export default {
       this.$store.dispatch("sites/updateSite", site);
       this.editAccessible = false;
     },
+    updateUserAccessible(site){
+      const { userAccessibility } = this;
+      site.can_client_view_survey_reports = userAccessibility
+      this.$store.dispatch("sites/updateSite", site);
+      this.userAccessible = false;
+    },
+    updatePercentage(site){
+      const { sitePercentage } = this;
+      site.current_stage = sitePercentage
+      this.$store.dispatch("sites/updateSite", site);
+      this.editPercentage = false;
+    },
     loadSiteFleets(){
       this.$store.dispatch("sites/loadSiteFleets", window.localStorage.getItem("selectsite"));
     },
     loadSiteTools(){
       this.$store.dispatch("sites/loadSiteTools", window.localStorage.getItem("selectsite"));
+    },
+    loadSiteMachinery(){
+      this.$store.dispatch("sites/loadSiteMachinery", window.localStorage.getItem("selectsite"));
     },
     saveSurveyResult() {
       const { surveyResult } = this;
@@ -678,6 +760,11 @@ export default {
           this.$store.dispatch("sites/deleteSiteTool", siteTool);
       }
     },
+    deleteSiteMachinery(siteMachine){
+      if (confirm(`are you sure you want to delete ${siteMachine.machine.name}?`)) {
+          this.$store.dispatch("sites/deleteSiteMachinery", siteMachine);
+      }
+    },
     resetSurveyResult(){
       this.surveyResult = {
         file: ""
@@ -702,6 +789,11 @@ export default {
       this.addSiteTool = false;
       const { siteTool } = this;
       this.$store.dispatch("sites/addSiteTool", siteTool);
+    },
+    saveSiteMachinery(){
+      this.addSiteMachinery = false;
+      const { siteMachinery } = this;
+      this.$store.dispatch("sites/addSiteMachinery", siteMachinery);
     },
     getSurveyComments(survey_result){
       //show loading
@@ -815,6 +907,8 @@ export default {
 .timeline-box h3 {
   margin: 0;
   padding-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .timeline-activites-label {
@@ -920,8 +1014,12 @@ export default {
   padding: 27px 38px;
 }
 
+.nav-tabs{
+  padding: 5px 0
+}
+
 .project-roles-box .nav-tabs > li > a{
-  padding: 0px 15px;
+  padding: 5px 15px;
 }
 
 .project-roles-box .nav-justified {
@@ -957,7 +1055,8 @@ export default {
   border-color: #ececec;
 }
 .site-images h3{
-  font-size: 24px;
+  font-size: 16px;
+  font-weight: bold;
 }
 .site-images .project-roles-box > .row:first-child{
   padding-bottom: 15px;
