@@ -21,27 +21,25 @@
             </li>
 
             <li class="dropdown notifications">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> (<b>{{getUnReadNotifications.length}}</b>)</a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> <span class="custom-badge badge badge-light">{{ getUnReadNotifications.length }}</span></a>
               <ul class="dropdown-menu notify-drop">
                 <div class="notify-drop-title">
                   <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">Notifications (<b>{{getUnReadNotifications.length}}</b>)</div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 text-right"><a href="" class="rIcon allRead" data-tooltip="tooltip" data-placement="bottom" title="tümü okundu."><i class="fa fa-dot-circle-o"></i></a></div>
+                    <div class="col-md-12 notif-header">{{ getUnReadNotifications.length }} Notifications</div>
                   </div>
                 </div>
                 <!-- end notify title -->
                 <!-- notify content -->
                 <div class="drop-content">
-                  <li class="row" v-for="notification in getUnReadNotifications" :key="notification.id" v-on:click="showNotifications()">
-                    <div class="col-md-3 ld-l0"><div class="notify-img"><img src="http://placehold.it/45x45" alt=""></div></div>
-                    <div class="col-md-9 pd-l0">
-                      <p>{{ notification.notification }}</p>
-                      <p class="time">{{ notification.created | moment("dddd, MMMM Do YYYY") }}</p>
-                    </div>
-                  </li>
+
+                  <ul class="list-group">
+                    <li class="list-group-item" v-for="notification in getUnReadNotifications" :key="notification.id" v-on:click="showNotifications()">
+                      <i class="fas fa-bell"></i> {{ notification.notification }}  
+                    </li>
+                  </ul>
                 </div>
-                <div class="notify-drop-footer text-center">
-                  <a href="" v-on:click="showNotifications()"><i class="fa fa-eye"></i> View More</a>
+                <div class="notify-drop-footer">
+                  <a href="" v-on:click="showNotifications()">ALL NOTIFICATIONS</a>
                 </div>
               </ul>
             </li>
@@ -52,7 +50,7 @@
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <!-- <span class="hidden-xs">{{ demo.displayName }}</span> -->
                 <!-- The user image in the navbar-->
-                <img v-bind:src="demo.avatar" class="user-image" alt="User Image">        
+                <img v-bind:src="demo.avatar" class="user-image" alt="">        
               </a>
               <ul class="dropdown-menu">
                   <li><a href="#" v-on:click="Logout()" class="dropdown-item">Logout</a></li>
@@ -142,6 +140,21 @@ export default {
 </script>
 
 <style>
+.list-group i {
+  color: #888;
+  margin-right: 5px;
+}
+
+.list-group li{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.custom-badge {
+  position: absolute !important;
+}
+
 .main-header .sidebar-toggle {
     padding: 0 15px;
 }
@@ -150,7 +163,7 @@ export default {
   width: 100%;
 }
 .content-wrapper{
-  margin-top: 51px;
+  margin-top: 64px;
 }
 .nav > li > a:hover,
 .nav > li > a:active,
@@ -186,7 +199,7 @@ a {
   width: 100%;
 }
 .wrapper.fixed_layout .content-wrapper {
-  padding-top: 50px;
+  padding-top: 64px;
 }
 .wrapper.fixed_layout .main-sidebar {
   position: fixed;
@@ -248,12 +261,13 @@ hr.visible-xs-block {
 
 .navbar-nav li a {
   font-family: "Montserrat", sans-serif;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .main-header > .navbar {
   background-color: #256ae1 !important;
   margin-left: 0;
+  min-height: 64px;
 }
 
 #nav_search {
@@ -262,14 +276,13 @@ hr.visible-xs-block {
 }
 
 #nav_search input[type="text"] {
-  background: url(../../static/img/search-white.png) no-repeat 10px 6px;
-  background-color: rgba(255, 254, 254, 0.2);
+  background: #fff;
+  background-color:#fff;
   border: 0 none;
   font-family: "Montserrat", sans-serif;
-  font-size: 12px;
-  line-height: 15px;
-  color: #ffffff;
-  width: 700px;
+  font-size: 14px;
+  line-height: 2;
+  color: #666;
   padding: 6px 15px 6px 35px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -277,26 +290,26 @@ hr.visible-xs-block {
 }
 #nav_search input[type="text"]::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: white;
+  color: #666;
   font-family: "Montserrat", sans-serif;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 14px;
+  line-height: 2;
   opacity: 1; /* Firefox */
 }
 
 #nav_search input[type="text"]:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: white;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 14px;
+  line-height: 2;
   font-family: "Montserrat", sans-serif;
 }
 
 #nav_search input[type="text"]::-ms-input-placeholder {
   /* Microsoft Edge */
   color: white;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 14px;
+  line-height: 2;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -358,7 +371,6 @@ hr.visible-xs-block {
   min-width: 330px;
   background-color: #fff;
   min-height: 360px;
-  max-height: 360px;
   box-shadow: 0 2px 2px#666;
 }
 .notifications .dropdown-menu.notify-drop .notify-drop-title {
@@ -429,7 +441,7 @@ hr.visible-xs-block {
   color: #333;
 }
 .notifications .dropdown-menu.notify-drop .drop-content > li a {
-  font-size: 12px;
+  font-size: 1.2em;
   font-weight: normal;
 }
 .notifications .dropdown-menu.notify-drop .drop-content > li {
@@ -473,13 +485,20 @@ hr.visible-xs-block {
   border-top: 1px solid #e2e2e2;
   bottom: 0;
   position: relative;
-  padding: 8px 15px;
+  padding: 10px;
 }
 .notifications .dropdown-menu.notify-drop .notify-drop-footer a {
-  color: #777;
   text-decoration: none;
 }
-.notifications .dropdown-menu.notify-drop .notify-drop-footer a:hover {
-  color: #333;
+
+.notif-header, .notify-drop-footer {
+  color: #256ae1;
+  text-align: center;
 }
+
+.notif-header {
+  margin: auto;
+  text-transform: uppercase;
+}
+
 </style>
