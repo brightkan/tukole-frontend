@@ -1,3 +1,4 @@
+
 <template>
 <div>
   <section class="content-header">
@@ -9,8 +10,13 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-12">
-        <h3>OFC Users</h3>
+      <div class="comp-title col-md-10">
+        <h3>{{ getUser(this.$route.params.id).first_name +' '+getUser(this.$route.params.id).last_name }}</h3>
+      </div>
+      <div class="col-md-2"> 
+        <a class="custom-btn text-white" data-toggle="modal" data-target="#showManHoleAssignment" style="padding-top: 5px; padding-bottom: 5px;">
+          Assign Manhole
+        </a>  
       </div>
     </div>
     <!-- /.row -->
@@ -21,18 +27,20 @@
           <thead>
             <tr>
               <td>Name</td>
-              <td>Email</td>
-              <td>Manholes assigned</td>
+              <td>Login time</td>
+              <td>Logout time</td>
+              <td>Assigned on</td>
             </tr>
           </thead>
-          <tbody class="ofc-users"> 
-            <tr v-for="user in getOFCUsers" :key="user.id">
-              <td v-on:click="navigateToUser(user)">{{ user.first_name }} {{ user.last_name}}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.assignManholes.join(', ') }}</td>
+          <tbody> 
+            <tr v-for="manhole in getUserManholes(this.$route.params.id)" :key="manhole.id">
+              <td>{{ manhole.manhole }}</td>
+              <td>00:00</td>
+              <td>00:00</td>
+              <td>{{ manhole.created | moment("DD, MM, YY")}}</td>
             </tr>
-            <tr v-if="getOFCUsers.length <= 0">
-              <td colspan="7" class="text-center">No Users Yet</td>
+            <tr v-if="getUserManholes(this.$route.params.id).length <= 0">
+              <td colspan="7" class="text-center">No Manholes Yet</td>
             </tr>
           </tbody>
         </table>
@@ -85,39 +93,28 @@ export default {
     return {
       selectedManhole: {
         manhole: '',
-        user: ''
+        user: this.$route.params.id
       },
       editMode: false,
     };
   },
-  created() {},
   mounted() {
-    this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
     this.$store.dispatch("users/loadManHoles", window.localStorage.getItem("workspace"));
   },
   computed: {
     ...mapState('users', ['manholes']),
-    ...mapGetters('users', ['getOFCUsers'])
+    ...mapGetters('users', ['getUser', 'getUserManholes'])
   },
   methods: {
     saveAssignment(){
       const { selectedManhole } = this;
       this.$store.dispatch("users/assignManhole", selectedManhole);
-    },
-    selectUser(user){
-      this.selectedManhole.user = user.id
-    },
-    navigateToUser(user){
-      this.$router.push('/dash/userManholes/'+user.id);
     }
   }
 };
 </script>
 
 <style>
-.ofc-users tr td:first-child:hover{
-  cursor: pointer;
-}
 </style>
 
 

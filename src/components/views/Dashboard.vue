@@ -122,6 +122,7 @@
 <script>
 import Chart from "chart.js";
 import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -149,6 +150,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("materials/loadMaterials");
+    this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
     let resFleets = this.$store.dispatch("fleets/loadFleets");
     let resMachines = this.$store.dispatch("machinery/loadMachines");
     let resTools = this.$store.dispatch("tools/loadTools");

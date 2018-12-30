@@ -691,7 +691,11 @@ export default {
     },
     isFailed() {
       return this.currentStatus === STATUS_FAILED;
-    }
+    },
+
+    ofcUsers() {
+        return this.$store.getters.users.ofcUsers;
+    },
   },
   mounted() {
     this.$store.commit('users/CHANGE_LIST_TYPE', 'all');

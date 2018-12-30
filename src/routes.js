@@ -38,6 +38,7 @@ import MechanicFleetView from "./components/views/mechanic/mechanicFleets.vue"
 import MechanicMachineryView from "./components/views/mechanic/mechanicMachinery.vue"
 import MechanicToolsView from "./components/views/mechanic/mechanicTools.vue"
 import ManholeAssignmentView from "./components/views/manholeAssignment.vue";
+import UserManholesView from "./components/views/userManholes.vue";
 
 // Routes
 const routes = [
@@ -86,6 +87,12 @@ const routes = [
         component: ManholeAssignmentView,
         name: "Manhole Assignment",
         meta: { description: "AssignManholes to users", requiresAuth: false }
+      },
+      {
+        path: "userManholes/:id",
+        component: UserManholesView,
+        name: "User assigned manholes",
+        meta: { description: "OFC user manholes", requiresAuth: false }
       },
       {
         path: "notifications",

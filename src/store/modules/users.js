@@ -168,5 +168,12 @@ export default {
                 return element;
             })
         },
+        getUser: (state) => (userId) => {
+            let users = state.users.filter(item => { return item.id == userId})
+            return users[0]
+        },
+        getUserManholes: (state) => (userId) => {
+            return state.assignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
+        }
     }
 }
