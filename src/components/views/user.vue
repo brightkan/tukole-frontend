@@ -71,7 +71,7 @@
               <td>{{ user.email }}</td>
               <td>{{ user.type }}</td>
               <td>{{ user.role }}</td>
-              <td>12. 08. 2018</td>
+              <td>{{ user.created | moment("DD. MM. YY")}}</td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
                 <i class="fa fa-times" v-on:click="deleteUser(user)"></i>

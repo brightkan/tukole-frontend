@@ -3,7 +3,7 @@
     <div class="col-md-4">
       <div class="auth-form container">
         <h3>Tukole</h3>
-        <form @submit.prevent="checkCreds">
+        <form>
           <div class="form-group">
             <label>Password</label>
             <input class="form-control" name="password" type="password" v-model="password">
@@ -14,7 +14,7 @@
             <input class="form-control" name="password" type="password" v-model="c_password">
           </div>
 
-          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
+          <button type="button" v-on:click="checkCreds()" v-bind:class="'btn btn-primary btn-lg ' + loading" 
             :disabled="loading == 'loading'">
             {{ loading ? 'Loading...' : 'Submit' }}
           </button>
@@ -77,6 +77,9 @@ export default {
       c_password: ""
     };
   },
+  created() {
+    window.localStorage.removeItem('token');
+  },
   methods: {
     checkCreds() {
       const { c_password, password, token } = this;
@@ -94,7 +97,6 @@ export default {
           this.toggleLoading();
           var data = response.data;
           this.$router.push("/");
-          console.log(data);
         })
         .catch(error => {
           this.toggleLoading();

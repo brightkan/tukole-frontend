@@ -86,16 +86,31 @@
         <div class="box">
           <h4>Users</h4>
           <div class="container user-list">
-            <div class="skills" v-bind:style="{ width: '80%' }">90</div>
+            <div class="skills" v-bind:style="{ width: getUsersPercentage('isp')+'%' }"
+              v-bind:class="{ empty: getUsersPercentage('isp') == 0 }">
+              {{ getUsersPercentage('isp') != 0 ? getUsersByType('isp').length : '' }}
+            </div>
             <p>ISP</p>
-            <div class="skills" v-bind:style="{ width: '85%' }">90</div>
+            <div class="skills" v-bind:style="{ width: getUsersPercentage('driver')+'%' }"
+              v-bind:class="{ empty: getUsersPercentage('driver') == 0 }">
+              {{ getUsersPercentage('driver') != 0 ? getUsersByType('driver').length : '' }}
+            </div>
             <p>Drivers</p>
-            <div class="skills" v-bind:style="{ width: '40%' }">90</div>
-            <p>QSP</p>
-            <div class="skills" v-bind:style="{ width: '90%' }">90</div>
+            <div class="skills" v-bind:style="{ width: getUsersPercentage('surveyor')+'%' }"
+              v-bind:class="{ empty: getUsersPercentage('surveyor') == 0 }">
+              {{ getUsersPercentage('surveyor') != 0 ? getUsersByType('surveyor').length : '' }}
+            </div>
+            <p>SURVEYOR</p>
+            <div class="skills" v-bind:style="{ width: getUsersPercentage('ofc')+'%' }"
+              v-bind:class="{ empty: getUsersPercentage('ofc') == 0 }">
+              {{ getUsersPercentage('ofc') != 0 ? getUsersByType('ofc').length : '' }}
+            </div>
             <p>0FC</p>
-            <div class="skills" v-bind:style="{ width: '65%' }">90</div>
-            <p>Supervisor</p>
+            <div class="skills" v-bind:style="{ width: getUsersPercentage('project_manager')+'%' }"
+              v-bind:class="{ empty: getUsersPercentage('project_manager') == 0 }">
+              {{ getUsersPercentage('project_manager') != 0 ? getUsersByType('project_manager').length : '' }}
+            </div>
+            <p>Project Manager</p>
           </div>
         </div>
       </div>
@@ -146,7 +161,10 @@ export default {
     isMobile() {
       return window.innerWidth <= 800 && window.innerHeight <= 600;
     },
-    ...mapGetters('materials', ['runningOut'])
+    ...mapGetters('materials', ['runningOut']),
+    getUsersByType() {
+        return this.$store.getters['users/getUsersByType']
+    }
   },
   mounted() {
     this.$store.dispatch("materials/loadMaterials");
@@ -154,14 +172,12 @@ export default {
     let resFleets = this.$store.dispatch("fleets/loadFleets");
     let resMachines = this.$store.dispatch("machinery/loadMachines");
     let resTools = this.$store.dispatch("tools/loadTools");
-    Promise .all([resFleets, resMachines, resTools]).then( ()=> {
+    Promise.all([resFleets, resMachines, resTools]).then( ()=> {
       this.loadDoughnutGraph('chart-vechicles');
       this.loadDoughnutGraph('chart-machines');
       this.loadDoughnutGraph('chart-tools');
     });
     
-    
-
     this.$nextTick(() => {
       var ctx = document.getElementById("trafficBar").getContext("2d");
       var config = {
@@ -248,6 +264,10 @@ export default {
     this.$emit("customEventForValChange", this.$route.path);
   },
   methods: {
+    getUsersPercentage(type){
+      let users = this.$store.state.users.users
+      return ( this.getUsersByType(type).length / users.length ) * 100   
+    },
     loadDoughnutGraph(canvas){
       /**
        * this is the for the dognut chart
@@ -349,11 +369,9 @@ export default {
   line-height: 22px;
   margin: 0;
 }
-
 .content > .row {
   padding: 0 30px;
 }
-
 .box {
   height: 100%;
   padding: 18px;
@@ -361,16 +379,13 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
   border: none;
 }
-
 .box .container {
   width: 100%;
 }
-
 .box .container .nav-tabs {
   background: transparent;
   border-bottom: 1px solid #e0e0e0;
 }
-
 .box .container .nav-tabs li > a {
   color: #bdbdbd;
   font-family: "Montserrat", sans-serif;
@@ -433,6 +448,11 @@ export default {
   line-height: 10px;
   padding: 6px 8px;
   background-color: #265499;
+}
+.skills.empty{
+  padding-left: 0;
+  padding-right: 1px;
+  min-height: 22px;
 }
 
 .user-list {

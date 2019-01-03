@@ -86,7 +86,6 @@ export default {
   },
   computed: {
     workspace () { 
-        console.log(this.$store.state.workspace); // this loses state
         if (window.localStorage) {
           return JSON.parse(window.localStorage.getItem('workspace'))
         }else{
@@ -108,17 +107,18 @@ export default {
 
       /* Making API call to authenticate a user */
       let reqObj = {
-        first_name: this.$store.state.user.firstname,
-        last_name: this.$store.state.user.lastname,
+        first_name: this.$store.state.user.first_name,
+        last_name: this.$store.state.user.last_name,
         email: this.$store.state.user.email,
         type: this.$store.state.user.type,
         contract_type: this.$store.state.user.contract_type,
+        role: this.$store.state.user.role,
         phone_number:  this.$store.state.user.phone_number,
         workspace: (JSON.parse(window.localStorage.getItem('workspace'))).id,
         password: password
       };
       api
-        .request('post', '/users/', reqObj)
+        .request('post', 'users/', reqObj)
         .then(response => {
           this.toggleLoading()
           var data = response.data
@@ -130,7 +130,6 @@ export default {
         })
         .catch(error => {
           this.$store.commit('TOGGLE_LOADING')
-          console.log(error)
 
           // this.response = 'Server appears to be offline'
           this.$router.push('/')

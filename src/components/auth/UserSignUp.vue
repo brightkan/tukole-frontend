@@ -90,13 +90,13 @@ export default {
         email: '',
         type: 'admin',
         contract_type: 'permanent',
-        phone_number:  ''
+        phone_number:  '',
+        role: 'project_manager'
       }
     }
   },
   computed: {
     workspace () { 
-        console.log(this.$store.state.workspace); // this loses state
         if (window.localStorage) {
           return JSON.parse(window.localStorage.getItem('workspace'))
         }else{

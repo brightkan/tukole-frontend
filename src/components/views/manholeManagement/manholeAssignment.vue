@@ -1,10 +1,5 @@
 <template>
 <div>
-  <section class="content-header">
-    <div class="toolbar">
-      
-    </div>
-  </section>
     <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
@@ -75,7 +70,7 @@
 </template>
 
 <script>
-import { select } from "../mixins/select";
+import { select } from "../../mixins/select";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 
@@ -108,7 +103,7 @@ export default {
       this.selectedManhole.user = user.id
     },
     navigateToUser(user){
-      this.$router.push('/dash/userManholes/'+user.id);
+      this.$router.push('/dash/manholeManagment/userManholes/'+user.id);
     }
   }
 };

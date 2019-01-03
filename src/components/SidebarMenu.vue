@@ -36,7 +36,7 @@
         <span class="page">Users</span>
       </a>
     </router-link>
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/manhole">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/manholeManagment">
       <a>
         <i class="fa fa-warehouse"></i>
         <span class="page">Manhole Management</span>

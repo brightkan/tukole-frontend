@@ -37,8 +37,10 @@ import MechanicView from "./components/views/mechanic/mechanic.vue"
 import MechanicFleetView from "./components/views/mechanic/mechanicFleets.vue"
 import MechanicMachineryView from "./components/views/mechanic/mechanicMachinery.vue"
 import MechanicToolsView from "./components/views/mechanic/mechanicTools.vue"
-import ManholeAssignmentView from "./components/views/manholeAssignment.vue";
-import UserManholesView from "./components/views/userManholes.vue";
+import ManholeAssignmentView from "./components/views/manholeManagement/manholeAssignment.vue";
+import UserManholesView from "./components/views/manholeManagement/userManholes.vue";
+import ManholeManagmentView from "./components/views/manholeManagement/manholeManagement.vue"
+import ManholeView from "./components/views/manholeManagement/manholes.vue"
 
 // Routes
 const routes = [
@@ -83,16 +85,29 @@ const routes = [
         meta: { description: "List of our users", requiresAuth: false }
       },
       {
-        path: "manhole",
-        component: ManholeAssignmentView,
-        name: "Manhole Assignment",
-        meta: { description: "AssignManholes to users", requiresAuth: false }
-      },
-      {
-        path: "userManholes/:id",
-        component: UserManholesView,
-        name: "User assigned manholes",
-        meta: { description: "OFC user manholes", requiresAuth: false }
+        path: "manholeManagment",
+        component: ManholeManagmentView,
+        redirect: "manholeManagment/manholes",
+        children: [
+          {
+            path: "assignments",
+            component: ManholeAssignmentView,
+            name: "Manhole Assignment",
+            meta: { description: "AssignManholes to users", requiresAuth: false }
+          },
+          {
+            path: "userManholes/:id",
+            component: UserManholesView,
+            name: "User assigned manholes",
+            meta: { description: "OFC user manholes", requiresAuth: false }
+          },
+          {
+            path: "manholes",
+            component: ManholeView,
+            name: "List of manholes",
+            meta: { description: "List of manholes", requiresAuth: false }
+          },
+        ]
       },
       {
         path: "notifications",

@@ -174,6 +174,9 @@ export default {
         },
         getUserManholes: (state) => (userId) => {
             return state.assignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
+        },
+        getUsersByType: (state) => (type) => {
+            return state.users.filter(user => { return user.role == type })
         }
     }
 }

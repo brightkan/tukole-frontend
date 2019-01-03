@@ -95,8 +95,6 @@ export default {
 
           var data = response.data
 
-          console.log(data);
-
           /* Setting user in the state and caching record to the localStorage */
           if (data) {
             this.$store.commit('SET_WORKSPACE', {id: data.id, name: data.name})
