@@ -140,6 +140,17 @@ export default {
 </script>
 
 <style>
+.wrapper{
+    min-height:100%;
+    position:relative;
+}
+footer {
+  position: absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+}
+
 .list-group i {
   color: #888;
   margin-right: 5px;

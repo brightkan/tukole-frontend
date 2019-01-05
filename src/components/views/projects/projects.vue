@@ -48,7 +48,7 @@
                 Survey Date
               </span>
               <p>
-                {{ site.start_date }}
+                {{ site.survey_date }}
               </p>
             </div>
             <div class="col-md-6 text-right">

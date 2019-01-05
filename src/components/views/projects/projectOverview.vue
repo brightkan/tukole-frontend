@@ -3,8 +3,28 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-4">
+      <div class="comp-title col-md-12">
         <h3>{{ site.site_name }}</h3>
+      </div>
+      
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="comp-title col-md-3">
+        <p v-if="!editSurveyDate" class="float-left">
+          <small class="text-muted">Survey Date:</small> {{ site.survey_date }}
+          <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="editSurveyDate = true"><i class="fas fa-pencil-alt"></i></span>
+        </p>
+
+        <form v-if="editSurveyDate" class="form-inline" role="form">
+            <div class="form-group col-md-8" style="padding-right: 0px">
+                <input type="date" class="form-control" v-model="siteSurveyDate" style="width: 100%"/>
+            </div>
+            <div class="form-group col-md-4">
+                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateSurveyDate(site)">Edit</button>
+            </div>
+        </form>
       </div>
       <div class="comp-title col-md-3">
         <p v-if="!editPercentage" class="float-left">
@@ -21,7 +41,7 @@
             </div>
         </form>
       </div>
-      <div class="comp-title col-md-5">
+      <div class="comp-title col-md-6">
         <p class="float-left">
           <small class="text-muted">Survey Status</small> {{ site.site_surveyed ? 'Complete': 'Not Complete'}} 
         </p>
@@ -43,9 +63,8 @@
         </form>
       </div>
     </div>
-    <!-- /.row -->
 
-    <div class="row" v-if="$store.state.user_type != 'client'">
+    <div class="row" v-if="$store.state.user_type != 'client'" style="padding-top: 20px; padding-bottom: 40px;">
       <div class="col-md-3">
         <div class="summary-card row">
           <h3 class="col-md-6">{{ siteFleets.length }}</h3>
@@ -78,7 +97,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="timeline-box">
-          <h3 class="timeline-activites-label">Activities</h3>
+          <h3 class="timeline-activites-label" style="padding: 0">Activities</h3>
           
           <div class="row timeline-content">
             <div class="col-md-2">
@@ -448,8 +467,8 @@ fiber cable was laid.
               <form v-if="userAccessible" class="form-inline" role="form">
                   <div class="form-group col-md-8" style="padding-right: 0px">
                       <select class="form-control ac_select" v-model="userAccessibility" style="width: 100%">
-                        <option v-bind:value="'true'">Yes</option>
-                        <option v-bind:value="'false'">False</option>
+                        <option v-bind:value="'true'">Show to user</option>
+                        <option v-bind:value="'false'">Hide from user</option>
                       </select>
                   </div>
                   <div class="form-group col-md-4">
@@ -608,6 +627,8 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      siteSurveyDate: null,
+      editSurveyDate: false,
       sitePercentage: 0,
       editPercentage: false,
       userAccessible: false,
@@ -707,6 +728,12 @@ export default {
     this.reset();
   },
   methods: {
+    updateSurveyDate(site){
+      const { siteSurveyDate } = this;
+      site.survey_date = siteSurveyDate
+      this.$store.dispatch("sites/updateSite", site);
+      this.editSurveyDate = false
+    },
     updateAccessible(site){
       const { siteAccessibility } = this;
       site.site_accessible = siteAccessibility

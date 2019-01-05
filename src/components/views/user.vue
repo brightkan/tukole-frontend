@@ -53,7 +53,6 @@
         <table class="table">
           <thead>
             <tr>
-              <td><span class="dot"></span></td>
               <td>Name</td>
               <td>Contact</td>
               <td>Email</td>
@@ -65,8 +64,7 @@
           </thead>
           <tbody>
             <tr v-for="user in getUsers" :key="user.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ user.first_name }} {{ user.last_name}}</td>
+              <td>{{ user.first_name }} {{ user.last_name}}</td>
               <td>{{ user.phone_number }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.type }}</td>
