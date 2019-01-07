@@ -10,7 +10,7 @@
         </router-link>
         <router-link tag="li" to="/dash/manholeManagment/manholes">
           <a href="#">
-            ManHoles
+            Manholes
           </a>
         </router-link>    
       </ul>

@@ -33,7 +33,7 @@
             <tr>
               <td>Manhole</td>
               <td>Site</td>
-              <td>created</td>
+              <td>Created</td>
               <td></td>
             </tr>
           </thead>

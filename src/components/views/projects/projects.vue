@@ -48,7 +48,7 @@
                 Survey Date
               </span>
               <p>
-                {{ site.survey_date }}
+                {{ site.survey_date | moment("MMM Do YYYY") }}
               </p>
             </div>
             <div class="col-md-6 text-right">
@@ -56,7 +56,7 @@
                 Cost Estimate
               </span>
               <p>
-                USD 500K
+                UGX 0
               </p>
             </div>
           </div>

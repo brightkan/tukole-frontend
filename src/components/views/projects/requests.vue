@@ -38,7 +38,6 @@
         <table class="table">
           <thead>
             <tr>
-              <td><span class="dot"></span></td>
               <td>Request</td>
               <td>Creation Date</td>
               <td>Acknowledgement Status</td>
@@ -47,9 +46,8 @@
           </thead>
           <tbody>
             <tr v-for="request in getRequests" :key="request.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ request.site_name }}</td>
-              <td>12. 08. 2018</td>
+              <td>{{ request.site_name }}</td>
+              <td>{{ request.created | moment("MMM Do YYYY")}}</td>
               <td>{{ request.ackStatus ? 'Acknowledged' : 'Not Acknowledged' }}</td>
               <td class="text-right">
                 <button v-if="!request.ackStatus && $store.state.user_type != 'client'" v-on:click="ackSite(request)">Acknowledge site</button>

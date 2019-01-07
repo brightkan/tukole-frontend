@@ -13,7 +13,7 @@
     <div class="row">
       <div class="comp-title col-md-3">
         <p v-if="!editSurveyDate" class="float-left">
-          <small class="text-muted">Survey Date:</small> {{ site.survey_date }}
+          <small class="text-muted">Survey Date:</small> {{ site.survey_date | moment("MMM Do YYYY") }}
           <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="editSurveyDate = true"><i class="fas fa-pencil-alt"></i></span>
         </p>
 
@@ -263,8 +263,8 @@ fiber cable was laid.
                       <tr v-for="siteRole in siteRoles" :key="siteRole.id">
                         <td>{{ siteRole.user.first_name }} {{ siteRole.user.last_name }}</td>
                         <td>{{ siteRole.user.phone_number }}</td>
-                        <td>{{ siteRole.role }}</td>
-                        <td>{{ siteRole.created | moment("dddd, MMMM Do YYYY") }}</td>
+                        <td style="text-transform: capitalize">{{ siteRole.role }}</td>
+                        <td>{{ siteRole.created | moment("MMM Do YYYY") }}</td>
                         <td><i class="fa fa-times" v-on:click="deleteSiteRole(siteRole)"></i></td>
                       </tr>
                       <tr v-if="siteRoles.length <= 0">
@@ -321,7 +321,7 @@ fiber cable was laid.
                       <td>{{ siteFleet.fleet.name }}</td>
                       <td>{{ siteFleet.fleet.humanUuid }}</td>
                       <td>{{ siteFleet.fleet.vehicle_type.type }}</td>
-                      <td>{{ siteFleet.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>{{ siteFleet.created | moment("MMM Do YYYY") }}</td>
                       <td><i class="fa fa-times" v-on:click="deleteSiteFleet(siteFleet)"></i></td>
                     </tr>
                     <tr v-if="siteFleets.length <= 0">
@@ -378,7 +378,7 @@ fiber cable was laid.
                       <td>{{ siteTool.tool.name }}</td>
                       <td>{{ siteTool.tool.humanUuid }}</td>
                       <td>{{ siteTool.tool.type.type }}</td>
-                      <td>{{ siteTool.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>{{ siteTool.created | moment("MMM Do YYYY") }}</td>
                       <td><i class="fa fa-times" v-on:click="deleteSiteTool(siteTool)"></i></td>
                     </tr>
 
@@ -434,7 +434,7 @@ fiber cable was laid.
                     <tr v-for="siteMachine in siteMachines" :key="siteMachine.id">
                       <td>{{ siteMachine.machine.name }}</td>
                       <td>{{ siteMachine.machine.humanUuid }}</td>
-                      <td>{{ siteMachine.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>{{ siteMachine.created | moment("MMM Do YYYY") }}</td>
                       <td><i class="fa fa-times" v-on:click="deleteSiteMachinery(siteMachine)"></i></td>
                     </tr>
 
@@ -467,7 +467,7 @@ fiber cable was laid.
               <form v-if="userAccessible" class="form-inline" role="form">
                   <div class="form-group col-md-8" style="padding-right: 0px">
                       <select class="form-control ac_select" v-model="userAccessibility" style="width: 100%">
-                        <option v-bind:value="'true'">Show to user</option>
+                        <option v-bind:value="'true'">Show to client</option>
                         <option v-bind:value="'false'">Hide from user</option>
                       </select>
                   </div>

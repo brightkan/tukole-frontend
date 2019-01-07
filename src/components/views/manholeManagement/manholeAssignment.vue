@@ -22,9 +22,13 @@
           </thead>
           <tbody class="ofc-users"> 
             <tr v-for="user in getOFCUsers" :key="user.id">
-              <td v-on:click="navigateToUser(user)">{{ user.first_name }} {{ user.last_name}}</td>
+              <td>{{ user.first_name }} {{ user.last_name}}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.assignManholes.join(', ') }}</td>
+              <td>
+                <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="navigateToUser(user)">
+                  Detials
+                </a>  
+              </td>
             </tr>
             <tr v-if="getOFCUsers.length <= 0">
               <td colspan="7" class="text-center">No Users Yet</td>

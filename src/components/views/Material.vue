@@ -402,7 +402,7 @@ label.field.focused .psuedo_select ul {
 .table thead tr td {
   color: #256ae1;
   font-family: "Montserrat", sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 12px;
 }

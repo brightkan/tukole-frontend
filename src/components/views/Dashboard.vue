@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-md-4">
         <div class="box project-status">
-          <h4>Material Status <small class="float-right text-muted">running out</small></h4>
+          <h4>Material Status <small class="float-right text-muted">RUNNING OUT</small></h4>
           <ul>
             <li v-for="material in runningOut" :key="material.id">
               <p>

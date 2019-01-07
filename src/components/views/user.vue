@@ -67,8 +67,8 @@
               <td>{{ user.first_name }} {{ user.last_name}}</td>
               <td>{{ user.phone_number }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.type }}</td>
-              <td>{{ user.role }}</td>
+              <td style="text-transform: capitalize">{{ user.type }}</td>
+              <td style="text-transform: capitalize">{{ user.role.replace('_', ' ') }}</td>
               <td>{{ user.created | moment("DD. MM. YY")}}</td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
@@ -110,8 +110,7 @@
               <div class="form-group">
                 <label>Type</label>
                 <select class="form-control"  v-model="user.type">
-                  <option v-bind:value="'admin'">admin</option>
-                  <option v-bind:value="'super_admin'">Super admin</option>
+                  <option v-bind:value="'admin'">Admin</option>
                   <option v-bind:value="'employee'">Employee</option>
                   <option v-bind:value="'client'">Client</option>
                 </select>
