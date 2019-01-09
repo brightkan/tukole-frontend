@@ -46,7 +46,7 @@
               </td>
             </tr>
             <tr v-if="fleet_types.length <= 0">
-              <td colspan="7" class="text-center">No Tools Yet</td>
+              <td colspan="7" class="text-center">No fleet types yet</td>
             </tr>
           </tbody>
         </table>
@@ -58,7 +58,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Tool type</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} fleet type</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -69,16 +69,12 @@
                 <label>Type Name</label>
                 <input type="text" class="form-control" v-model="type.type"/>
               </div>
-              <div class="form-group">
-                <label>Type description</label>
-                <input type="text" class="form-control" v-model="type.description"/>
-              </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" v-on:click="saveType" data-dismiss="modal">
-              {{ editMode ? 'Edit' : 'Add'}} Tool type
+              {{ editMode ? 'Edit' : 'Add'}} fleet type
             </button>
           </div>
         </div>
@@ -101,7 +97,7 @@ export default {
       editMode: false,
       type: {
         type: "",
-        description: ""
+        description: "Vehicle type"
         // workspace: window.localStorage.getItem("workspace")
       }
     };
@@ -116,6 +112,7 @@ export default {
   methods: {
     saveType() {
       const { type } = this;
+      type.description = "Vehicle type"
       if(this.editMode){
         this.$store.dispatch("fleets/updateType", type);
       }else{
