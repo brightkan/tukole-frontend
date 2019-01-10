@@ -3,10 +3,27 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-12">
+      <div class="comp-title col-md-9">
         <h3>{{ site.site_name }}</h3>
       </div>
-      
+      <div class="comp-title col-md-3">
+        <p v-if="!editAccepted"  class="float-right"><small class="text-muted">Site Accepted</small> 
+          {{ site.site_accepted ? 'Accepted' : 'Not Accepted' }} 
+          <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="editAccepted = true"><i class="fas fa-pencil-alt"></i></span>
+        </p>
+
+        <form v-if="editAccepted" class="form-inline" role="form">
+            <div class="form-group col-md-8" style="padding-right: 0px">
+                <select class="form-control ac_select" v-model="siteAccepted" style="width: 100%">
+                  <option v-bind:value="'true'">True</option>
+                  <option v-bind:value="'false'">False</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateSiteAccepted(site)">Edit</button>
+            </div>
+        </form>
+      </div>
     </div>
     <!-- /.row -->
 
@@ -627,6 +644,8 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      editAccepted: false,
+      siteAccepted: null,
       siteSurveyDate: null,
       editSurveyDate: false,
       sitePercentage: 0,
@@ -728,6 +747,12 @@ export default {
     this.reset();
   },
   methods: {
+    updateSiteAccepted(site){
+      const { siteAccepted } = this;
+      site.site_accepted = siteAccepted
+      this.$store.dispatch("sites/updateSite", site);
+      this.editAccepted = false
+    },
     updateSurveyDate(site){
       const { siteSurveyDate } = this;
       site.survey_date = siteSurveyDate
