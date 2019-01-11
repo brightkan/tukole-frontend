@@ -224,7 +224,7 @@ export default {
       tool_types: state => state.tools.tool_types,
       statuses: state => state.statuses
     }),
-    ...mapGetters('tools', ['getTools', 'assignmentHistory'])
+    ...mapGetters('tools', ['getTools', 'assignmentHistory', 'faultHistory'])
   },
   methods: {
     saveTool() {

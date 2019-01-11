@@ -244,6 +244,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
     this.$store.dispatch("fleets/loadFleets");
   },
   computed: {
