@@ -30,8 +30,8 @@
           <tbody> 
             <tr v-for="manhole in getUserManholes(this.$route.params.id)" :key="manhole.id">
               <td>{{ manhole.manhole }}</td>
-              <td>00:00</td>
-              <td>00:00</td>
+              <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
+              <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td>
               <td>{{ manhole.created | moment("DD, MM, YY")}}</td>
             </tr>
             <tr v-if="getUserManholes(this.$route.params.id).length <= 0">

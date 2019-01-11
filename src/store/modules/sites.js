@@ -353,6 +353,12 @@ export default {
         },
         addSiteFleet({commit, rootState}, payload){
             api
+                .request("post", "fleethistory/", {"fleet": payload.fleet, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0})
+                .then(response => {
+                    let type = response.data;
+                });
+
+            api
                 .request("post", "sitefleets/", payload)
                 .then(response => {
                     let siteFleet = response.data;
@@ -391,6 +397,12 @@ export default {
                 });
         },
         addSiteTool({commit, rootState}, payload){
+            api
+            .request("post", "toolhistory/", {"tool": payload.tool, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0})
+            .then(response => {
+                let type = response.data;
+            });
+
             api
                 .request("post", "sitetools/", payload)
                 .then(response => {
@@ -431,6 +443,15 @@ export default {
                 });
         },
         addSiteMachinery({commit, rootState}, payload){
+
+            let now = new Date()
+
+            api
+                .request("post", "machinehistory/", {"machine": payload.machine, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0})
+                .then(response => {
+                    let type = response.data;
+                });
+
             api
                 .request("post", "sitemachines/", payload)
                 .then(response => {

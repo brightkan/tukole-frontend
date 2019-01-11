@@ -13,7 +13,7 @@
           <div id="img_category" class="psuedo_select" name="img_category">
             <span class="selected"></span>
             <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1" v-on:click="filter('available')">Avialable</li>
+              <li class="option" data-value="opt_1" v-on:click="filter('available')">Available</li>
               <li class="option" data-value="opt_2" v-on:click="filter('broken')">Broken Down</li>
               <li class="option" data-value="opt_3" v-on:click="filter('assigned')" >Assigned</li>
               <li class="option" data-value="opt_4" v-on:click="filter('all')" >All</li>
@@ -58,7 +58,9 @@
               <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span></td>
               <td>{{ machine.created | moment("DD. MM. YY") }}</td>
               <td>
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectItem(machine)" style="padding-top: 5px; padding-bottom: 5px;">
+                <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(machine)" style="padding-top: 5px; padding-bottom: 5px;">
+                  Fault history</a>  
+                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(machine)" style="padding-top: 5px; padding-bottom: 5px;">
                   show history</a>  
               </td>
               <td class="text-right">
@@ -131,6 +133,38 @@
                   <ul class="commentList">
                       <li v-for="history in assignmentHistory" :key="history.id">
                           <div class="commentText">
+                              <p class="">Assigned on</p> <span class="date sub-text">on {{ history.created | moment("dddd, MMMM Do YYYY") }}</span>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="showFaultHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ selectedItem.name }} history
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="detailBox">
+              <div class="actionBox">
+                  <ul class="commentList">
+                      <li v-for="history in faultHistory" :key="history.id">
+                          <div class="commentText">
+                              <p>Total cost: <b>{{ history.cost | formatNumber }}</b></p>
                               <p class="">{{ history.reason }}</p> <span class="date sub-text">on {{ history.created | moment("dddd, MMMM Do YYYY") }}</span>
                           </div>
                       </li>
@@ -177,7 +211,7 @@ export default {
       machines: state => state.machinery.machines,
       statuses: state => state.statuses
     }),
-    ...mapGetters('machinery', ['getMachines', 'assignmentHistory'])
+    ...mapGetters('machinery', ['getMachines', 'assignmentHistory', 'faultHistory'])
   },
   methods: {
     saveMachine() {
@@ -191,11 +225,11 @@ export default {
     },
     filter(type){
       if(type === 'broken'){
-        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'Broken Down')
+        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'broken_down')
       }else if(type === 'assigned'){
-        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'Assigned')
+        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'assigned')
       }else if(type === 'available'){
-        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'Avialable')
+        this.$store.commit('machinery/CHANGE_LIST_TYPE', 'available')
       }else{
         this.$store.commit('machinery/CHANGE_LIST_TYPE', 'all')
       }
@@ -220,10 +254,15 @@ export default {
         workspace: window.localStorage.getItem("workspace")
       }
     },
-    selectItem(machine){
+    selectAssignmentHistory(machine){
+      this.selectedItem = machine;
+      this.$store.commit("machinery/SET_ASSIGNMENT_HISTORY", []);
+      this.$store.dispatch("machinery/getHistory", machine.id);
+    },
+    selectFaultHistory(machine){
       this.selectedItem = machine;
       this.$store.commit("machinery/SET_HISTORY", []);
-      this.$store.dispatch("machinery/getHistory", machine.id);
+      this.$store.dispatch("machinery/getRepairHistory", {id: machine.id, type: 'machinery'});
     }
   }
 };

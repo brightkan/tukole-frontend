@@ -19,7 +19,8 @@ export default {
         types: [],
         machines: [],
         listType: 'all',
-        history: []
+        history: [],
+        assignmentHistory: []
     },
     mutations: {
         SET_MACHINES(state, machines) {
@@ -67,6 +68,9 @@ export default {
         ADD_HISTORY(state, payload){
             state.history.push(payload)
         },
+        SET_ASSIGNMENT_HISTORY(state, payload){
+            state.assignmentHistory = payload
+        },
     },
     actions: {
         async loadTypes({ commit }) {
@@ -83,12 +87,6 @@ export default {
                 .then(response => {
                     let machines = response.data.map(
                         machine => {
-                            /* state.types.forEach(element => {
-                                if(machine.type === element.id){
-                                    machine.type = element;
-                                }
-                            }); */
-
                             rootState.statuses.forEach(element => {
                                 if(machine.status === element.name){
                                     machine.status = element;
@@ -159,46 +157,37 @@ export default {
                 });
         },
         getHistory({ commit, state }, payLoad) {
-            /* api
-                .request("post", "fleet_history/", payLoad)
+            api
+                .request("get", "machinehistory/?machine="+payLoad)
+                .then(response => {
+                    let type = response.data;
+                    commit('SET_ASSIGNMENT_HISTORY', type)
+                });
+        },
+        getRepairHistory({ commit, state }, payLoad) {
+            api
+                .request("get", "repairhistory/?fleet="+payLoad.id+"&fleet_type="+payLoad.type)
                 .then(response => {
                     let type = response.data;
                     commit('SET_HISTORY', type)
-                }); */
-
-                commit('SET_HISTORY', [
-                    {
-                        id: 1,
-                        type: "fault_fix",
-                        reason: "Damaged handle. repaired the handle",
-                        cost: "300",
-                        created: "2018-10-29T09:51:24.282608Z"
-                    },
-                    {
-                        id: 2,
-                        type: "assignment",
-                        reason: "Assigned to Joel Tunga",
-                        cost: "",
-                        created: "2018-10-29T09:51:24.282608Z"
-                    }
-                ])
+                });
         },
+
         saveFix({ dispatch, commit, state }, payLoad) {
             api
-                .request("post", "machine/fix", payLoad)
+                .request("post", "repairhistory/", payLoad)
                 .then(response => {
-                    dispatch('updateFleet', {'id': payLoad.fleet.id, 'status': 'Avialable'})
+                    dispatch('updateMachine', {'id': payLoad.fleet, 'status': 'Available'})
                     let history = response.data;
                     commit('ADD_HISTORY', history)
                 });
 
-            dispatch('updateMachine', {'id': payLoad.machine.id, 'status': 'Avialable'})
         },
     },
     getters: {
-        available: state => state.machines.filter(item => { return item.status.name === 'Avialable' }),
-        assigned: state => state.machines.filter(item => { return item.status.name === 'Assigned' }),
-        brokenDown: state => state.machines.filter(item => { return item.status.name === 'Broken Down' }),
+        available: state => state.machines.filter(item => { return item.status.name === 'available' }),
+        assigned: state => state.machines.filter(item => { return item.status.name === 'assigned' }),
+        brokenDown: state => state.machines.filter(item => { return item.status.name === 'broken_down' }),
         getMachines: (state, getters, rootState) => {
             if(state.listType === 'all'){
                 return state.machines;
@@ -218,7 +207,7 @@ export default {
             return state.history.filter(item => { return item.type == 'fault_fix'})
         },
         assignmentHistory: (state, getters, rootState) => {
-            return state.history.filter(item => { return item.type == 'assignment'})
+            return state.assignmentHistory
         }
     }
 }

@@ -15,7 +15,7 @@ export default {
   },
   workspaces: [],
   statuses: [
-    {name: 'Avialable', color: 'green'}, 
-    {name: 'Broken Down', color: 'red'}, 
-    {name: 'Assigned', color: 'orange'}]
+    {name: 'available', color: 'green'}, 
+    {name: 'broken_down', color: 'red'}, 
+    {name: 'assigned', color: 'orange'}]
 }

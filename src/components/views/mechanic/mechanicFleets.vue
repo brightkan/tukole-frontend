@@ -32,14 +32,12 @@
               <td>{{ fleet.vehicle_type.type }}</td>
               <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
               <td>12. 08. 2018</td>
-              <td class="text-right">
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectFleet(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fault history</a>  
+              <td class="text-right"> 
                 <a class="custom-btn text-white" data-toggle="modal" data-target="#FixFleet" v-on:click="fixFleet(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
                   Fix</a>
               </td>
             </tr>
-            <tr v-if="fleets.length <= 0">
+            <tr v-if="brokenDownVehicles.length <= 0">
               <td colspan="7" class="text-center">No fleets Yet</td>
             </tr>
           </tbody>
@@ -73,39 +71,6 @@
                 <button type="button" class="btn btn-primary" v-on:click="saveFix()" data-dismiss="modal">Save</button>
               </div>
             </form>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="showHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ fault.fleet.name }} history
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="detailBox">
-              <div class="actionBox">
-                  <ul class="commentList">
-                      <li v-for="history in faultHistory" :key="history.id">
-                          <div class="commentText">
-                              <p>Total cost: <b>{{ history.cost | formatNumber }}</b></p>
-                              <p class="">{{ history.reason }}</p> <span class="date sub-text">on {{ history.created | moment("dddd, MMMM Do YYYY") }}</span>
-                          </div>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          </div>
         </div>
       </div>
     </div>

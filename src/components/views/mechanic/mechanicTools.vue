@@ -33,8 +33,6 @@
               <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
               <td>{{ tool.created | moment("dddd, MMMM Do YYYY") }}</td>
               <td class="text-right">
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectTool(tool)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fault history</a>  
                 <a class="custom-btn text-white" data-toggle="modal" data-target="#FixTool" v-on:click="fixTool(tool)" style="padding-top: 5px; padding-bottom: 5px;">
                   Fix</a>
               </td>
@@ -76,41 +74,6 @@
         </div>
       </div>
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="showHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ fault.tool.name }} history
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="detailBox">
-              <div class="actionBox">
-                  <ul class="commentList">
-                      <li v-for="history in faultHistory" :key="history.id">
-                          <div class="commentText">
-                              <p>Total cost: <b>{{ history.cost | formatNumber }}</b></p>
-                              <p class="">{{ history.reason }}</p> <span class="date sub-text">on {{ history.created | moment("dddd, MMMM Do YYYY") }}</span>
-                          </div>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
   </section>
 </div>
 </template>
@@ -125,9 +88,11 @@ export default {
   data(router) {
     return {
       fault: {
-        tool: '',
         reason: '',
         cost: '',
+        type: 'fault_fix',
+        fleet: '',
+        fleet_type: 'tool',
         user: (JSON.parse(window.localStorage.getItem('user'))).user_id
       }
     };
@@ -138,11 +103,12 @@ export default {
   },
   computed: {
     ...mapState('tools',["tool_types"]),
-    ...mapGetters('tools', ['brokenDown', 'faultHistory'])
+    ...mapGetters('tools', ['brokenDown'])
   },
   methods: {
     saveFix() {
       const { fault } = this;
+      fault.fleet = fault.fleet.id
       this.$store.dispatch("tools/saveFix", fault);
     },
     selectTool(tool){
@@ -151,14 +117,16 @@ export default {
       this.$store.dispatch("tools/getHistory", tool.id);
     },
     fixTool(tool){
-      this.fault.tool = tool
+      this.fault.fleet = tool
     },
     resetFix(){
       this.tool = {
-        tool: '',
         reason: '',
         user: (JSON.parse(window.localStorage.getItem('user'))).user_id,
-        cost: ''
+        cost: '',
+        fleet: '',
+        type: 'fault_fix',
+        fleet_type: 'tool',
       }
     }
   }

@@ -13,6 +13,7 @@ import notifications from './modules/notifications'
 import challenges from './modules/challenges'
 import warehouse from './modules/warehouse'
 import manholes from './modules/manholes'
+import checklist from './modules/checklist'
 
 Vue.use(Vuex)
 
@@ -27,7 +28,8 @@ export default new Vuex.Store({
     notifications,
     challenges,
     warehouse,
-    manholes
+    manholes, 
+    checklist
   },
   state,
   actions,

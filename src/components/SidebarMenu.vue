@@ -54,6 +54,12 @@
         <span class="page">Garage</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/dash/checklist">
+      <a>
+        <i class="fas fa-bell"></i>
+        <span class="page">Fleet Checklist</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/dash/notifications">
       <a>
         <i class="fas fa-bell"></i>

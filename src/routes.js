@@ -42,6 +42,8 @@ import UserManholesView from "./components/views/manholeManagement/userManholes.
 import ManholeManagmentView from "./components/views/manholeManagement/manholeManagement.vue"
 import ManholeView from "./components/views/manholeManagement/manholes.vue"
 
+import ChecklistView from "./components/views/Checklist.vue"
+
 // Routes
 const routes = [
   {
@@ -108,6 +110,12 @@ const routes = [
             meta: { description: "List of manholes", requiresAuth: false }
           },
         ]
+      },
+      {
+        path: "checklist",
+        component: ChecklistView,
+        name: "Checklist",
+        meta: { description: "List of checklist items", requiresAuth: false }
       },
       {
         path: "notifications",

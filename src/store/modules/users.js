@@ -49,7 +49,7 @@ export default {
     actions: {
         async getUserAssignedManholes({ commit, state }, payload){
             await api
-                .request("get", "manholesassignment/")
+                .request("get", "manholesassignment/all/")
                 .then(response => {
                     let manholes = response.data.map(item => {
                         state.manholes.forEach(element => {
