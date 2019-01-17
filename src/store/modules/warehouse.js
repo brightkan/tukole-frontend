@@ -38,7 +38,7 @@ export default {
             await dispatch("materials/loadMaterials",window.localStorage.getItem("workspace"), {root:true})
             await dispatch("sites/loadSites",window.localStorage.getItem("workspace"), {root:true})
             await api
-                .request("get", "warehousematerials/?workspace=" + payload)
+                .request("get", "warehousematerials/?site=" + payload)
                 .then(response => {
                     let warehouses = response.data.map( item => {
                         rootState.materials.materials.forEach(element => {

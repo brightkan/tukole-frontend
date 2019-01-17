@@ -10,7 +10,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-6">
-        <h3>Warehouse Management</h3>
+        <h3>{{ (getSite(this.$route.params.id))[0].site_name }} <small>warehouse Management</small></h3>
       </div>
 
       <div class="comp-title col-md-3">
@@ -30,8 +30,6 @@
           <table class="table">
           <thead>
             <tr>
-              <td><span class="dot"></span></td>
-              <td>Site</td>
               <td>Material</td>
               <td>Quantity</td>
               <td>Status</td>
@@ -41,8 +39,6 @@
           </thead>
           <tbody>
             <tr v-for="warehouseMaterial in warehouseMaterials" :key="warehouseMaterial.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ warehouseMaterial.site.site_name }}</td>
               <td>{{ warehouseMaterial.material.name }}</td>
               <td style="text-transform: uppercase">{{ warehouseMaterial.quantity }}</td>
               <td>{{ warehouseMaterial.is_returned ? "Returning" : "Outgoing" }}</td>
@@ -72,14 +68,6 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-group">
-                <label>Site</label>
-                <select class="form-control" v-model="warehouseMaterial.site">
-                  <option v-for="site in sites" :key="site.id" v-bind:value="site.id">
-                    {{ site.site_name }}
-                  </option>
-                </select>
-              </div>
               <div class="form-group">
                 <label>Status</label>
                 <select class="form-control" v-model="warehouseMaterial.is_returned">
@@ -126,7 +114,7 @@ export default {
       editMode: false,
       warehouseMaterial: {
         is_returned: "false",
-        site: "",
+        site: this.$route.params.id,
         material: "",
         quantity: ""
       }
@@ -134,14 +122,14 @@ export default {
   },
   created() {},
   mounted() {
-    this.$store.dispatch("warehouse/loadWarehouseMaterials", window.localStorage.getItem("workspace"));
+    this.$store.dispatch("warehouse/loadWarehouseMaterials", this.$route.params.id);
   },
   computed: {
     ...mapState({
       warehouseMaterials: state => state.warehouse.wareHouseMaterials,
-      sites: state => state.sites.sites,
       materials: state => state.materials.materials
-    })
+    }),
+    ...mapGetters('sites', ['getSite'])
   },
   methods: {
     saveWarehouseMaterial() {
@@ -165,7 +153,7 @@ export default {
       this.editMode = false;
       this.warehouseMaterial = {
         is_returned: "false",
-        site: "",
+        site: this.$route.params.id,
         material: "",
         quantity: ""
       }

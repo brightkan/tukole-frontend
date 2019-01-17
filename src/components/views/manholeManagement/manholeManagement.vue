@@ -3,16 +3,16 @@
   <section class="content-header">
     <div class="toolbar">
       <ul>
-        <router-link tag="li" to="/dash/manholeManagment/assignments">
-          <a href="#">
-            Manhole Assignments
-          </a>
-        </router-link>
         <router-link tag="li" to="/dash/manholeManagment/manholes">
           <a href="#">
             Manholes
           </a>
-        </router-link>    
+        </router-link>   
+        <router-link tag="li" to="/dash/manholeManagment/assignments">
+          <a href="#">
+            Manhole Assignments
+          </a>
+        </router-link> 
       </ul>
     </div>
   </section>

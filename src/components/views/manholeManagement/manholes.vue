@@ -41,7 +41,7 @@
             <tr v-for="manhole in manholes" :key="manhole.id">
               <td>{{ manhole.number }}</td>
               <td>{{ manhole.site ? manhole.site.site_name : '' }}</td>
-              <td>{{ manhole.created | moment("DD. MM. YY") }}</td>
+              <td>{{ manhole.created | moment('MMM Do YYYY') }}</td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editManhole(manhole)" data-toggle="modal" data-target="#addManhole"></i> 
                 <i class="fa fa-times" v-on:click="deleteManhole(manhole)"></i>

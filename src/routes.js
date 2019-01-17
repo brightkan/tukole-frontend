@@ -32,7 +32,8 @@ import RequestsView from "./components/views/projects/requests.vue";
 import ProjectOverView from "./components/views/projects/projectOverview.vue";
 import ProjectReportsView from "./components/views/projects/reports.vue"
 import NotificationsView from "./components/views/notifications.vue"
-import WarehouseView from "./components/views/warehouse.vue"
+import WarehouseView from "./components/views/warehouseManagement/warehouse.vue"
+import WarehouseSitesView from "./components/views/warehouseManagement/sites.vue"
 import MechanicView from "./components/views/mechanic/mechanic.vue"
 import MechanicFleetView from "./components/views/mechanic/mechanicFleets.vue"
 import MechanicMachineryView from "./components/views/mechanic/mechanicMachinery.vue"
@@ -124,9 +125,15 @@ const routes = [
         meta: { description: "List of notifications", requiresAuth: false }
       },
       {
-        path: "warehouse",
+        path: "warehouse/:id",
         component: WarehouseView,
         name: "Warehouse",
+        meta: { description: "Warehouse management", requiresAuth: false }
+      },
+      {
+        path: "warehouseSites",
+        component: WarehouseSitesView,
+        name: "Warehouse Sites",
         meta: { description: "Warehouse management", requiresAuth: false }
       },
       {

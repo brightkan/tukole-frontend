@@ -16,29 +16,64 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
+    <div class="row _projects" v-if="$store.state.user_type != 'client'">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Login time</td>
-              <td>Logout time</td>
-              <td>Assigned on</td>
-            </tr>
-          </thead>
-          <tbody> 
-            <tr v-for="manhole in getUserManholes(this.$route.params.id)" :key="manhole.id">
-              <td>{{ manhole.manhole }}</td>
-              <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
-              <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td>
-              <td>{{ manhole.created | moment("DD, MM, YY")}}</td>
-            </tr>
-            <tr v-if="getUserManholes(this.$route.params.id).length <= 0">
-              <td colspan="7" class="text-center">No Manholes Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="project-roles-box">
+            <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
+              <li><a class="active" href="#current" data-toggle="tab" role="tab">Current</a></li>
+              <li><a href="#previous" data-toggle="tab" role="tab" v-on:click="loadAllManholes()">Previous</a></li>
+            </ul>
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade show active" id="current">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Name</td>
+                      <td>Login time</td>
+                      <td>Logout time</td>
+                      <td>Assigned on</td>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <tr v-for="manhole in getUserCurrentManholes(this.$route.params.id)" :key="manhole.id">
+                      <td>{{ manhole.manhole }}</td>
+                      <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
+                      <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td>
+                      <td>{{ manhole.created | moment('MMM Do YYYY')}}</td>
+                    </tr>
+                    <tr v-if="getUserCurrentManholes(this.$route.params.id).length <= 0">
+                      <td colspan="7" class="text-center">No Manholes Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="previous">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Name</td>
+                      <td>Login time</td>
+                      <td>Logout time</td>
+                      <td>Assigned on</td>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <tr v-for="manhole in getUserPreviousManholes(this.$route.params.id)" :key="manhole.id">
+                      <td>{{ manhole.manhole }}</td>
+                      <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
+                      <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td>
+                      <td>{{ manhole.created | moment('MMM Do YYYY')}}</td>
+                    </tr>
+                    <tr v-if="getUserPreviousManholes(this.$route.params.id).length <= 0">
+                      <td colspan="7" class="text-center">No Manholes Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+              </div>
+            </div>
+        </div>
       </div>
     </div>
 
@@ -95,15 +130,19 @@ export default {
   },
   mounted() {
     this.$store.dispatch("users/loadManHoles", window.localStorage.getItem("workspace"));
+    this.$store.dispatch("users/loadCurrentManHoles", this.$route.params.id);
   },
   computed: {
     ...mapState('users', ['manholes']),
-    ...mapGetters('users', ['getUser', 'getUserManholes'])
+    ...mapGetters('users', ['getUser', 'getUserCurrentManholes', 'getUserPreviousManholes'])
   },
   methods: {
     saveAssignment(){
       const { selectedManhole } = this;
       this.$store.dispatch("users/assignManhole", selectedManhole);
+    },
+    loadAllManholes(){
+      this.$store.dispatch("users/getUserAssignedManholes", this.$route.params.id);
     }
   }
 };

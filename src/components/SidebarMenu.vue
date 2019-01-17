@@ -42,7 +42,7 @@
         <span class="page">Manhole Management</span>
       </a>
     </router-link>
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/warehouse">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/warehouseSites">
       <a>
         <i class="fa fa-warehouse"></i>
         <span class="page">Warehouse</span>

@@ -679,6 +679,9 @@ export default {
             })
             return total
         },
+        getSite: (state) => (site) => {
+            return state.sites.filter(item => item.id == site);
+        }
 
     }
 }

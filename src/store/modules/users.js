@@ -12,7 +12,8 @@ export default {
             'admin', 'super_admin', 'client', 'warehouse_manager', 'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc'
         ],
         manholes: [],
-        assignedManholes: []
+        assignedManholes: [],
+        currentAssignedManholes: []
     },
     mutations: {
         SET_USERS(state, users) {
@@ -44,12 +45,15 @@ export default {
         },
         SET_ASSIGNED_MANHOLES(state, payload){
             state.assignedManholes = payload
+        },
+        SET_CURRENT_ASSIGNED_MANHOLES(state, payload){
+            state.currentAssignedManholes = payload
         }
     },
     actions: {
         async getUserAssignedManholes({ commit, state }, payload){
             await api
-                .request("get", "manholesassignment/all/")
+                .request("get", "manholesassignment/all/?user="+payload)
                 .then(response => {
                     let manholes = response.data.map(item => {
                         state.manholes.forEach(element => {
@@ -63,6 +67,22 @@ export default {
                     commit('SET_ASSIGNED_MANHOLES', manholes)
                 });
         },
+        async loadCurrentManHoles({ commit, rootState }, payload) {
+            await api
+                .request("get", "manholesassignment/?user="+payload)
+                .then(response => {
+                    let manholes = response.data.map(item => {
+                        state.manholes.forEach(element => {
+                            if(item.manhole == element.id){
+                                item.manhole = element.number
+                            }
+                        })
+                        return item
+                    });
+                    
+                    commit('SET_CURRENT_ASSIGNED_MANHOLES', manholes)
+                });
+        },
         async loadUsers({ dispatch, commit, rootState }, payload) {
             await api
                 .request("get", "users/?workspace="+payload)
@@ -70,9 +90,9 @@ export default {
                     let users = response.data
                     
                     users.filter(item => { 
-                        if(item.role === 'ofc'){
-                            dispatch("getUserAssignedManholes", item.id);
-                        }
+                        /* if(item.role === 'ofc'){
+                            dispatch("loadCurrentManHoles", item.id);
+                        } */
                         return item.role === 'ofc' 
                     })
 
@@ -172,11 +192,14 @@ export default {
             let users = state.users.filter(item => { return item.id == userId})
             return users[0]
         },
-        getUserManholes: (state) => (userId) => {
-            return state.assignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
+        getUserCurrentManholes: (state) => (userId) => {
+            return state.currentAssignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
         },
         getUsersByType: (state) => (type) => {
             return state.users.filter(user => { return user.role == type })
+        },
+        getUserPreviousManholes: (state) => (userId) => {
+            return state.assignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
         }
     }
 }

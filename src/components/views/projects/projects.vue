@@ -48,7 +48,7 @@
                 Survey Date
               </span>
               <p>
-                {{ site.survey_date | moment("MMM Do YYYY") }}
+                {{ site.survey_date ? reformateDate(site.survey_date) : 'Not set Yet'  }}
               </p>
             </div>
             <div class="col-md-6 text-right">
@@ -134,6 +134,7 @@
 import { select } from "../../mixins/select";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
+import moment from 'moment'
 
 export default {
   mixins: [select],
@@ -163,6 +164,9 @@ export default {
     ...mapGetters('sites', ['getSites'])
   },
   methods: {
+    reformateDate(date) {
+      return moment(date).format('MMM Do YYYY');
+    },
     saveSite() {
       const { site } = this;
       if(this.editMode){

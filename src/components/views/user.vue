@@ -69,7 +69,7 @@
               <td>{{ user.email }}</td>
               <td style="text-transform: capitalize">{{ user.type }}</td>
               <td style="text-transform: capitalize">{{ user.role.replace('_', ' ') }}</td>
-              <td>{{ user.created | moment("DD. MM. YY")}}</td>
+              <td>{{ user.created | moment('MMM Do YYYY')}}</td>
               <td class="text-right">
                 <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
                 <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
