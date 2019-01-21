@@ -117,6 +117,8 @@ export default {
             if(data.part_of_workspace){
               window.localStorage.setItem("clientType", data.user_type)
               window.localStorage.setItem("workspace", data.workspace)
+              window.localStorage.setItem("company", data.company)
+              
               this.$router.push('/dash')
             }else{
               this.response = "Error, check your workspace";
@@ -253,6 +255,16 @@ body {
   margin: 15px 0;
   padding: 10px;
   font-size: 16px;
+}
+
+.error{
+  background: #db7474;
+  color: white;
+}
+
+.error p{
+  font-size: 1.1em;
+  text-align: center;
 }
 
 /* RESPONSIVE CSS

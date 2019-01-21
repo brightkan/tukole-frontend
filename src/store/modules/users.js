@@ -200,6 +200,12 @@ export default {
         },
         getUserPreviousManholes: (state) => (userId) => {
             return state.assignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
+        },
+        getCompanyUsers: (state) => (company) => {
+            return state.users.filter(user => { return user.company == company })
+        },
+        getAdminUsers: (state) => {
+            return state.users.filter(user => { return user.company == null })
         }
     }
 }

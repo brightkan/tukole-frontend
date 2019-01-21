@@ -42,7 +42,8 @@ import ManholeAssignmentView from "./components/views/manholeManagement/manholeA
 import UserManholesView from "./components/views/manholeManagement/userManholes.vue";
 import ManholeManagmentView from "./components/views/manholeManagement/manholeManagement.vue"
 import ManholeView from "./components/views/manholeManagement/manholes.vue"
-
+import CompanyView from "./components/views/company/companies.vue"
+import CompanyUsers from "./components/views/company/CompanyUsers.vue"
 import ChecklistView from "./components/views/Checklist.vue"
 
 // Routes
@@ -86,6 +87,18 @@ const routes = [
         component: UserView,
         name: "Users",
         meta: { description: "List of our users", requiresAuth: false }
+      },
+      {
+        path: "companies",
+        component: CompanyView,
+        name: "Companies",
+        meta: { description: "List of companies", requiresAuth: false }
+      },
+      {
+        path: "companyUsers/:id",
+        component: CompanyUsers,
+        name: "Company Users",
+        meta: { description: "List of users belonging to a particular company", requiresAuth: false }
       },
       {
         path: "manholeManagment",

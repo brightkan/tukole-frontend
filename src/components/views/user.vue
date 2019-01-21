@@ -63,7 +63,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in getUsers" :key="user.id">
+            <tr v-for="user in getAdminUsers" :key="user.id">
               <td>{{ user.first_name }} {{ user.last_name}}</td>
               <td>{{ user.phone_number }}</td>
               <td>{{ user.email }}</td>
@@ -75,7 +75,7 @@
                 <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
               </td>
             </tr>
-            <tr v-if="getUsers.length <= 0">
+            <tr v-if="getAdminUsers.length <= 0">
               <td colspan="7" class="text-center">No Users Yet</td>
             </tr>
           </tbody>
@@ -112,7 +112,6 @@
                 <select class="form-control"  v-model="user.type">
                   <option v-bind:value="'admin'">Admin</option>
                   <option v-bind:value="'employee'">Employee</option>
-                  <option v-bind:value="'client'">Client</option>
                 </select>
               </div>
               <div class="form-group">
@@ -180,7 +179,7 @@ export default {
     this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
   },
   computed: {
-    ...mapGetters('users', ['getUsers'])
+    ...mapGetters('users', ['getAdminUsers'])
   },
   methods: {
     saveUser() {

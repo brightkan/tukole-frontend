@@ -125,6 +125,7 @@ export default {
         archivedStatus: false,
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
         ackStatus: false,
+        company: '2',
         workspace: window.localStorage.getItem("workspace"),
       }
     };
@@ -165,6 +166,7 @@ export default {
         archivedStatus: false,
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
         ackStatus: false,
+        company: '2',
         workspace: window.localStorage.getItem("workspace"),
       }
     },

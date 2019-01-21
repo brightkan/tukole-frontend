@@ -102,6 +102,14 @@
                 <input type="date" class="form-control" v-model="site.expected_end_date"/>
               </div>
               <div class="form-group">
+                <label>Company</label>
+                <select class="form-control" v-model="site.company">
+                  <option v-for="company in companies" v-bind:value="company.id" :key="company.id">
+                    {{ company.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label>Acknowledgement status</label>
                 <select class="form-control" v-model="site.ackStatus">
                   <option v-bind:value="'true'">Yes</option>
@@ -152,15 +160,18 @@ export default {
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
         ackStatus: true,
         current_stage: 0,
+        company: "",
         workspace: window.localStorage.getItem("workspace"),
       }
     };
   },
   mounted() {
     this.$store.dispatch("sites/loadSites", window.localStorage.getItem("workspace"));
+    this.$store.dispatch("companies/loadCompanies", window.localStorage.getItem("workspace"));
   },
   computed: {
     ...mapState('sites',["sites"]),
+    ...mapState('companies',["companies"]),
     ...mapGetters('sites', ['getSites'])
   },
   methods: {
@@ -196,6 +207,7 @@ export default {
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
         ackStatus: true,
         current_stage: 0,
+        company: '',
         workspace: window.localStorage.getItem("workspace"),
       }
     },

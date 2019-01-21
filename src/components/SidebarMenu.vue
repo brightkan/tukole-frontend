@@ -36,6 +36,18 @@
         <span class="page">Users</span>
       </a>
     </router-link>
+    <router-link v-if="$store.state.user_type == 'client'" tag="li" class="pageLink" v-bind:to="'/dash/companyUsers/' +company">
+      <a>
+        <i class="fa fa-users"></i>
+        <span class="page">Users</span>
+      </a>
+    </router-link>
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/companies">
+      <a>
+        <i class="fa fa-users"></i>
+        <span class="page">Companies</span>
+      </a>
+    </router-link>
     <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/manholeManagment">
       <a>
         <i class="fa fa-warehouse"></i>
@@ -54,7 +66,7 @@
         <span class="page">Garage</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/dash/checklist">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/checklist">
       <a>
         <i class="fas fa-bell"></i>
         <span class="page">Fleet Checklist</span>
@@ -71,7 +83,15 @@
 
 <script>
   export default {
-    name: "SidebarMenu"
+    name: "SidebarMenu",
+    data(router) {
+      return {
+        company: ''
+      };
+    },
+    mounted() {
+      this.company = window.localStorage.getItem('company');
+    },
   };
 </script>
 

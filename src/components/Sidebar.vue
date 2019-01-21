@@ -50,6 +50,6 @@ export default {
 
 .skin-blue .main-sidebar{
   background-color: #142235;
-  padding-top: 130px;
+  padding-top: 80px;
 }
 </style>
