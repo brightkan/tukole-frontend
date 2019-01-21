@@ -43,7 +43,7 @@ import UserManholesView from "./components/views/manholeManagement/userManholes.
 import ManholeManagmentView from "./components/views/manholeManagement/manholeManagement.vue"
 import ManholeView from "./components/views/manholeManagement/manholes.vue"
 import CompanyView from "./components/views/company/companies.vue"
-import CompanyUsers from "./components/views/company/CompanyUsers.vue"
+import CompanyUsers from "./components/views/company/companyUsers.vue"
 import ChecklistView from "./components/views/Checklist.vue"
 
 // Routes
