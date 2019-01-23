@@ -3,60 +3,8 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-9">
+      <div class="comp-title col-md-6">
         <h3>{{ site.site_name }}</h3>
-      </div>
-      <div class="comp-title col-md-3">
-        <p v-if="!editAccepted"  class="float-right"><small class="text-muted">Site Accepted</small> 
-          {{ site.site_accepted ? 'Accepted' : 'Not Accepted' }} 
-          <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="editAccepted = true"><i class="fas fa-pencil-alt"></i></span>
-        </p>
-
-        <form v-if="editAccepted" class="form-inline" role="form">
-            <div class="form-group col-md-8" style="padding-right: 0px">
-                <select class="form-control ac_select" v-model="siteAccepted" style="width: 100%">
-                  <option v-bind:value="'true'">True</option>
-                  <option v-bind:value="'false'">False</option>
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateSiteAccepted(site)">Edit</button>
-            </div>
-        </form>
-      </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-      <div class="comp-title col-md-3">
-        <p v-if="!editSurveyDate" class="float-left">
-          <small class="text-muted">Survey Date:</small> {{ site.survey_date | moment("MMM Do YYYY") }}
-          <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="editSurveyDate = true"><i class="fas fa-pencil-alt"></i></span>
-        </p>
-
-        <form v-if="editSurveyDate" class="form-inline" role="form">
-            <div class="form-group col-md-8" style="padding-right: 0px">
-                <input type="date" class="form-control" v-model="siteSurveyDate" style="width: 100%"/>
-            </div>
-            <div class="form-group col-md-4">
-                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateSurveyDate(site)">Edit</button>
-            </div>
-        </form>
-      </div>
-      <div class="comp-title col-md-3">
-        <p v-if="!editPercentage" class="float-left">
-          <small class="text-muted">Percentage completed:</small> {{ site.current_stage }}% 
-          <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="editPercentage = true"><i class="fas fa-pencil-alt"></i></span>
-        </p>
-
-        <form v-if="editPercentage" class="form-inline" role="form">
-            <div class="form-group col-md-8" style="padding-right: 0px">
-                <input type="text" class="form-control" v-model="sitePercentage" style="width: 100%"/>
-            </div>
-            <div class="form-group col-md-4">
-                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updatePercentage(site)">Edit</button>
-            </div>
-        </form>
       </div>
       <div class="comp-title col-md-6">
         <p class="float-left">
@@ -80,6 +28,7 @@
         </form>
       </div>
     </div>
+    <!-- /.row -->
 
     <div class="row" v-if="$store.state.user_type != 'client'" style="padding-top: 20px; padding-bottom: 40px;">
       <div class="col-md-3">

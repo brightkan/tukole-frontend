@@ -45,6 +45,8 @@ import ManholeView from "./components/views/manholeManagement/manholes.vue"
 import CompanyView from "./components/views/company/companies.vue"
 import CompanyUsers from "./components/views/company/companyUsers.vue"
 import ChecklistView from "./components/views/Checklist.vue"
+import SettingsView from "./components/views/projects/settings.vue"
+import QualityView from "./components/views/projects/quality.vue"
 
 // Routes
 const routes = [
@@ -295,6 +297,18 @@ const routes = [
             component: ChallengesView,
             name: "Challenges",
             meta: { description: "Project challenges", requiresAuth: false, type: 'ProjectOverview' }
+          },
+          {
+            path: "settings",
+            component: SettingsView,
+            name: "Settings",
+            meta: { description: "Project settings", requiresAuth: false, type: 'ProjectOverview' }
+          },
+          {
+            path: "quality",
+            component: QualityView,
+            name: "Quality",
+            meta: { description: "Project settings", requiresAuth: false, type: 'ProjectOverview' }
           }
         ]
       }

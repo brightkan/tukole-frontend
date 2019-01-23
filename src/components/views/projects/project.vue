@@ -48,9 +48,19 @@
             Gallery
           </a>
         </router-link> 
+        <router-link tag="li" to="/dash/project/quality" v-if="this.$route.meta.type == 'ProjectOverview'">
+          <a href="#">
+            Quality Checks
+          </a>
+        </router-link> 
         <router-link tag="li" to="/dash/project/challenges" v-if="this.$route.meta.type == 'ProjectOverview'">
           <a href="#">
             Challenges / Incidents
+          </a>
+        </router-link> 
+        <router-link tag="li" to="/dash/project/settings" v-if="this.$route.meta.type == 'ProjectOverview'">
+          <a href="#">
+            Settings
           </a>
         </router-link> 
       </ul>

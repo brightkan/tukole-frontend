@@ -15,6 +15,7 @@ import warehouse from './modules/warehouse'
 import manholes from './modules/manholes'
 import checklist from './modules/checklist'
 import companies from './modules/companies'
+import qualityChecks from './modules/qaulityChecks'
 
 Vue.use(Vuex)
 
@@ -31,7 +32,8 @@ export default new Vuex.Store({
     warehouse,
     manholes, 
     checklist,
-    companies
+    companies,
+    qualityChecks,
   },
   state,
   actions,
