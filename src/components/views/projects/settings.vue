@@ -128,6 +128,7 @@
 import { select } from "../../mixins/select";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
+import moment from 'moment'
 
 export default {
   mixins: [select],
@@ -157,6 +158,13 @@ export default {
   methods: {
     updateSite(){
         const { site } = this;
+
+        //site.survey_date = new Date(site.survey_date);
+        //site.site_connection_date = new Date(site.site_connection_date);
+
+        site.survey_date = moment(site.survey_date).format('YYYY-MM-DD')
+        site.site_connection_date = moment(site.site_connection_date).format('YYYY-MM-DD[T]HH:mm:ss')
+    
         this.$store.dispatch("sites/updateSite", site);
         this.editSite = false
     },
