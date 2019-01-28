@@ -10,22 +10,9 @@
         <p class="float-left">
           <small class="text-muted">Survey Status</small> {{ site.site_surveyed ? 'Complete': 'Not Complete'}} 
         </p>
-        <p v-if="!editAccessible"  class="float-right"><small class="text-muted">Site Access</small> 
+        <p class="float-right"><small class="text-muted">Site Access</small> 
           {{ site.site_accessible ? 'Accessible' : 'Not Accessible' }} 
-          <span v-if="$store.state.user_type == 'client'" style="margin-left: 10px" v-on:click="editAccessible = true"><i class="fas fa-pencil-alt"></i></span>
         </p>
-
-        <form v-if="editAccessible" class="form-inline" role="form">
-            <div class="form-group col-md-8" style="padding-right: 0px">
-                <select class="form-control ac_select" v-model="siteAccessibility" style="width: 100%">
-                  <option v-bind:value="'true'">Yes</option>
-                  <option v-bind:value="'false'">False</option>
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateAccessible(site)">Edit</button>
-            </div>
-        </form>
       </div>
     </div>
     <!-- /.row -->
@@ -425,22 +412,7 @@ fiber cable was laid.
             </div>
 
             <div class="comp-title col-md-4">
-              <p v-if="!userAccessible"  class="float-right"><small class="text-muted">User Access</small> 
-                {{ site.can_client_view_survey_reports ? 'Accessible' : 'Not Accessible' }} 
-                <span v-if="$store.state.user_type != 'client'" style="margin-left: 10px" v-on:click="userAccessible = true"><i class="fas fa-pencil-alt"></i></span>
-              </p>
-
-              <form v-if="userAccessible" class="form-inline" role="form">
-                  <div class="form-group col-md-8" style="padding-right: 0px">
-                      <select class="form-control ac_select" v-model="userAccessibility" style="width: 100%">
-                        <option v-bind:value="'true'">Show to client</option>
-                        <option v-bind:value="'false'">Hide from user</option>
-                      </select>
-                  </div>
-                  <div class="form-group col-md-4">
-                      <button style="width: 100%" type="button" class="btn btn-default ac_btn" v-on:click="updateUserAccessible(site)">Edit</button>
-                  </div>
-              </form>
+              
             </div>
 
             <div class="comp-title col-md-3">
@@ -593,16 +565,13 @@ export default {
   mixins: [select],
   data(router) {
     return {
-      editAccepted: false,
-      siteAccepted: null,
-      siteSurveyDate: null,
-      editSurveyDate: false,
-      sitePercentage: 0,
-      editPercentage: false,
-      userAccessible: false,
-      userAccessibility: false,
-      siteAccessibility: false,
-      editAccessible: false,
+      // siteAccepted: null,
+      // siteSurveyDate: null,
+      // editSurveyDate: false,
+      // sitePercentage: 0,
+      // userAccessible: false,
+      // userAccessibility: false,
+      // siteAccessibility: false,
       userFleet: null,
       addSiteRole: false,
       addSiteFleet: false,
@@ -696,36 +665,6 @@ export default {
     this.reset();
   },
   methods: {
-    updateSiteAccepted(site){
-      const { siteAccepted } = this;
-      site.site_accepted = siteAccepted
-      this.$store.dispatch("sites/updateSite", site);
-      this.editAccepted = false
-    },
-    updateSurveyDate(site){
-      const { siteSurveyDate } = this;
-      site.survey_date = siteSurveyDate
-      this.$store.dispatch("sites/updateSite", site);
-      this.editSurveyDate = false
-    },
-    updateAccessible(site){
-      const { siteAccessibility } = this;
-      site.site_accessible = siteAccessibility
-      this.$store.dispatch("sites/updateSite", site);
-      this.editAccessible = false;
-    },
-    updateUserAccessible(site){
-      const { userAccessibility } = this;
-      site.can_client_view_survey_reports = userAccessibility
-      this.$store.dispatch("sites/updateSite", site);
-      this.userAccessible = false;
-    },
-    updatePercentage(site){
-      const { sitePercentage } = this;
-      site.current_stage = sitePercentage
-      this.$store.dispatch("sites/updateSite", site);
-      this.editPercentage = false;
-    },
     loadSiteFleets(){
       this.$store.dispatch("sites/loadSiteFleets", window.localStorage.getItem("selectsite"));
     },

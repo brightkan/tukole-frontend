@@ -14,7 +14,7 @@
 
     <div class="box container" style="width: 50%; margin-top: 20px">
         <form>
-            <div class="row">
+            <div class="row" v-if="$store.state.user_type != 'client'">
                 <div class="col-md-6">
                     <p class="switch-label">Site Accepted:</p>
                 </div>
@@ -24,7 +24,7 @@
                     <label for="someSwitchOptionPrimary" class="label-primary"></label>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" v-if="$store.state.user_type != 'client'">
                 <div class="col-md-6">
                     <p class="switch-label">Survey Result User Access:</p>
                 </div>
@@ -34,7 +34,7 @@
                     <label for="userAccessibility" class="label-primary"></label>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" v-if="$store.state.user_type != 'client'">
                 <div class="col-md-6">
                     <p class="switch-label">Survey Date:</p>
                 </div>
@@ -43,13 +43,62 @@
                     <input v-if="editSite" type="date" class="form-control" v-model="site.survey_date" style="width: 100%">
                 </div>
             </div>
-            <div class="row">
+            <div class="row" v-if="$store.state.user_type != 'client'">
                 <div class="col-md-6">
                     <p class="switch-label">Percentage completed:</p>
                 </div>
                 <div class="form-group col-md-5" style="padding-right: 0px">
                     <p v-if="!editSite">{{ site.current_stage }}% </p>
                     <input v-if="editSite" type="text" pattern= "[0-9]" class="form-control" v-model="site.current_stage" style="width: 100%">
+                </div>
+            </div>
+            <div class="row" v-if="$store.state.user_type != 'client'">
+                <div class="col-md-6">
+                    <p class="switch-label">Acknowledge Site connection request:</p>
+                </div>
+                <div class="material-switch col-md-6">
+                    <input id="siteConnectionRequest" name="siteConnectionRequest" type="checkbox"
+                        v-model="site.site_connection_request_acknowledged">
+                    <label for="siteConnectionRequest" class="label-primary"></label>
+                </div>
+            </div>
+            <div class="row" v-if="$store.state.user_type != 'client'">
+                <div class="col-md-6">
+                    <p class="switch-label">Site connection Date:</p>
+                </div>
+                <div class="form-group col-md-5" style="padding-right: 0px">
+                    <p v-if="!editSite">{{ site.site_connection_date | moment("MMM Do YYYY") }}</p>
+                    <input v-if="editSite" type="date" class="form-control" v-model="site.site_connection_date" style="width: 100%">
+                </div>
+            </div>
+            <div class="row" v-if="$store.state.user_type != 'client'">
+                <div class="col-md-6">
+                    <p class="switch-label">Site Connected:</p>
+                </div>
+                <div class="material-switch col-md-6">
+                    <input id="site_connected" name="site_connected" type="checkbox"
+                        v-model="site.site_connected">
+                    <label for="site_connected" class="label-primary"></label>
+                </div>
+            </div>
+            <div class="row" v-if="$store.state.user_type == 'client'">
+                <div class="col-md-6">
+                    <p class="switch-label">Site Access:</p>
+                </div>
+                <div class="material-switch col-md-6">
+                    <input id="siteAccessbile" name="siteAccessbile" type="checkbox"
+                        v-model="site.site_accessible">
+                    <label for="siteAccessbile" class="label-primary"></label>
+                </div>
+            </div>
+            <div class="row" v-if="$store.state.user_type == 'client'">
+                <div class="col-md-6">
+                    <p class="switch-label">Ready for Connection:</p>
+                </div>
+                <div class="material-switch col-md-6">
+                    <input id="siteReadyForConnection" name="siteReadyForConnection" type="checkbox"
+                        v-model="site.site_ready_for_connection">
+                    <label for="siteReadyForConnection" class="label-primary"></label>
                 </div>
             </div>
             <div class="row">
@@ -88,7 +137,12 @@ export default {
             survey_date: '',
             current_stage: '',
             can_client_view_survey_reports: '',
-            site_accepted: ''
+            site_accepted: '',
+            site_connection_request_acknowledged: '',
+            site_accessible: '',
+            site_ready_for_connection: '',
+            site_connected: '',
+            site_connection_date: ''
         },
         editSite: false
     };

@@ -3,7 +3,7 @@
   <section class="content-header">
     <div class="toolbar">
       <ul>
-        <router-link tag="li" to="/dash/project/overview" v-if="this.$route.meta.type == 'ProjectOverview' && $store.state.user_type != 'client'">
+        <router-link tag="li" to="/dash/project/overview" v-if="this.$route.meta.type == 'ProjectOverview'">
           <a href="#"> 
             Overview
           </a>
@@ -48,7 +48,7 @@
             Gallery
           </a>
         </router-link> 
-        <router-link tag="li" to="/dash/project/quality" v-if="this.$route.meta.type == 'ProjectOverview'">
+        <router-link tag="li" to="/dash/project/quality" v-if="this.$route.meta.type == 'ProjectOverview' && $store.state.user_type != 'client'">
           <a href="#">
             Quality Checks
           </a>
