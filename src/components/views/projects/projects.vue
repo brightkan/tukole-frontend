@@ -32,8 +32,6 @@
           Add Site
         </button>
       </div>
-
-
     </div>
     <!-- /.row -->
 
@@ -41,26 +39,45 @@
       <div class="col-md-4 site" v-for="site in getSites" :key="site.id">
         <a v-on:click="selectSite(site)">
           <div class="project-card" v-bind:class="site.id == selectedSite ? 'active' : ''">
-          <h3>{{ site.site_name }}</h3>
-          <div class="row _timeline">
-            <div class="col-md-6">
-              <span>
-                Survey Date
-              </span>
-              <p>
-                {{ site.survey_date ? reformateDate(site.survey_date) : 'Not set Yet'  }}
-              </p>
+            <div class="site-bg" v-bind:style="{ backgroundImage: 'url(\'https://www.soliton.co.ke/img/capacity.JPG\')'}">
+              <h3>
+                {{ site.site_name }}
+                <span v-if="site.site_ready_for_connection && !site.site_connected"></span>
+              </h3>
             </div>
-            <div class="col-md-6 text-right">
-              <span>
-                Cost Estimate
-              </span>
-              <p>
-                UGX 0
-              </p>
+            <div class="row stats">
+              <div class="col-md-6">
+                <span class="icon" style="background: #b7f5b5"><i class="fa fa-users"></i></span>
+                <div>
+                  <p>6000</p>
+                  <span>Vehicles</span>
+                </div>
+                <!-- <span>
+                  Survey Date
+                </span>
+                <p>
+                  {{ site.survey_date ? reformateDate(site.survey_date) : 'Not set Yet'  }}
+                </p> -->
+              </div>
+              <div class="col-md-6">
+                <span class="icon" style="background: #79aef5"><i class="fa fa-users"></i></span>
+                <div>
+                  <p>49</p>
+                  <span>Workers</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12"><p>Progress</p></div>
+              <div class="col-md-12">
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="40"
+                  aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: site.current_stage + '%'}">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
         </a>        
       </div>
     </div>
@@ -247,74 +264,100 @@ export default {
   border: none;
 }
 
-.project-card {
-  padding: 30px;
+.project-card{
+  padding: 0;
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   margin-bottom: 25px;
+  border-radius: 5px;
 }
-.project-card h3 {
-  color: #256ae1;
+.project-card .site-bg{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 5px 5px 0 0;
+}
+.project-card .site-bg h3{
+  color: #ffffff;
   font-family: "Montserrat", sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  padding: 0 0 30px;
+  padding: 60px 22px 24px 22px;
   margin: 0;
+  background: #0000004d;
+  line-height: 1.18;
+  border-radius: 5px 5px 0 0;
 }
+
+.project-card h3 span{
+  width: 10px;
+  height: 10px;
+  background-color: #b7f5b5;
+  display: inline-flex;
+  border-radius: 50%;
+  float: right;
+  margin-top: 5px;
+}
+.project-card .row:last-child{
+  margin: 0;
+  padding: 0 15px 33px 15px
+}
+
+p{
+  font-size: 16px;
+  font-weight: 600;
+  color: #28354a;
+  margin-bottom: 5px
+}
+
+.project-card .stats{
+  margin: 10px 0;
+}
+.project-card .stats span.icon{
+  padding: 4px 7px;
+  display: inline-block;
+  font-size: 26px;
+  border-radius: 50%;
+  color: white;
+  float: left;
+  margin: 0 10px;
+}
+.project-card .stats div div{
+  display: inline-block;
+}
+.project-card .stats p{
+  color: #28354a;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 0;
+  line-height: 1em;
+}
+.project-card .stats div div span{
+  color: #28354a;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.project-card .progress{
+  background-color: rgba(0, 0, 0, 0.16);
+  border-radius: 5px;
+  height: 6px;
+}
+
+.project-card .progress .progress-bar{
+  background-color: #28354a;
+}
+
+
+
+
 .project-card .status {
   margin-left: -15px;
   margin-right: -15px;
 }
 .project-card .status div {
   margin-bottom: 15px;
-}
-.project-card .status span {
-  color: #333;
-  font-family: "Montserrat", sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 10px;
-}
-.project-card .status img {
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
-}
-.project-card ._timeline {
-  margin-left: -15px;
-  margin-right: -15px;
-}
-.project-card ._timeline span {
-  color: #828282;
-  font-family: "Montserrat", sans-serif;
-  font-size: 12px;
-  line-height: 7px;
-}
-.project-card ._timeline p {
-  color: #000;
-  font-family: "Montserrat", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 14px;
-  margin-bottom: 0;
-  margin-top: 5px;
-}
-.project-card ._timeline div:nth-child(1),
-.project-card .status div:nth-child(1) {
-  padding-left: 15px;
-  padding-right: 5px;
-}
-.project-card ._timeline div:nth-child(2),
- .project-card .status div:nth-child(2){
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.project-card ._timeline div:nth-child(3),
-.project-card .status div:nth-child(3) {
-  padding-left: 5px;
-  padding-right: 15px;
 }
 
 #container {

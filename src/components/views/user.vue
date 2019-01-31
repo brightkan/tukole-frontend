@@ -135,7 +135,9 @@
               </div>
               <div class="form-group">
                 <label>Phone Number</label>
-                <input type="text" class="form-control" v-model="user.phone_number"/>
+                <input type="tel" class="form-control" id="telephone-check" v-model="user.phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                v-on:keypress="signalChange"/>
+                <p id="pherror" class="text-sm alert-danger">Input right phone number</p>
               </div>
             </form>
           </div>
@@ -153,6 +155,7 @@
 </template>
 
 <script>
+
 import { select } from "../mixins/select";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
@@ -162,6 +165,7 @@ export default {
   data(router) {
     return {
       editMode: false,
+      errorPhone: false,
       user: {
         first_name: "",
         last_name: "",
@@ -182,6 +186,24 @@ export default {
     ...mapGetters('users', ['getAdminUsers'])
   },
   methods: {
+    signalChange: function(evt){
+       var phoneno = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+       var phoneNumber = evt.srcElement.value;
+       var myElement = document.getElementById("pherror");
+
+      if (phoneNumber.match(phoneno)){
+        console.log('true')
+        myElement.style.display = "none";
+        this.errorPhone = false;
+      }else {
+        console.log('false')
+        myElement.style.display = "block";
+        this.errorPhone = true;
+      }
+       // compare text to regex
+       // if text is correct, do nothing
+       // if there aee wrong characters, then display the alert message under the phone number textfield
+    },
     saveUser() {
       const { user } = this;
       if(this.editMode){
@@ -217,6 +239,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style>

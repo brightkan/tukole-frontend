@@ -2,13 +2,18 @@
     <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
+
+    <div class="alert alert-primary" role="alert" v-if="site.site_ready_for_connection && !site.site_connected">
+      Site is ready for connection
+    </div>
+
     <div class="row">
       <div class="comp-title col-md-6">
         <h3>{{ site.site_name }}</h3>
       </div>
       <div class="comp-title col-md-6">
         <p class="float-left">
-          <small class="text-muted">Survey Status</small> {{ site.site_surveyed ? 'Complete': 'Not Complete'}} 
+          <small class="text-muted">Percentage: </small> {{ site.current_stage + '%'}} 
         </p>
         <p class="float-right"><small class="text-muted">Site Access</small> 
           {{ site.site_accessible ? 'Accessible' : 'Not Accessible' }} 

@@ -19,9 +19,10 @@
                     <p class="switch-label">Site Accepted:</p>
                 </div>
                 <div class="material-switch col-md-6">
-                    <input id="someSwitchOptionPrimary" name="someSwitchOption001" type="checkbox"
+                    <p v-if="!editSite">{{ site.site_accepted != null && site.site_accepted ? 'Yes' : 'No' }} </p>
+                    <input v-if="editSite" id="someSwitchOptionPrimary" name="someSwitchOption001" type="checkbox"
                         v-model="site.site_accepted">
-                    <label for="someSwitchOptionPrimary" class="label-primary"></label>
+                    <label v-if="editSite" for="someSwitchOptionPrimary" class="label-primary"></label>
                 </div>
             </div>
             <div class="row" v-if="$store.state.user_type != 'client'">
@@ -29,9 +30,10 @@
                     <p class="switch-label">Survey Result User Access:</p>
                 </div>
                 <div class="material-switch col-md-6">
-                    <input id="userAccessibility" name="userAccess" type="checkbox" 
+                    <p v-if="!editSite">{{ site.can_client_view_survey_reports != null && site.can_client_view_survey_reports ? 'Yes' : 'No' }} </p>
+                    <input v-if="editSite" id="userAccessibility" name="userAccess" type="checkbox" 
                         v-model="site.can_client_view_survey_reports">
-                    <label for="userAccessibility" class="label-primary"></label>
+                    <label v-if="editSite" for="userAccessibility" class="label-primary"></label>
                 </div>
             </div>
             <div class="row" v-if="$store.state.user_type != 'client'">
@@ -57,9 +59,10 @@
                     <p class="switch-label">Acknowledge Site connection request:</p>
                 </div>
                 <div class="material-switch col-md-6">
-                    <input id="siteConnectionRequest" name="siteConnectionRequest" type="checkbox"
+                    <p v-if="!editSite">{{ site.site_connection_request_acknowledged != null && site.site_connection_request_acknowledged ? 'Yes' : 'No' }} </p>
+                    <input v-if="editSite" id="siteConnectionRequest" name="siteConnectionRequest" type="checkbox"
                         v-model="site.site_connection_request_acknowledged">
-                    <label for="siteConnectionRequest" class="label-primary"></label>
+                    <label v-if="editSite" for="siteConnectionRequest" class="label-primary"></label>
                 </div>
             </div>
             <div class="row" v-if="$store.state.user_type != 'client'">
@@ -76,9 +79,10 @@
                     <p class="switch-label">Site Connected:</p>
                 </div>
                 <div class="material-switch col-md-6">
-                    <input id="site_connected" name="site_connected" type="checkbox"
+                    <p v-if="!editSite">{{ site.site_connected != null && site.site_connected ? 'Yes' : 'No' }} </p>
+                    <input v-if="editSite" id="site_connected" name="site_connected" type="checkbox"
                         v-model="site.site_connected">
-                    <label for="site_connected" class="label-primary"></label>
+                    <label v-if="editSite" for="site_connected" class="label-primary"></label>
                 </div>
             </div>
             <div class="row" v-if="$store.state.user_type == 'client'">
@@ -86,9 +90,10 @@
                     <p class="switch-label">Site Access:</p>
                 </div>
                 <div class="material-switch col-md-6">
-                    <input id="siteAccessbile" name="siteAccessbile" type="checkbox"
+                    <p v-if="!editSite">{{ site.site_accessible != null && site.site_accessible ? 'Yes' : 'No' }} </p>
+                    <input v-if="editSite" id="siteAccessbile" name="siteAccessbile" type="checkbox"
                         v-model="site.site_accessible">
-                    <label for="siteAccessbile" class="label-primary"></label>
+                    <label v-if="editSite" for="siteAccessbile" class="label-primary"></label>
                 </div>
             </div>
             <div class="row" v-if="$store.state.user_type == 'client'">
@@ -96,9 +101,10 @@
                     <p class="switch-label">Ready for Connection:</p>
                 </div>
                 <div class="material-switch col-md-6">
-                    <input id="siteReadyForConnection" name="siteReadyForConnection" type="checkbox"
+                    <p v-if="!editSite">{{ site.site_ready_for_connection != null && site.site_ready_for_connection ? 'Yes' : 'No' }} </p>
+                    <input v-if="editSite" id="siteReadyForConnection" name="siteReadyForConnection" type="checkbox"
                         v-model="site.site_ready_for_connection">
-                    <label for="siteReadyForConnection" class="label-primary"></label>
+                    <label v-if="editSite" for="siteReadyForConnection" class="label-primary"></label>
                 </div>
             </div>
             <div class="row">
@@ -162,8 +168,12 @@ export default {
         //site.survey_date = new Date(site.survey_date);
         //site.site_connection_date = new Date(site.site_connection_date);
 
-        site.survey_date = moment(site.survey_date).format('YYYY-MM-DD')
-        site.site_connection_date = moment(site.site_connection_date).format('YYYY-MM-DD[T]HH:mm:ss')
+        if(site.survey_date){
+            site.survey_date = moment(site.survey_date).format('YYYY-MM-DD')
+        }
+        if(site.site_connection_date){
+            site.site_connection_date = moment(site.site_connection_date).format('YYYY-MM-DD[T]HH:mm:ss')
+        }
     
         this.$store.dispatch("sites/updateSite", site);
         this.editSite = false
@@ -171,6 +181,7 @@ export default {
     initialise(id){
         let site = this.$store.getters['sites/getSite'](id);
         this.site = site[0]
+        console.log(this.site);
     }
   }
 };
