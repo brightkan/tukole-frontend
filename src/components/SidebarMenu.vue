@@ -95,10 +95,11 @@
   };
 </script>
 
-<style>
+<style lang="scss">
+  @import "../../static/css/variables";
   /* override default */
   .sidebar-menu > li > a {
-    padding: 15px;
+    padding: 15px 25px;
   }
 
   .sidebar-menu li.active > a > .fa-angle-left,
@@ -108,20 +109,19 @@
     animation-fill-mode: forwards;
   }
 
-  /* .treeview-title {
-    z-index: 1;
-  }
-  */
   .skin-blue .sidebar-menu > li.active > a {
-    background: rgba(255, 255, 255, 0.15);
-    border-right-color: #256ae1;
+    background: #b7f5b5;
+    color: $color-nav-items;
   }
 
   .skin-blue .sidebar-menu > li > a {
-    border-right: 5px solid transparent;
     border-left: none;
-    margin-left: 15px;
     font-size: 15px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.22;
+    font-family: $font;
   }
 
   .skin-blue .sidebar-menu > li > a i {

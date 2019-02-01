@@ -33,16 +33,6 @@
             Reports
           </a>
         </router-link>  
-        <router-link tag="li" to="/dash/project/projects" v-if="this.$route.meta.type == 'Projects'">
-          <a href="#">
-            Current Sites
-          </a>
-        </router-link>  
-        <router-link tag="li" to="/dash/project/requests" v-if="this.$route.meta.type == 'Projects'">
-          <a href="#">
-            Survey Requests
-          </a>
-        </router-link>  
         <router-link tag="li" to="/dash/project/gallery" v-if="this.$route.meta.type == 'ProjectOverview'">
           <a href="#">
             Gallery

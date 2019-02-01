@@ -47,17 +47,11 @@
             </div>
             <div class="row stats">
               <div class="col-md-6">
-                <span class="icon" style="background: #b7f5b5"><i class="fa fa-users"></i></span>
+                <span class="icon" style="background: #b7f5b5"><i class="fa fa-truck"></i></span>
                 <div>
                   <p>6000</p>
                   <span>Vehicles</span>
                 </div>
-                <!-- <span>
-                  Survey Date
-                </span>
-                <p>
-                  {{ site.survey_date ? reformateDate(site.survey_date) : 'Not set Yet'  }}
-                </p> -->
               </div>
               <div class="col-md-6">
                 <span class="icon" style="background: #79aef5"><i class="fa fa-users"></i></span>

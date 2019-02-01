@@ -5,23 +5,42 @@
       <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
         <a href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="hidden-xs">{{account_type == 'client' ? 'Client' : 'Admin' }} Dashboard</span>
+          <span>
+            <i class="fas fa-th-large"></i>
+          </span>
+          <span class="hidden-xs">{{account_type == 'client' ? 'Client' : 'Admin' }}</span>
         </a>
+
+
+        <div class="top-nav-items">
+          <ul>
+            <router-link tag="li" to="/dash/project/projects" v-if="this.$route.meta.type == 'Projects'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-truck"></i></span>
+                Current
+              </a>
+            </router-link>  
+            <router-link tag="li" to="/dash/project/requests" v-if="this.$route.meta.type == 'Projects'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-truck"></i></span>
+                Requests
+              </a>
+            </router-link> 
+          </ul>
+        </div>
+
+
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <li>
-              <form method="get" action="/search" id="nav_search">
-                <input name="q" type="text" size="40" placeholder="Search..." />
-              </form>
+              <a class="_icon"><i class="fa fa-cog"></i></a>
             </li>
-            <li>
-              <a style="margin-right: 15px" href="javascript:;">{{ user.first_name }} {{ user.last_name }}</a>
-            </li>
-
             <li class="dropdown notifications">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> <span class="custom-badge badge badge-light">{{ getUnReadNotifications.length }}</span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="icon"><i class="fa fa-bell"></i></span> 
+                <span class="custom-badge badge badge-light"></span>
+              </a>
               <ul class="dropdown-menu notify-drop">
                 <div class="notify-drop-title">
                   <div class="row">
@@ -31,7 +50,6 @@
                 <!-- end notify title -->
                 <!-- notify content -->
                 <div class="drop-content">
-
                   <ul class="list-group">
                     <li class="list-group-item" v-for="notification in getUnReadNotifications" :key="notification.id" v-on:click="showNotifications()">
                       <i class="fas fa-bell"></i> {{ notification.notification }}  
@@ -50,7 +68,8 @@
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <!-- <span class="hidden-xs">{{ demo.displayName }}</span> -->
                 <!-- The user image in the navbar-->
-                <img v-bind:src="demo.avatar" class="user-image" alt="">        
+                <img v-bind:src="demo.avatar" class="user-image" alt="">  
+                {{ user.first_name }} {{ user.last_name }}      
               </a>
               <ul class="dropdown-menu">
                   <li><a href="#" v-on:click="Logout()" class="dropdown-item">Logout</a></li>
@@ -127,6 +146,8 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$route);
+
     this.$store.dispatch("getUser", (JSON.parse(window.localStorage.getItem('user'))).user_id)
     this.$store.dispatch("notifications/loadNotifications", (JSON.parse(window.localStorage.getItem('user'))).user_id);
     this.$store.commit("SET_USER_TYPE", window.localStorage.getItem('clientType'));
@@ -139,7 +160,117 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "../../static/css/variables";
+
+.main-header{
+  .sidebar-toggle::before {
+    content: "";
+  }
+  .sidebar-toggle:hover {
+    color: $color-nav-items;
+  }
+
+  .sidebar-toggle{
+    padding: 0;
+
+    span:first-child{
+      display: inline-block;
+      padding: 17.5px;
+      background-color: #256ae1;
+      i{
+        color: #ffffff;
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.navbar{
+  padding-bottom: 0;
+  padding-top: 0;
+  -webkit-box-shadow: 0 8px 6px -10px black;
+  -moz-box-shadow: 0 8px 6px -10px black;
+  box-shadow: 0 8px 6px -10px black;
+  padding-left: 0;
+}
+
+.top-nav-items{
+  ul{
+    list-style: none;
+    padding: 0;
+
+    li{
+      position: relative;
+      float: left;
+      padding: 18.5px 30px;
+
+      a{
+        font-family: $font;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.22;
+        color: $color-nav-items;
+
+        span{
+          margin-right: 5px;
+          display: inline-block;
+        }
+      }
+    }
+
+    li.active{
+      background-color: #fafafa;
+      border-bottom: 3px solid $color-accent-1;
+    }
+  }
+}
+
+.navbar-custom-menu{
+  li{
+    ._icon{
+      position: relative;
+      width: 23px;
+      display: inline-block;
+      i{
+        position: absolute;
+        bottom: -8px;
+      }
+    }
+    padding: 0 15px;
+    i{
+      font-size: 22px;
+      color: $color-nav-items;
+    }
+    span.icon{
+      background: $color-nav-items;
+      border-radius: 50%;
+      padding: 4px 6px;
+      i{
+        font-size: 13px;
+        color: #fff;
+      }
+    }
+  }
+  .notifications{
+    a{
+      display: inline-grid;
+      line-height: 1em;
+      position: relative;
+      .badge:empty{
+        display: inline-block;
+      }
+      .custom-badge{
+        top: -3px;
+        right: 0;
+        width: 5px;
+        height: 9px;
+        background-color: #f36
+      }
+    }
+  }
+}
+
 .wrapper{
     min-height:100%;
     position:relative;
@@ -149,25 +280,19 @@ footer {
   left:0;
   width:100%;
 }
-
 .list-group i {
   color: #888;
   margin-right: 5px;
 }
-
 .list-group li{
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
 .custom-badge {
   position: absolute !important;
 }
 
-.main-header .sidebar-toggle {
-    padding: 0 15px;
-}
 .main-header{
   position: fixed;
   width: 100%;
@@ -202,7 +327,7 @@ footer {
 }
 
 a {
-  color: white;
+  color: black;
 }
 .wrapper.fixed_layout .main-header {
   position: fixed;
@@ -262,7 +387,7 @@ hr.visible-xs-block {
 }
 
 .sidebar-toggle span:nth-child(2) {
-  color: #fff;
+  color: black;
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
   line-height: 17px;
@@ -275,7 +400,7 @@ hr.visible-xs-block {
 }
 
 .main-header > .navbar {
-  background-color: #256ae1 !important;
+  background-color: white;
   margin-left: 0;
   min-height: 64px;
 }
@@ -306,7 +431,6 @@ hr.visible-xs-block {
   line-height: 2;
   opacity: 1; /* Firefox */
 }
-
 #nav_search input[type="text"]:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: white;
@@ -314,7 +438,6 @@ hr.visible-xs-block {
   line-height: 2;
   font-family: "Montserrat", sans-serif;
 }
-
 #nav_search input[type="text"]::-ms-input-placeholder {
   /* Microsoft Edge */
   color: white;
