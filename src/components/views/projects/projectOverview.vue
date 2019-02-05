@@ -7,7 +7,7 @@
       Site is ready for connection
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="comp-title col-md-6">
         <h3>{{ site.site_name }}</h3>
       </div>
@@ -19,35 +19,47 @@
           {{ site.site_accessible ? 'Accessible' : 'Not Accessible' }} 
         </p>
       </div>
-    </div>
-    <!-- /.row -->
+    </div> -->
 
     <div class="row" v-if="$store.state.user_type != 'client'" style="padding-top: 20px; padding-bottom: 40px;">
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6">{{ siteFleets.length }}</h3>
-          <p class="col-md-6">Total Number of vehicles</p>
+        <div class="summary-card row" style="background-color: #003d8f">
+          <span><i class="fa fa-truck"></i></span>
+          <div class="col-md-12">
+            <h3>{{ siteFleets.length }}</h3>
+            <p>Total Number of vehicles</p>
+          </div>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6"><small>{{ getBoqTotal | formatNumber }}</small></h3>
-          <p class="col-md-6">Estimated Budget</p>
+        <div class="summary-card row" style="background-color: #429640">
+          <span><i class="fa fa-dollar-sign"></i></span>
+          <div class="col-md-12">
+            <p class="currency">UGX</p>
+            <h3><small>{{ getBoqTotal | formatNumber }}</small></h3>
+            <p>Estimated Budget</p>
+          </div>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6 text-danger">{{ siteRoles.length }}</h3>
-          <p class="col-md-6">Employees on project</p>
+        <div class="summary-card row" style="background-color: #08bdff">
+          <span><i class="fa fa-users"></i></span>
+          <div class="col-md-12">
+            <h3><small>{{ siteRoles.length }}</small></h3>
+            <p>Employees on project</p>
+          </div>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6 text-danger"><small>76 hours</small></h3>
-          <p class="col-md-6">Delays</p>
+        <div class="summary-card row" style="background-color: #28354a">
+          <span><i class="fa fa-cogs"></i></span>
+          <div class="col-md-12">
+            <h3><small>76</small></h3>
+            <p>Hours</p>
+          </div>
         </div>
       </div>
     </div>
@@ -570,13 +582,6 @@ export default {
   mixins: [select],
   data(router) {
     return {
-      // siteAccepted: null,
-      // siteSurveyDate: null,
-      // editSurveyDate: false,
-      // sitePercentage: 0,
-      // userAccessible: false,
-      // userAccessibility: false,
-      // siteAccessibility: false,
       userFleet: null,
       addSiteRole: false,
       addSiteFleet: false,
@@ -790,38 +795,75 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "../../../../static/css/variables";
+
+.summary-card{
+  color: #fff;
+  position: relative;
+  height: 120px;
+  position: relative;
+
+  div{
+    display: inline-table;
+    position: absolute;
+    bottom: 0;
+  }
+  span{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+  }
+
+  h3{
+    font-family: $font;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 22px;
+    padding: 0 0 5px;
+    padding-right: 5px;
+    margin: 0;
+  }
+
+  p{
+    color: #fff;
+    font-family: $font;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 13px;
+    padding-bottom: 15px;
+    margin-bottom: 0;
+  }
+}
 
 .dropbox {
-    outline: 2px dashed grey; /* the dash box */
-    outline-offset: -10px;
-    background: lightcyan;
-    color: dimgray;
-    padding: 10px 10px;
-    min-height: 200px; /* minimum height */
-    position: relative;
-    cursor: pointer;
-  }
+  outline: 2px dashed grey; /* the dash box */
+  outline-offset: -10px;
+  background: lightcyan;
+  color: dimgray;
+  padding: 10px 10px;
+  min-height: 200px; /* minimum height */
+  position: relative;
+  cursor: pointer;
+}
 
-  .input-file {
-    opacity: 0; /* invisible but it's there! */
-    width: 100%;
-    height: 200px;
-    position: absolute;
-    cursor: pointer;
-  }
+.input-file {
+  opacity: 0; /* invisible but it's there! */
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  cursor: pointer;
+}
 
-  .dropbox:hover {
-    background: lightblue; /* when mouse over to the drop zone, change color */
-  }
+.dropbox:hover {
+  background: lightblue; /* when mouse over to the drop zone, change color */
+}
 
-  .dropbox p {
-    font-size: 1.2em;
-    text-align: center;
-    padding: 50px 0;
-  }
-
-
+.dropbox p {
+  font-size: 1.2em;
+  text-align: center;
+  padding: 50px 0;
+}
 .comp-title .ac_select{
   width: 100%;
   border: none;
@@ -830,11 +872,9 @@ export default {
   font-size: 14px;
   padding: 0;
 }
-
 .ac_btn:hover{
   background: #256ae1;
 }
-
 .comp-title p {
   max-width: 250px;
 }

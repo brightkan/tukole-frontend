@@ -14,13 +14,13 @@
 
         <div class="top-nav-items">
           <ul>
-            <router-link tag="li" to="/dash/project/projects" v-if="this.$route.meta.type == 'Projects'">
+            <router-link tag="li" to="/dash/project/projects" v-if="this.$route.meta.type == 'Projects' || this.$route.meta.type == 'ProjectOverview'">
               <a href="#">
                 <span class="icon"><i class="fa fa-truck"></i></span>
                 Current
               </a>
             </router-link>  
-            <router-link tag="li" to="/dash/project/requests" v-if="this.$route.meta.type == 'Projects'">
+            <router-link tag="li" to="/dash/project/requests" v-if="this.$route.meta.type == 'Projects' || this.$route.meta.type == 'ProjectOverview'">
               <a href="#">
                 <span class="icon"><i class="fa fa-truck"></i></span>
                 Requests

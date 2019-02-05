@@ -242,73 +242,75 @@ const routes = [
             path: "projects",
             component: ProjectsView,
             name: "Projects",
-            meta: { description: "List of projects", requiresAuth: false, type: 'Projects' }
+            meta: { description: "List of projects", requiresAuth: false, type: 'Projects' },
+            children: [
+              {
+                path: "overview",
+                component: ProjectOverView,
+                name: "Overview",
+                meta: { description: "Project Overview", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "boq",
+                component: BoqView,
+                name: "Boq",
+                meta: { description: "List of our boq", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "pip",
+                component: PipView,
+                name: "PIP",
+                meta: { description: "List of our pip", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "costs",
+                component: ProjectCostsView,
+                name: "COSTS",
+                meta: { description: "Project costs", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "documentation",
+                component: ProjectDocumentationView,
+                name: "DOCUMENTATION",
+                meta: { description: "Project documentation", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "reports",
+                component: ProjectReportsView,
+                name: "REPORTS",
+                meta: { description: "Project reports", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "gallery",
+                component: GalleryView,
+                name: "GALLERY",
+                meta: { description: "Project images", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "challenges",
+                component: ChallengesView,
+                name: "Challenges",
+                meta: { description: "Project challenges", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "settings",
+                component: SettingsView,
+                name: "Settings",
+                meta: { description: "Project settings", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "quality",
+                component: QualityView,
+                name: "Quality",
+                meta: { description: "Project settings", requiresAuth: false, type: 'ProjectOverview' }
+              }
+            ]
           },
           {
             path: "requests",
             component: RequestsView,
             name: "Requests",
             meta: { description: "List of survey requests", requiresAuth: false, type: 'Projects' }
-          },
-          {
-            path: "overview",
-            component: ProjectOverView,
-            name: "Overview",
-            meta: { description: "Project Overview", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "boq",
-            component: BoqView,
-            name: "Boq",
-            meta: { description: "List of our boq", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "pip",
-            component: PipView,
-            name: "PIP",
-            meta: { description: "List of our pip", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "costs",
-            component: ProjectCostsView,
-            name: "COSTS",
-            meta: { description: "Project costs", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "documentation",
-            component: ProjectDocumentationView,
-            name: "DOCUMENTATION",
-            meta: { description: "Project documentation", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "reports",
-            component: ProjectReportsView,
-            name: "REPORTS",
-            meta: { description: "Project reports", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "gallery",
-            component: GalleryView,
-            name: "GALLERY",
-            meta: { description: "Project images", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "challenges",
-            component: ChallengesView,
-            name: "Challenges",
-            meta: { description: "Project challenges", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "settings",
-            component: SettingsView,
-            name: "Settings",
-            meta: { description: "Project settings", requiresAuth: false, type: 'ProjectOverview' }
-          },
-          {
-            path: "quality",
-            component: QualityView,
-            name: "Quality",
-            meta: { description: "Project settings", requiresAuth: false, type: 'ProjectOverview' }
           }
         ]
       }

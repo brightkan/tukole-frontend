@@ -169,10 +169,10 @@ export default {
   padding-left: 30px
 }
 
-.content > .row:nth-child(1) {
+/* .content > .row:nth-child(1) {
   padding: 15px 30px 10px;
   border-bottom: 1px solid #e0e0e0;
-}
+} */
 
 .content > .row:nth-child(2) {
   padding-top: 30px;
@@ -352,7 +352,7 @@ label.field.focused .psuedo_select ul {
   border-radius: 5px;
   margin: 0;
 }
-.summary-card h3 {
+/* .summary-card h3 {
   color: #256ae1;
   font-family: "Montserrat", sans-serif;
   font-size: 18px;
@@ -368,16 +368,16 @@ label.field.focused .psuedo_select ul {
   font-size: 14px;
   font-weight: 700;
   line-height: 14px;
-}
+} */
 
-.summary-card p {
+/* .summary-card p {
   color: #4f4f4f;
   font-family: "Montserrat", sans-serif;
   font-size: 11px;
   line-height: 13px;
   padding-top: 24px;
   padding-right: 30px;
-}
+} */
 
 .table thead .dot {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);

@@ -1,8 +1,9 @@
 <template>
-    <!-- Main content -->
+
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
-    <div class="row">
+    <div class="row"  v-if="this.$route.meta.type != 'ProjectOverview'" >
       <div class="comp-title col-md-2">
         <h3>Sites</h3>
       </div>
@@ -35,7 +36,7 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
+    <div class="row" v-if="this.$route.meta.type != 'ProjectOverview'">
       <div class="col-md-4 site" v-for="site in getSites" :key="site.id">
         <a v-on:click="selectSite(site)">
           <div class="project-card" v-bind:class="site.id == selectedSite ? 'active' : ''">
@@ -75,12 +76,14 @@
         </a>        
       </div>
     </div>
-    <div v-if="sites.length <= 0" class="row empty-site-list">
+    <div v-if="sites.length <= 0 && this.$route.meta.type != 'ProjectOverview'" class="row empty-site-list">
       <h3 class="text-center">NO SITES YET</h3>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addSite" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addSite" tabindex="-1" 
+    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    v-if="this.$route.meta.type != 'ProjectOverview'">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -146,6 +149,71 @@
       </div>
     </div>
 
+
+    <div class="row" v-if="this.$route.meta.type == 'ProjectOverview'">
+      <div class="col-md-12 project-heading" v-bind:style="{ backgroundImage: 'url(\'https://www.soliton.co.ke/img/capacity.JPG\')'}"> 
+        <h3>{{ activeSite.site_name }}</h3>
+      </div>
+    </div>
+
+    <div class="row" v-if="this.$route.meta.type == 'ProjectOverview'">
+      <div class="col-md-12 toolbar">
+        <ul>
+          <router-link tag="li" to="/dash/project/projects/overview">
+            <a href="#"> 
+              Overview
+            </a>
+          </router-link>  
+          <router-link tag="li" to="/dash/project/projects/boq" v-if="$store.state.user_type != 'client'">
+            <a href="#">
+              BOQ
+            </a>
+          </router-link>  
+          <router-link tag="li" to="/dash/project/projects/pip" v-if="$store.state.user_type != 'client'">
+            <a href="#">
+              PIP
+            </a>
+          </router-link> 
+          <router-link tag="li" to="/dash/project/projects/costs" v-if="$store.state.user_type != 'client'">
+            <a href="#">
+              Site Costs
+            </a>
+          </router-link>  
+          <router-link tag="li" to="/dash/project/projects/documentation" v-if="$store.state.user_type != 'client'">
+            <a href="#">
+              Documents
+            </a>
+          </router-link> 
+          <router-link tag="li" to="/dash/project/projects/reports" v-if="$store.state.user_type != 'client'">
+            <a href="#">
+              Reports
+            </a>
+          </router-link>  
+          <router-link tag="li" to="/dash/project/projects/gallery">
+            <a href="#">
+              Gallery
+            </a>
+          </router-link> 
+          <router-link tag="li" to="/dash/project/projects/quality" v-if="$store.state.user_type != 'client'">
+            <a href="#">
+              Quality Checks
+            </a>
+          </router-link> 
+          <router-link tag="li" to="/dash/project/projects/challenges">
+            <a href="#">
+              Challenges / Incidents
+            </a>
+          </router-link> 
+          <router-link tag="li" to="/dash/project/projects/settings">
+            <a href="#">
+              Settings
+            </a>
+          </router-link> 
+        </ul>
+      </div>
+    </div>
+
+    <router-view></router-view>
   </section>
 </template>
 
@@ -159,6 +227,7 @@ export default {
   mixins: [select],
   data(router) {
     return {
+      activeSite: "",
       selectedSite: window.localStorage.getItem("selectsite"),
       editMode: false,
       site: {
@@ -223,14 +292,70 @@ export default {
       }
     },
     selectSite(site){
+      this.activeSite = site
       window.localStorage.setItem("selectsite", site.id)
-      this.$router.push('overview')
+      this.$router.push('projects/overview')
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "../../../../static/css/variables";
+
+.project-heading{
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 0;
+  
+  h3{
+    color: white;
+    background: #00000080;
+    padding: 90px 40px 30px;
+    font-family: $font;
+    font-size: 25px;
+    font-weight: 400;
+    margin: 0;
+  }
+}
+
+.toolbar{
+  position: relative;
+  text-align: center;
+  border-bottom: 1px solid #d0d0d0;
+
+  ul{
+    list-style: none;
+    padding: 0;
+    display: inline-flex;
+    margin-bottom: 0;
+
+    li{
+      float: left;
+      font-family: $font;
+      font-size: 16px;
+      font-weight: 400;
+      padding: 10px 15px;
+
+      a{
+        color: #a0a0a0;
+      }
+    }
+
+    li.active{
+      /* background-color: #f0f0f0; */
+      background-color: #dbdbdb;
+      border-radius: 10px 10px 0 0;
+
+      a{
+        color: #28354a;
+      }
+    }
+  }
+}
+
+
 .empty-site-list{
   color: #c3c3c3;
   font-family: "Montserrat", sans-serif;
@@ -321,7 +446,7 @@ p{
 }
 .project-card .stats p{
   color: #28354a;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
   margin-bottom: 0;
   line-height: 1em;
