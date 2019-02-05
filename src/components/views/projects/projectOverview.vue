@@ -27,7 +27,7 @@
           <span><i class="fa fa-truck"></i></span>
           <div class="col-md-12">
             <h3>{{ siteFleets.length }}</h3>
-            <p>Total Number of vehicles</p>
+            <p>Total number of vehicles</p>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
           <div class="col-md-12">
             <p class="currency">UGX</p>
             <h3><small>{{ getBoqTotal | formatNumber }}</small></h3>
-            <p>Estimated Budget</p>
+            <p>Estimated budget</p>
           </div>
         </div>
       </div>
@@ -808,16 +808,20 @@ export default {
     display: inline-table;
     position: absolute;
     bottom: 0;
+    padding: 0 20px;
   }
   span{
     position: absolute;
     top: 10px;
-    right: 15px;
+    right: 20px;
+    i{
+      font-size: 18px
+    }
   }
 
   h3{
     font-family: $font;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 400;
     line-height: 22px;
     padding: 0 0 5px;
@@ -828,11 +832,14 @@ export default {
   p{
     color: #fff;
     font-family: $font;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 13px;
-    padding-bottom: 15px;
     margin-bottom: 0;
+  }
+
+  p:last-child{
+    padding-bottom: 15px;
   }
 }
 
