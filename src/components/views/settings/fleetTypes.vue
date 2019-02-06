@@ -26,30 +26,33 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Type</td>
-              <td>Description</td>
-              <td>Creation Date</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="type in fleet_types" :key="type.id">
-              <td>{{ type.type }}</td>
-              <td>{{ type.description }}</td>
-              <td>12. 08. 2018</td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editType(type)" data-toggle="modal" data-target="#addFleetType"></i> 
-                <i class="fa fa-times" v-on:click="deleteType(type)"></i>
-              </td>
-            </tr>
-            <tr v-if="fleet_types.length <= 0">
-              <td colspan="7" class="text-center">No fleet types yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-list"></i> Types</h3>
+          <table>
+            <thead>
+              <tr v-if="fleet_types.length > 0">
+                <td>Type</td>
+                <td>Description</td>
+                <td>Creation Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="type in fleet_types" :key="type.id">
+                <td>{{ type.type }}</td>
+                <td>{{ type.description }}</td>
+                <td>12. 08. 2018</td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editType(type)" data-toggle="modal" data-target="#addFleetType"></i> 
+                  <i class="fa fa-times" v-on:click="deleteType(type)"></i>
+                </td>
+              </tr>
+              <tr v-if="fleet_types.length <= 0">
+                <td colspan="7" class="text-center">No fleet types yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

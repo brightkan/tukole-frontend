@@ -106,7 +106,7 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
-            <li>
+            <li v-if="$store.state.user_type != 'client'">
               <a href="javascript:;" v-on:click="openSettings()" class="_icon"><i class="fa fa-cog"></i></a>
             </li>
             <li class="dropdown notifications">
