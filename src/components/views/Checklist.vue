@@ -1,11 +1,5 @@
 <template>
-<div>
-  <section class="content-header">
-    <div class="toolbar">
-      
-    </div>
-  </section>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -33,25 +27,29 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Name</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in checklist" :key="item.id">
-              <td>{{ item.name }}</td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editChecklistItem(item)" data-toggle="modal" data-target="#addChecklistItem"></i> 
-                <i class="fa fa-times" v-on:click="deleteChecklistItem(item)"></i>
-              </td>
-            </tr>
-            <tr v-if="checklist.length <= 0">
-              <td colspan="6" class="text-center">No Items Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-check"></i> CheckList</h3>
+          <table>
+            <thead>
+              <tr v-if="checklist.length > 0">
+                <td>Name</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in checklist" :key="item.id">
+                <td>{{ item.name }}</td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editChecklistItem(item)" data-toggle="modal" data-target="#addChecklistItem"></i> 
+                  <i class="fa fa-times" v-on:click="deleteChecklistItem(item)"></i>
+                </td>
+              </tr>
+              <tr v-if="checklist.length <= 0">
+                <td colspan="6" class="text-center">No Items Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -85,7 +83,6 @@
     </div>
 
   </section>
-</div>
 </template>
 
 <script>

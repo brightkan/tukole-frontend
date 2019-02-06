@@ -1,11 +1,5 @@
 <template>
-<div>
-  <section class="content-header">
-    <div class="toolbar">
-      
-    </div>
-  </section>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -23,32 +17,35 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Contact</td>
-              <td>Email</td>
-              <td>Creation Date</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in getCompanyUsers(this.$route.params.id)" :key="user.id">
-              <td>{{ user.first_name }} {{ user.last_name}}</td>
-              <td>{{ user.phone_number }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.created | moment('MMM Do YYYY')}}</td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
-                <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
-              </td>
-            </tr>
-            <tr v-if="getCompanyUsers(this.$route.params.id).length <= 0">
-              <td colspan="7" class="text-center">No Users Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-users"></i> Users</h3>
+          <table>
+            <thead>
+              <tr>
+                <td>Name</td>
+                <td>Contact</td>
+                <td>Email</td>
+                <td>Creation Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in getCompanyUsers(this.$route.params.id)" :key="user.id">
+                <td>{{ user.first_name }} {{ user.last_name}}</td>
+                <td>{{ user.phone_number }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.created | moment('MMM Do YYYY')}}</td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
+                  <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
+                </td>
+              </tr>
+              <tr v-if="getCompanyUsers(this.$route.params.id).length <= 0">
+                <td colspan="7" class="text-center">No Users Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -99,7 +96,6 @@
     </div>
 
   </section>
-</div>
 </template>
 
 <script>

@@ -39,41 +39,44 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Tool</td>
-              <td>Serial Number</td>
-              <td>Type</td>
-              <td>status</td>
-              <td>Creation Date</td>
-              <td></td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="tool in getTools" :key="tool.id">
-              <td>{{ tool.name }}</td>
-              <td>{{ tool.humanUuid }}</td>
-              <td>{{ tool.type.type }}</td>
-              <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
-              <td>{{ tool.created | moment("DD, MM, YY") }}</td>
-              <td>
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(tool)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fault history</a>  
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(tool)" style="padding-top: 5px; padding-bottom: 5px;">
-                  show history</a> 
-              </td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editTool(tool)" data-toggle="modal" data-target="#addTool"></i> 
-                <i class="fa fa-times" v-on:click="deleteTool(tool)"></i>
-              </td>
-            </tr>
-            <tr v-if="getTools.length <= 0">
-              <td colspan="7" class="text-center">No Tools Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-wrench"></i> Tools</h3>
+          <table>
+            <thead>
+              <tr v-if="getTools.length > 0">
+                <td>Tool</td>
+                <td>Serial Number</td>
+                <td>Type</td>
+                <td>status</td>
+                <td>Creation Date</td>
+                <td>History</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="tool in getTools" :key="tool.id">
+                <td>{{ tool.name }}</td>
+                <td>{{ tool.humanUuid }}</td>
+                <td>{{ tool.type.type }}</td>
+                <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
+                <td>{{ tool.created | moment("DD, MM, YY") }}</td>
+                <td>
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(tool)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Fault</a>  
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(tool)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Assignment</a> 
+                </td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editTool(tool)" data-toggle="modal" data-target="#addTool"></i> 
+                  <i class="fa fa-times" v-on:click="deleteTool(tool)"></i>
+                </td>
+              </tr>
+              <tr v-if="getTools.length <= 0">
+                <td colspan="7" class="text-center">No Tools Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -193,7 +196,7 @@
 </template>
 
 <script>
-import { select } from "../../mixins/select";
+import { select } from "../mixins/select";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 
@@ -282,11 +285,6 @@ export default {
 </script>
 
 <style>
-/* .content > .row:nth-child(1) {
-  padding: 15px 30px 10px;
-  border-bottom: 1px solid #e0e0e0;
-} */
-
 .content > .row:nth-child(2) {
   padding-top: 30px;
 }
@@ -446,7 +444,7 @@ label.field.focused .psuedo_select ul {
   padding: 0;
 }
 .comp-title .fleet_search input {
-  background: url(../../../../static/img/search-white.png) no-repeat 10px 10px;
+  background: url(../../../static/img/search-white.png) no-repeat 10px 10px;
   background-color: #fff;
   border: 0 none;
   font-family: "Montserrat", sans-serif;
@@ -465,32 +463,6 @@ label.field.focused .psuedo_select ul {
   border-radius: 5px;
   margin: 0;
 }
-/* .summary-card h3 {
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 22px;
-  padding: 20px 37px 26px;
-  padding-right: 5px;
-  margin: 0;
-}
-.summary-card h3 small {
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 14px;
-} */
-
-/* .summary-card p {
-  color: #4f4f4f;
-  font-family: "Montserrat", sans-serif;
-  font-size: 11px;
-  line-height: 13px;
-  padding-top: 24px;
-  padding-right: 30px;
-} */
 
 .table thead .dot {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);

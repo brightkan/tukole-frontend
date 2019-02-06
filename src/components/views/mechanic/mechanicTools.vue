@@ -12,36 +12,38 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td>Tool</td>
-              <td>Serial Number</td>
-              <td>Type</td>
-              <td>status</td>
-              <td>Creation Date</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="tool in brokenDown" :key="tool.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ tool.name }}</td>
-              <td>{{ tool.humanUuid }}</td>
-              <td>{{ tool.type.type }}</td>
-              <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
-              <td>{{ tool.created | moment("dddd, MMMM Do YYYY") }}</td>
-              <td class="text-right">
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#FixTool" v-on:click="fixTool(tool)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fix</a>
-              </td>
-            </tr>
-            <tr v-if="brokenDown.length <= 0">
-              <td colspan="7" class="text-center">No tools Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-wrench"></i> Tools</h3>
+
+          <table>
+            <thead>
+              <tr v-if="brokenDown.length > 0">
+                <td>Tool</td>
+                <td>Serial Number</td>
+                <td>Type</td>
+                <td>status</td>
+                <td>Creation Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="tool in brokenDown" :key="tool.id">
+                <td>{{ tool.name }}</td>
+                <td>{{ tool.humanUuid }}</td>
+                <td>{{ tool.type.type }}</td>
+                <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
+                <td>{{ tool.created | moment("dddd, MMMM Do YYYY") }}</td>
+                <td class="text-right">
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#FixTool" v-on:click="fixTool(tool)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Fix</a>
+                </td>
+              </tr>
+              <tr v-if="brokenDown.length <= 0">
+                <td colspan="7" class="text-center">No tools Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

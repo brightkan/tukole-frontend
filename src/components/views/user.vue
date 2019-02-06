@@ -1,11 +1,5 @@
 <template>
-<div>
-  <section class="content-header">
-    <div class="toolbar">
-      
-    </div>
-  </section>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -50,36 +44,39 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Contact</td>
-              <td>Email</td>
-              <td>Account Type</td>
-              <td>Role</td>
-              <td>Creation Date</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in getAdminUsers" :key="user.id">
-              <td>{{ user.first_name }} {{ user.last_name}}</td>
-              <td>{{ user.phone_number }}</td>
-              <td>{{ user.email }}</td>
-              <td style="text-transform: capitalize">{{ user.type }}</td>
-              <td style="text-transform: capitalize">{{ user.role.replace('_', ' ') }}</td>
-              <td>{{ user.created | moment('MMM Do YYYY')}}</td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
-                <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
-              </td>
-            </tr>
-            <tr v-if="getAdminUsers.length <= 0">
-              <td colspan="7" class="text-center">No Users Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-users"></i> Users</h3>
+          <table>
+            <thead>
+              <tr v-if="getAdminUsers.length > 0">
+                <td>Name</td>
+                <td>Contact</td>
+                <td>Email</td>
+                <td>Account Type</td>
+                <td>Role</td>
+                <td>Creation Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in getAdminUsers" :key="user.id">
+                <td>{{ user.first_name }} {{ user.last_name}}</td>
+                <td>{{ user.phone_number }}</td>
+                <td>{{ user.email }}</td>
+                <td style="text-transform: capitalize">{{ user.type }}</td>
+                <td style="text-transform: capitalize">{{ user.role.replace('_', ' ') }}</td>
+                <td>{{ user.created | moment('MMM Do YYYY')}}</td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
+                  <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
+                </td>
+              </tr>
+              <tr v-if="getAdminUsers.length <= 0">
+                <td colspan="7" class="text-center">No Users Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -151,7 +148,6 @@
     </div>
 
   </section>
-</div>
 </template>
 
 <script>
@@ -242,7 +238,92 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
+@import "../../../static/css/variables";
+
+.table-alt{
+  border-radius: 6px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  background-color: #ffffff;
+  padding-bottom: 15px;
+
+  h3{
+    padding: 15px 30px;
+    border-bottom: 1px solid #b4b4b4;
+    color: #28354a;
+    line-height: 1.22;
+    font-size: 18px;
+    font-weight: 500;
+
+    i{
+      display: inline-block;
+      margin-right: 15px;
+    }
+  }
+
+  table{
+    width: 100%;
+
+    thead{
+      tr{
+        td{
+          padding: 15px 15px;
+          color: #000;
+          line-height: 1.29;
+          font-family: $font;
+          font-size: 15px;
+          font-weight: 600;
+        }
+      }
+    }
+
+    tbody{
+      tr{
+        td{
+          padding: 10px 15px;
+          color: #28354a;
+          line-height: 1.29;
+          font-family: $font;
+          font-size: 14px;
+          font-weight: normal;
+
+          span {
+            color: #fff;
+            font-size: 12px;
+            line-height: 11px;
+            padding: 3px 15px;
+            border-radius: 20px;
+            text-transform: capitalize;
+          }
+          span.green {
+            background-color: #2dae3e;
+          }
+          span.red {
+            background-color: #ff5f58;
+          }
+          span.orange {
+            background-color: #fa9917;
+          }
+        }
+
+        .fa-edit{
+          display: inline-block;
+          margin-right: 15px;
+        }
+      }
+    }
+
+    tr{
+      td:nth-child(1){
+        padding-left: 30px;
+      }
+      td:last-child{
+        padding-right: 30px;
+      }
+    }  
+  }
+}
+
 .comp-title button,
 .custom-btn {
   background-color: #256ae1;

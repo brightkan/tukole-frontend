@@ -12,29 +12,32 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Email</td>
-              <td>Manholes assigned</td>
-            </tr>
-          </thead>
-          <tbody class="ofc-users"> 
-            <tr v-for="user in getOFCUsers" :key="user.id">
-              <td>{{ user.first_name }} {{ user.last_name}}</td>
-              <td>{{ user.email }}</td>
-              <td>
-                <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="navigateToUser(user)">
-                  Detials
-                </a>  
-              </td>
-            </tr>
-            <tr v-if="getOFCUsers.length <= 0">
-              <td colspan="7" class="text-center">No Users Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-users"></i> OFC Users</h3>
+          <table>
+            <thead>
+              <tr v-if="getOFCUsers.length > 0">
+                <td>Name</td>
+                <td>Email</td>
+                <td>Manholes assigned</td>
+              </tr>
+            </thead>
+            <tbody class="ofc-users"> 
+              <tr v-for="user in getOFCUsers" :key="user.id">
+                <td>{{ user.first_name }} {{ user.last_name}}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="navigateToUser(user)">
+                    Detials
+                  </a>  
+                </td>
+              </tr>
+              <tr v-if="getOFCUsers.length <= 0">
+                <td colspan="7" class="text-center">No Users Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

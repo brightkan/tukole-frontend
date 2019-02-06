@@ -10,13 +10,13 @@ import SelectWorkSpaceView from "./components/auth/SelectWorkSpace.vue";
 
 // Import Views - Dash
 import DashboardView from "./components/views/Dashboard.vue";
-import MaterialView from "./components/views/Material.vue";
-import ToolsView from "./components/views/tools/tools.vue";
-import ToolTypesView from "./components/views/tools/toolTypes.vue";
-import ToolsDashView from "./components/views/tools/toolsDash.vue";
+import MaterialView from "./components/views/materials/Material.vue";
+import MaterialDashView from "./components/views/materials/materialsDash.vue";
+import ToolsView from "./components/views/tools.vue";
+import ToolTypesView from "./components/views/settings/toolTypes.vue";
 import FleetView from "./components/views/fleet/fleet.vue";
-import FleetTypeView from "./components/views/fleet/fleetTypes.vue"
-import MachineryTypeView from "./components/views/fleet/machineryTypes.vue"
+import FleetTypeView from "./components/views/settings/fleetTypes.vue"
+import MachineryTypeView from "./components/views/settings/machineryTypes.vue"
 import EquipmentDashView from "./components/views/fleet/eqiupmentDash.vue";
 import EquipmentView from "./components/views/fleet/equipment.vue";
 import UserView from "./components/views/user.vue";
@@ -32,8 +32,8 @@ import RequestsView from "./components/views/projects/requests.vue";
 import ProjectOverView from "./components/views/projects/projectOverview.vue";
 import ProjectReportsView from "./components/views/projects/reports.vue"
 import NotificationsView from "./components/views/notifications.vue"
-import WarehouseView from "./components/views/warehouseManagement/warehouse.vue"
-import WarehouseSitesView from "./components/views/warehouseManagement/sites.vue"
+import WarehouseView from "./components/views/materials/warehouse.vue"
+import WarehouseSitesView from "./components/views/materials/sites.vue"
 import MechanicView from "./components/views/mechanic/mechanic.vue"
 import MechanicFleetView from "./components/views/mechanic/mechanicFleets.vue"
 import MechanicMachineryView from "./components/views/mechanic/mechanicMachinery.vue"
@@ -47,6 +47,7 @@ import CompanyUsers from "./components/views/company/companyUsers.vue"
 import ChecklistView from "./components/views/Checklist.vue"
 import SettingsView from "./components/views/projects/settings.vue"
 import QualityView from "./components/views/projects/quality.vue"
+import GeneralSettingsView from "./components/views/settings/settingDash.vue"
 
 // Routes
 const routes = [
@@ -111,27 +112,21 @@ const routes = [
             path: "assignments",
             component: ManholeAssignmentView,
             name: "Manhole Assignment",
-            meta: { description: "AssignManholes to users", requiresAuth: false }
+            meta: { description: "AssignManholes to users", requiresAuth: false, type: "Manhole" }
           },
           {
             path: "userManholes/:id",
             component: UserManholesView,
             name: "User assigned manholes",
-            meta: { description: "OFC user manholes", requiresAuth: false }
+            meta: { description: "OFC user manholes", requiresAuth: false, type: "Manhole" }
           },
           {
             path: "manholes",
             component: ManholeView,
             name: "List of manholes",
-            meta: { description: "List of manholes", requiresAuth: false }
+            meta: { description: "List of manholes", requiresAuth: false, type: "Manhole" }
           },
         ]
-      },
-      {
-        path: "checklist",
-        component: ChecklistView,
-        name: "Checklist",
-        meta: { description: "List of checklist items", requiresAuth: false }
       },
       {
         path: "notifications",
@@ -140,16 +135,30 @@ const routes = [
         meta: { description: "List of notifications", requiresAuth: false }
       },
       {
-        path: "warehouse/:id",
-        component: WarehouseView,
-        name: "Warehouse",
-        meta: { description: "Warehouse management", requiresAuth: false }
-      },
-      {
-        path: "warehouseSites",
-        component: WarehouseSitesView,
-        name: "Warehouse Sites",
-        meta: { description: "Warehouse management", requiresAuth: false }
+        path: "settings",
+        component: GeneralSettingsView,
+        redirect: "settings/fleetTypes",
+        children: [
+          {
+            path: "fleetTypes",
+            component: FleetTypeView,
+            name: "Fleet Type",
+            meta: {description: "fleet types", requiresAuth: false, type: 'Settings' }
+          },
+          {
+            path: "machineryTypes",
+            component: MachineryTypeView,
+            name: "Machinery Type",
+            meta: {description: "machinery types", requiresAuth: false, type: 'Settings' }
+          },
+          ,
+          {
+            path: "toolTypes",
+            component: ToolTypesView,
+            name: "Tool types",
+            meta: { description: "Tools overview", requiresAuth: false, type: 'Settings' }
+          }
+        ]
       },
       {
         path: "mechanic",
@@ -160,76 +169,77 @@ const routes = [
             path: "fleets",
             component: MechanicFleetView,
             name: "Mechanic fleets",
-            meta: { description: "List of faulty fleets", requiresAuth: false }
+            meta: { description: "List of faulty fleets", requiresAuth: false, type: 'Garage' }
           },
           {
             path: "machinery",
             component: MechanicMachineryView,
             name: "Mechanic machinery",
-            meta: { description: "List of faulty machinery", requiresAuth: false }
+            meta: { description: "List of faulty machinery", requiresAuth: false, type: 'Garage' }
           },
           {
             path: "tools",
             component: MechanicToolsView,
             name: "Mechanic tools",
-            meta: {description: "List of faulty tools", requiresAuth: false}
+            meta: {description: "List of faulty tools", requiresAuth: false, type: 'Garage' }
           }
         ]
       },
       {
         path: "tools",
-        component: ToolsDashView,
-        name: "Tools",
-        redirect: "tools/overview",
+        component: ToolsView,
+        name: "Tools overview",
+        meta: { description: "Tools overview", requiresAuth: false }
+      },
+      {
+        path: "material_dash",
+        component: MaterialDashView,
+        redirect: "material_dash/material",
         children: [
           {
-            path: "overview",
-            component: ToolsView,
-            name: "Tools overview",
-            meta: { description: "Tools overview", requiresAuth: false }
+            path: "material",
+            component: MaterialView,
+            name: "Material",
+            meta: { description: "List of equipments", requiresAuth: false, type: 'Materials' }
           },
           {
-            path: "types",
-            component: ToolTypesView,
-            name: "Tool types",
-            meta: { description: "Tools overview", requiresAuth: false }
+            path: "warehouse",
+            component: WarehouseSitesView,
+            name: "Warehouse Sites",
+            meta: { description: "Warehouse management", requiresAuth: false, type: 'Materials' },
+            children: [
+              {
+                path: ":id",
+                component: WarehouseView,
+                name: "Site Warehouse",
+                meta: { description: "Warehouse management", requiresAuth: false , type: 'Warehouse'}
+              }
+            ]
           }
         ]
       },
       {
-        path: "material",
-        component: MaterialView,
-        name: "Material",
-        meta: { description: "Show material", requiresAuth: false }
-      },
-      {
         path: "equipment_dash",
         component: EquipmentDashView,
-        redirect: "equipment_dash/equipments",
+        redirect: "equipment_dash/fleet",
         children: [
           {
             path: "equipments",
             component: EquipmentView,
             name: "Equipment",
-            meta: { description: "List of equipments", requiresAuth: false }
+            meta: { description: "List of equipments", requiresAuth: false, type: 'Fleets' }
           },
           {
             path: "fleet",
             component: FleetView,
             name: "Fleet",
-            meta: { description: "Show fleet of vehicles", requiresAuth: false }
+            meta: { description: "Show fleet of vehicles", requiresAuth: false, type: 'Fleets'  }
           },
           {
-            path: "fleetTypes",
-            component: FleetTypeView,
-            name: "Fleet Type",
-            meta: {description: "fleet types", requiresAuth: false}
-          },
-          {
-            path: "machineryTypes",
-            component: MachineryTypeView,
-            name: "Machinery Type",
-            meta: {description: "machinery types", requiresAuth: false}
+            path: "checklist",
+            component: ChecklistView,
+            name: "Checklist",
+            meta: { description: "List of checklist items", requiresAuth: false, type: 'Fleets' }
           }
         ]
       },
@@ -317,7 +327,6 @@ const routes = [
     ]
   },
   {
-    // not found handler
     path: "*",
     component: NotFoundView
   }

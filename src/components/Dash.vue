@@ -26,6 +26,79 @@
                 Requests
               </a>
             </router-link> 
+            <router-link tag="li" to="/dash/equipment_dash/fleet" v-if="this.$route.meta.type == 'Fleets'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-truck"></i></span>
+                Fleet
+              </a>
+            </router-link>
+            <router-link tag="li" to="/dash/settings/fleetTypes" v-if="this.$route.meta.type == 'Settings'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-cogs"></i></span>
+                Fleet Types
+              </a>
+            </router-link>
+            <router-link tag="li" to="/dash/equipment_dash/checklist" v-if="this.$route.meta.type == 'Fleets'">
+              <a>
+                <span class="icon"><i class="fa fa-bell"></i></span>
+                Fleet Checklist
+              </a>
+            </router-link>              
+            <router-link tag="li" to="/dash/equipment_dash/equipments" v-if="this.$route.meta.type == 'Fleets'">
+              <a>
+                <span class="icon"><i class="fa fa-wrench"></i></span>
+                Machinery
+              </a>
+            </router-link>
+            <router-link tag="li" to="/dash/settings/machineryTypes" v-if="this.$route.meta.type == 'Settings'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-cogs"></i></span>
+                Machinery Types
+              </a>
+            </router-link> 
+            <router-link v-if="this.$route.meta.type == 'Materials' || this.$route.meta.type == 'Warehouse'" tag="li" to="/dash/material_dash/material">
+              <a>
+                <span class="icon"><i class="fa fa-wrench"></i></span>
+                <span class="page">Materials</span>
+              </a>
+            </router-link> 
+            <router-link v-if="this.$route.meta.type == 'Materials' || this.$route.meta.type == 'Warehouse'" tag="li" to="/dash/material_dash/warehouse">
+              <a>
+                <span class="icon"><i class="fa fa-warehouse"></i></span>
+                Warehouse
+              </a>
+            </router-link>
+            <router-link tag="li" to="/dash/settings/toolTypes" v-if="this.$route.meta.type == 'Settings'">
+              <a>
+                <span class="icon"><i class="fa fa-wrench"></i></span>
+                Tool Types
+              </a>
+            </router-link>
+            <router-link tag="li" to="/dash/manholeManagment/manholes" v-if="this.$route.meta.type == 'Manhole'">
+              <a href="#">
+                Manholes
+              </a>
+            </router-link>   
+            <router-link tag="li" to="/dash/manholeManagment/assignments" v-if="this.$route.meta.type == 'Manhole'">
+              <a href="#">
+                Assignments
+              </a>
+            </router-link> 
+            <router-link tag="li" to="/dash/mechanic/fleets" v-if="this.$route.meta.type == 'Garage'">
+              <a href="#">
+                Fleets
+              </a>
+            </router-link>
+            <router-link tag="li" to="/dash/mechanic/machinery" v-if="this.$route.meta.type == 'Garage'">
+              <a href="#">
+                Machines
+              </a>
+            </router-link>              
+            <router-link tag="li" to="/dash/mechanic/tools" v-if="this.$route.meta.type == 'Garage'">
+              <a>
+                Tools
+              </a>
+            </router-link>
           </ul>
         </div>
 
@@ -34,7 +107,7 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <li>
-              <a class="_icon"><i class="fa fa-cog"></i></a>
+              <a href="javascript:;" v-on:click="openSettings()" class="_icon"><i class="fa fa-cog"></i></a>
             </li>
             <li class="dropdown notifications">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -57,7 +130,7 @@
                   </ul>
                 </div>
                 <div class="notify-drop-footer">
-                  <a href="" v-on:click="showNotifications()">ALL NOTIFICATIONS</a>
+                  <a href="javascript:;" v-on:click="showNotifications()">ALL NOTIFICATIONS</a>
                 </div>
               </ul>
             </li>
@@ -138,11 +211,13 @@ export default {
   methods: {
     Logout(){
       window.localStorage.removeItem('token');
-
       this.$router.push('/');
     },
     showNotifications(){
       this.$router.push('/dash/notifications');
+    },
+    openSettings(){
+      this.$router.push('/dash/settings');
     }
   },
   mounted() {
@@ -299,12 +374,6 @@ footer {
 }
 .content-wrapper{
   margin-top: 64px;
-}
-.nav > li > a:hover,
-.nav > li > a:active,
-.nav > li > a:focus {
-  color: #ffffff;
-  background: transparent;
 }
 
 .dropdown.user.user-menu.open {

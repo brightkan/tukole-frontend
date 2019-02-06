@@ -16,8 +16,8 @@
             <ul id="img_category_options" class="options">
               <li class="option" data-value="opt_1" v-on:click="filter('available')">Available</li>
               <li class="option" data-value="opt_2" v-on:click="filter('broken')">Broken Down</li>
-              <li class="option" data-value="opt_3" v-on:click="filter('assigned')" >Assigned</li>
-              <li class="option" data-value="opt_4" v-on:click="filter('all')" >All</li>
+              <li class="option" data-value="opt_3" v-on:click="filter('assigned')">Assigned</li>
+              <li class="option" data-value="opt_4" v-on:click="filter('all')">All</li>
             </ul>
           </div>
         </label>
@@ -39,71 +39,86 @@
 
     <div class="row">
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6">{{ totalVehicles }}</h3>
-          <p class="col-md-6">Total Number of vehicles</p>
+        <div class="summary-card row" style="background-color: #003d8f">
+          <span><i class="fa fa-truck"></i></span>
+          <div class="col-md-12">
+            <h3>{{ totalVehicles }}</h3>
+            <p>Total number of vehicles</p>
+          </div>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6">{{ availableVehicles.length }}</h3>
-          <p class="col-md-6">Available vehicles</p>
+        <div class="summary-card row" style="background-color: #0058d5">
+          <span><i class="fa fa-plus"></i></span>
+          <div class="col-md-12">
+            <h3>{{ availableVehicles.length }}</h3>
+            <p>Available vehicles</p>
+          </div>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6 text-danger">{{ brokenDownVehicles.length }}</h3>
-          <p class="col-md-6">Broken down vehicles</p>
+        <div class="summary-card row" style="background-color: #ff9a24">
+          <span><i class="fa fa-check"></i></span>
+          <div class="col-md-12">
+            <h3>{{ assignedVehicles.length }}</h3>
+            <p>Assigned vehicles</p>
+          </div>
         </div>
       </div>
 
       <div class="col-md-3">
-        <div class="summary-card row">
-          <h3 class="col-md-6 text-danger">{{ assignedVehicles.length }}</h3>
-          <p class="col-md-6">Assigned vehicles</p>
+        <div class="summary-card row" style="background-color: #fd7070">
+          <span><i class="fa fa-cogs"></i></span>
+          <div class="col-md-12">
+            <h3>{{ brokenDownVehicles.length }}</h3>
+            <p>Broken down vehicles</p>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Vehicle</td>
-              <td>Serial Number</td>
-              <td>Type</td>
-              <td>status</td>
-              <td>Creation Date</td>
-              <td></td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="fleet in getFleets" :key="fleet.id">
-              <td>{{ fleet.name }}</td>
-              <td>{{ fleet.humanUuid }}</td>
-              <td>{{ fleet.vehicle_type.type }}</td>
-              <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
-              <td>{{ fleet.created | moment("DD. MM. YY") }}</td>
-              <td>
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fault history</a>  
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
-                  show history</a>  
-              </td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editFleet(fleet)" data-toggle="modal" data-target="#addFleet"></i> 
-                <i class="fa fa-times" v-on:click="deleteFleet(fleet)"></i>
-              </td>
-            </tr>
-            <tr v-if="fleets.length <= 0">
-              <td colspan="7" class="text-center">No fleets Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-truck"></i> Fleet</h3>
+          <table>
+            <thead>
+              <tr v-if="fleets.length > 0">
+                <td>Vehicle</td>
+                <td>Serial Number</td>
+                <td>Type</td>
+                <td>status</td>
+                <td>Creation Date</td>
+                <td>History</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="fleet in getFleets" :key="fleet.id">
+                <td>{{ fleet.name }}</td>
+                <td>{{ fleet.humanUuid }}</td>
+                <td>{{ fleet.vehicle_type.type }}</td>
+                <td><span v-bind:class="fleet.status.color">{{ fleet.status.name.replace('_', ' ') }}</span></td>
+                <td>{{ fleet.created | moment("DD. MM. YY") }}</td>
+                <td>
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Fault</a>  
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Assignment</a>  
+                </td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editFleet(fleet)" data-toggle="modal" data-target="#addFleet"></i> 
+                  <i class="fa fa-times" v-on:click="deleteFleet(fleet)"></i>
+                </td>
+              </tr>
+              <tr v-if="fleets.length <= 0">
+                <td colspan="7" class="text-center">No fleets Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -495,32 +510,6 @@ label.field.focused .psuedo_select ul {
   border-radius: 5px;
   margin: 0;
 }
-/* .summary-card h3 {
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 22px;
-  padding: 20px 37px 26px;
-  padding-right: 5px;
-  margin: 0;
-}
-.summary-card h3 small {
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 14px;
-} */
-
-/* .summary-card p {
-  color: #4f4f4f;
-  font-family: "Montserrat", sans-serif;
-  font-size: 11px;
-  line-height: 13px;
-  padding-top: 24px;
-  padding-right: 30px;
-} */
 
 .table thead .dot {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);

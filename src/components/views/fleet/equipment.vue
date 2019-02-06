@@ -38,41 +38,44 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Machine</td>
-              <td>Serial Number</td>
-              <td>Type</td>
-              <td>status</td>
-              <td>Creation Date</td>
-              <td></td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="machine in getMachines" :key="machine.id">
-              <td>{{ machine.name }}</td>
-              <td>{{ machine.humanUuid }}</td>
-              <td>Grader</td>
-              <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span></td>
-              <td>{{ machine.created | moment("DD. MM. YY") }}</td>
-              <td>
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(machine)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fault history</a>  
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(machine)" style="padding-top: 5px; padding-bottom: 5px;">
-                  show history</a>  
-              </td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editMachine(machine)" data-toggle="modal" data-target="#addMachinery"></i> 
-                <i class="fa fa-times" v-on:click="deleteMachine(machine)"></i>
-              </td>
-            </tr>
-            <tr v-if="machines.length <= 0">
-              <td colspan="7" class="text-center">No Machines Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-wrench"></i> Machines</h3>
+          <table>
+            <thead>
+              <tr v-if="machines.length > 0">
+                <td>Machine</td>
+                <td>Serial Number</td>
+                <td>Type</td>
+                <td>status</td>
+                <td>Creation Date</td>
+                <td>History</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="machine in getMachines" :key="machine.id">
+                <td>{{ machine.name }}</td>
+                <td>{{ machine.humanUuid }}</td>
+                <td>Grader</td>
+                <td><span v-bind:class="machine.status.color">{{ machine.status.name.replace('_', ' ') }}</span></td>
+                <td>{{ machine.created | moment("DD. MM. YY") }}</td>
+                <td>
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(machine)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Fault</a>  
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(machine)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Assignment</a>  
+                </td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editMachine(machine)" data-toggle="modal" data-target="#addMachinery"></i> 
+                  <i class="fa fa-times" v-on:click="deleteMachine(machine)"></i>
+                </td>
+              </tr>
+              <tr v-if="machines.length <= 0">
+                <td colspan="7" class="text-center">No Machines Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

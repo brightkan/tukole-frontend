@@ -18,9 +18,12 @@
     <div class="row">
       <div class="col-md-4 site" v-for="company in companies" :key="company.id">
         <a v-on:click="selectCompany(company)">
-            <div class="project-card">
-                <h3>{{ company.name }}</h3>
-                <p class="text-sm" style="margin: 0">Created on: {{ company.created | moment('MMM Do YYYY')}}</p>
+            <div class="card">
+              <div class="row">
+                <h3 class="col-md-8">{{ company.name }}</h3>
+                <img class="col-md-4" v-bind:src="'https://tunga.io/images/5e5c2a131974924b9cdb43897ee48212.png?v=1547741633659'"/>
+                <p class="col-md-12 text-sm" style="margin: 0">Created on: {{ company.created | moment('MMM Do YYYY')}}</p>
+              </div>
             </div>
         </a>        
       </div>
@@ -106,5 +109,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.content{
+  .card .row{
+    margin: 15px 0;
+  }
+}
 </style>

@@ -1,11 +1,5 @@
 <template>
-<div>
-  <section class="content-header">
-    <div class="toolbar">
-      
-    </div>
-  </section>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -33,31 +27,34 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Material</td>
-              <td>Measurement</td>
-              <td>Running Out</td>
-              <td>Unit Cost</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="material in materials" :key="material.id">
-              <td>{{ material.name }}</td>
-              <td style="text-transform: uppercase">{{ material.measurement }}</td>
-              <td>{{ material.running_out ? "Running out" : "Available" }}</td>
-              <td>{{ material.unit_cost }}</td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editMaterial(material)" data-toggle="modal" data-target="#addMaterial"></i> 
-                <i class="fa fa-times" v-on:click="deleteMaterial(material)"></i>
-              </td>
-            </tr>
-            <tr v-if="materials.length <= 0">
-              <td colspan="6" class="text-center">No Materials Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-wrench"></i>  Material</h3>
+          <table>
+            <thead>
+              <tr v-if="materials.length > 0">
+                <td>Material</td>
+                <td>Measurement</td>
+                <td>Running Out</td>
+                <td>Unit Cost</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="material in materials" :key="material.id">
+                <td>{{ material.name }}</td>
+                <td style="text-transform: uppercase">{{ material.measurement }}</td>
+                <td>{{ material.running_out ? "Running out" : "Available" }}</td>
+                <td>{{ material.unit_cost }}</td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editMaterial(material)" data-toggle="modal" data-target="#addMaterial"></i> 
+                  <i class="fa fa-times" v-on:click="deleteMaterial(material)"></i>
+                </td>
+              </tr>
+              <tr v-if="materials.length <= 0">
+                <td colspan="6" class="text-center">No Materials Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -105,7 +102,6 @@
     </div>
 
   </section>
-</div>
 </template>
 
 <script>
@@ -168,11 +164,6 @@ export default {
 .table td:nth-child(1){
   padding-left: 30px
 }
-
-/* .content > .row:nth-child(1) {
-  padding: 15px 30px 10px;
-  border-bottom: 1px solid #e0e0e0;
-} */
 
 .content > .row:nth-child(2) {
   padding-top: 30px;
@@ -333,7 +324,7 @@ label.field.focused .psuedo_select ul {
   padding: 0;
 }
 .comp-title .fleet_search input {
-  background: url(../../../static/img/search-white.png) no-repeat 10px 10px;
+  background: url(../../../../static/img/search-white.png) no-repeat 10px 10px;
   background-color: #fff;
   border: 0 none;
   font-family: "Montserrat", sans-serif;
@@ -352,32 +343,6 @@ label.field.focused .psuedo_select ul {
   border-radius: 5px;
   margin: 0;
 }
-/* .summary-card h3 {
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 22px;
-  padding: 20px 37px 26px;
-  padding-right: 5px;
-  margin: 0;
-}
-.summary-card h3 small {
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 14px;
-} */
-
-/* .summary-card p {
-  color: #4f4f4f;
-  font-family: "Montserrat", sans-serif;
-  font-size: 11px;
-  line-height: 13px;
-  padding-top: 24px;
-  padding-right: 30px;
-} */
 
 .table thead .dot {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);

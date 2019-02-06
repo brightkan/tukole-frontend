@@ -1,32 +1,7 @@
 <template>
-<div>
-  <section class="content-header">
-    <div class="toolbar">
-      <ul>
-        <router-link tag="li" to="/dash/mechanic/fleets">
-          <a href="#">
-            Fleets
-          </a>
-        </router-link>
-        <router-link tag="li" to="/dash/mechanic/machinery">
-          <a href="#">
-            Machines
-          </a>
-        </router-link>              
-        <router-link tag="li" to="/dash/mechanic/tools">
-          <a>
-            Tools
-          </a>
-        </router-link>
-      </ul>
-    </div>
-  </section>
-
-    <!-- Main content -->
   <section class="content">
     <router-view></router-view>
   </section>
-</div>
 </template>
 
 <script>

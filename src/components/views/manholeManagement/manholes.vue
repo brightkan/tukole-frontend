@@ -28,30 +28,33 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Manhole</td>
-              <td>Site</td>
-              <td>Created</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="manhole in manholes" :key="manhole.id">
-              <td>{{ manhole.number }}</td>
-              <td>{{ manhole.site ? manhole.site.site_name : '' }}</td>
-              <td>{{ manhole.created | moment('MMM Do YYYY') }}</td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editManhole(manhole)" data-toggle="modal" data-target="#addManhole"></i> 
-                <i class="fa fa-times" v-on:click="deleteManhole(manhole)"></i>
-              </td>
-            </tr>
-            <tr v-if="manholes.length <= 0">
-              <td colspan="6" class="text-center">No Manholes Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-users"></i> Users</h3>
+          <table>
+            <thead>
+              <tr v-if="manholes.length > 0">
+                <td>Manhole</td>
+                <td>Site</td>
+                <td>Created</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="manhole in manholes" :key="manhole.id">
+                <td>{{ manhole.number }}</td>
+                <td>{{ manhole.site ? manhole.site.site_name : '' }}</td>
+                <td>{{ manhole.created | moment('MMM Do YYYY') }}</td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editManhole(manhole)" data-toggle="modal" data-target="#addManhole"></i> 
+                  <i class="fa fa-times" v-on:click="deleteManhole(manhole)"></i>
+                </td>
+              </tr>
+              <tr v-if="manholes.length <= 0">
+                <td colspan="6" class="text-center">No Manholes Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

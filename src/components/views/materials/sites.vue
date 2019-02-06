@@ -2,26 +2,31 @@
     <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
-    <div class="row">
+    <div class="row"  v-if="this.$route.meta.type == 'Materials'">
       <div class="comp-title col-md-12">
-        <h3>Sites</h3>
+        <h3>Select sites</h3>
       </div>
     </div>
     <!-- /.row -->
 
-    <div class="row">
+    <div class="row"  v-if="this.$route.meta.type == 'Materials'">
       <div class="col-md-4 site" v-for="site in getSites" :key="site.id">
         <a v-on:click="selectSite(site)">
           <div class="project-card" v-bind:class="site.id == selectedSite ? 'active' : ''">
-          <h3>{{ site.site_name }}</h3>
-        </div>
+            <div class="site-bg" v-bind:style="{ backgroundImage: 'url(\'https://www.soliton.co.ke/img/capacity.JPG\')'}">
+              <h3>
+                {{ site.site_name }}
+              </h3>
+            </div>
+          </div>
         </a>        
       </div>
     </div>
-    <div v-if="sites.length <= 0" class="row empty-site-list">
+    <div v-if="sites.length <= 0 && this.$route.meta.type == 'Materials'" class="row empty-site-list">
       <h3 class="text-center">NO SITES YET</h3>
     </div>
 
+    <router-view></router-view>
   </section>
 </template>
 

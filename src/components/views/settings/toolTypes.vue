@@ -1,6 +1,5 @@
 <template>
-<div>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -88,7 +87,6 @@
     </div>
 
   </section>
-</div>
 </template>
 
 <script>

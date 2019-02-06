@@ -12,36 +12,38 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td>Vehicle</td>
-              <td>Serial Number</td>
-              <td>Type</td>
-              <td>status</td>
-              <td>Creation Date</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="fleet in brokenDownVehicles" :key="fleet.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ fleet.name }}</td>
-              <td>{{ fleet.humanUuid }}</td>
-              <td>{{ fleet.vehicle_type.type }}</td>
-              <td><span v-bind:class="fleet.status.color">{{ fleet.status.name }}</span></td>
-              <td>12. 08. 2018</td>
-              <td class="text-right"> 
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#FixFleet" v-on:click="fixFleet(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fix</a>
-              </td>
-            </tr>
-            <tr v-if="brokenDownVehicles.length <= 0">
-              <td colspan="7" class="text-center">No fleets Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-truck"></i> Fleets</h3>
+
+          <table>
+            <thead>
+              <tr v-if="brokenDownVehicles.length > 0">
+                <td>Vehicle</td>
+                <td>Serial Number</td>
+                <td>Type</td>
+                <td>status</td>
+                <td>Creation Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="fleet in brokenDownVehicles" :key="fleet.id">
+                <td>{{ fleet.name }}</td>
+                <td>{{ fleet.humanUuid }}</td>
+                <td>{{ fleet.vehicle_type.type }}</td>
+                <td><span v-bind:class="fleet.status.color">{{ fleet.status.name.replace('_', ' ') }}</span></td>
+                <td>12. 08. 2018</td>
+                <td class="text-right"> 
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#FixFleet" v-on:click="fixFleet(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Fix</a>
+                </td>
+              </tr>
+              <tr v-if="brokenDownVehicles.length <= 0">
+                <td colspan="7" class="text-center">No fleets Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

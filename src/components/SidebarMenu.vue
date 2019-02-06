@@ -18,7 +18,7 @@
         <span class="page">Fleet & Machinery</span>
       </a>
     </router-link>
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/material">
+    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/material_dash">
       <a>
         <i class="fa fa-table"></i>
         <span class="page">Materials</span>
@@ -51,13 +51,7 @@
     <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/manholeManagment">
       <a>
         <i class="fa fa-warehouse"></i>
-        <span class="page">Manhole Management</span>
-      </a>
-    </router-link>
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/warehouseSites">
-      <a>
-        <i class="fa fa-warehouse"></i>
-        <span class="page">Warehouse</span>
+        <span class="page">Manhole</span>
       </a>
     </router-link>
     <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/mechanic">
@@ -66,18 +60,12 @@
         <span class="page">Garage</span>
       </a>
     </router-link>
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/checklist">
-      <a>
-        <i class="fas fa-bell"></i>
-        <span class="page">Fleet Checklist</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/dash/notifications">
+    <!-- <router-link tag="li" class="pageLink" to="/dash/notifications">
       <a>
         <i class="fas fa-bell"></i>
         <span class="page">Notifications</span>
       </a>
-    </router-link>
+    </router-link> -->
   </ul>
 </template>
 
@@ -142,5 +130,9 @@
 
   .sidebar-mini.sidebar-collapse .sidebar-menu > li > a span {
     display: none;
+  }
+
+  .sidebar-menu > li {
+    margin: 15px 0;
   }
 </style>

@@ -12,34 +12,35 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td><span class="dot"></span></td>
-              <td>Machine</td>
-              <td>Serial Number</td>
-              <td>status</td>
-              <td>Creation Date</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="machine in brokenDown" :key="machine.id">
-              <td><span class="dot"></span></td>
-              <td><span class="oval"></span>{{ machine.name }}</td>
-              <td>{{ machine.humanUuid }}</td>
-              <td><span v-bind:class="machine.status.color">{{ machine.status.name }}</span></td>
-              <td>{{ machine.created | moment("dddd, MMMM Do YYYY") }}</td>
-              <td class="text-right">
-                <a class="custom-btn text-white" data-toggle="modal" data-target="#FixMachine" v-on:click="fixMachine(machine)" style="padding-top: 5px; padding-bottom: 5px;">
-                  Fix</a>
-              </td>
-            </tr>
-            <tr v-if="brokenDown.length <= 0">
-              <td colspan="7" class="text-center">No machines Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-wrench"></i> Machines</h3>
+          <table>
+            <thead>
+              <tr v-if="brokenDown.length > 0">
+                <td>Machine</td>
+                <td>Serial Number</td>
+                <td>status</td>
+                <td>Creation Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="machine in brokenDown" :key="machine.id">
+                <td>{{ machine.name }}</td>
+                <td>{{ machine.humanUuid }}</td>
+                <td><span v-bind:class="machine.status.color">{{ machine.status.name.replace('_', ' ') }}</span></td>
+                <td>{{ machine.created | moment("dddd, MMMM Do YYYY") }}</td>
+                <td class="text-right">
+                  <a class="custom-btn text-white" data-toggle="modal" data-target="#FixMachine" v-on:click="fixMachine(machine)" style="padding-top: 5px; padding-bottom: 5px;">
+                    Fix</a>
+                </td>
+              </tr>
+              <tr v-if="brokenDown.length <= 0">
+                <td colspan="7" class="text-center">No machines Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

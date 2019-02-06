@@ -7,20 +7,6 @@
       Site is ready for connection
     </div>
 
-    <!-- <div class="row">
-      <div class="comp-title col-md-6">
-        <h3>{{ site.site_name }}</h3>
-      </div>
-      <div class="comp-title col-md-6">
-        <p class="float-left">
-          <small class="text-muted">Percentage: </small> {{ site.current_stage + '%'}} 
-        </p>
-        <p class="float-right"><small class="text-muted">Site Access</small> 
-          {{ site.site_accessible ? 'Accessible' : 'Not Accessible' }} 
-        </p>
-      </div>
-    </div> -->
-
     <div class="row" v-if="$store.state.user_type != 'client'" style="padding-top: 20px; padding-bottom: 40px;">
       <div class="col-md-3">
         <div class="summary-card row" style="background-color: #003d8f">
@@ -90,8 +76,8 @@
                   </div>
                   <div class="col-md-10">
                     Rather than entering this information by hand, try the Clerk of Works Report mobile app. This contractor productivity 
-report template is especially beneficial for a clerk of works who needs to improve productivity among multiple general 
-contractors on a construction project.
+                    report template is especially beneficial for a clerk of works who needs to improve productivity among multiple general 
+                    contractors on a construction project.
                   </div>
                 </div>
                 <div class="row">
@@ -100,7 +86,7 @@ contractors on a construction project.
                   </div>
                   <div class="col-md-10">
                     Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-      fiber cable was laid.
+                    fiber cable was laid.
                   </div>
                 </div>
               </div>
@@ -116,7 +102,7 @@ contractors on a construction project.
             </div>
             <div class="col-md-9">
               Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-fiber cable was laid.
+            fiber cable was laid.
               <span type="button">
                 <img src="../../../assets/imgs/down-arrow.png" />
               </span>
@@ -132,7 +118,7 @@ fiber cable was laid.
             </div>
             <div class="col-md-9">
               Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-fiber cable was laid.
+              fiber cable was laid.
               <span type="button">
                 <img src="../../../assets/imgs/down-arrow.png" />
               </span>
@@ -148,7 +134,7 @@ fiber cable was laid.
             </div>
             <div class="col-md-9">
               Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-fiber cable was laid.
+              fiber cable was laid.
               <span type="button">
                 <img src="../../../assets/imgs/down-arrow.png" />
               </span>

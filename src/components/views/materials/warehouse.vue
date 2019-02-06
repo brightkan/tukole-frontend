@@ -1,11 +1,5 @@
 <template>
-<div>
-  <section class="content-header">
-    <div class="toolbar">
-      
-    </div>
-  </section>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -27,32 +21,35 @@
 
     <div class="row">
       <div class="col-md-12">
-          <table class="table">
-          <thead>
-            <tr>
-              <td>Material</td>
-              <td>Quantity</td>
-              <td>Status</td>
-              <td>Date</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="warehouseMaterial in warehouseMaterials" :key="warehouseMaterial.id">
-              <td>{{ warehouseMaterial.material.name }}</td>
-              <td style="text-transform: uppercase">{{ warehouseMaterial.quantity }}</td>
-              <td>{{ warehouseMaterial.is_returned ? "Returning" : "Outgoing" }}</td>
-              <td>{{ warehouseMaterial.created | moment("dddd, MMMM Do YYYY") }}</td>
-              <td class="text-right">
-                <i class="fa fa-edit" v-on:click="editWarehouseMaterial(warehouseMaterial)" data-toggle="modal" data-target="#addWarehouseMaterial"></i> 
-                <i class="fa fa-times" v-on:click="deleteWarehouseMaterial(warehouseMaterial)"></i>
-              </td>
-            </tr>
-            <tr v-if="warehouseMaterials.length <= 0">
-              <td colspan="6" class="text-center">No warehouse materials yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-warehouse"></i>  Materials</h3>
+          <table>
+            <thead>
+              <tr v-if="warehouseMaterials.length > 0">
+                <td>Material</td>
+                <td>Quantity</td>
+                <td>Status</td>
+                <td>Date</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="warehouseMaterial in warehouseMaterials" :key="warehouseMaterial.id">
+                <td>{{ warehouseMaterial.material.name }}</td>
+                <td style="text-transform: uppercase">{{ warehouseMaterial.quantity }}</td>
+                <td>{{ warehouseMaterial.is_returned ? "Returning" : "Outgoing" }}</td>
+                <td>{{ warehouseMaterial.created | moment("dddd, MMMM Do YYYY") }}</td>
+                <td class="text-right">
+                  <i class="fa fa-edit" v-on:click="editWarehouseMaterial(warehouseMaterial)" data-toggle="modal" data-target="#addWarehouseMaterial"></i> 
+                  <i class="fa fa-times" v-on:click="deleteWarehouseMaterial(warehouseMaterial)"></i>
+                </td>
+              </tr>
+              <tr v-if="warehouseMaterials.length <= 0">
+                <td colspan="6" class="text-center">No warehouse materials yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -98,10 +95,7 @@
         </div>
       </div>
     </div>
-
-
   </section>
-</div>
 </template>
 
 <script>

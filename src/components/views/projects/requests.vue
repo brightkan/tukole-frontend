@@ -35,30 +35,33 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <td>Request</td>
-              <td>Creation Date</td>
-              <td>Acknowledgement Status</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="request in getRequests" :key="request.id">
-              <td>{{ request.site_name }}</td>
-              <td>{{ request.created | moment("MMM Do YYYY")}}</td>
-              <td>{{ request.ackStatus ? 'Acknowledged' : 'Not Acknowledged' }}</td>
-              <td class="text-right">
-                <button v-if="!request.ackStatus && $store.state.user_type != 'client'" v-on:click="ackSite(request)">Acknowledge site</button>
-                <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteRequest(request)"></i>
-              </td>
-            </tr>
-            <tr v-if="getRequests.length <= 0">
-              <td colspan="7" class="text-center">No Requests Yet</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-alt">
+          <h3><i class="fa fa-sitemap"></i> Requests</h3>
+          <table>
+            <thead>
+              <tr v-if="getRequests.length > 0">
+                <td>Request</td>
+                <td>Creation Date</td>
+                <td>Acknowledgement Status</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="request in getRequests" :key="request.id">
+                <td>{{ request.site_name }}</td>
+                <td>{{ request.created | moment("MMM Do YYYY")}}</td>
+                <td>{{ request.ackStatus ? 'Acknowledged' : 'Not Acknowledged' }}</td>
+                <td class="text-right">
+                  <button v-if="!request.ackStatus && $store.state.user_type != 'client'" v-on:click="ackSite(request)">Acknowledge site</button>
+                  <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteRequest(request)"></i>
+                </td>
+              </tr>
+              <tr v-if="getRequests.length <= 0">
+                <td colspan="7" class="text-center">No Requests Yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <!-- Modal -->
