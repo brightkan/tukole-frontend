@@ -128,6 +128,7 @@
                   <option v-bind:value="'surveyor'">Surveyor</option>
                   <option v-bind:value="'project_manager'">Project Manager</option>
                   <option v-bind:value="'fleet_manager'">Fleet Manager</option>
+                  <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
                 </select>
               </div>
               <div class="form-group">
