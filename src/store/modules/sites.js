@@ -225,7 +225,7 @@ export default {
         },
         updateSite({ commit, state, rootState }, payload) {
             api
-                .request("patch", "sites/"+payload.id+"/", payload)
+                .request("patch", "sites/"+payload.get('id')+"/", payload)
                 .then(response => {
                     let site = response.data;
                     
@@ -424,7 +424,6 @@ export default {
                     commit('DELETE_SITE_TOOL', payload)
                 });
         },
-
         async loadSiteMachinery({dispatch, commit, rootState}, payload){
             await dispatch("machinery/loadMachines",{}, {root:true});
             await api
@@ -473,8 +472,6 @@ export default {
                     commit('DELETE_SITE_MACHINERY', payload)
                 });
         },
-
-
         loadBoqs({commit}, payload){
             api
                 .request("get", "siteboqs/?site="+payload)

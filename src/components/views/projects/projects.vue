@@ -40,7 +40,7 @@
       <div class="col-md-4 site" v-for="site in getSites" :key="site.id">
         <a v-on:click="selectSite(site)">
           <div class="project-card" v-bind:class="site.id == selectedSite ? 'active' : ''">
-            <div class="site-bg" v-bind:style="{ backgroundImage: 'url(\'https://www.soliton.co.ke/img/capacity.JPG\')'}">
+            <div class="site-bg" v-bind:style="{ backgroundImage: 'url('+site.site_image+')'}">
               <h3>
                 {{ site.site_name }}
                 <span v-if="site.site_ready_for_connection && !site.site_connected"></span>
@@ -50,14 +50,14 @@
               <div class="col-md-6">
                 <span class="icon" style="background: #b7f5b5"><i class="fa fa-truck"></i></span>
                 <div>
-                  <p>6000</p>
+                  <p>{{ site.number_of_site_fleet == null ? 0 : site.number_of_site_fleet }}</p>
                   <span>Vehicles</span>
                 </div>
               </div>
               <div class="col-md-6">
                 <span class="icon" style="background: #79aef5"><i class="fa fa-users"></i></span>
                 <div>
-                  <p>49</p>
+                  <p>{{ site.number_of_members_on_site == null ? 0 : site.number_of_members_on_site }}</p>
                   <span>Workers</span>
                 </div>
               </div>
@@ -151,8 +151,8 @@
 
 
     <div class="row" v-if="this.$route.meta.type == 'ProjectOverview'">
-      <div class="col-md-12 project-heading" v-bind:style="{ backgroundImage: 'url(\'https://www.soliton.co.ke/img/capacity.JPG\')'}"> 
-        <h3>{{ activeSite.site_name }}</h3>
+      <div class="col-md-12 project-heading" v-bind:style="{ backgroundImage: 'url('+activeSite.site_image+')'}"> 
+        <h3>{{ activeSite.site_name }} <small class="float-right">{{ activeSite.current_stage }}% completed</small></h3>
       </div>
     </div>
 
@@ -223,6 +223,8 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import moment from 'moment'
 
+const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
+
 export default {
   mixins: [select],
   data(router) {
@@ -252,7 +254,7 @@ export default {
   computed: {
     ...mapState('sites',["sites"]),
     ...mapState('companies',["companies"]),
-    ...mapGetters('sites', ['getSites'])
+    ...mapGetters('sites', ['getSites']),
   },
   methods: {
     reformateDate(date) {

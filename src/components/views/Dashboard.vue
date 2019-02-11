@@ -10,34 +10,15 @@
     <!-- /.row -->
 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-12">
         <div class="box project-status">
-          <h4>Material Status <small class="float-right text-muted">RUNNING OUT</small></h4>
-          <ul>
-            <li v-for="material in runningOut" :key="material.id">
-              <p>
-                {{ material.name }} <br>
-                <span>{{ material.measurement }}</span>
-              </p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-8">
-        <div class="box">
-          <h4 class="title-select">
-            <span>Projects Cost</span>
-            <select class="pull-right">
-              <option>Daily</option>
-              <option>Weekly</option>
-              <option>Monthly</option>
-              <option>Quaterly</option>
-              <option>Yearly</option>
-            </select>
-          </h4>
-          <div class="box-header with-border">
-            <canvas id="trafficBar"></canvas>
+          <h4><span class="icon"><i class="fa fa-truck"></i></span> Project costs</h4>
+          <div class="chart-time-group">
+            <div>Annually</div>
+            <div style="background-color: #d9d9d9; color: rgb(168, 168, 168)">Monthly</div>
+          </div>
+          <div class="chart-wrapper">
+            <div class="chart" ref="chartdiv"></div>
           </div>
         </div>
       </div>
@@ -76,7 +57,7 @@
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="box">
           <h4>Users</h4>
           <div class="container user-list">
@@ -109,14 +90,16 @@
         </div>
       </div>
 
-      <div class="col-md-5 project-locations">
-        <div class="box">
-          <h4>Current Project locations</h4>
-          <div id="map" class="map"></div>
+      <div class="col-md-4">
+        <div class="box project-status">
+          <h4>Material Status <small class="float-right text-muted">RUNNING OUT</small></h4>
           <ul>
-            <li><span>Kampala Fibre extension</span></li>
-            <li><span>Railway repairs</span></li>
-            <li><span>Road extension</span></li>
+            <li v-for="material in runningOut" :key="material.id">
+              <p>
+                {{ material.name }} <br>
+                <span>{{ material.measurement }}</span>
+              </p>
+            </li>
           </ul>
         </div>
       </div>
@@ -131,6 +114,12 @@
 import Chart from "chart.js";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+am4core.useTheme(am4themes_animated);
 
 export default {
   data() {
@@ -170,91 +159,120 @@ export default {
       this.loadDoughnutGraph('chart-machines');
       this.loadDoughnutGraph('chart-tools');
     });
-    
-    this.$nextTick(() => {
-      var ctx = document.getElementById("trafficBar").getContext("2d");
-      var config = {
-        type: "bar",
-        data: {
-          labels: [
-            "Project 1",
-            "Project 2",
-            "Project 3",
-            "Project 4",
-            "Project 5",
-            "Project 6"
-          ],
-          datasets: [
-            {
-              label: "Estimated",
-              backgroundColor: '#256AE1',
-				      borderColor:'#256AE1',
-				      borderWidth: 1,
-              data: this.coPilotNumbers
-            },
-            {
-              label: "Actual",
-              backgroundColor: '#8BAEEA',
-				      borderColor:'#8BAEEA',
-				      borderWidth: 1,
-              data: this.personalNumbers
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: !this.isMobile,
-          legend: {
-            position: "bottom",
-            display: false
-          },
-          tooltips: {
-            mode: "label",
-            xPadding: 10,
-            yPadding: 10,
-            bodySpacing: 10
-          },
-          scales: {
-            xAxes: [
-              {
-                display: true,
-                scaleLabel: {
-                  display: false,
-                  labelString: "Month"
-                }
-              }
-            ],
-            yAxes: [
-              {
-                display: true,
-                scaleLabel: {
-                  display: false,
-                  labelString: "Value"
-                }
-              }
-            ]
-          }
-        }
-      };
-
-      document.getElementById("trafficBar").height = 94;
-      new Chart(ctx, config); // eslint-disable-line no-new
-
-      var map = new ol.Map({
-        target: "map",
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([37.41, 8.82]),
-          zoom: 4
-        })
-      });
-    });
 
     this.$emit("customEventForValChange", this.$route.path);
+
+    // New Chart
+    let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
+
+    chart.paddingRight = 20;
+
+    // Add data
+    chart.data = [{
+      "year": "1930",
+      "italy": 1,
+      "germany": 5,
+      "uk": 3
+    }, {
+      "year": "1934",
+      "italy": 1,
+      "germany": 2,
+      "uk": 6
+    }, {
+      "year": "1938",
+      "italy": 2,
+      "germany": 3,
+      "uk": 1
+    }, {
+      "year": "1950",
+      "italy": 3,
+      "germany": 4,
+      "uk": 1
+    }, {
+      "year": "1954",
+      "italy": 5,
+      "germany": 1,
+      "uk": 2
+    }, {
+      "year": "1958",
+      "italy": 3,
+      "germany": 2,
+      "uk": 1
+    }, {
+      "year": "1962",
+      "italy": 1,
+      "germany": 2,
+      "uk": 3
+    }, {
+      "year": "1966",
+      "italy": 2,
+      "germany": 1,
+      "uk": 5
+    }, {
+      "year": "1970",
+      "italy": 3,
+      "germany": 5,
+      "uk": 2
+    }, {
+      "year": "1974",
+      "italy": 4,
+      "germany": 3,
+      "uk": 6
+    }, {
+      "year": "1978",
+      "italy": 1,
+      "germany": 2,
+      "uk": 4
+    }];
+
+    // Create category axis
+    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "year";
+    categoryAxis.renderer.opposite = false;
+
+    // Create value axis
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    //valueAxis.renderer.inversed = true;
+    //valueAxis.title.text = "Place taken";
+    //valueAxis.renderer.minLabelPosition = 0.01;
+
+    // Create series
+    let series1 = chart.series.push(new am4charts.LineSeries());
+    series1.dataFields.valueY = "italy";
+    series1.dataFields.categoryX = "year";
+    series1.name = "Italy";
+    series1.strokeWidth = 3;
+    series1.bullets.push(new am4charts.CircleBullet());
+    //series1.tooltipText = "Place taken by {name} in {categoryX}: {valueY}";
+    series1.legendSettings.valueText = "{valueY}";
+    series1.visible  = false;
+
+    let series2 = chart.series.push(new am4charts.LineSeries());
+    series2.dataFields.valueY = "germany";
+    series2.dataFields.categoryX = "year";
+    series2.name = 'Germany';
+    series2.strokeWidth = 3;
+    series2.bullets.push(new am4charts.CircleBullet());
+    //series2.tooltipText = "Place taken by {name} in {categoryX}: {valueY}";
+    series2.legendSettings.valueText = "{valueY}";
+
+    let series3 = chart.series.push(new am4charts.LineSeries());
+    series3.dataFields.valueY = "uk";
+    series3.dataFields.categoryX = "year";
+    series3.name = 'United Kingdom';
+    series3.strokeWidth = 3;
+    series3.bullets.push(new am4charts.CircleBullet());
+    //series3.tooltipText = "Place taken by {name} in {categoryX}: {valueY}";
+    series3.legendSettings.valueText = "{valueY}";
+
+    // Add chart cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.behavior = "zoomY";
+
+    // Add legend
+    // chart.legend = new am4charts.Legend();
+
+    this.chart = chart;
   },
   methods: {
     getUsersPercentage(type){
@@ -334,10 +352,36 @@ export default {
       document.getElementById(canvas).width = 100;
       new Chart(ctx2, config2); // eslint-disable-line no-new
     }
+  },
+  beforeDestroy() {
+    if (this.chart) {
+      this.chart.dispose();
+    }
   }
 };
 </script>
 <style>
+.chart{
+  width: 100%;
+  height: 400px;
+}
+
+.chart-time-group{
+  float: right;
+}
+
+.chart-time-group div{
+  float: left;
+  width: 150px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
 .info-box {
   cursor: pointer;
 }
