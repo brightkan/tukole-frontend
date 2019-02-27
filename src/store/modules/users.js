@@ -67,7 +67,7 @@ export default {
                     commit('SET_ASSIGNED_MANHOLES', manholes)
                 });
         },
-        async loadCurrentManHoles({ commit, rootState }, payload) {
+        async loadCurrentManHoles({ commit, state }, payload) {
             await api
                 .request("get", "manholesassignment/?user="+payload)
                 .then(response => {
@@ -193,6 +193,7 @@ export default {
             return users[0]
         },
         getUserCurrentManholes: (state) => (userId) => {
+            console.log(state.currentAssignedManholes)
             return state.currentAssignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
         },
         getUsersByType: (state) => (type) => {

@@ -307,9 +307,9 @@ export default {
   border-bottom: none;
   padding: 30px 40px;
 }
-.modal-body > .row {
+/* .modal-body > .row {
   padding: 0 25px;
-}
+} */
 .upload-img-text {
   color: #333;
   font-family: "Montserrat", sans-serif;
@@ -324,7 +324,7 @@ export default {
   height: 113px;
   width: 179px;
 }
-.modal-body form {
+/* .modal-body form {
   padding: 36px 25px;
   padding-bottom: 0;
 }
@@ -338,7 +338,7 @@ export default {
   font-size: 10px;
   font-weight: 700;
   line-height: 12px;
-}
+} */
 .modal-footer button:nth-child(1) {
   box-sizing: border-box;
   width: 115px;

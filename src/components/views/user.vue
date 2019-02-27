@@ -8,7 +8,7 @@
       </div>
 
       <div class="comp-title col-md-3">
-        <label id="img_category_label" class="field" for="img_category" data-value="">
+        <label id="img_category_label" class="field" for="img_category" data-value>
           <span>Sort By</span>
           <div id="img_category" class="psuedo_select" name="img_category">
             <span class="selected"></span>
@@ -17,9 +17,21 @@
               <li class="option" data-value="opt_2" v-on:click="filter('admin')">Admin</li>
               <li class="option" data-value="opt_3" v-on:click="filter('super_admin')">Super Admin</li>
               <li class="option" data-value="opt_4" v-on:click="filter('client')">Client</li>
-              <li class="option" data-value="opt_5" v-on:click="filter('warehouse_manager')">Warehouse Manager</li>
-              <li class="option" data-value="opt_6" v-on:click="filter('fleet_manager')">Fleet Manager</li>
-              <li class="option" data-value="opt_7" v-on:click="filter('project_manager')">Project Manager</li>
+              <li
+                class="option"
+                data-value="opt_5"
+                v-on:click="filter('warehouse_manager')"
+              >Warehouse Manager</li>
+              <li
+                class="option"
+                data-value="opt_6"
+                v-on:click="filter('fleet_manager')"
+              >Fleet Manager</li>
+              <li
+                class="option"
+                data-value="opt_7"
+                v-on:click="filter('project_manager')"
+              >Project Manager</li>
               <li class="option" data-value="opt_8" v-on:click="filter('osp')">OSP</li>
               <li class="option" data-value="opt_9" v-on:click="filter('isp')">ISP</li>
               <li class="option" data-value="opt_0" v-on:click="filter('ofc')">OFC</li>
@@ -30,22 +42,26 @@
 
       <div class="comp-title col-md-5">
         <form method="get" action="/search" class="fleet_search">
-          <input name="q" type="text" size="40" placeholder="Search..." />
+          <input name="q" type="text" size="40" placeholder="Search...">
         </form>
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addUser" v-on:click="resetUser()">
-          Add User
-        </button>
+        <button
+          type="button"
+          data-toggle="modal"
+          data-target="#addUser"
+          v-on:click="resetUser()"
+        >Add User</button>
       </div>
     </div>
     <!-- /.row -->
-
     <div class="row">
       <div class="col-md-12">
         <div class="table-alt">
-          <h3><i class="fa fa-users"></i> Users</h3>
+          <h3>
+            <i class="fa fa-users"></i> Users
+          </h3>
           <table>
             <thead>
               <tr v-if="getAdminUsers.length > 0">
@@ -67,7 +83,12 @@
                 <td style="text-transform: capitalize">{{ user.role.replace('_', ' ') }}</td>
                 <td>{{ user.created | moment('MMM Do YYYY')}}</td>
                 <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
+                  <i
+                    class="fa fa-edit"
+                    v-on:click="editUser(user)"
+                    data-toggle="modal"
+                    data-target="#addUser"
+                  ></i>
                   <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
                 </td>
               </tr>
@@ -81,7 +102,14 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="addUser"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -92,21 +120,33 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-group">
+              <fieldset class="scheduler-border">
+                <legend class="scheduler-border">First Name</legend>
+                <input
+                    type="text"
+                    class="form-control"
+                    v-model="user.first_name"
+                    placeholder="Enter your first name here"
+                  >
+
+                <div class="testdiv"></div>
+              </fieldset>
+
+              <!-- <div class="form-group">
                 <label>First Name</label>
                 <input type="text" class="form-control" v-model="user.first_name"/>
-              </div>
+              </div>-->
               <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" class="form-control" v-model="user.last_name"/>
+                <input type="text" class="form-control" v-model="user.last_name">
               </div>
               <div class="form-group" v-if="!editMode">
                 <label>Email</label>
-                <input type="text" class="form-control" v-model="user.email"/>
+                <input type="text" class="form-control" v-model="user.email">
               </div>
               <div class="form-group">
                 <label>Type</label>
-                <select class="form-control"  v-model="user.type">
+                <select class="form-control" v-model="user.type">
                   <option v-bind:value="'admin'">Admin</option>
                   <option v-bind:value="'employee'">Employee</option>
                 </select>
@@ -133,26 +173,34 @@
               </div>
               <div class="form-group">
                 <label>Phone Number</label>
-                <input type="tel" class="form-control" id="telephone-check" v-model="user.phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                v-on:keypress="signalChange"/>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="telephone-check"
+                  v-model="user.phone_number"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  v-on:keypress="signalChange"
+                >
                 <p id="pherror" class="text-sm alert-danger">Input right phone number</p>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveUser" data-dismiss="modal">
-              {{ editMode ? 'Edit' : 'New'}} User</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              v-on:click="saveUser"
+              data-dismiss="modal"
+            >{{ editMode ? 'Edit' : 'New'}} User</button>
           </div>
         </div>
       </div>
     </div>
-
   </section>
 </template>
 
 <script>
-
 import { select } from "../mixins/select";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
@@ -177,78 +225,95 @@ export default {
   },
   created() {},
   mounted() {
-    this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
+    this.$store.dispatch(
+      "users/loadUsers",
+      window.localStorage.getItem("workspace")
+    );
   },
   computed: {
-    ...mapGetters('users', ['getAdminUsers'])
+    ...mapGetters("users", ["getAdminUsers"])
   },
   methods: {
-    signalChange: function(evt){
-       var phoneno = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
-       var phoneNumber = evt.srcElement.value;
-       var myElement = document.getElementById("pherror");
+    signalChange: function(evt) {
+      var phoneno = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+      var phoneNumber = evt.srcElement.value;
+      var myElement = document.getElementById("pherror");
 
-      if (phoneNumber.match(phoneno)){
-        console.log('true')
+      if (phoneNumber.match(phoneno)) {
+        console.log("true");
         myElement.style.display = "none";
         this.errorPhone = false;
-      }else {
-        console.log('false')
+      } else {
+        console.log("false");
         myElement.style.display = "block";
         this.errorPhone = true;
       }
-       // compare text to regex
-       // if text is correct, do nothing
-       // if there aee wrong characters, then display the alert message under the phone number textfield
+      // compare text to regex
+      // if text is correct, do nothing
+      // if there aee wrong characters, then display the alert message under the phone number textfield
     },
     saveUser() {
       const { user } = this;
-      if(this.editMode){
+      if (this.editMode) {
         this.$store.dispatch("users/updateUser", user);
-      }else{
+      } else {
         this.$store.dispatch("users/inviteUser", user);
       }
     },
-    filter(type){
-      this.$store.commit('users/CHANGE_LIST_TYPE', type)
+    filter(type) {
+      this.$store.commit("users/CHANGE_LIST_TYPE", type);
     },
-    editUser(user){
+    editUser(user) {
       this.editMode = true;
       this.user = Object.assign({}, user);
     },
-    deleteUser(user){
+    deleteUser(user) {
       if (confirm(`are you sure you want to delete ${user.first_name}?`)) {
-          this.$store.dispatch("users/deleteUser", user);
+        this.$store.dispatch("users/deleteUser", user);
       }
     },
-    resetUser(){
+    resetUser() {
       this.editMode = false;
       this.user = {
-        first_name: '',
-        last_name: '',
-        email: '',
-        type: '',
-        contract_type: '',
-        phone_number: '',
-        password: '1234',
+        first_name: "",
+        last_name: "",
+        email: "",
+        type: "",
+        contract_type: "",
+        phone_number: "",
+        password: "1234",
         workspace: window.localStorage.getItem("workspace")
-      }
+      };
     }
   }
 };
-
 </script>
 
 <style lang="scss">
 @import "../../../static/css/variables";
 
-.table-alt{
+@mixin platform-prefixes {
+  &::-webkit-input-placeholder{
+    @content;
+  }
+  &::-moz-placeholder{
+    @content;
+  }
+  &:-ms-input-placeholder{
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+}
+
+.table-alt {
   border-radius: 6px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   background-color: #ffffff;
   padding-bottom: 15px;
 
-  h3{
+  h3 {
     padding: 15px 30px;
     border-bottom: 1px solid #b4b4b4;
     color: #28354a;
@@ -256,18 +321,18 @@ export default {
     font-size: 18px;
     font-weight: 500;
 
-    i{
+    i {
       display: inline-block;
       margin-right: 15px;
     }
   }
 
-  table{
+  table {
     width: 100%;
 
-    thead{
-      tr{
-        td{
+    thead {
+      tr {
+        td {
           padding: 15px 15px;
           color: #000;
           line-height: 1.29;
@@ -278,9 +343,9 @@ export default {
       }
     }
 
-    tbody{
-      tr{
-        td{
+    tbody {
+      tr {
+        td {
           padding: 10px 15px;
           color: #28354a;
           line-height: 1.29;
@@ -307,22 +372,74 @@ export default {
           }
         }
 
-        .fa-edit{
+        .fa-edit {
           display: inline-block;
           margin-right: 15px;
         }
       }
     }
 
-    tr{
-      td:nth-child(1){
+    tr {
+      td:nth-child(1) {
         padding-left: 30px;
       }
-      td:last-child{
+      td:last-child {
         padding-right: 30px;
       }
-    }  
+    }
   }
+}
+
+fieldset.scheduler-border {
+
+  $this: &;
+
+  border: 1px groove #ddd !important;
+  padding: 0 15px 15px 15px !important;
+  margin: 0 0 1.5em 0 !important;
+  -webkit-box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px #000;
+  border-radius: 5px;
+  
+  input {
+    border: none;
+    padding: 0;
+
+    &:focus{
+      background-color: #d4f5d9;
+
+      & ~ legend.scheduler-border{
+        color: #ff5f58;
+        background-color: #2dae3e;
+      }
+
+      & ~ div.testdiv{
+        border: 1px groove #ff000f !important;
+      } 
+    }
+
+    @include platform-prefixes {
+      color: #c9cacb;
+      font-family: $font;
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+
+  .testdiv{
+    width: 100%; 
+    height: 20px; 
+    border: 1px groove #ddd !important;
+  }
+}
+
+legend.scheduler-border {
+  font-size: 12px !important;
+  text-align: left !important;
+  width: auto;
+  padding: 0 10px;
+  border-bottom: none;
+  margin-bottom: .45rem;
 }
 
 .comp-title button,
@@ -352,9 +469,9 @@ export default {
   border-bottom: none;
   padding: 30px 40px;
 }
-.modal-body > .row {
+/* .modal-body > .row {
   padding: 0 25px;
-}
+} */
 .upload-img-text {
   color: #333;
   font-family: "Montserrat", sans-serif;
@@ -369,7 +486,7 @@ export default {
   height: 113px;
   width: 179px;
 }
-.modal-body form {
+/* .modal-body form {
   padding: 36px 25px;
   padding-bottom: 0;
 }
@@ -383,7 +500,7 @@ export default {
   font-size: 10px;
   font-weight: 700;
   line-height: 12px;
-}
+} */
 .modal-footer button:nth-child(1) {
   box-sizing: border-box;
   width: 115px;
