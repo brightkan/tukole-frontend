@@ -193,14 +193,30 @@ export default {
             return users[0]
         },
         getUserCurrentManholes: (state) => (userId) => {
-            console.log(state.currentAssignedManholes)
             return state.currentAssignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
         },
         getUsersByType: (state) => (type) => {
             return state.users.filter(user => { return user.role == type })
         },
         getUserPreviousManholes: (state) => (userId) => {
-            return state.assignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
+
+            var filterManholes = []
+
+            state.assignedManholes.forEach(manhole => {
+                let accepted = true;
+                state.currentAssignedManholes.forEach(current => {
+                    
+                    if(current.manhole == manhole.manhole){
+                        accepted = false;
+                    }
+                })
+
+                if(accepted){
+                    filterManholes.push(manhole)
+                } 
+            })
+
+            return filterManholes.filter(manholeEntry => {return manholeEntry.user == userId})
         },
         getCompanyUsers: (state) => (company) => {
             return state.users.filter(user => { return user.company == company })
