@@ -15,6 +15,15 @@ import { domain, count, prettyDate, pluralize } from "./filters";
 // Import Views - Top level
 import AppView from "./components/App.vue";
 
+//import VueMDCTextField from 'vue-mdc-adapter/dist/textfield'
+import VueMDCAdapter from "vue-mdc-adapter";
+import  "vue-mdc-adapter/dist/vue-mdc-adapter.css";
+Vue.use(VueMDCAdapter)
+
+// twitter bootstrap modal
+import vmodal from 'vue-js-modal'
+Vue.use(vmodal)
+
 // Import Install and register helper items
 Vue.filter("count", count);
 Vue.filter("domain", domain);
@@ -22,7 +31,6 @@ Vue.filter("prettyDate", prettyDate);
 Vue.filter("pluralize", pluralize);
 
 var numeral = require("numeral");
-
 Vue.filter("formatNumber", function (value) {
   return numeral(value).format("0,0"); // displaying other groupings/separators is possible, look at the docs
 });
@@ -86,3 +94,4 @@ new Vue({
   store: store,
   render: h => h(AppView)
 });
+

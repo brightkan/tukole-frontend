@@ -47,12 +47,13 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button
+        <!-- <button
           type="button"
           data-toggle="modal"
           data-target="#addUser"
           v-on:click="resetUser()"
-        >Add User</button>
+        >Add User</button> -->
+        <button type="button" v-on:click="showUserForm()">Add User...</button>
       </div>
     </div>
     <!-- /.row -->
@@ -102,14 +103,68 @@
     </div>
 
     <!-- Modal -->
-    <div
-      class="modal fade"
-      id="addUser"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <modal name="userForm" class="custom-modal"  height="auto" :scrollable="true">
+        <div class="row modal-header">
+          <div class="col-md-12">
+            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} User</h5>
+            <button type="button" class="close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <form>
+              <div class="modal-body">
+                  <div>
+                    <mdc-textfield v-model="user.first_name" label="First Name" outline/>
+
+                    <mdc-textfield v-model="user.last_name" label="Last Name" outline/>
+
+                    <mdc-textfield v-model="user.email" label="Email" outline/>
+
+                    <mdc-select v-model="user.type" label="Account Type" outlined>
+                      <option v-bind:value="'admin'">Admin</option>
+                      <option v-bind:value="'employee'">Employee</option>
+                    </mdc-select>
+
+                    <mdc-select v-model="user.contract_type" label="Contract type" outlined>
+                      <option v-bind:value="'permanent'">Permament</option>
+                      <option v-bind:value="'temporary'">Temporary</option>
+                    </mdc-select>
+
+                    <mdc-select v-model="user.role" label="Role" outlined>
+                      <option v-bind:value="'driver'">Driver</option>
+                      <option v-bind:value="'isp'">ISP</option>
+                      <option v-bind:value="'quality'">Quality</option>
+                      <option v-bind:value="'ofc'">OFC</option>
+                      <option v-bind:value="'osp_field_manager'">OSP Field Manager</option>
+                      <option v-bind:value="'osp_superisor'">OSP Supervisor</option>
+                      <option v-bind:value="'surveyor'">Surveyor</option>
+                      <option v-bind:value="'project_manager'">Project Manager</option>
+                      <option v-bind:value="'fleet_manager'">Fleet Manager</option>
+                      <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
+                      <option v-bind:value="'garage_manager'">Garage Manager</option>
+                      <option v-bind:value="'warehouse'">Warehouse</option>
+                    </mdc-select>
+                  </div>
+                  
+                  <mdc-textfield v-model="user.phone_number" label="Phone Number" required
+                  helptext="Enter correct phone number format" :valid="isValidTel" helptext-validation 
+                  @keyup="checkTelValidity" outline/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" v-on:click="saveUser()" class="btn btn-primary" >{{ editMode ? 'Edit' : 'New'}} User</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </modal>
+
+
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -118,83 +173,66 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form>
-              <fieldset class="scheduler-border">
-                <legend class="scheduler-border">First Name</legend>
-                <input
-                    type="text"
+          <form v-on:submit="saveUser">
+            <div class="modal-body">
+                <div>
+                  <mdc-textfield v-model="user.first_name" label="First Name" outline/>
+
+                  <mdc-textfield v-model="user.last_name" label="Last Name" outline/>
+
+                  <mdc-textfield v-model="user.email" label="Email" outline/>
+
+                  <mdc-select v-model="user.type" label="Account Type" outlined>
+                    <option v-bind:value="'admin'">Admin</option>
+                    <option v-bind:value="'employee'">Employee</option>
+                  </mdc-select>
+
+                  <mdc-select v-model="user.contract_type" label="Contract type" outlined>
+                    <option v-bind:value="'permanent'">Permament</option>
+                    <option v-bind:value="'temporary'">Temporary</option>
+                  </mdc-select>
+
+                  <mdc-select v-model="user.role" label="Role" outlined>
+                    <option v-bind:value="'driver'">Driver</option>
+                    <option v-bind:value="'isp'">ISP</option>
+                    <option v-bind:value="'quality'">Quality</option>
+                    <option v-bind:value="'ofc'">OFC</option>
+                    <option v-bind:value="'osp'">OSP</option>
+                    <option v-bind:value="'surveyor'">Surveyor</option>
+                    <option v-bind:value="'project_manager'">Project Manager</option>
+                    <option v-bind:value="'fleet_manager'">Fleet Manager</option>
+                    <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
+                  </mdc-select>
+                </div>
+                
+                <mdc-textfield v-model="user.phone_number" label="Phone Number" required
+                helptext="Enter correct phone number format" :valid="isValidTel" helptext-validation 
+                @keyup="checkTelValidity" outline/>
+
+
+                <!-- <div class="form-group">
+                  <label>Phone Number</label>
+                  <input
+                    type="tel"
                     class="form-control"
-                    v-model="user.first_name"
-                    placeholder="Enter your first name here"
+                    id="telephone-check"
+                    v-model="user.phone_number"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    v-on:keypress="signalChange"
                   >
-
-                <div class="testdiv"></div>
-              </fieldset>
-
-              <!-- <div class="form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control" v-model="user.first_name"/>
-              </div>-->
-              <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control" v-model="user.last_name">
-              </div>
-              <div class="form-group" v-if="!editMode">
-                <label>Email</label>
-                <input type="text" class="form-control" v-model="user.email">
-              </div>
-              <div class="form-group">
-                <label>Type</label>
-                <select class="form-control" v-model="user.type">
-                  <option v-bind:value="'admin'">Admin</option>
-                  <option v-bind:value="'employee'">Employee</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Contract type</label>
-                <select class="form-control" v-model="user.contract_type">
-                  <option v-bind:value="'permanent'">Permament</option>
-                  <option v-bind:value="'temporary'">Temporary</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Role</label>
-                <select class="form-control" v-model="user.role">
-                  <option v-bind:value="'driver'">Driver</option>
-                  <option v-bind:value="'isp'">ISP</option>
-                  <option v-bind:value="'quality'">Quality</option>
-                  <option v-bind:value="'ofc'">OFC</option>
-                  <option v-bind:value="'osp'">OSP</option>
-                  <option v-bind:value="'surveyor'">Surveyor</option>
-                  <option v-bind:value="'project_manager'">Project Manager</option>
-                  <option v-bind:value="'fleet_manager'">Fleet Manager</option>
-                  <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Phone Number</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="telephone-check"
-                  v-model="user.phone_number"
-                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                  v-on:keypress="signalChange"
-                >
-                <p id="pherror" class="text-sm alert-danger">Input right phone number</p>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              v-on:click="saveUser"
-              data-dismiss="modal"
-            >{{ editMode ? 'Edit' : 'New'}} User</button>
-          </div>
+                  <p id="pherror" class="text-sm alert-danger">Input right phone number</p>
+                </div> -->
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                data-dismiss="modal"
+              >{{ editMode ? 'Edit' : 'New'}} User</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -212,6 +250,7 @@ export default {
     return {
       editMode: false,
       errorPhone: false,
+      isValidTel: true,
       user: {
         first_name: "",
         last_name: "",
@@ -235,31 +274,35 @@ export default {
     ...mapGetters("users", ["getAdminUsers"])
   },
   methods: {
-    signalChange: function(evt) {
+    showUserForm () {
+      this.$modal.show('userForm');
+    },
+    hideUserForm () {
+      this.$modal.hide('userForm');
+    },
+    checkTelValidity(evt) {
       var phoneno = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
       var phoneNumber = evt.srcElement.value;
-      var myElement = document.getElementById("pherror");
 
       if (phoneNumber.match(phoneno)) {
-        console.log("true");
-        myElement.style.display = "none";
-        this.errorPhone = false;
+        this.isValidTel = true;
       } else {
-        console.log("false");
-        myElement.style.display = "block";
-        this.errorPhone = true;
+        this.isValidTel = false;
       }
-      // compare text to regex
-      // if text is correct, do nothing
-      // if there aee wrong characters, then display the alert message under the phone number textfield
     },
     saveUser() {
       const { user } = this;
-      if (this.editMode) {
-        this.$store.dispatch("users/updateUser", user);
-      } else {
-        this.$store.dispatch("users/inviteUser", user);
+      console.log(user)
+      this.$modal.hide('userForm');
+
+      if(this.isValidTel){
+        if (this.editMode) {
+          this.$store.dispatch("users/updateUser", user);
+        } else {
+          this.$store.dispatch("users/inviteUser", user);
+        }
       }
+      
     },
     filter(type) {
       this.$store.commit("users/CHANGE_LIST_TYPE", type);
@@ -391,57 +434,52 @@ export default {
   }
 }
 
-fieldset.scheduler-border {
+.custom-modal{
+  .v--modal{
+    top: 80px !important;
+  }
+  .modal-header{
+    margin: 0;
+    border-bottom: 1px solid rgba(0,0,0, 0.09);
+    padding: 20px 0;
 
-  $this: &;
-
-  border: 1px groove #ddd !important;
-  padding: 0 15px 15px 15px !important;
-  margin: 0 0 1.5em 0 !important;
-  -webkit-box-shadow: 0px 0px 0px 0px #000;
-  box-shadow: 0px 0px 0px 0px #000;
-  border-radius: 5px;
-  
-  input {
-    border: none;
-    padding: 0;
-
-    &:focus{
-      background-color: #d4f5d9;
-
-      & ~ legend.scheduler-border{
-        color: #ff5f58;
-        background-color: #2dae3e;
-      }
-
-      & ~ div.testdiv{
-        border: 1px groove #ff000f !important;
-      } 
-    }
-
-    @include platform-prefixes {
-      color: #c9cacb;
+    .modal-title{
       font-family: $font;
-      font-size: 14px;
-      font-weight: 400;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.22;
+      letter-spacing: normal;
+      text-align: left;
+      color: #28354a;
     }
   }
+}
+/*material design edits*/
+.modal-body{
+  .mdc-textfield-wrapper {
+      width: 100%;
 
-  .testdiv{
-    width: 100%; 
-    height: 20px; 
-    border: 1px groove #ddd !important;
+      label{
+        margin-bottom: 0;
+      }
+      input{
+        box-sizing: initial;
+      }
+  }
+
+  .mdc-select{
+    width: 100%;
+    margin: 15px 0;
+
+    label{
+      margin-bottom: 0;
+    }
+    select{
+      box-sizing: initial;
+    }
   }
 }
 
-legend.scheduler-border {
-  font-size: 12px !important;
-  text-align: left !important;
-  width: auto;
-  padding: 0 10px;
-  border-bottom: none;
-  margin-bottom: .45rem;
-}
 
 .comp-title button,
 .custom-btn {
