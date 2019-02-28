@@ -147,6 +147,7 @@
                       <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
                       <option v-bind:value="'garage_manager'">Garage Manager</option>
                       <option v-bind:value="'warehouse'">Warehouse</option>
+                      <option v-bind:value="'mechanic'">Mechanic</option>
                     </mdc-select>
                   </div>
                   
