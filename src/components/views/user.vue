@@ -118,42 +118,49 @@
             <form>
               <div class="modal-body">
                   <div>
-                    <mdc-textfield v-model="user.first_name" label="First Name" outline/>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mdc-textfield v-model="user.first_name" label="First Name" outline/>
+                        <mdc-textfield v-model="user.email" label="Email" outline/>
+                        <mdc-select v-model="user.type" label="Account Type" outlined>
+                          <option v-bind:value="'admin'">Admin</option>
+                          <option v-bind:value="'employee'">Employee</option>
+                        </mdc-select>
+                      </div>
+                      <div class="col-md-6">
+                        <mdc-textfield v-model="user.last_name" label="Last Name" outline/>
+                        
+                        <mdc-select v-model="user.contract_type" label="Contract type" outlined>
+                          <option v-bind:value="'permanent'">Permament</option>
+                          <option v-bind:value="'temporary'">Temporary</option>
+                        </mdc-select>
 
-                    <mdc-textfield v-model="user.last_name" label="Last Name" outline/>
+                        <mdc-select v-model="user.role" label="Role" outlined>
+                          <option v-bind:value="'driver'">Driver</option>
+                          <option v-bind:value="'isp'">ISP</option>
+                          <option v-bind:value="'quality'">Quality</option>
+                          <option v-bind:value="'ofc'">OFC</option>
+                          <option v-bind:value="'osp_field_manager'">OSP Field Manager</option>
+                          <option v-bind:value="'osp_superisor'">OSP Supervisor</option>
+                          <option v-bind:value="'surveyor'">Surveyor</option>
+                          <option v-bind:value="'project_manager'">Project Manager</option>
+                          <option v-bind:value="'fleet_manager'">Fleet Manager</option>
+                          <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
+                          <option v-bind:value="'garage_manager'">Garage Manager</option>
+                          <option v-bind:value="'warehouse'">Warehouse</option>
+                          <option v-bind:value="'mechanic'">Mechanic</option>
+                        </mdc-select>
+                      </div>
+                    </div>
 
-                    <mdc-textfield v-model="user.email" label="Email" outline/>
+                    <mdc-textfield v-model="user.phone_number" label="Phone Number" required
+                        helptext="Enter correct phone number format" :valid="isValidTel" helptext-validation 
+                        @keyup="checkTelValidity" outline/>
 
-                    <mdc-select v-model="user.type" label="Account Type" outlined>
-                      <option v-bind:value="'admin'">Admin</option>
-                      <option v-bind:value="'employee'">Employee</option>
-                    </mdc-select>
-
-                    <mdc-select v-model="user.contract_type" label="Contract type" outlined>
-                      <option v-bind:value="'permanent'">Permament</option>
-                      <option v-bind:value="'temporary'">Temporary</option>
-                    </mdc-select>
-
-                    <mdc-select v-model="user.role" label="Role" outlined>
-                      <option v-bind:value="'driver'">Driver</option>
-                      <option v-bind:value="'isp'">ISP</option>
-                      <option v-bind:value="'quality'">Quality</option>
-                      <option v-bind:value="'ofc'">OFC</option>
-                      <option v-bind:value="'osp_field_manager'">OSP Field Manager</option>
-                      <option v-bind:value="'osp_superisor'">OSP Supervisor</option>
-                      <option v-bind:value="'surveyor'">Surveyor</option>
-                      <option v-bind:value="'project_manager'">Project Manager</option>
-                      <option v-bind:value="'fleet_manager'">Fleet Manager</option>
-                      <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
-                      <option v-bind:value="'garage_manager'">Garage Manager</option>
-                      <option v-bind:value="'warehouse'">Warehouse</option>
-                      <option v-bind:value="'mechanic'">Mechanic</option>
-                    </mdc-select>
+                    
                   </div>
                   
-                  <mdc-textfield v-model="user.phone_number" label="Phone Number" required
-                  helptext="Enter correct phone number format" :valid="isValidTel" helptext-validation 
-                  @keyup="checkTelValidity" outline/>
+                  
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
