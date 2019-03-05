@@ -3,35 +3,19 @@
   <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
-    <div class="row"  v-if="this.$route.meta.type != 'ProjectOverview'" >
-      <div class="comp-title col-md-2">
-        <h3>Sites</h3>
-      </div>
-
-      <div class="comp-title col-md-3">
-        <label id="img_category_label" class="field" for="img_category" data-value="">
-          <span>Status</span>
-          <div id="img_category" class="psuedo_select" name="img_category">
-            <span class="selected"></span>
-            <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1">Newest</li>
-              <li class="option" data-value="opt_2">Oldest</li>
-              <li class="option" data-value="opt_2">Active</li>
-            </ul>
-          </div>
-        </label>
-      </div>
-
-      <div class="comp-title" v-bind:class="$store.state.user_type != 'client' ? 'col-md-5' : 'col-md-7'">
-        <form method="get" action="/search" class="fleet_search">
-          <input name="q" type="text" size="40" placeholder="Search..." />
-        </form>
-      </div>
-
-      <div v-if="$store.state.user_type != 'client'" class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addSite" v-on:click="resetSite()">
-          Add Site
-        </button>
+    <div class="container search-wrapper" v-if="this.$route.meta.type != 'ProjectOverview'">
+      <div class="row search">
+        <div class="input">
+          <mdc-select label="Sort By">
+            <option>Newest</option>
+            <option>Oldest</option>
+            <option>Oldest</option>
+          </mdc-select>
+          <form method="get" action="/search">
+            <input name="q" type="text" size="40" placeholder="Search...">
+          </form>
+        </div>
+        <button v-if="$store.state.user_type != 'client'" class="mdc-button mdc-button--raised" v-on:click="showSiteForm();resetSite()">Add Site</button>
       </div>
     </div>
     <!-- /.row -->
@@ -81,74 +65,63 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addSite" tabindex="-1" 
-    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    v-if="this.$route.meta.type != 'ProjectOverview'">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Site</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
 
-            <form>
-              <div class="form-group">
-                <label>Site Name</label>
-                <input type="text" class="form-control" v-model="site.site_name"/>
-              </div>
-              <div class="form-group">
-                <label>Location Latitude</label>
-                <input type="number" class="form-control" v-model="site.location_lat"/>
-              </div>
-              <div class="form-group">
-                <label>Location longitude</label>
-                <input type="number" class="form-control" v-model="site.location_long"/>
-              </div>
-              <div class="form-group">
-                <label>Start date</label>
-                <input type="date" class="form-control" v-model="site.start_date"/>
-              </div>
-              <div class="form-group">
-                <label>Expected end date</label>
-                <input type="date" class="form-control" v-model="site.expected_end_date"/>
-              </div>
-              <div class="form-group">
-                <label>Company</label>
-                <select class="form-control" v-model="site.company">
-                  <option v-for="company in companies" v-bind:value="company.id" :key="company.id">
-                    {{ company.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Acknowledgement status</label>
-                <select class="form-control" v-model="site.ackStatus">
-                  <option v-bind:value="'true'">Yes</option>
-                  <option v-bind:value="'false'">No</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Archived status</label>
-                <select class="form-control" v-model="site.archivedStatus">
-                  <option v-bind:value="'true'">Yes</option>
-                  <option v-bind:value="'false'">No</option>
-                </select>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveSite" data-dismiss="modal">
-              Add Site
-            </button>
-          </div>
+    <!-- Modal -->
+    <modal name="siteForm" class="custom-modal" height="auto" :scrollable="true" v-if="this.$route.meta.type != 'ProjectOverview'">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">Add Site</h5>
+          <button type="button" class="close" v-on:click="hideSiteForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
-    </div>
 
+      <div class="row">
+        <div class="col-md-12">
+          <form>
+            <div class="modal-body">
+              <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="site.site_name" label="Site Name" outline/>
+                    <mdc-textfield v-model="site.expected_end_date" label="Expected end date" outline/>
+                    <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline/>
+                    <mdc-select v-model="site.ackStatus" label="Acknowledgement status" outlined>
+                      <option :value="'true'">Yes</option>
+                      <option :value="'false'">No</option>
+                    </mdc-select>
+                  </div>
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="site.start_date" label="Start date" outline/>
+                    <mdc-select v-model="site.company" label="Company" outlined>
+                      <option v-for="company in companies" v-bind:value="company.id" :key="company.id">
+                        {{ company.name }}
+                      </option>
+                    </mdc-select>
+                    <mdc-textfield v-model="site.location_long" label="Location Longitude" outline/>
+                    <mdc-select v-model="site.archivedStatus" label="Archived status" outlined>
+                      <option :value="'true'">Yes</option>
+                      <option :value="'false'">No</option>
+                    </mdc-select>
+                  </div>
+                </div>
+
+                <p class="note">
+                  <span>Note:</span> Make sure the details above are accurate and correct.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="mdc-button mdc-button--raised"
+                v-on:click="saveSite()"
+              >Add Site</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </modal>
 
     <div class="row" v-if="this.$route.meta.type == 'ProjectOverview'">
       <div class="col-md-12 project-heading" v-bind:style="{ backgroundImage: 'url('+activeSite.site_image+')'}"> 
@@ -238,9 +211,9 @@ export default {
         location_long: "",
         start_date: "",
         expected_end_date: "",
-        archivedStatus: true,
+        archivedStatus: "",
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
-        ackStatus: true,
+        ackStatus: "",
         current_stage: 0,
         company: "",
         workspace: window.localStorage.getItem("workspace"),
@@ -257,11 +230,18 @@ export default {
     ...mapGetters('sites', ['getSites']),
   },
   methods: {
+    showSiteForm() {
+      this.$modal.show("siteForm");
+    },
+    hideSiteForm() {
+      this.$modal.hide("siteForm");
+    },
     reformateDate(date) {
       return moment(date).format('MMM Do YYYY');
     },
     saveSite() {
       const { site } = this;
+      this.$modal.hide("siteForm");
       if(this.editMode){
         this.$store.dispatch("sites/updateSite", site);
       }else{
@@ -271,6 +251,7 @@ export default {
     editSite(site){
       this.editMode = true;
       this.site = Object.assign({}, site);
+      this.$modal.hide("siteForm");
     },
     deleteSite(site){
       if (confirm(`are you sure you want to delete ${site.site_name}?`)) {
@@ -285,9 +266,9 @@ export default {
         location_long: "",
         start_date: "",
         expected_end_date: "",
-        archivedStatus: true,
+        archivedStatus: "",
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
-        ackStatus: true,
+        ackStatus: "",
         current_stage: 0,
         company: '',
         workspace: window.localStorage.getItem("workspace"),
@@ -502,9 +483,6 @@ p{
   border-bottom: none;
   padding: 30px 40px;
 }
-/* .modal-body > .row {
-  padding: 0 25px;
-} */
 .upload-img-text {
   color: #333;
   font-family: "Montserrat", sans-serif;
@@ -519,43 +497,6 @@ p{
   height: 113px;
   width: 179px;
 }
-/* .modal-body form {
-  padding: 36px 25px;
-  padding-bottom: 0;
-}
-.modal-body form .form-control {
-  background-color: #f0f0f0;
-  border: none;
-}
-.modal-body form label {
-  color: #828282;
-  font-family: "Montserrat", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-} */
-/* .modal-footer button:nth-child(1) {
-  box-sizing: border-box;
-  width: 115px;
-  border: 1px solid #256ae1;
-  background-color: #fff;
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-  padding: 10px 40px;
-}
-.modal-footer button:nth-child(2) {
-  box-sizing: border-box;
-  color: #fff;
-  font-family: "Montserrat", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-  padding: 10px 40px;
-  background-color: #256ae1;
-} */
 </style>
 
 
