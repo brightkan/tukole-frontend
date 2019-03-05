@@ -534,7 +534,7 @@ p{
   font-weight: 700;
   line-height: 12px;
 } */
-.modal-footer button:nth-child(1) {
+/* .modal-footer button:nth-child(1) {
   box-sizing: border-box;
   width: 115px;
   border: 1px solid #256ae1;
@@ -555,7 +555,7 @@ p{
   line-height: 12px;
   padding: 10px 40px;
   background-color: #256ae1;
-}
+} */
 </style>
 
 
