@@ -2,25 +2,14 @@
   <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
-    <div class="row">
-      <div class="comp-title col-md-2">
-        <h3>Fleet Checklist</h3>
-      </div>
-
-      <div class="comp-title col-md-3">
-        
-      </div>
-
-      <div class="comp-title col-md-5">
-        <form method="get" action="/search" class="fleet_search">
-          <input name="q" type="text" size="40" placeholder="Search..." />
-        </form>
-      </div>
-
-      <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addChecklistItem" v-on:click="resetChecklistItem()">
-          Add Checklist item
-        </button>
+    <div class="container search-wrapper">
+      <div class="row search">
+        <div class="input">
+          <form method="get" action="/search">
+            <input name="q" type="text" size="40" placeholder="Search...">
+          </form>
+        </div>
+        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetChecklistItem()">Add Checklist item</button>
       </div>
     </div>
     <!-- /.row -->
@@ -40,7 +29,7 @@
               <tr v-for="item in checklist" :key="item.id">
                 <td>{{ item.name }}</td>
                 <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editChecklistItem(item)" data-toggle="modal" data-target="#addChecklistItem"></i> 
+                  <i class="fa fa-edit" v-on:click="editChecklistItem(item)"></i> 
                   <i class="fa fa-times" v-on:click="deleteChecklistItem(item)"></i>
                 </td>
               </tr>
@@ -54,33 +43,39 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addChecklistItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Checklist</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>
-                  Checklist Name</label>
-                <input type="text" class="form-control" v-model="checklistItem.name"/>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveChecklistItem" data-dismiss="modal">
-              {{ editMode ? 'Edit' : 'Add'}} Checklist
-            </button>
-          </div>
+    <modal name="modal" class="custom-modal" height="auto" :scrollable="true">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} Checklist</h5>
+          <button type="button" class="close" v-on:click="hideForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
-    </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <form v-on:submit.prevent="saveChecklistItem">
+            <div class="modal-body">
+              <div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mdc-textfield v-model="checklistItem.name" label="Checklist Name" required outline/>
+                  </div>
+                </div>
+
+                <p class="note">
+                  <span>Note:</span> Make sure the details above are accurate and correct.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="mdc-button mdc-button--raised">{{ editMode ? 'Edit' : 'New'}} Checklist</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </modal>
 
   </section>
 </template>
@@ -108,8 +103,15 @@ export default {
     })
   },
   methods: {
+    showForm() {
+      this.$modal.show("modal");
+    },
+    hideForm() {
+      this.$modal.hide("modal");
+    },
     saveChecklistItem() {
       const { checklistItem } = this;
+      this.$modal.hide("modal");
       if(this.editMode){
         this.$store.dispatch("checklist/updateChecklistItem", checklistItem);
       }else{
@@ -117,6 +119,7 @@ export default {
       }
     },
     editChecklistItem(checklistItem){
+      this.$modal.show("modal");
       this.editMode = true;
       this.checklistItem = Object.assign({}, checklistItem);
     },
@@ -135,8 +138,10 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.search-wrapper .search .input form input {
+  padding: 15px
+}
 </style>
 
 

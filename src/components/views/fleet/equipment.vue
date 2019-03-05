@@ -2,36 +2,20 @@
     <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
-    <div class="row">
-      <div class="comp-title col-md-2">
-        <h3>Machines</h3>
-      </div>
-
-      <div class="comp-title col-md-3">
-        <label id="img_category_label" class="field" for="img_category" data-value="">
-          <span>Status</span>
-          <div id="img_category" class="psuedo_select" name="img_category">
-            <span class="selected"></span>
-            <ul id="img_category_options" class="options">
-              <li class="option" data-value="opt_1" v-on:click="filter('available')">Available</li>
-              <li class="option" data-value="opt_2" v-on:click="filter('broken')">Broken Down</li>
-              <li class="option" data-value="opt_3" v-on:click="filter('assigned')" >Assigned</li>
-              <li class="option" data-value="opt_4" v-on:click="filter('all')" >All</li>
-            </ul>
-          </div>
-        </label>
-      </div>
-
-      <div class="comp-title col-md-5">
-        <form method="get" action="/search" class="fleet_search">
-          <input name="q" type="text" size="40" placeholder="Search..." />
-        </form>
-      </div>
-
-      <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addMachinery" v-on:click="resetMachine()">
-          Add Machine
-        </button>
+    <div class="container search-wrapper">
+      <div class="row search">
+        <div class="input">
+          <mdc-select label="Status">
+            <option v-on:click="filter('available')">Available</option>
+            <option v-on:click="filter('broken')">Broken Down</option>
+            <option v-on:click="filter('assigned')">Assigned</option>
+            <option v-on:click="filter('all')">All</option>
+          </mdc-select>
+          <form method="get" action="/search">
+            <input name="q" type="text" size="40" placeholder="Search...">
+          </form>
+        </div>
+        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetMachine()">Add Machine</button>
       </div>
     </div>
     <!-- /.row -->
@@ -66,7 +50,7 @@
                     Assignment</a>  
                 </td>
                 <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editMachine(machine)" data-toggle="modal" data-target="#addMachinery"></i> 
+                  <i class="fa fa-edit" v-on:click="editMachine(machine)"></i> 
                   <i class="fa fa-times" v-on:click="deleteMachine(machine)"></i>
                 </td>
               </tr>
@@ -79,45 +63,50 @@
       </div>
     </div>
 
+
     <!-- Modal -->
-    <div class="modal fade" id="addMachinery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} Machine</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Machine Name</label>
-                <input type="text" class="form-control" v-model="machine.name"/>
-              </div>
-              <div class="form-group">
-                <label>Serial number</label>
-                <input type="text" class="form-control"  v-model="machine.humanUuid"/>
-              </div>
-              <div class="form-group">
-                <label>Status</label>
-                <select class="form-control" v-model="machine.status">
+    <modal name="modal" class="custom-modal" height="auto" :scrollable="true">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} Machine</h5>
+          <button type="button" class="close" v-on:click="hideForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <form v-on:submit.prevent="saveMachine"> 
+            <div class="modal-body">
+              <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="machine.name" label="Machine Name" required outline/>
+                  </div>
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="machine.humanUuid" label="Serial Number" required outline/>
+                  </div>
+                </div>
+
+                <mdc-select v-model="machine.status" label="Status" required outlined>
                   <option v-for="status in statuses" v-bind:value="status.name" :key="status.id">
                     {{ status.name }}
                   </option>
-                </select>
+                </mdc-select>
+
+                <p class="note">
+                  <span>Note:</span> Make sure the details above are accurate and correct.
+                </p>
               </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveMachine" data-dismiss="modal">
-              {{ editMode ? 'Edit' : 'Add'}} Machine
-            </button>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button class="mdc-button mdc-button--raised" >{{ editMode ? 'Edit' : 'New'}} Machine</button>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
+    </modal>
 
     <!-- Modal -->
     <div class="modal fade" id="showHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -217,9 +206,15 @@ export default {
     ...mapGetters('machinery', ['getMachines', 'assignmentHistory', 'faultHistory'])
   },
   methods: {
+    showForm() {
+      this.$modal.show("modal");
+    },
+    hideForm() {
+      this.$modal.hide("modal");
+    },
     saveMachine() {
       const { machine } = this;
-      
+      this.$modal.hide("modal");
       if(this.editMode){
         this.$store.dispatch("machinery/updateMachine", machine);
       }else{
@@ -239,6 +234,7 @@ export default {
     },
     editMachine(machine){
       this.editMode = true;
+      this.$modal.show("modal");
       this.machine = Object.assign({}, machine);
       this.machine.status = machine.status.name;
     },
@@ -270,97 +266,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.comp-title button {
-  width: 100%;
-}
-.comp-title button,
-.custom-btn {
-  background-color: #256ae1;
-  color: white;
-  padding: 10px 30px;
-  font-family: "Montserrat", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-  border-radius: 20px;
-  border: none;
-}
-.table tbody tr td:last-child i{
-  margin-right: 15px;
-  cursor: pointer;
-  color: #333
-}
-.modal-dialog {
-  width: 500px;
-}
-.modal-title {
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 24px;
-  display: inline-block;
-}
-.modal-header {
-  border-bottom: none;
-  padding: 30px 40px;
-}
-/* .modal-body > .row {
-  padding: 0 25px;
-} */
-.upload-img-text {
-  color: #333;
-  font-family: "Montserrat", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 15px;
-}
-.upload-image {
-  background-image: url("http://www.independentmediators.co.uk/wp-content/uploads/2016/02/placeholder-image.jpg");
-  background-position: center;
-  background-size: cover;
-  height: 113px;
-  width: 179px;
-}
-/* .modal-body form {
-  padding: 36px 25px;
-  padding-bottom: 0;
-}
-.modal-body form .form-control {
-  background-color: #f0f0f0;
-  border: none;
-}
-.modal-body form label {
-  color: #828282;
-  font-family: "Montserrat", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-} */
-/* .modal-footer button:nth-child(1) {
-  box-sizing: border-box;
-  width: 115px;
-  border: 1px solid #256ae1;
-  background-color: #fff;
-  color: #256ae1;
-  font-family: "Montserrat", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-  padding: 10px 40px;
-}
-.modal-footer button:nth-child(2) {
-  box-sizing: border-box;
-  color: #fff;
-  font-family: "Montserrat", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-  padding: 10px 40px;
-  background-color: #256ae1;
-} */
-</style>
-
-

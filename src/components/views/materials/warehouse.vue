@@ -4,7 +4,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-6">
-        <h3>{{ (getSite(this.$route.params.id))[0].site_name }} <small>warehouse Management</small></h3>
+        <h3>{{ getSite() }} <small>warehouse Management</small></h3>
       </div>
 
       <div class="comp-title col-md-3">
@@ -12,7 +12,7 @@
       </div>
 
       <div class="comp-title col-md-3">
-        <button type="button" data-toggle="modal" data-target="#addWarehouseMaterial" v-on:click="resetWarehouseMaterial()">
+        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetWarehouseMaterial()">
           Add Warehouse Material
         </button>
       </div>
@@ -40,7 +40,7 @@
                 <td>{{ warehouseMaterial.is_returned ? "Returning" : "Outgoing" }}</td>
                 <td>{{ warehouseMaterial.created | moment("dddd, MMMM Do YYYY") }}</td>
                 <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editWarehouseMaterial(warehouseMaterial)" data-toggle="modal" data-target="#addWarehouseMaterial"></i> 
+                  <i class="fa fa-edit" v-on:click="editWarehouseMaterial(warehouseMaterial)"></i> 
                   <i class="fa fa-times" v-on:click="deleteWarehouseMaterial(warehouseMaterial)"></i>
                 </td>
               </tr>
@@ -54,47 +54,51 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addWarehouseMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'Add'}} WarehouseMaterial</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Status</label>
-                <select class="form-control" v-model="warehouseMaterial.is_returned">
-                  <option v-bind:value="'true'">Returning</option>
-                  <option v-bind:value="'false'">Outgoing</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Material Name</label>
-                <select class="form-control" v-model="warehouseMaterial.material">
-                  <option v-for="material in materials" :key="material.id" v-bind:value="material.id">
-                    {{ material.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Quantity</label>
-                <input type="number" class="form-control" v-model="warehouseMaterial.quantity"/>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveWarehouseMaterial" data-dismiss="modal">
-              {{ editMode ? 'Edit' : 'Add'}} WarehouseMaterial
-            </button>
-          </div>
+    <modal name="modal" class="custom-modal" height="auto" :scrollable="true">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} WarehouseMaterial</h5>
+          <button type="button" class="close" v-on:click="hideForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
-    </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <form v-on:submit.prevent="saveWarehouseMaterial"> 
+            <div class="modal-body">
+              <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mdc-select v-model="warehouseMaterial.material" label="Material Name" required outlined>
+                      <option v-for="material in materials" :key="material.id" :value="material.id">
+                        {{ material.name }}
+                      </option>
+                    </mdc-select>
+                  </div>
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="warehouseMaterial.quantity" label="Quantity" type="number" required outline/>
+                  </div>
+                </div>
+
+                <mdc-select v-model="warehouseMaterial.is_returned" label="Status" required outlined>
+                  <option :value="true">Returning</option>
+                  <option :value="false">Outgoing</option>
+                </mdc-select>
+
+                <p class="note">
+                  <span>Note:</span> Make sure the details above are accurate and correct.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="mdc-button mdc-button--raised" >{{ editMode ? 'Edit' : 'New'}} WarehouseMaterial</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </modal>
   </section>
 </template>
 
@@ -107,14 +111,15 @@ export default {
     return {
       editMode: false,
       warehouseMaterial: {
-        is_returned: "false",
         site: this.$route.params.id,
         material: "",
         quantity: ""
       }
     };
   },
-  created() {},
+  created() {
+    
+  },
   mounted() {
     this.$store.dispatch("warehouse/loadWarehouseMaterials", this.$route.params.id);
   },
@@ -123,11 +128,21 @@ export default {
       warehouseMaterials: state => state.warehouse.wareHouseMaterials,
       materials: state => state.materials.materials
     }),
-    ...mapGetters('sites', ['getSite'])
   },
   methods: {
+    getSite() {
+      let site = this.$store.getters['sites/getSite'](this.$route.params.id);
+      return site[0] ? site[0].site_name : ""
+    },
+    showForm() {
+      this.$modal.show("modal");
+    },
+    hideForm() {
+      this.$modal.hide("modal");
+    },
     saveWarehouseMaterial() {
       const { warehouseMaterial } = this;
+      this.$modal.hide("modal");
       if(this.editMode){
         this.$store.dispatch("warehouse/updateWarehouseMaterial", warehouseMaterial);
       }else{
@@ -136,7 +151,13 @@ export default {
     },
     editWarehouseMaterial(warehouseMaterial){
       this.editMode = true;
-      this.warehouseMaterial = Object.assign({}, warehouseMaterial);
+      this.$modal.show("modal");
+      let data = Object.assign({}, warehouseMaterial);
+      data.is_returned = "" + warehouseMaterial.is_returned
+      data.material = "" + warehouseMaterial.material.id
+      data.quantity = "" + warehouseMaterial.quantity
+      data.site = "" + warehouseMaterial.site.id
+      this.warehouseMaterial = data;
     },
     deleteWarehouseMaterial(warehouseMaterial){
       if (confirm(`are you sure you want to delete ${warehouseMaterial.material.name} entry?`)) {
@@ -146,7 +167,6 @@ export default {
     resetWarehouseMaterial(){
       this.editMode = false;
       this.warehouseMaterial = {
-        is_returned: "false",
         site: this.$route.params.id,
         material: "",
         quantity: ""
@@ -156,8 +176,10 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.mdc-button.mdc-button--raised{
+  background-color: #256ae1;
+}
 </style>
 
 

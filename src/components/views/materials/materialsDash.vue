@@ -8,10 +8,7 @@
 </template>
 
 <script>
-import { select } from "../../mixins/select";
-
 export default {
-  mixins: [select]
 };
 </script>
 

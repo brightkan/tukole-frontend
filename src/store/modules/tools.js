@@ -106,7 +106,7 @@ export default {
                     commit('SET_TOOLS', tools)
                 });
         },
-        addTool({ commit, state }, payLoad) {
+        addTool({ commit, state, rootState }, payLoad) {
             api
                 .request("post", "tools/", payLoad)
                 .then(response => {

@@ -4,11 +4,11 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-10">
-        <h3>{{ getCompany(this.$route.params.id).name }}</h3>
+        <h3>{{ getCompany() }}</h3>
       </div>
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addUser" v-on:click="resetUser()">
+        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetUser()">
           Add Users
         </button>
       </div>
@@ -21,7 +21,7 @@
           <h3><i class="fa fa-users"></i> Users</h3>
           <table>
             <thead>
-              <tr>
+              <tr v-if="getCompanyUsers(this.$route.params.id).length > 0">
                 <td>Name</td>
                 <td>Contact</td>
                 <td>Email</td>
@@ -36,7 +36,7 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.created | moment('MMM Do YYYY')}}</td>
                 <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editUser(user)" data-toggle="modal" data-target="#addUser"></i> 
+                  <i class="fa fa-edit" v-on:click="editUser(user)"></i> 
                   <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
                 </td>
               </tr>
@@ -50,50 +50,58 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} User</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control" v-model="user.first_name"/>
-              </div>
-              <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control" v-model="user.last_name"/>
-              </div>
-              <div class="form-group" v-if="!editMode">
-                <label>Email</label>
-                <input type="text" class="form-control" v-model="user.email"/>
-              </div>
-              <div class="form-group">
-                <label>Contract type</label>
-                <select class="form-control" v-model="user.contract_type">
-                  <option v-bind:value="'permanent'">Permament</option>
-                  <option v-bind:value="'temporary'">Temporary</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" class="form-control" v-model="user.phone_number"/>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveUser" data-dismiss="modal">
-              {{ editMode ? 'Edit' : 'New'}} User</button>
-          </div>
+    <modal name="modal" class="custom-modal" height="auto" :scrollable="true">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} User</h5>
+          <button type="button" class="close" v-on:click="hideForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
-    </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <form v-on:submit.prevent="saveUser">
+            <div class="modal-body">
+              <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="user.first_name" label="First Name" required outline/>
+                    <mdc-textfield v-model="user.email" label="Email" required outline/>
+                  </div>
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="user.last_name" label="Last Name" required outline/>
+                    <mdc-select v-model="user.contract_type" label="Contract type" required outlined>
+                      <option v-bind:value="'permanent'">Permament</option>
+                      <option v-bind:value="'temporary'">Temporary</option>
+                    </mdc-select>
+                  </div>
+                </div>
+
+                <mdc-textfield
+                  v-model="user.phone_number"
+                  label="Phone Number"
+                  required
+                  helptext="Enter correct phone number format"
+                  :valid="isValidTel"
+                  helptext-validation
+                  @keyup="checkTelValidity"
+                  outline
+                />
+
+                <p class="note">
+                  <span>Note:</span> Make sure the details above are accurate and correct.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="mdc-button mdc-button--raised">{{ editMode ? 'Edit' : 'New'}} User</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </modal>
   </section>
 </template>
 
@@ -105,6 +113,7 @@ export default {
   data(router) {
     return {
       editMode: false,
+      isValidTel: true,
       user: {
         first_name: "",
         last_name: "",
@@ -125,22 +134,44 @@ export default {
   computed: {
     ...mapGetters("users", [
         "getCompanyUsers"
-    ]),
-    ...mapGetters("companies", [
-        "getCompany"
     ])
   },
   methods: {
+    getCompany() {
+      let company = this.$store.getters['companies/getCompany'](this.$route.params.id);
+      return company ? company.name : ""
+    },
+    showForm() {
+      this.$modal.show("modal");
+    },
+    hideForm() {
+      this.$modal.hide("modal");
+    },
+    checkTelValidity(evt) {
+      var phoneno = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+      var phoneNumber = evt.srcElement.value;
+
+      if (phoneNumber.match(phoneno)) {
+        this.isValidTel = true;
+      } else {
+        this.isValidTel = false;
+      }
+    },
     saveUser() {
       const { user } = this;
-      if(this.editMode){
-        this.$store.dispatch("users/updateUser", user);
-      }else{
-        this.$store.dispatch("users/inviteUser", user);
+      this.$modal.hide("modal");
+
+      if (this.isValidTel) {
+        if (this.editMode) {
+          this.$store.dispatch("users/updateUser", user);
+        } else {
+          this.$store.dispatch("users/inviteUser", user);
+        }
       }
     },
     editUser(user){
       this.editMode = true;
+      this.$modal.show("modal");
       this.user = Object.assign({}, user);
     },
     deleteUser(user){
@@ -167,5 +198,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.content{
+  > .row{
+    padding: 15px;
+  }
+}
+.mdc-button.mdc-button--raised{
+  background-color: #256ae1;
+}
 </style>

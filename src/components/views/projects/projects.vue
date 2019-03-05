@@ -113,7 +113,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button
+              <button type="button" 
                 class="mdc-button mdc-button--raised"
                 v-on:click="saveSite()"
               >Add Site</button>

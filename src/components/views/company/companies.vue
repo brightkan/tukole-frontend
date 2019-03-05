@@ -8,7 +8,7 @@
       </div>
 
       <div v-if="$store.state.user_type != 'client'" class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addCompany" v-on:click="resetCompany()">
+        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetCompany()">
           Add Company
         </button>
       </div>
@@ -21,7 +21,6 @@
             <div class="card">
               <div class="row">
                 <h3 class="col-md-8">{{ company.name }}</h3>
-                <img class="col-md-4" v-bind:src="'https://tunga.io/images/5e5c2a131974924b9cdb43897ee48212.png?v=1547741633659'"/>
                 <p class="col-md-12 text-sm" style="margin: 0">Created on: {{ company.created | moment('MMM Do YYYY')}}</p>
               </div>
             </div>
@@ -33,34 +32,35 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addCompany" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Company</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-
-            <form>
-              <div class="form-group">
-                <label>Company Name</label>
-                <input type="text" class="form-control" v-model="company.name"/>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveCompany" data-dismiss="modal">
-              Add Company
-            </button>
-          </div>
+    <modal name="modal" class="custom-modal" height="auto" :scrollable="true">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} Company</h5>
+          <button type="button" class="close" v-on:click="hideForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
-    </div>
 
+      <div class="row">
+        <div class="col-md-12">
+          <form v-on:submit.prevent="saveCompany"> 
+            <div class="modal-body">
+              <div>
+                <mdc-textfield v-model="company.name" label="Company Name" required outline/>
+
+                <p class="note">
+                  <span>Note:</span> Make sure the details above are accurate and correct.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="mdc-button mdc-button--raised" >{{ editMode ? 'Edit' : 'New'}} Company</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </modal>
 
   </section>
 </template>
@@ -89,8 +89,15 @@ export default {
     ...mapState('companies',["companies"])
   },
   methods: {
+    showForm() {
+      this.$modal.show("modal");
+    },
+    hideForm() {
+      this.$modal.hide("modal");
+    },
     saveCompany(){
         const { company } = this
+        this.hideForm()
         this.$store.dispatch("companies/addCompany", company);
     },
     reformateDate(date) {
@@ -111,8 +118,22 @@ export default {
 
 <style lang="scss" scoped>
 .content{
-  .card .row{
-    margin: 15px 0;
+  .row{
+    padding: 15px;
   }
+  .card {
+    margin-bottom: 15px; 
+    .row{
+      margin: 0;
+    }
+  }
+  
+}
+.mdc-button.mdc-button--raised{
+  background-color: #256ae1;
+}
+.site p{
+  font-weight: 400;
+  color: #ababab;
 }
 </style>

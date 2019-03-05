@@ -79,27 +79,27 @@
 
       <div class="row">
         <div class="col-md-12">
-          <form>
+          <form v-on:submit.prevent="saveUser">
             <div class="modal-body">
               <div>
                 <div class="row">
                   <div class="col-md-6">
-                    <mdc-textfield v-model="user.first_name" label="First Name" outline/>
-                    <mdc-textfield v-model="user.email" label="Email" outline/>
-                    <mdc-select v-model="user.type" label="Account Type" outlined>
+                    <mdc-textfield v-model="user.first_name" label="First Name" required outline/>
+                    <mdc-textfield v-model="user.email" label="Email" required outline/>
+                    <mdc-select v-model="user.type" label="Account Type" required outlined>
                       <option v-bind:value="'admin'">Admin</option>
                       <option v-bind:value="'employee'">Employee</option>
                     </mdc-select>
                   </div>
                   <div class="col-md-6">
-                    <mdc-textfield v-model="user.last_name" label="Last Name" outline/>
+                    <mdc-textfield v-model="user.last_name" label="Last Name" required outline/>
 
-                    <mdc-select v-model="user.contract_type" label="Contract type" outlined>
+                    <mdc-select v-model="user.contract_type" label="Contract type" required outlined>
                       <option v-bind:value="'permanent'">Permament</option>
                       <option v-bind:value="'temporary'">Temporary</option>
                     </mdc-select>
 
-                    <mdc-select v-model="user.role" label="Role" outlined>
+                    <mdc-select v-model="user.role" label="Role" required outlined>
                       <option v-bind:value="'driver'">Driver</option>
                       <option v-bind:value="'isp'">ISP</option>
                       <option v-bind:value="'quality'">Quality</option>
@@ -134,10 +134,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                class="mdc-button mdc-button--raised"
-                v-on:click="saveUser()"
-              >{{ editMode ? 'Edit' : 'New'}} User</button>
+              <button class="mdc-button mdc-button--raised">{{ editMode ? 'Edit' : 'New'}} User</button>
             </div>
           </form>
         </div>
