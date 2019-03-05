@@ -201,6 +201,8 @@
                                     <option v-bind:value="'surveyor'">Surveyor</option>
                                     <option v-bind:value="'project_manager'">Project Manager</option>
                                     <option v-bind:value="'fleet_manager'">Fleet Manager</option>
+                                    <option v-bind:value="'osp_field_manager'">OSP Field Manager</option>
+                                    <option v-bind:value="'osp_superisor'">OSP Supervisor</option>
                                   </select>
                               </div>
                               <div class="form-group col-md-3">
