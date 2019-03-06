@@ -58,39 +58,6 @@
       </div>
 
       <div class="col-md-4">
-        <div class="box">
-          <h4>Users</h4>
-          <div class="container user-list">
-            <div class="skills" v-bind:style="{ width: getUsersPercentage('isp')+'%' }"
-              v-bind:class="{ empty: getUsersPercentage('isp') == 0 }">
-              {{ getUsersPercentage('isp') != 0 ? getUsersByType('isp').length : '' }}
-            </div>
-            <p>ISP</p>
-            <div class="skills" v-bind:style="{ width: getUsersPercentage('driver')+'%' }"
-              v-bind:class="{ empty: getUsersPercentage('driver') == 0 }">
-              {{ getUsersPercentage('driver') != 0 ? getUsersByType('driver').length : '' }}
-            </div>
-            <p>Drivers</p>
-            <div class="skills" v-bind:style="{ width: getUsersPercentage('surveyor')+'%' }"
-              v-bind:class="{ empty: getUsersPercentage('surveyor') == 0 }">
-              {{ getUsersPercentage('surveyor') != 0 ? getUsersByType('surveyor').length : '' }}
-            </div>
-            <p>SURVEYOR</p>
-            <div class="skills" v-bind:style="{ width: getUsersPercentage('ofc')+'%' }"
-              v-bind:class="{ empty: getUsersPercentage('ofc') == 0 }">
-              {{ getUsersPercentage('ofc') != 0 ? getUsersByType('ofc').length : '' }}
-            </div>
-            <p>0FC</p>
-            <div class="skills" v-bind:style="{ width: getUsersPercentage('project_manager')+'%' }"
-              v-bind:class="{ empty: getUsersPercentage('project_manager') == 0 }">
-              {{ getUsersPercentage('project_manager') != 0 ? getUsersByType('project_manager').length : '' }}
-            </div>
-            <p>Project Manager</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
         <div class="box project-status">
           <h4>Material Status <small class="float-right text-muted">RUNNING OUT</small></h4>
           <ul>

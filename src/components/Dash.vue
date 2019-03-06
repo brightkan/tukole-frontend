@@ -138,10 +138,6 @@
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <!-- <span class="hidden-xs">{{ demo.displayName }}</span> -->
-                <!-- The user image in the navbar-->
-                <img v-bind:src="demo.avatar" class="user-image" alt="">  
                 {{ user.first_name }} {{ user.last_name }}      
               </a>
               <ul class="dropdown-menu">

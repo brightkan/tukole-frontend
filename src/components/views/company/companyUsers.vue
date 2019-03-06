@@ -68,7 +68,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <mdc-textfield v-model="user.first_name" label="First Name" required outline/>
-                    <mdc-textfield v-model="user.email" label="Email" required outline/>
+                    <mdc-textfield v-model="user.email" label="Email" type="email" required outline/>
                   </div>
                   <div class="col-md-6">
                     <mdc-textfield v-model="user.last_name" label="Last Name" required outline/>

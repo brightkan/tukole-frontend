@@ -87,10 +87,7 @@
                     <mdc-textfield v-model="site.site_name" label="Site Name" outline/>
                     <mdc-textfield v-model="site.expected_end_date" label="Expected end date" outline/>
                     <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline/>
-                    <mdc-select v-model="site.ackStatus" label="Acknowledgement status" outlined>
-                      <option :value="'true'">Yes</option>
-                      <option :value="'false'">No</option>
-                    </mdc-select>
+                    
                   </div>
                   <div class="col-md-6">
                     <mdc-textfield v-model="site.start_date" label="Start date" outline/>
@@ -100,10 +97,7 @@
                       </option>
                     </mdc-select>
                     <mdc-textfield v-model="site.location_long" label="Location Longitude" outline/>
-                    <mdc-select v-model="site.archivedStatus" label="Archived status" outlined>
-                      <option :value="'true'">Yes</option>
-                      <option :value="'false'">No</option>
-                    </mdc-select>
+                    
                   </div>
                 </div>
 

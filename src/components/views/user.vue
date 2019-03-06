@@ -85,7 +85,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <mdc-textfield v-model="user.first_name" label="First Name" required outline/>
-                    <mdc-textfield v-model="user.email" label="Email" required outline/>
+                    <mdc-textfield v-model="user.email" label="Email" type="email" required outline/>
                     <mdc-select v-model="user.type" label="Account Type" required outlined>
                       <option v-bind:value="'admin'">Admin</option>
                       <option v-bind:value="'employee'">Employee</option>
