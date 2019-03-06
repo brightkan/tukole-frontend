@@ -94,12 +94,10 @@
 </template>
 
 <script>
-import { select } from "../../mixins/select";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 
 export default {
-  mixins: [select],
   data(router) {
     return {
       selectedSite: window.localStorage.getItem("selectsite"),
