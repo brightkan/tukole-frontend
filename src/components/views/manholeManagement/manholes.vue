@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="table-alt">
-          <h3><i class="fa fa-users"></i> Users</h3>
+          <h3><i class="fa fa-users"></i> Manholes</h3>
           <table>
             <thead>
               <tr v-if="manholes.length > 0">

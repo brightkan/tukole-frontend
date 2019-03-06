@@ -439,18 +439,11 @@
                 <td>{{ surveyResult.acceptStatus }}</td>
                 <td>{{ surveyResult.created | moment("dddd, MMMM Do YYYY") }}</td>
                 <td style="text-align: right">
-                  <a
-                    class="mdc-button mdc-button--raised"
-                    data-toggle="modal"
-                    data-target="#surveyResultsComment"
-                    v-on:click="getSurveyComments(surveyResult)"
-                  >comments</a>
-                  <a
-                    class="mdc-button mdc-button--raised"
-                    target="_blank"
-                    v-bind:href="surveyResult.file_url"
-                    download
-                  >Download</a>
+                  <a class="mdc-button mdc-button--raised" style="color: #fff"
+                    v-on:click="showCommentForm();getSurveyComments(surveyResult)"
+                  >comments ({{ surveyResult.number_of_comments }}) </a>
+                  <a class="mdc-button mdc-button--raised" target="_blank"
+                    v-bind:href="surveyResult.file_url" download>Download</a>
                 </td>
               </tr>
               <tr v-if="surveyResults.length <= 0">
@@ -458,85 +451,6 @@
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="surveyResultsComment"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Survey Result title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="detailBox">
-              <div class="commentBox">
-                <form class="form-inline" role="form">
-                  <div class="form-group">
-                    <input
-                      class="form-control"
-                      v-model="surveyResultComment.comment"
-                      type="text"
-                      placeholder="Your comments"
-                    >
-                  </div>
-                  <div class="form-group">
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      v-on:click="saveSurveyComment()"
-                    >Add</button>
-                  </div>
-                </form>
-              </div>
-              <div class="actionBox">
-                <ul class="commentList">
-                  <li v-for="surveyComment in surveyComments" :key="surveyComment.id">
-                    <div class="commenterImage">
-                      <img src="http://placekitten.com/50/50">
-                    </div>
-                    <div class="commentText">
-                      <p class>{{ surveyComment.comment }}</p>
-                      <span
-                        class="date sub-text"
-                      >on {{ surveyComment.created | moment("dddd, MMMM Do YYYY") }}</span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <form>
-              <select
-                class="form-control"
-                v-model="selectedSurveyResult.acceptStatus"
-                style="position: absolute; left: 15px;"
-              >
-                <option v-bind:value="'true'">Accepted</option>
-                <option v-bind:value="'false'">Not Accepted</option>
-              </select>
-              
-              <button
-                type="button"
-                class="btn btn-primary"
-                v-on:click="surveyResultAcceptance"
-                data-dismiss="modal"
-              >Save</button>
-              <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </form>
-          </div>
         </div>
       </div>
     </div>
@@ -592,6 +506,69 @@
               <button class="mdc-button mdc-button--raised" >Add survey result</button>
             </div>
           </form>
+        </div>
+      </div>
+    </modal>
+
+
+    <modal name="CommentModal" class="custom-modal" height="auto" :scrollable="true">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">Survey Result title</h5>
+          <button type="button" class="close" v-on:click="hideCommentForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="modal-body">
+            <div class="detailBox">
+              <div class="commentBox">
+                <form class="form-inline" v-on:submit.prevent="saveSurveyComment">
+                  <div class="form-group">
+                    <mdc-textfield v-model="surveyResultComment.comment" label="Your comments" outline/>
+                  </div>
+                  <div class="form-group">
+                    <button class="mdc-button mdc-button--raised">Add</button>
+                  </div>
+                </form>
+              </div>
+              <div class="actionBox">
+                <ul class="commentList">
+                  <li v-for="surveyComment in surveyComments" :key="surveyComment.id">
+                    <div class="commenterImage">
+                      <img src="http://placekitten.com/50/50">
+                    </div>
+                    <div class="commentText">
+                      <p class>{{ surveyComment.comment }}</p>
+                      <span
+                        class="date sub-text"
+                      >on {{ surveyComment.created | moment("dddd, MMMM Do YYYY") }}</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- <button class="mdc-button mdc-button--raised" >Add survey result</button> -->
+            <form>
+              <select
+                class="form-control"
+                v-model="selectedSurveyResult.acceptStatus"
+                style="position: absolute; left: 15px;"
+              >
+                <option v-bind:value="'true'">Accepted</option>
+                <option v-bind:value="'false'">Not Accepted</option>
+              </select>
+              
+              <button type="button" class="mdc-button mdc-button--raised float-right"
+                v-on:click="surveyResultAcceptance" style="padding: 10px"
+                data-dismiss="modal">Save</button>
+            </form>
+          </div>
         </div>
       </div>
     </modal>
@@ -712,6 +689,12 @@ export default {
     this.reset();
   },
   methods: {
+    hideCommentForm(){
+      this.$modal.hide("CommentModal");
+    },
+    showCommentForm(){
+      this.$modal.show("CommentModal");
+    },
     hideSurveyForm(){
       this.$modal.hide("SurveyModal");
     },
@@ -818,15 +801,19 @@ export default {
     },
     saveSurveyComment() {
       const { surveyResultComment } = this;
-      this.$store.dispatch("sites/addSurveyComment", surveyResultComment);
-      //this.surveyResultComment.comment = "";
+      if(surveyResultComment.comment != ""){
+        
+        let data = Object.assign({}, surveyResultComment);
+        console.log(data)
+        this.$store.dispatch("sites/addSurveyComment", data);
+        this.surveyResultComment.comment = "";
+      }
     },
     surveyResultAcceptance() {
       const { selectedSurveyResult } = this;
       this.$store.dispatch("sites/updateSurveyResult", selectedSurveyResult);
     },
 
-    //this is for the upload
     reset() {
       // reset form to initial state
       (this.formData = new FormData()), (this.currentStatus = STATUS_INITIAL);
@@ -953,12 +940,14 @@ export default {
 }
 
 /* comments box */
-.commentBox {
-  padding: 10px;
-  border-top: 1px dotted #bbb;
-}
 .commentBox .form-inline {
   padding: 0;
+
+  .mdc-button.mdc-button--raised{
+    padding: 15px;
+    margin-left: 5px;
+    margin-top: 4px;
+  }
 }
 .commentBox .form-inline input,
 .commentBox .form-inline button {
@@ -1007,7 +996,6 @@ export default {
   font-size: 11px;
 }
 .actionBox {
-  border-top: 1px dotted #bbb;
   padding: 10px;
 }
 </style>

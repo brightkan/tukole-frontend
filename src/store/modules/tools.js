@@ -75,7 +75,7 @@ export default {
     actions: {
         async loadToolTypes({ commit }) {
             await api
-                .request("get", "tools_types/")
+                .request("get", "tools_types/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     commit('SET_TOOL_TYPES', response.data)
                 });
@@ -83,7 +83,7 @@ export default {
         async loadTools({ dispatch, commit, state, rootState }) {
             await dispatch('loadToolTypes')
             await api
-                .request("get", "tools/")
+                .request("get", "tools/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     let tools = response.data.map(tool => {
 

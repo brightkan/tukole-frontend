@@ -28,9 +28,9 @@ export default {
         }
     },
     actions: {
-        loadChallenges({ commit }) {
+        loadChallenges({ commit }, payload) {
             api
-                .request("get", "challenges/")
+                .request("get", "challenges/?site=" + payload)
                 .then(response => {
                     let challenges = response.data
                     commit('SET_CHALLENGES', challenges)
@@ -38,7 +38,7 @@ export default {
         },
         loadIncidents({ commit }) {
             api
-                .request("get", "incidents/")
+                .request("get", "incidents/?site=" + payload)
                 .then(response => {
                     let incidents = response.data
                     commit('SET_INCIDENTS', incidents)

@@ -35,7 +35,7 @@ export default {
     actions: {
         loadMaterials({ commit }) {
             api
-                .request("get", "materials/")
+                .request("get", "materials/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     let materials = response.data
                     commit('SET_MATERIALS', materials)

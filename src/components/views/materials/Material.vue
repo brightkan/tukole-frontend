@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="table-alt">
-          <h3><i class="fa fa-wrench"></i>  Material</h3>
+          <h3><i class="fa fa-wrench"></i>  Materials</h3>
           <table>
             <thead>
               <tr v-if="materials.length > 0">

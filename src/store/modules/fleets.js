@@ -76,7 +76,7 @@ export default {
     actions: {
         async loadFleetTypes({ commit }) {
             await api
-                .request("get", "fleet_types/")
+                .request("get", "fleet_types/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     commit('SET_FLEET_TYPES', response.data)
                 });
@@ -84,7 +84,7 @@ export default {
         async loadFleets({ dispatch, commit, state, rootState }) {
             await dispatch('loadFleetTypes')
             await api
-                .request("get", "fleets/")
+                .request("get", "fleets/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     let fleets = response.data.map(fleet => {
                         state.fleet_types.forEach(element => {

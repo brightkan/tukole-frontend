@@ -31,7 +31,7 @@ export default {
     actions: {
         loadCompanies({ commit }) {
             api
-                .request("get", "company/")
+                .request("get", "company/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     commit('SET_COMPANIES', response.data)
                 });

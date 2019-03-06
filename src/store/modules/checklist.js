@@ -32,7 +32,7 @@ export default {
     actions: {
         async loadChecklist({ dispatch, commit, state, rootState }) {
             await api
-                .request("get", "fleetchecklistitems/")
+                .request("get", "fleetchecklistitems/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     let checklist = response.data
                     commit('SET_CHECKLIST', checklist)

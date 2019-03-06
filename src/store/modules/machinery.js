@@ -75,7 +75,7 @@ export default {
     actions: {
         async loadTypes({ commit }) {
             await api
-                .request("get", "machinery_types/")
+                .request("get", "machinery_types/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     commit('SET_TYPES', response.data)
                 });
@@ -83,7 +83,7 @@ export default {
         async loadMachines({ dispatch, commit, state, rootState }) {
             await dispatch('loadTypes')
             await api
-                .request("get", "machinery/")
+                .request("get", "machinery/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     let machines = response.data.map(
                         machine => {

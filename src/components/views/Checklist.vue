@@ -89,7 +89,8 @@ export default {
     return {
       editMode: false,
       checklistItem: {
-        name: ""
+        name: "",
+        workspace: window.localStorage.getItem("workspace")
       }
     };
   },
@@ -131,7 +132,8 @@ export default {
     resetChecklistItem(){
       this.editMode = false;
       this.checklistItem = {
-        name: ""
+        name: "",
+        workspace: window.localStorage.getItem("workspace")
       }
     }
   }

@@ -57,7 +57,7 @@
     <modal name="modal" class="custom-modal" height="auto" :scrollable="true">
       <div class="row modal-header">
         <div class="col-md-12">
-          <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} WarehouseMaterial</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{ editMode ? 'Edit' : 'New'}} Warehouse Material</h5>
           <button type="button" class="close" v-on:click="hideForm()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -93,7 +93,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="mdc-button mdc-button--raised" >{{ editMode ? 'Edit' : 'New'}} WarehouseMaterial</button>
+              <button class="mdc-button mdc-button--raised" >{{ editMode ? 'Edit' : 'New'}} Warehouse Material</button>
             </div>
           </form>
         </div>
@@ -179,6 +179,7 @@ export default {
 <style lang="scss" scoped>
 .mdc-button.mdc-button--raised{
   background-color: #256ae1;
+  padding: 10px !important;
 }
 </style>
 

@@ -28,9 +28,9 @@ export default {
         }
     },
     actions: {
-        loadQualityChecks({ commit }) {
+        loadQualityChecks({ commit }, payload) {
             api
-                .request("get", "comments/")
+                .request("get", "comments/?site=" + payload)
                 .then(response => {
                     let challenges = response.data
                     commit('SET_QUALITY_CHECKS', challenges)

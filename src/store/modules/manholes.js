@@ -34,7 +34,7 @@ export default {
         async loadManholes({ dispatch, commit, state, rootState }) {
             await dispatch('sites/loadSites', window.localStorage.getItem("workspace"), {root:true})
             await api
-                .request("get", "manholes/")
+                .request("get", "manholes/?workspace=" + window.localStorage.getItem("workspace"))
                 .then(response => {
                     let manholes = response.data
                     manholes.map(manhole => {
