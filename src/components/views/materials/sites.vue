@@ -61,19 +61,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-/* .empty-site-list{
-  color: #c3c3c3;
-  font-family: "Montserrat", sans-serif;
-  font-size: 30px;
-}
-.site{
-  cursor: pointer;
-}
-.site .project-card.active{
-  border: 1px solid #256ae1;
-} */
-</style>
-
 
 

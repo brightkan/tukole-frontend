@@ -14,8 +14,8 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="project-roles-box">
-            <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
+        <div class="tab-layout">
+            <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
               <li><a class="active" href="#manhole" data-toggle="tab" role="tab">Manholes</a></li>
               <li><a href="#reInstallations" data-toggle="tab" role="tab" v-on:click="loadSiteReInstallations()">Reinstatements</a></li>
               <li><a href="#roadCrossings" data-toggle="tab" role="tab" v-on:click="loadSiteRoadCrossings()">RoadCrossing</a></li>
@@ -23,7 +23,7 @@
             </ul>
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade show active" id="manhole">
-                <div> <!-- Todo: remove this div-->
+                <div class="table-alt"> 
                   <table class="table">
                     <thead>
                       <tr>
@@ -44,71 +44,78 @@
                 </div>
               </div>
               <div role="tabpanel" class="tab-pane fade" id="reInstallations">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <td>Type</td>
-                      <td>Material</td>
-                      <td>Amount</td>
-                      <td>Creation Date</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="reInstallation in reInstallations" :key="reInstallation.id">
-                      <td>{{ reInstallation.type }}</td>
-                      <td>{{ reInstallation.material.name }}</td>
-                      <td>{{ reInstallation.amount }} {{ reInstallation.material.measurement }}</td>
-                      <td>{{ reInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
-                    </tr>
-                    <tr v-if="reInstallations.length <= 0">
-                      <td colspan="7" class="text-center">No Site ReInstallations Yet</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="table-alt"> 
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <td>Type</td>
+                        <td>Material</td>
+                        <td>Amount</td>
+                        <td>Creation Date</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="reInstallation in reInstallations" :key="reInstallation.id">
+                        <td>{{ reInstallation.type }}</td>
+                        <td>{{ reInstallation.material.name }}</td>
+                        <td>{{ reInstallation.amount }} {{ reInstallation.material.measurement }}</td>
+                        <td>{{ reInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      </tr>
+                      <tr v-if="reInstallations.length <= 0">
+                        <td colspan="7" class="text-center">No Site ReInstallations Yet</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div role="tabpanel" class="tab-pane fade" id="roadCrossings">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <td>Distance crossed</td>
-                      <td>Tool</td>
-                      <td>Creation Date</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
-                      <td>{{ roadCrossing.distance_crossed }} meters</td>
-                      <td>{{ roadCrossing.tool.name }}</td>
-                      <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
-                    </tr>
+                <div class="table-alt"> 
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <td>Distance crossed</td>
+                        <td>Tool</td>
+                        <td>Creation Date</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
+                        <td>{{ roadCrossing.distance_crossed }} meters</td>
+                        <td>{{ roadCrossing.tool.name }}</td>
+                        <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      </tr>
 
-                    <tr v-if="roadCrossings.length <= 0">
-                      <td colspan="7" class="text-center">No Road crossings Yet</td>
-                    </tr>
-                  </tbody>
-                </table>
+                      <tr v-if="roadCrossings.length <= 0">
+                        <td colspan="7" class="text-center">No Road crossings Yet</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div role="tabpanel" class="tab-pane fade" id="trenchDistances">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <td>Distance</td>
-                      <td>Depth</td>
-                      <td>Creation Date</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="trenchDistance in trenchDistances" :key="trenchDistance.id">
-                      <td>{{ trenchDistance.distance }} meters</td>
-                      <td>{{ trenchDistance.depth }} meters</td>
-                      <td>{{ trenchDistance.created | moment("dddd, MMMM Do YYYY") }}</td>
-                    </tr>
+                <div class="table-alt"> 
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <td>Distance</td>
+                        <td>Depth</td>
+                        <td>Creation Date</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="trenchDistance in trenchDistances" :key="trenchDistance.id">
+                        <td>{{ trenchDistance.distance }} meters</td>
+                        <td>{{ trenchDistance.depth }} meters</td>
+                        <td>{{ trenchDistance.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      </tr>
 
-                    <tr v-if="trenchDistances.length <= 0">
-                      <td colspan="7" class="text-center">No Trench Distance Yet</td>
-                    </tr>
-                  </tbody>
-                </table>
+                      <tr v-if="trenchDistances.length <= 0">
+                        <td colspan="7" class="text-center">No Trench Distance Yet</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
               </div>
             </div>
         </div>

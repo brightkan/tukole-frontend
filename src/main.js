@@ -36,7 +36,6 @@ Vue.filter("formatNumber", function (value) {
 });
 
 Vue.use(VueRouter);
-//Vue.use(require('vue-moment'));
 
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
@@ -44,6 +43,9 @@ import moment from 'moment-timezone'
 Vue.use(VueMoment, {
     moment,
 })
+
+// import external css
+require('../static/css/custom.scss')
 
 // Routing logic
 var router = new VueRouter({

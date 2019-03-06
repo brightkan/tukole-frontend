@@ -47,7 +47,7 @@
       </div>
     </div>
 
-<!-- Modal -->
+    <!-- Modal -->
     <modal name="modal" class="custom-modal" height="auto" :scrollable="true">
       <div class="row modal-header">
         <div class="col-md-12">

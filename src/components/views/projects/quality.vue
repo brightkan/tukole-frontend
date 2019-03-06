@@ -11,14 +11,15 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="project-roles-box">
-            <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs" style="margin-bottom: 20px">
-              <li><a class="active" href="#before" data-toggle="tab" role="tab">Qauality Checks</a></li>
+        <div class="tab-layout">
+            <ul class="nav nav-tabs" role="tablist" data-tabs="tabs" style="margin-bottom: 20px">
+              <li><a class="active" href="#before" data-toggle="tab" role="tab">Quality Checks</a></li>
             </ul>
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade show active" id="before">
                 <div class="row">
-                  <div class="boq-list" style="padding: 0; box-shadow: none">
+                  <div class="col-md-12">
+                    <div class="table-alt" style="padding: 0; box-shadow: none">
                     <table class="table">
                       <thead>
                         <tr>
@@ -45,6 +46,7 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
                   </div>
                 </div>
               </div>

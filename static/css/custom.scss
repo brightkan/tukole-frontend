@@ -1,0 +1,122 @@
+@import "./variables";
+
+.content > .row:nth-child(2) {
+    padding-top: 30px;
+}
+
+.content > .row:nth-child(3) {
+    padding-top: 40px;
+}
+
+.comp-title {
+    border: none;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.comp-title > h3 {
+    display: inline-block;
+    margin: 0;
+    line-height: 2.2em;
+}
+
+.tab-layout{
+    .tab-content{
+        margin-top: 30px;
+    }
+
+    .nav.nav-tabs{
+        padding: 14px 0;
+        border-bottom: 2px solid #d0d0d0;
+        > li {
+        margin: 0 10px;
+        &:hover a{
+            border-bottom: 5px solid #f5ab03;
+        }
+        a {
+            background: initial;
+            padding: 15px;
+            color: #a0a0a0;
+            &.active{
+            border-bottom: 5px solid #f5ab03;
+            color: #28354a
+            }
+        }
+        } 
+    }
+}
+
+.table-alt {
+  tr.form {
+    td {
+      padding: 15px;
+      background: #efefef;
+      .mdc-select {
+        height: initial;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.mdc-button.mdc-button--raised {
+  background-color: #256ae1;
+}
+
+.summary-card {
+  color: #fff;
+  position: relative;
+  height: 120px;
+  position: relative;
+
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.11);
+  border-radius: 5px;
+  margin: 0;
+
+  div {
+    display: inline-table;
+    position: absolute;
+    bottom: 0;
+    padding: 0 20px;
+  }
+  span {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    i {
+      font-size: 18px;
+    }
+  }
+
+  h3 {
+    font-family: $font;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 22px;
+    padding: 0 0 5px;
+    padding-right: 5px;
+    margin: 0;
+  }
+
+  p {
+    color: #fff;
+    font-family: $font;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 13px;
+    margin-bottom: 0;
+  }
+
+  p:last-child {
+    padding-bottom: 15px;
+  }
+}
+
+.mdc-button:not(:disabled).mdc-button--raised:not(:disabled) {
+  background-color: #256ae1;
+  font-size: 12px;
+  padding: 5px 15px;
+  height: initial;
+}

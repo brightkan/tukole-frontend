@@ -14,8 +14,8 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="project-roles-box">
-            <ul id="listTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs" style="margin-bottom: 20px">
+        <div class="tab-layout">
+            <ul class="nav nav-tabs" role="tablist" data-tabs="tabs" style="margin-bottom: 20px">
               <li><a class="active" href="#before" data-toggle="tab" role="tab">Before</a></li>
               <li><a href="#after" data-toggle="tab" role="tab">After</a></li>
             </ul>

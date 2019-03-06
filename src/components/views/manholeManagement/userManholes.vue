@@ -119,12 +119,10 @@
 </template>
 
 <script>
-import { select } from "../../mixins/select";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 
 export default {
-  mixins: [select],
   data(router) {
     return {
       selectedManhole: {
@@ -177,29 +175,6 @@ export default {
   }
   .row:nth-child(2){
     padding-top: 0;
-  }
-}
-.tab-layout{
-  .tab-content{
-    margin-top: 30px;
-  }
-
-  .nav.nav-tabs{
-    padding: 14px 0;
-    border-bottom: 2px solid #d0d0d0;
-    > li {
-      margin: 0 10px;
-      &:hover a{
-        border-bottom: 5px solid #f5ab03;
-      }
-      a {
-        background: initial;
-        padding: 15px;
-        &.active{
-          border-bottom: 5px solid #f5ab03;
-        }
-      }
-    } 
   }
 }
 </style>

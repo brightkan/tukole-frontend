@@ -66,13 +66,11 @@
 </template>
 
 <script>
-import { select } from "../../mixins/select";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import moment from 'moment'
 
 export default {
-  mixins: [select],
   data(router) {
     return {
       editMode: false,
@@ -127,7 +125,6 @@ export default {
       margin: 0;
     }
   }
-  
 }
 .mdc-button.mdc-button--raised{
   background-color: #256ae1;
