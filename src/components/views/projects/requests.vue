@@ -9,7 +9,7 @@
 
       <div class="comp-title col-md-2">
         <button v-if="$store.state.user_type == 'client'" 
-          type="button" data-toggle="modal" data-target="#addRequest" v-on:click="resetRequest()">
+          type="button" v-on:click="showForm();resetRequest()">
           Add Request
         </button>
       </div>
@@ -26,6 +26,7 @@
                 <td>Request</td>
                 <td>Creation Date</td>
                 <td>Acknowledgement Status</td>
+                <td>Site Drawing</td>
                 <td></td>
               </tr>
             </thead>
@@ -34,9 +35,14 @@
                 <td>{{ request.site_name }}</td>
                 <td>{{ request.created | moment("MMM Do YYYY")}}</td>
                 <td>{{ request.ackStatus ? 'Acknowledged' : 'Not Acknowledged' }}</td>
+                <td>
+                  <a v-if="request.site_drawing != null" class="mdc-button mdc-button--raised" target="_blank"
+                    v-bind:href="request.site_drawing" download>Download</a>
+                  <span v-if="request.site_drawing == null">No Drawing</span>
+                </td>
                 <td class="text-right">
                   <button v-if="!request.ackStatus && $store.state.user_type != 'client'" v-on:click="ackSite(request)">Acknowledge site</button>
-                  <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteRequest(request)"></i>
+                  <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteSite(request)"></i>
                 </td>
               </tr>
               <tr v-if="getRequests.length <= 0">
@@ -47,48 +53,141 @@
         </div>
       </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="addRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Request</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
+    
 
-            <form>
-              <div class="form-group">
-                <label>Request Name</label>
-                <input type="text" class="form-control" v-model="site.site_name"/>
-              </div>
-              <div class="form-group">
-                <label>Location Latitude</label>
-                <input type="number" class="form-control" v-model="site.location_lat"/>
-              </div>
-              <div class="form-group">
-                <label>Location longitude</label>
-                <input type="number" class="form-control" v-model="site.location_long"/>
-              </div>
-              <div class="form-group">
-                <label>Select Surveyor</label>
-                <select class="form-control">
-                  <option>Select</option>  
-                </select>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveSite" data-dismiss="modal">
-              Add Request
-            </button>
-          </div>
+
+    <!-- Modal -->
+    <modal name="modal" class="custom-modal" height="auto" :scrollable="true" v-if="this.$route.meta.type != 'ProjectOverview'">
+      <div class="row modal-header">
+        <div class="col-md-12">
+          <h5 class="modal-title" id="exampleModalLabel">Add Request</h5>
+          <button type="button" class="close" v-on:click="hideForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
-    </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <form v-on:submit.prevent="saveSite()">
+            <div class="modal-body">
+              <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="site.site_name" label="Request Name" outline required/>
+                    <mdc-textfield v-model="site.site_address" label="Site address" outline/>
+                    <mdc-textfield v-model="site.site_contact_person" label="Site Contact Person" outline/>
+                    <mdc-textfield
+                      v-model="site.site_contact_phone_number"
+                      label="Contact Person Number"
+                      helptext="Enter correct phone number format"
+                      :valid="isValidTel"
+                      helptext-validation
+                      @keyup="checkTelValidity"
+                      outline
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline/>
+                    <mdc-textfield v-model="site.location_long" label="Location longitude" outline/>
+                    <mdc-textfield v-model="site.original_trenching_distance" label="Original trenching distance" outline/>                   
+                    <mdc-textfield v-model="site.current_trenching_distance" label="Current trenched distance" outline/>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="dropbox">
+                      <p class="note" v-if="isInitial">Click to upload</p>
+                      <p class="note" v-if="isSaving">
+                        {{ fileName }}
+                      </p>
+                      <input
+                        type="file"
+                        multiple
+                        :name="uploadFieldName"
+                        :disabled="isSaving"
+                        @change="filesChange($event.target.name, $event.target.files);"
+                        accept="image/*"
+                        class="input-file">
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                      <div class="col-md-6">
+                        <p class="note">Site Completed</p>
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.site_completed" name="site_completed" value="true" label="Yes"  />
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.site_completed" name="site_completed" value="false" label="NO" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="note">ISP Works Complete</p>
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.isp_works_complete" name="isp_works_complete" value="true" label="Yes"  />
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.isp_works_complete" name="isp_works_complete" value="false" label="NO" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="note">OSP Works Complete</p>
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.osp_works_complete" name="osp_works_complete" value="true" label="Yes"  />
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.osp_works_complete" name="osp_works_complete" value="false" label="NO" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="note">OFC Works Complete</p>
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.ofc_works_complete" name="ofc_works_complete" value="true" label="Yes"  />
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.ofc_works_complete" name="ofc_works_complete" value="false" label="NO" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="note">Site powering complete</p>
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.site_powering_complete" name="site_powering_complete" value="true" label="Yes"  />
+                      </div>
+                      <div class="col-md-3">
+                        <mdc-radio v-model="site.site_powering_complete" name="site_powering_complete" value="false" label="NO" />
+                      </div>
+                    </div>
+
+                <p class="note">
+                  <span>Note:</span> Make sure the details above are accurate and correct.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="mdc-button mdc-button--raised">Add Request</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </modal>
 
   </section>
 </template>
@@ -97,11 +196,17 @@
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 
+const STATUS_INITIAL = 0,
+  STATUS_SAVING = 1,
+  STATUS_SUCCESS = 2,
+  STATUS_FAILED = 3;
+
 export default {
   data(router) {
     return {
       selectedSite: window.localStorage.getItem("selectsite"),
       editMode: false,
+      isValidTel: true,
       site: {
         site_name: "",
         location_lat: "",
@@ -111,23 +216,83 @@ export default {
         ackStatus: false,
         company: window.localStorage.getItem('company'),
         workspace: window.localStorage.getItem("workspace"),
-      }
+        original_trenching_distance: "",
+        current_trenching_distance: "",
+        site_contact_person: "",
+        site_contact_phone_number: "",
+        site_address: "",
+        site_completed: 'false',
+        isp_works_complete: 'false',
+        osp_works_complete: 'false',
+        ofc_works_complete: 'false',
+        site_powering_complete: 'false'
+      },
+
+      uploadedFiles: [],
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: "photos".mapState,
+      formData: new FormData(),
+      fileName: "",
     };
   },
   mounted() {
     this.$store.dispatch("sites/loadSites", window.localStorage.getItem("workspace"));
+    this.reset();
   },
   computed: {
     ...mapState('sites',["sites"]),
-    ...mapGetters('sites', ['getRequests'])
+    ...mapGetters('sites', ['getRequests']),
+    isInitial() {
+      return this.currentStatus === STATUS_INITIAL;
+    },
+    isSaving() {
+      return this.currentStatus === STATUS_SAVING;
+    },
+    isSuccess() {
+      return this.currentStatus === STATUS_SUCCESS;
+    },
+    isFailed() {
+      return this.currentStatus === STATUS_FAILED;
+    }
   },
   methods: {
+    showForm() {
+      this.$modal.show("modal");
+    },
+    hideForm() {
+      this.$modal.hide("modal");
+    },
     saveSite() {
       const { site } = this;
-      if(this.editMode){
-        this.$store.dispatch("sites/updateSite", site);
-      }else{
-        this.$store.dispatch("sites/addSite", site);
+      this.$modal.hide("modal");
+
+      this.formData.append("site_name", site.site_name);
+      this.formData.append("location_lat", site.location_lat);
+      this.formData.append("location_long", site.location_long);
+      this.formData.append("archivedStatus", site.archivedStatus);
+      this.formData.append("clientId", site.clientId);
+      this.formData.append("ackStatus", site.ackStatus);
+      this.formData.append("company", site.company);
+      this.formData.append("workspace", site.workspace);
+      this.formData.append("original_trenching_distance", site.original_trenching_distance);
+      this.formData.append("site_contact_person", site.site_contact_person);
+      this.formData.append("site_contact_phone_number", site.site_contact_phone_number);
+      this.formData.append("site_address", site.site_address);
+      this.formData.append("site_completed", site.site_completed);
+      this.formData.append("isp_works_complete", site.isp_works_complete);
+      this.formData.append("osp_works_complete", site.osp_works_complete);
+      this.formData.append("ofc_works_complete", site.ofc_works_complete);
+      this.formData.append("site_powering_complete", site.site_powering_complete);
+
+      console.log(this.formData)
+
+      if (this.isValidTel) {
+        if(this.editMode){
+          this.$store.dispatch("sites/updateSite", this.formData);
+        }else{
+          this.$store.dispatch("sites/addSite", this.formData);
+        }
       }
     },
     ackSite(site){
@@ -141,7 +306,7 @@ export default {
           this.$store.dispatch("sites/deleteSite", site);
       }
     },
-    resetSite(){
+    resetRequest(){
       this.editMode = false;
       this.site = {
         site_name: "",
@@ -152,11 +317,51 @@ export default {
         ackStatus: false,
         company: window.localStorage.getItem('company'),
         workspace: window.localStorage.getItem("workspace"),
+        original_trenching_distance: "",
+        current_trenching_distance: "",
+        site_contact_person: "",
+        site_contact_phone_number: "",
+        site_address: "",
+        site_completed: 'false',
+        isp_works_complete: 'false',
+        osp_works_complete: 'false',
+        ofc_works_complete: 'false',
+        site_powering_complete: 'false'
       }
     },
     filter(type){
       this.$store.commit('sites/CHANGE_REQUEST_LIST', type)
     },
+
+    reset() {
+      // reset form to initial state
+      (this.formData = new FormData()), (this.currentStatus = STATUS_INITIAL);
+      this.uploadedFiles = [];
+      this.uploadError = null;
+      this.fileName = "";
+    },
+    filesChange(fieldName, fileList) {
+      // handle file changes
+      if (!fileList.length) return;
+
+      // append the files to FormData
+      Array.from(Array(fileList.length).keys()).map(x => {
+        this.formData.append("site_drawing", fileList[x], fileList[x].name);
+        this.fileName = fileList[x].name;
+      });
+
+      this.currentStatus = STATUS_SAVING;
+    },
+    checkTelValidity(evt) {
+      var phoneno = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+      var phoneNumber = evt.srcElement.value;
+
+      if (phoneNumber.match(phoneno)) {
+        this.isValidTel = true;
+      } else {
+        this.isValidTel = false;
+      }
+    }
   }
 };
 </script>

@@ -74,48 +74,11 @@
         <div class="timeline-box">
           <h3 class="timeline-activites-label" style="padding: 0">Activities</h3>
 
-          <div class="row timeline-content">
-            <div class="col-md-2">24th - 26th July 2018</div>
-            <div class="col-md-1">Stage 1</div>
+          <div v-for="report in getReports" :key="report.index" class="row timeline-content">
+            <div class="col-md-2">{{ report.created | moment("MMM Do YYYY") }}</div>
+            <div class="col-md-1">{{ report.created | moment("h:ss") }}</div>
             <div class="col-md-9">
-              Delayed for 2 days due to terrential rains
-              <span
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapseExample"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                <img src="../../../assets/imgs/down-arrow.png">
-              </span>
-            </div>
-            <div class="col-md-12">
-              <div class="collapse" id="collapseExample">
-                <div class="row">
-                  <div class="col-md-2">26th July 2018</div>
-                  <div class="col-md-10">
-                    Rather than entering this information by hand, try the Clerk of Works Report mobile app. This contractor productivity
-                    report template is especially beneficial for a clerk of works who needs to improve productivity among multiple general
-                    contractors on a construction project.
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2">26th July 2018</div>
-                  <div class="col-md-10">
-                    Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-                    fiber cable was laid.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row timeline-content">
-            <div class="col-md-2">26th July 2018</div>
-            <div class="col-md-1">Stage 1</div>
-            <div class="col-md-9">
-              Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-              fiber cable was laid.
+              {{ report.message }}
               <span
                 type="button"
               >
@@ -124,33 +87,6 @@
             </div>
           </div>
 
-          <div class="row timeline-content">
-            <div class="col-md-2">26th July 2018</div>
-            <div class="col-md-1">Stage 2</div>
-            <div class="col-md-9">
-              Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-              fiber cable was laid.
-              <span
-                type="button"
-              >
-                <img src="../../../assets/imgs/down-arrow.png">
-              </span>
-            </div>
-          </div>
-
-          <div class="row timeline-content">
-            <div class="col-md-2">27th July 2018</div>
-            <div class="col-md-1">Stage 3</div>
-            <div class="col-md-9">
-              Work continued with 500 meters of escavation from Old kampala along buckeley road. 2000 meters of
-              fiber cable was laid.
-              <span
-                type="button"
-              >
-                <img src="../../../assets/imgs/down-arrow.png">
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -219,7 +155,7 @@
                               <option :value="'project_manager'">Project Manager</option>
                               <option :value="'fleet_manager'">Fleet Manager</option>
                               <option :value="'osp_field_manager'">OSP Field Manager</option>
-                              <option :value="'osp_superisor'">OSP Supervisor</option>
+                              <option :value="'osp_supervisor'">OSP Supervisor</option>
                             </mdc-select>
                           </div>
                           <div class="form-group col-md-3">
@@ -435,8 +371,8 @@
             </thead>
             <tbody>
               <tr v-for="surveyResult in surveyResults" :key="surveyResult.id">
-                <td>{{ surveyResult.title }}</td>
-                <td>{{ surveyResult.acceptStatus }}</td>
+                <td>{{ surveyResult.title != 'undefined' ? surveyResult.title : 'No file' }}</td>
+                <td>{{ surveyResult.acceptStatus ? 'Accepted' : 'Not Accepted' }}</td>
                 <td>{{ surveyResult.created | moment("dddd, MMMM Do YYYY") }}</td>
                 <td style="text-align: right">
                   <a class="mdc-button mdc-button--raised" style="color: #fff"
@@ -644,14 +580,15 @@ export default {
       machines: state => state.machinery.machines,
       surveyComments: state => state.sites.surveyComments
     }),
-
     getUsers() {
       return this.$store.getters["users/getUsers"];
     },
     getBoqTotal() {
       return this.$store.getters["sites/getBoqTotal"];
     },
-
+    getReports() {
+      return this.$store.getters["reports/getReports"];
+    },
     //this is for the upload
     isInitial() {
       return this.currentStatus === STATUS_INITIAL;
@@ -683,6 +620,10 @@ export default {
     this.$store.dispatch(
       "sites/loadBoqs",
       window.localStorage.getItem("selectsite")
+    );
+    this.$store.dispatch(
+      "reports/loadReports",
+      4
     );
 
     //this is for the upload

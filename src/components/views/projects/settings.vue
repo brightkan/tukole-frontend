@@ -167,9 +167,27 @@
             <label v-if="editSite" for="siteReadyForConnection" class="label-primary"></label>
           </div>
         </div>
+        <div class="row" v-if="$store.state.user_type != 'client'">
+          <div class="col-md-6">
+            <p class="switch-label">Site USD Rate:</p>
+          </div>
+          <div class="form-group col-md-5" style="padding-right: 0px">
+            <p v-if="!editSite">{{ site.site_usd_rate }}</p>
+            <input
+              v-if="editSite"
+              type="number"
+              class="form-control"
+              v-model="site.site_usd_rate"
+              style="width: 100%"
+            >
+          </div>
+        </div>
         <div class="form-group">
           <label>Site Image</label>
-          <img v-if="!editSite" id="image-view" v-bind:src="site.site_image" alt="Image" style="width: 100%">
+          <img v-if="!editSite && !loading" id="image-view" v-bind:src="site.site_image" alt="Image" style="width: 100%">
+          <div v-if="!editSite && loading" class="loading-image container">
+            <img src="../../../assets/imgs/loading.gif">
+          </div>
           <div class="dropbox" v-if="editSite">
             <input
               type="file"
@@ -196,7 +214,7 @@
               style="width: 100%"
               type="button"
               class="btn btn-default ac_btn"
-              v-on:click="editSite = true"
+              v-on:click="reset();editSite = true"
             >Edit</button>
             <button
               v-if="editSite"
@@ -236,7 +254,9 @@ export default {
         site_accessible: "",
         site_ready_for_connection: "",
         site_connected: "",
-        site_connection_date: ""
+        site_connection_date: "",
+        site_usd_rate: "",
+        site: ""
       },
       editSite: false,
 
@@ -250,6 +270,9 @@ export default {
   },
   created() {},
   computed: {
+    loading () {
+      return this.$store.state.sites.loading
+    },
     //this is for the upload
     isInitial() {
       return this.currentStatus === STATUS_INITIAL;
@@ -303,14 +326,10 @@ export default {
       this.formData.append("site_connected", site.site_connected);
       this.formData.append("survey_date", site.survey_date);
       this.formData.append("site_connection_date", site.site_connection_date);
-
-      console.log(this.formData.get('current_stage'))
-      console.log(site.current_stage)
+      this.formData.append("site_usd_rate", site.site_usd_rate);
 
       this.$store.dispatch("sites/updateSite", this.formData);
       this.editSite = false;
-      
-      //reset();
     },
     initialise(id) {
       let site = this.$store.getters["sites/getSite"](id);

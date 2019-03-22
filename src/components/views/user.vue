@@ -105,7 +105,7 @@
                       <option v-bind:value="'quality'">Quality</option>
                       <option v-bind:value="'ofc'">OFC</option>
                       <option v-bind:value="'osp_field_manager'">OSP Field Manager</option>
-                      <option v-bind:value="'osp_superisor'">OSP Supervisor</option>
+                      <option v-bind:value="'osp_supervisor'">OSP Supervisor</option>
                       <option v-bind:value="'surveyor'">Surveyor</option>
                       <option v-bind:value="'project_manager'">Project Manager</option>
                       <option v-bind:value="'fleet_manager'">Fleet Manager</option>
@@ -410,6 +410,7 @@ export default {
   .modal-footer {
     padding-bottom: 30px;
     border-top: none;
+    position: relative;
 
     button.mdc-button {
       margin-left: auto;

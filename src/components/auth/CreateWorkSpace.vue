@@ -1,25 +1,23 @@
 <template>
   <div class="row">
-    <div class="col-md-4">
-      <div class="auth-form container">
-        <h3>Tukole</h3>
-        <h4>Create Workspace</h4>
-        <form @submit.prevent="checkCreds">
-          <div class="form-group">
-            <label>Workspace Name</label>
-            <input class="form-control" name="workspace" type="text" v-model="workspace">
-          </div>
+    <div class="auth-form container">
+      <h3>Tukole</h3>
+      <h4>Create Workspace</h4>
+      <form @submit.prevent="checkCreds">
+        <div class="form-group">
+          <label>Workspace Name</label>
+          <input class="form-control" name="workspace" type="text" v-model="workspace">
+        </div>
 
-          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
-            :disabled="loading == 'loading'">
-            {{ loading ? 'Loading...' : 'Next' }}
-          </button>
-          <p>Already have an account? <router-link tag="a" to="/">Log in</router-link></p>
-        </form>
-      </div>
+        <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
+          :disabled="loading == 'loading'">
+          {{ loading ? 'Loading...' : 'Next' }}
+        </button>
+        <p>Already have an account? <router-link tag="a" to="/">Log in</router-link></p>
+      </form>
     </div>
 
-    <div id="myCarousel" class="col-md-8 carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="col-md-12 carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>

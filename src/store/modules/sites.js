@@ -16,6 +16,7 @@ export default {
             current_stage: 0,
             workspace: 0
         },
+        loading: false,
         surveyResults: [],
         surveyComments: [],
         sites: [],
@@ -114,8 +115,6 @@ export default {
             var index = state.siteTools.findIndex(siteTool => siteTool.id === payload.id);
             state.siteTools.splice(index, 1);
         },
-
-
         SET_SITE_MACHINERY(state, payload){
             state.siteMachinery = payload;
         },
@@ -126,8 +125,6 @@ export default {
             var index = state.siteMachinery.findIndex(siteMachine => siteMachine.id === payload.id);
             state.siteMachinery.splice(index, 1);
         },
-
-
         SET_SITE_BOQS(state, payload){
             state.siteBoqs = payload;
         },
@@ -164,7 +161,6 @@ export default {
         SET_SITE_IMAGES(state, payload){
             state.siteImages = payload;
         },
-
         SET_SITE_PIP(state, payload){
             state.pips = payload;
         },
@@ -189,6 +185,9 @@ export default {
         ADD_DOCUMENTS(state, payload){
             state.documents.push(payload)
         },
+        CHANGE_LOADING(state, payload){
+            state.loading = payload
+        }
     },
     actions: {
         async loadCurrentStage({commit}, payload){
@@ -224,12 +223,12 @@ export default {
                 });
         },
         updateSite({ commit, state, rootState }, payload) {
+            commit('CHANGE_LOADING', true)
             api
                 .request("patch", "sites/"+payload.get('id')+"/", payload)
                 .then(response => {
-                    let site = response.data;
-                    
-                    commit('UPDATE_SITE', site)
+                    commit('CHANGE_LOADING', false)
+                    commit('UPDATE_SITE', response.data)
                 });
         },
         deleteSite({commit}, payload){
@@ -620,7 +619,7 @@ export default {
                 .then(response => {
                     commit('ADD_DOCUMENTS', response.data)
                 }); 
-        }
+        }, 
     },
     getters: {
         getBoqTotal: (state) => {

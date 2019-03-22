@@ -70,6 +70,17 @@
           </ul>
         </div>
       </div>
+
+      <div class="col-md-4">
+        <div class="box project-status">
+          <div class="container">
+            <h4>Fuel usage</h4>
+            <div id="canvas-fuel" style="margin-top: 23px">
+              <canvas id="chart-fuel" height="200" width="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- /.row -->
 
@@ -125,6 +136,7 @@ export default {
       this.loadDoughnutGraph('chart-vechicles');
       this.loadDoughnutGraph('chart-machines');
       this.loadDoughnutGraph('chart-tools');
+      this.loadFuelGraph('chart-fuel');
     });
 
     this.$emit("customEventForValChange", this.$route.path);
@@ -135,7 +147,8 @@ export default {
     chart.paddingRight = 20;
 
     // Add data
-    chart.data = [{
+    chart.data = [
+    {
       "year": "1930",
       "italy": 1,
       "germany": 5,
@@ -190,7 +203,8 @@ export default {
       "italy": 1,
       "germany": 2,
       "uk": 4
-    }];
+    }
+    ];
 
     // Create category axis
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -245,6 +259,57 @@ export default {
     getUsersPercentage(type){
       let users = this.$store.state.users.users
       return ( this.getUsersByType(type).length / users.length ) * 100   
+    },
+    loadFuelGraph(canvas){
+      let _this = this;
+      var getData = function(type) {
+        if(type === 'broken'){
+          return 100;
+        }else if(type === 'assigned'){
+          return 20;
+        }else {
+          return 50;
+        }
+      };
+      var config = {
+        type: "doughnut",
+        data: {
+          datasets: [
+            {
+              data: [
+                getData('car'),
+                getData('tool'),
+                getData('machinne')
+              ],
+              backgroundColor: ["#FF5F58", "#FA9917", "#2AC940"],
+              label: "Dataset 1",
+              borderWidth: [2, 2, 2]
+            }
+          ],
+          labels: ["Cars", "Tools", "Machines"]
+        },
+        options: {
+          responsive: true,
+          legend: {
+            position: "bottom"
+          },
+          title: {
+            display: false,
+            text: "Chart.js Doughnut Chart"
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          },
+          circumference: 1.5 * Math.PI,
+          cutoutPercentage: 60
+        }
+      };
+
+      var ctx = document.getElementById(canvas).getContext("2d");
+      document.getElementById(canvas).height = 70;
+      document.getElementById(canvas).width = 100;
+      new Chart(ctx, config);
     },
     loadDoughnutGraph(canvas){
       /**

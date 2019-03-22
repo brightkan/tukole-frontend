@@ -1,35 +1,33 @@
 <template>
   <div class="row">
-    <div class="col-md-4">
-      <div class="auth-form container">
-        <h3>Tukole</h3>
-        <div v-if=response class="col-md-12 error"><p class="vertical-5p lead">{{response}}</p></div>
-        <form @submit.prevent="checkCreds">
-          <div class="form-group">
-            <label>Workspace Name</label>
-            <input class="form-control" name="wk_name" type="text" v-model="workspace">
-          </div>
+    <div class="auth-form container">
+      <h3>Tukole</h3>
+      <div v-if=response class="col-md-12 error"><p class="vertical-5p lead">{{response}}</p></div>
+      <form @submit.prevent="checkCreds">
+        <div class="form-group">
+          <label>Workspace Name</label>
+          <input class="form-control" name="wk_name" type="text" v-model="workspace">
+        </div>
 
-          <div class="form-group">
-            <label>Username/Email</label>
-            <input class="form-control" name="email" type="email" v-model="email">
-          </div>
+        <div class="form-group">
+          <label>Username/Email</label>
+          <input class="form-control" name="email" type="email" v-model="email">
+        </div>
 
-          <div class="form-group">
-            <label>Password</label>
-            <input class="form-control" name="password" type="password" v-model="password">
-          </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input class="form-control" name="password" type="password" v-model="password">
+        </div>
 
-          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
-            :disabled="loading == 'loading'">
-            {{ loading ? 'Loading...' : 'Submit' }}
-          </button>
-          <p>Have no account? <router-link tag="a" to="/create_workspace">Sign Up</router-link></p>
-        </form>
-      </div>
+        <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
+          :disabled="loading == 'loading'">
+          {{ loading ? 'Loading...' : 'Submit' }}
+        </button>
+        <p>Have no account? <router-link tag="a" to="/create_workspace">Sign Up</router-link></p>
+      </form>
     </div>
 
-    <div id="myCarousel" class="col-md-8 carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="col-md-12 carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -116,7 +114,7 @@ export default {
 
             if(data.part_of_workspace){
 
-              if(data.user_role == 'ofc' || data.user_role == 'isp'){
+              if(/* data.user_role == 'ofc' || data.user_role == 'isp' */ false){
                 window.localStorage.removeItem('token');
                 this.response = "Error, check your credentials";
                 //this.$router.push('/');
@@ -127,7 +125,6 @@ export default {
                 
                 this.$router.push('/dash')
               }
-              
             }else{
               this.response = "Error, check your workspace";
             }
@@ -206,12 +203,14 @@ body {
 }
 
 .carousel-indicators{
-  justify-content: left;
-  margin-left: 45px;
+  /* margin-left: 45px; */
 }
 
 .carousel-caption {
-    left: 30px;
+    width: fit-content;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .overlay-effect {
@@ -227,13 +226,21 @@ body {
 }
 
 .auth-form{
-  padding-left: 45px;
-  margin-top: 100px;
+  width: 50%;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 50%;
+  padding: 30px;
+  border-radius: 20px;
+  transform: translateY(-50%);
+  background-color: white;
   font-family: "Montserrat", sans-serif;
 }
 
 .auth-form  h3{
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   font-weight: bold;
   color: #256AE1;
 }

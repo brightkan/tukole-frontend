@@ -1,33 +1,31 @@
 <template>
   <div class="row">
-    <div class="col-md-4">
-      <div class="auth-form container">
-        <h3>Tukole</h3>
-        <h4>Created Workspace: <a>{{ workspace.name }}</a></h4>
+    <div class="auth-form container">
+      <h3>Tukole</h3>
+      <h4>Created Workspace: <a>{{ workspace.name }}</a></h4>
 
-        <div v-if=response class="col-md-12 error"><p class="vertical-5p lead">{{response}}</p></div>
+      <div v-if=response class="col-md-12 error"><p class="vertical-5p lead">{{response}}</p></div>
 
-        <form @submit.prevent="checkCreds">
-          <div class="form-group">
-            <label>Password</label>
-            <input class="form-control" name="password" type="password" v-model="password">
-          </div>
+      <form @submit.prevent="checkCreds">
+        <div class="form-group">
+          <label>Password</label>
+          <input class="form-control" name="password" type="password" v-model="password">
+        </div>
 
-          <div class="form-group">
-            <label>Confirm Password</label>
-            <input class="form-control" name="password" type="password" v-model="confirm_password">
-          </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input class="form-control" name="password" type="password" v-model="confirm_password">
+        </div>
 
-          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
-            :disabled="loading == 'loading'">
-            {{ loading ? 'Loading...' : 'Submit' }}
-          </button>
-          <p>Already have an account? <router-link tag="a" to="/">Log in</router-link></p>
-        </form>
-      </div>
+        <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
+          :disabled="loading == 'loading'">
+          {{ loading ? 'Loading...' : 'Submit' }}
+        </button>
+        <p>Already have an account? <router-link tag="a" to="/">Log in</router-link></p>
+      </form>
     </div>
 
-    <div id="myCarousel" class="col-md-8 carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="col-md-12 carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>

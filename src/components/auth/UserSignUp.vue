@@ -1,39 +1,37 @@
 <template>
   <div class="row">
-    <div class="col-md-4">
-      <div class="auth-form container" style="margin-top: 15px">
-        <h3 style="margin-bottom: 0">Tukole</h3>
-        <h4>Created Workspace: <a>{{ workspace.name }}</a></h4>
+    <div class="auth-form container" style="margin-top: 15px">
+      <h3 style="margin-bottom: 0">Tukole</h3>
+      <h4>Created Workspace: <a>{{ workspace.name }}</a></h4>
 
-        <form @submit.prevent="checkCreds">
-          <div class="form-group">
-            <label>First Name</label>
-            <input class="form-control" name="first_name" type="text" v-model="user.first_name">
-          </div>
+      <form @submit.prevent="checkCreds">
+        <div class="form-group">
+          <label>First Name</label>
+          <input class="form-control" name="first_name" type="text" v-model="user.first_name">
+        </div>
 
-          <div class="form-group">
-            <label>Last Name</label>
-            <input class="form-control" name="last_name" type="text" v-model="user.last_name">
-          </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" v-model="user.email"/>
-          </div>
-          <div class="form-group">
-            <label>Phone Number</label>
-            <input type="number" class="form-control" v-model="user.phone_number"/>
-          </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input class="form-control" name="last_name" type="text" v-model="user.last_name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" v-model="user.email"/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="number" class="form-control" v-model="user.phone_number"/>
+        </div>
 
-          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
-            :disabled="loading == 'loading'">
-            {{ loading ? 'Loading...' : 'Next' }}
-          </button>
-          <p>Already have an account? <router-link tag="a" to="/">Log in</router-link></p>
-        </form>
-      </div>
+        <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
+          :disabled="loading == 'loading'">
+          {{ loading ? 'Loading...' : 'Next' }}
+        </button>
+        <p>Already have an account? <router-link tag="a" to="/">Log in</router-link></p>
+      </form>
     </div>
 
-    <div id="myCarousel" class="col-md-8 carousel slide" data-ride="carousel">
+    <div id="myCarousel" class="col-md-12 carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
