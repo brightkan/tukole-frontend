@@ -4,13 +4,13 @@
       <h3>Tukole</h3>
       <form>
         <div class="form-group">
-          <label>Password</label>
-          <input class="form-control" name="password" type="password" v-model="password">
+          <label>Email</label>
+          <input class="form-control" name="email" type="email" v-model="email">
         </div>
 
         <div class="form-group">
-          <label>Confirm Password</label>
-          <input class="form-control" name="password" type="password" v-model="c_password">
+          <label>Confirm Email</label>
+          <input class="form-control" name="email" type="email" v-model="c_email">
         </div>
 
         <button type="button" v-on:click="checkCreds()" v-bind:class="'btn btn-primary btn-lg ' + loading" 
@@ -66,13 +66,12 @@
 import api from "../../api";
 
 export default {
-  name: "addPassword",
+  name: "resetPassword",
   data(router) {
     return {
-      token: this.$route.params.id,
       loading: false,
-      password: "",
-      c_password: ""
+      email: "",
+      c_email: ""
     };
   },
   created() {
@@ -80,17 +79,17 @@ export default {
   },
   methods: {
     checkCreds() {
-      const { c_password, password, token } = this;
+      const { c_email, email } = this;
 
-      if(c_password != password){
-        alert('Password mismatch')
+      if(c_email != email){
+        alert('email mismatch')
         return
       }
 
       this.toggleLoading();
       /* Making API call to authenticate a user */
       api
-        .request("post", "users/accept/", { password, token })
+        .request("post", "users/reset/", { email })
         .then(response => {
           this.toggleLoading();
           var data = response.data;

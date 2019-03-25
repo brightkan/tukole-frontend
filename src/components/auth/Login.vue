@@ -24,6 +24,7 @@
           {{ loading ? 'Loading...' : 'Submit' }}
         </button>
         <p>Have no account? <router-link tag="a" to="/create_workspace">Sign Up</router-link></p>
+        <p><router-link tag="a" to="/forgot_password">Forgot password</router-link></p>
       </form>
     </div>
 

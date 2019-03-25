@@ -81,6 +81,20 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-4" style="margin-top: 25px">
+        <div class="box project-status">
+          <h4>Site Progress</h4>
+          <ul>
+            <li v-for="site in siteProgress" :key="site.id">
+              <p class="site-percentage">
+                {{ site.site_name }} <br>
+                <span>{{ site.current_stage }}%</span>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <!-- /.row -->
 
@@ -121,13 +135,19 @@ export default {
     isMobile() {
       return window.innerWidth <= 800 && window.innerHeight <= 600;
     },
-    ...mapGetters('materials', ['runningOut']),
+    runningOut(){
+      return this.$store.getters['materials/runningOut']
+    },
+    siteProgress(){
+      return this.$store.getters['sites/getSites']
+    },
     getUsersByType() {
         return this.$store.getters['users/getUsersByType']
     }
   },
   mounted() {
     this.$store.dispatch("materials/loadMaterials");
+    this.$store.dispatch("sites/loadSites", window.localStorage.getItem("workspace"));
     this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
     let resFleets = this.$store.dispatch("fleets/loadFleets");
     let resMachines = this.$store.dispatch("machinery/loadMachines");
@@ -577,6 +597,7 @@ export default {
   list-style: none;
   padding: 0;
   height: 210px;
+  margin: 0;
   overflow: auto;
 }
 
@@ -599,6 +620,11 @@ export default {
   line-height: 13px;
   display: inline-block;
   margin: 0px;
+}
+
+.project-status.box ul li .site-percentage{
+  margin-bottom: 15px;
+  line-height: 1.5em;
 }
 
 .project-status.box ul li p span {
@@ -653,5 +679,11 @@ export default {
 
 .project-locations .box ul li span {
   margin-left: 20px;
+}
+
+.project-status.box .site-percentage span{
+    font-size: 20px;
+    color: #6f6f6f;
+    line-height: 1.3em;
 }
 </style>
