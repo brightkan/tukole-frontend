@@ -7,7 +7,7 @@ import SignUpConfirmView from "./components/auth/SignUpConfirm.vue";
 import LoginView from "./components/auth/Login.vue";
 import AddPasswordView from "./components/auth/addPassword.vue";
 import SelectWorkSpaceView from "./components/auth/SelectWorkSpace.vue";
-import ResetPasswordView from "./components/auth/ResetPassword.vue"
+import ResetPasswordView from "./components/auth/resetPassword.vue"
 
 // Import Views - Dash
 import DashboardView from "./components/views/Dashboard.vue";
