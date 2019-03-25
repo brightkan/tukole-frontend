@@ -187,6 +187,14 @@ export default {
         },
         CHANGE_LOADING(state, payload){
             state.loading = payload
+        },
+        UPDATE_BOQ(state, payload){
+            state.siteBoqs = state.siteBoqs.map(boq => {
+                if (boq.id === payload.id) {
+                    return Object.assign({}, boq, payload)
+                }
+                return boq
+            })
         }
     },
     actions: {
@@ -620,6 +628,13 @@ export default {
                     commit('ADD_DOCUMENTS', response.data)
                 }); 
         }, 
+        updateBoq({ commit, state }, payload){
+            api
+                .request("patch", "siteboqs/"+payload.id+"/", payload)
+                .then(response => {
+                    commit('UPDATE_BOQ', response.data) 
+                });
+        }
     },
     getters: {
         getBoqTotal: (state) => {
