@@ -74,6 +74,12 @@
                 Tool Types
               </a>
             </router-link>
+            <router-link tag="li" to="/dash/settings/metrics" v-if="this.$route.meta.type == 'Settings'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-cogs"></i></span>
+                Metrics
+              </a>
+            </router-link>
             <router-link tag="li" to="/dash/manholeManagment/manholes" v-if="this.$route.meta.type == 'Manhole'">
               <a href="#">
                 Manholes

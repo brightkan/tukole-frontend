@@ -49,6 +49,7 @@ import ChecklistView from "./components/views/Checklist.vue"
 import SettingsView from "./components/views/projects/settings.vue"
 import QualityView from "./components/views/projects/quality.vue"
 import GeneralSettingsView from "./components/views/settings/settingDash.vue"
+import MetricsView from "./components/views/settings/metrics.vue"
 
 // Routes
 const routes = [
@@ -156,12 +157,17 @@ const routes = [
             name: "Machinery Type",
             meta: {description: "machinery types", requiresAuth: false, type: 'Settings' }
           },
-          ,
           {
             path: "toolTypes",
             component: ToolTypesView,
             name: "Tool types",
             meta: { description: "Tools overview", requiresAuth: false, type: 'Settings' }
+          },
+          {
+            path: "metrics",
+            component: MetricsView,
+            name: "Metrics",
+            meta: { description: "Metrics overview", requiresAuth: false, type: 'Settings' }
           }
         ]
       },
