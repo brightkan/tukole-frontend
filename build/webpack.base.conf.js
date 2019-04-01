@@ -24,7 +24,8 @@ module.exports = {
     alias: {
       vue$: "vue/dist/vue.esm.js",
       "@": resolve("src"),
-      utils: resolve("src/utils")
+      utils: resolve("src/utils"),
+      'vuejs-datatable': 'vuejs-datatable/dist/vuejs-datatable.esm.js',
     }
   },
   module: {

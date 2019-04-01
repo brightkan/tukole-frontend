@@ -5,11 +5,27 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="comp-title col-md-9">
+      <div class="comp-title col-md-6">
         <h3>{{ getUser() }}</h3>
       </div>
       <div class="col-md-3"> 
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();">Assign Manhole</button>
+      </div>
+      <div class="col-md-3">
+        <div class="dropbox-file">
+          <input
+            type="file"
+            :name="uploadFieldName"
+            :disabled="isSaving"
+            @change="filesChange($event.target.name, $event.target.files);"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            class="input-file file-upload"
+          >
+          <p v-if="isInitial">Click to excel file</p>
+          <p v-if="isSaving">
+            {{ fileNames }}
+          </p>
+        </div>
       </div>
     </div>
     <!-- /.row -->
@@ -122,6 +138,11 @@
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 
+const STATUS_INITIAL = 0,
+  STATUS_SAVING = 1,
+  STATUS_SUCCESS = 2,
+  STATUS_FAILED = 3;
+
 export default {
   data(router) {
     return {
@@ -130,15 +151,41 @@ export default {
         user: this.$route.params.id
       },
       editMode: false,
+      //this is for the upload
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: "photos".mapState,
+      formData: new FormData(),
+      fileNames: null
     };
   },
   mounted() {
     this.$store.dispatch("users/loadManHoles", window.localStorage.getItem("workspace"));
     this.$store.dispatch("users/loadCurrentManHoles", this.$route.params.id);
+    this.reset();
   },
   computed: {
     ...mapState('users', ['manholes']),
-    ...mapGetters('users', ['getUserCurrentManholes', 'getUserPreviousManholes'])
+    ...mapGetters('users', ['getUserCurrentManholes', 'getUserPreviousManholes']),
+    loading () {
+      if(!this.$store.state.users.loading){
+        this.reset()
+      }
+      return this.$store.state.users.loading
+    },
+    //this is for the upload
+    isInitial() {
+      return this.currentStatus === STATUS_INITIAL;
+    },
+    isSaving() {
+      return this.currentStatus === STATUS_SAVING;
+    },
+    isSuccess() {
+      return this.currentStatus === STATUS_SUCCESS;
+    },
+    isFailed() {
+      return this.currentStatus === STATUS_FAILED;
+    }
   },
   methods: {
     getUser() {
@@ -151,13 +198,32 @@ export default {
     hideForm() {
       this.$modal.hide("modal");
     },
-    saveAssignment(){
+    saveAssignment() {
       const { selectedManhole } = this;
       this.$modal.hide("modal");
       this.$store.dispatch("users/assignManhole", selectedManhole);
     },
-    loadAllManholes(){
+    loadAllManholes() {
       this.$store.dispatch("users/getUserAssignedManholes", this.$route.params.id);
+    },
+    filesChange(fieldName, fileList) {
+      // handle file changes
+      if (!fileList.length) return;
+      // append the files to FormData
+      this.formData.append("file", fileList[0], fileList[0].name);
+      this.fileNames = fileList[0].name;
+
+      this.currentStatus = STATUS_SAVING;
+      
+      this.formData.append("user_assigned", this.$route.params.id);
+      this.$store.dispatch("users/massAssignManholes", this.formData);
+    },
+    reset() {
+      // reset form to initial state
+      (this.formData = new FormData()), (this.currentStatus = STATUS_INITIAL);
+      this.uploadedFiles = null;
+      this.uploadError = null;
+      this.fileNames = null;
     }
   }
 };

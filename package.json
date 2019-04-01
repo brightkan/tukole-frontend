@@ -43,6 +43,7 @@
     "vue-moment": "^4.0.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.2.0",
+    "vuejs-datatable": "^1.7.0",
     "vuex": "^2.0.0",
     "vuex-router-sync": "^4.1.2"
   },

@@ -12,10 +12,14 @@ export default {
             points: 0
         },
         metrics: [],
+        userMetrics: []
     },
     mutations: {
         SET_METRICS(state, metrics) {
             state.metrics = metrics
+        },
+        SET_USER_METRICS(state, userMetrics) {
+            state.userMetrics = userMetrics
         },
         ADD_METRIC(state, metrics) {
             state.metrics.push(metrics)
@@ -34,6 +38,13 @@ export default {
         }
     },
     actions: {
+        loadUserMetrics({ commit }){
+            api
+            .request("get", "usermetrics/")
+            .then(response => {
+                commit('SET_USER_METRICS', response.data)
+            });
+        },
         loadMetrics({ commit }) {
             api
                 .request("get", "metrics/")

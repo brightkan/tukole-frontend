@@ -60,12 +60,12 @@
         <span class="page">Garage</span>
       </a>
     </router-link>
-    <!-- <router-link tag="li" class="pageLink" to="/dash/notifications">
+    <router-link tag="li" class="pageLink" to="/dash/empolyeePermissions">
       <a>
         <i class="fas fa-bell"></i>
-        <span class="page">Notifications</span>
+        <span class="page">Performance</span>
       </a>
-    </router-link> -->
+    </router-link>
   </ul>
 </template>
 

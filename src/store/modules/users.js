@@ -13,7 +13,8 @@ export default {
         ],
         manholes: [],
         assignedManholes: [],
-        currentAssignedManholes: []
+        currentAssignedManholes: [],
+        loading: false,
     },
     mutations: {
         SET_USERS(state, users) {
@@ -48,6 +49,9 @@ export default {
         },
         SET_CURRENT_ASSIGNED_MANHOLES(state, payload){
             state.currentAssignedManholes = payload
+        },
+        CHANGE_LOADING(state, payload){
+            state.loading = payload
         }
     },
     actions: {
@@ -155,6 +159,24 @@ export default {
                     })
 
                     commit('ADD_ASSIGNED_MANHOLE', manhole)
+                });
+        },
+        massAssignManholes({ commit, rootState }, payload){
+            commit('CHANGE_LOADING', true)
+            api
+                .request("post", "manholes/assginimport/", payload)
+                .then(response => {
+                    commit('CHANGE_LOADING', false)
+                    //commit('', response.data)
+                });
+        },
+        massAddManholes({ commit, rootState }, payload){
+            commit('CHANGE_LOADING', true)
+            api
+                .request("post", "manholes/import/", payload)
+                .then(response => {
+                    commit('CHANGE_LOADING', false)
+                    dispatch('manholes/loadManholes', {root:true})
                 });
         },
     },

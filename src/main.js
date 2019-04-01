@@ -24,6 +24,10 @@ Vue.use(VueMDCAdapter)
 import vmodal from 'vue-js-modal'
 Vue.use(vmodal)
 
+// Datatables
+import DatatableFactory from 'vuejs-datatable';
+Vue.use(DatatableFactory);
+
 // Import Install and register helper items
 Vue.filter("count", count);
 Vue.filter("domain", domain);

@@ -50,6 +50,7 @@ import SettingsView from "./components/views/projects/settings.vue"
 import QualityView from "./components/views/projects/quality.vue"
 import GeneralSettingsView from "./components/views/settings/settingDash.vue"
 import MetricsView from "./components/views/settings/metrics.vue"
+import PerformanceView from "./components/views/performance.vue"
 
 // Routes
 const routes = [
@@ -96,6 +97,12 @@ const routes = [
         component: UserView,
         name: "Users",
         meta: { description: "List of our users", requiresAuth: false }
+      },
+      {
+        path: "empolyeePermissions",
+        component: PerformanceView,
+        name: "performance",
+        meta: { description: "user performance", requiresAuth: false }
       },
       {
         path: "companies",
