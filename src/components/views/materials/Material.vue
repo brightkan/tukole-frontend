@@ -10,6 +10,20 @@
           </form>
         </div>
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetMaterial()">Add Material</button>
+        <div class="dropbox-file rounded-square">
+          <input
+            type="file"
+            :name="uploadFieldName"
+            :disabled="isSaving"
+            @change="filesChange($event.target.name, $event.target.files);"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            class="input-file file-upload"
+          >
+          <p v-if="isInitial">Upload Materials excel</p>
+          <p v-if="isSaving">
+            {{ fileNames }}
+          </p>
+        </div>
       </div>
     </div>
     <!-- /.row -->
@@ -96,6 +110,10 @@
 <script>
 
 import { mapState } from "vuex";
+const STATUS_INITIAL = 0,
+  STATUS_SAVING = 1,
+  STATUS_SUCCESS = 2,
+  STATUS_FAILED = 3;
 
 export default {
   data(router) {
@@ -107,17 +125,43 @@ export default {
         workspace: window.localStorage.getItem("workspace"),
         measurement: "",
         unit_cost: ""
-      }
+      },
+      //this is for the upload
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: "photos".mapState,
+      formData: new FormData(),
+      fileNames: null
     };
   },
   created() {},
   mounted() {
     this.$store.dispatch("materials/loadMaterials");
+    this.reset();
   },
   computed: {
     ...mapState({
       materials: state => state.materials.materials
-    })
+    }),
+    loading () {
+      if(!this.$store.state.users.loading){
+        this.reset()
+      }
+      return this.$store.state.users.loading
+    },
+    //this is for the upload
+    isInitial() {
+      return this.currentStatus === STATUS_INITIAL;
+    },
+    isSaving() {
+      return this.currentStatus === STATUS_SAVING;
+    },
+    isSuccess() {
+      return this.currentStatus === STATUS_SUCCESS;
+    },
+    isFailed() {
+      return this.currentStatus === STATUS_FAILED;
+    }
   },
   methods: {
     showForm() {
@@ -154,6 +198,25 @@ export default {
         measurement: "",
         unit_cost: ""
       }
+    },
+    filesChange(fieldName, fileList) {
+      // handle file changes
+      if (!fileList.length) return;
+      // append the files to FormData
+      this.formData.append("file", fileList[0], fileList[0].name);
+      this.fileNames = fileList[0].name;
+
+
+      this.currentStatus = STATUS_SAVING;
+      this.formData.append("workspace", window.localStorage.getItem("workspace"));
+      this.$store.dispatch("materials/massAddMaterials", this.formData);
+    },
+    reset() {
+      // reset form to initial state
+      (this.formData = new FormData()), (this.currentStatus = STATUS_INITIAL);
+      this.uploadedFiles = null;
+      this.uploadError = null;
+      this.fileNames = null;
     }
   }
 };

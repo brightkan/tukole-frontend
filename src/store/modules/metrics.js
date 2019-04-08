@@ -38,7 +38,7 @@ export default {
         }
     },
     actions: {
-        loadUserMetrics({ commit }){
+        async loadUserMetrics({ commit }){
             api
             .request("get", "usermetrics/")
             .then(response => {

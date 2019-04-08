@@ -43,7 +43,9 @@
     "vue-moment": "^4.0.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.2.0",
+    "vue2-daterange-picker": "^0.2.3",
     "vuejs-datatable": "^1.7.0",
+    "vuejs-datepicker": "^1.5.4",
     "vuex": "^2.0.0",
     "vuex-router-sync": "^4.1.2"
   },

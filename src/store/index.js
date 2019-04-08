@@ -18,6 +18,7 @@ import companies from './modules/companies'
 import qualityChecks from './modules/qaulityChecks'
 import reports from './modules/reports'
 import metrics from './modules/metrics'
+import fuelConsumption from './modules/fuelConsumption'
 
 Vue.use(Vuex)
 
@@ -37,7 +38,8 @@ export default new Vuex.Store({
     companies,
     qualityChecks,
     reports,
-    metrics
+    metrics,
+    fuelConsumption
   },
   state,
   actions,

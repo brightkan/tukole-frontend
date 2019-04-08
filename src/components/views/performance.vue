@@ -30,28 +30,7 @@
                     <td>{{ row.points }}</td>
                 </tr>
             </template>
-        </datatable>
-          <!-- <table>
-            <thead>
-              <tr v-if="userMetrics.length > 0">
-                <td>User</td>
-                <td>Site</td>
-                <td>metric</td>
-                <td>Points</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="metric in userMetrics" :key="metric.id">
-                <td>{{ metric.user.first_name }} {{ metric.user.last_name }}</td>
-                <td>{{ metric.site.site_name }}</td>
-                <td>{{ metric.metric.action }}</td>
-                <td>{{ metric.action }}</td>
-              </tr>
-              <tr v-if="userMetrics.length <= 0">
-                <td colspan="7" class="text-center">No Metrics Yet</td>
-              </tr>
-            </tbody>
-          </table> -->
+          </datatable>
         </div>
       </div>
     </div>

@@ -51,6 +51,7 @@ import QualityView from "./components/views/projects/quality.vue"
 import GeneralSettingsView from "./components/views/settings/settingDash.vue"
 import MetricsView from "./components/views/settings/metrics.vue"
 import PerformanceView from "./components/views/performance.vue"
+import FuelConsumptionView from "./components/views/fuelConsumption.vue"
 
 // Routes
 const routes = [
@@ -103,6 +104,12 @@ const routes = [
         component: PerformanceView,
         name: "performance",
         meta: { description: "user performance", requiresAuth: false }
+      },
+      {
+        path: "fuelConsumption",
+        component: FuelConsumptionView,
+        name: "Fuel Consumption",
+        meta: { description: "Fuel consumption", requiresAuth: false }
       },
       {
         path: "companies",

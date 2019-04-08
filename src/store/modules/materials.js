@@ -11,6 +11,7 @@ export default {
             unit_cost: ""
         },
         materials: [],
+        loading: false
     },
     mutations: {
         SET_MATERIALS(state, materials) {
@@ -30,6 +31,9 @@ export default {
                 }
                 return material
             })
+        },
+        CHANGE_LOADING(state, payload){
+            state.loading = payload
         }
     },
     actions: {
@@ -67,6 +71,15 @@ export default {
                 .request("delete", "materials/"+payLoad.id+"/")
                 .then(() => {
                     commit('DELETE_MATERIAL', payLoad)
+                });
+        },
+        massAddMaterials({ commit, rootState }, payload){
+            commit('CHANGE_LOADING', true)
+            api
+                .request("post", "materials/import/", payload)
+                .then(response => {
+                    commit('CHANGE_LOADING', false)
+                    dispatch('materials/loadMaterials', {root:true})
                 });
         }
     },

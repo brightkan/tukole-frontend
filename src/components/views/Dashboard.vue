@@ -74,7 +74,18 @@
       <div class="col-md-4">
         <div class="box project-status">
           <div class="container">
-            <h4>Fuel usage</h4>
+            <h4>
+              Fuel usage 
+              <small class="float-right">
+                <router-link tag="span" class="pageLink" to="/dash/fuelConsumption">
+                  <a>
+                    Details
+                  </a>
+                </router-link>
+              </small>
+            </h4>
+            <datepicker :minimumView="'month'" :maximumView="'month'" placeholder="Select Date" 
+            v-model="selectedDate" @closed="loadFuelConsumption" :format="'MMMM yyyy'"></datepicker>
             <div id="canvas-fuel" style="margin-top: 23px">
               <canvas id="chart-fuel" height="200" width="200"></canvas>
             </div>
@@ -106,6 +117,7 @@
 import Chart from "chart.js";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import Datepicker from 'vuejs-datepicker';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -114,8 +126,12 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
 export default {
+  components: {
+    Datepicker
+  },
   data() {
     return {
+      selectedDate: new Date,
       generateRandomNumbers(numbers, max, min) {
         var a = [];
         for (var i = 0; i < numbers; i++) {
@@ -143,7 +159,10 @@ export default {
     },
     getUsersByType() {
         return this.$store.getters['users/getUsersByType']
-    }
+    },
+    ...mapState({
+      fuelSummary: state => state.fuelConsumption.summary
+    })
   },
   mounted() {
     this.$store.dispatch("materials/loadMaterials");
@@ -156,7 +175,7 @@ export default {
       this.loadDoughnutGraph('chart-vechicles');
       this.loadDoughnutGraph('chart-machines');
       this.loadDoughnutGraph('chart-tools');
-      this.loadFuelGraph('chart-fuel');
+      this.loadFuelConsumption()
     });
 
     this.$emit("customEventForValChange", this.$route.path);
@@ -276,6 +295,16 @@ export default {
     this.chart = chart;
   },
   methods: {
+    loadFuelConsumption(){
+      var d = new Date(this.selectedDate);
+
+      let resFleetFuelSummary = this.$store.dispatch("fuelConsumption/loadSummary", {type: "fleet", month: d.toISOString().slice(0, 10)});
+      let resMachineFuelSummary = this.$store.dispatch("fuelConsumption/loadSummary", {type: "machine", month: d.toISOString().slice(0, 10)});
+      let resUserFuelSummary = this.$store.dispatch("fuelConsumption/loadSummary", {type: "users", month: d.toISOString().slice(0, 10)});
+      Promise.all([resFleetFuelSummary, resMachineFuelSummary, resUserFuelSummary]).then( ()=> {
+        this.loadFuelGraph('chart-fuel');
+      });
+    },
     getUsersPercentage(type){
       let users = this.$store.state.users.users
       return ( this.getUsersByType(type).length / users.length ) * 100   
@@ -283,12 +312,12 @@ export default {
     loadFuelGraph(canvas){
       let _this = this;
       var getData = function(type) {
-        if(type === 'broken'){
-          return 100;
-        }else if(type === 'assigned'){
-          return 20;
+        if(type === 'car'){
+          return _this.$store.getters['fuelConsumption/getSummary'].fleet;
+        }else if(type === 'machine'){
+          return _this.$store.getters['fuelConsumption/getSummary'].machine;
         }else {
-          return 50;
+          return _this.$store.getters['fuelConsumption/getSummary'].user;
         }
       };
       var config = {
@@ -298,15 +327,15 @@ export default {
             {
               data: [
                 getData('car'),
-                getData('tool'),
-                getData('machinne')
+                getData('machine'),
+                getData('users'),
               ],
               backgroundColor: ["#FF5F58", "#FA9917", "#2AC940"],
               label: "Dataset 1",
               borderWidth: [2, 2, 2]
             }
           ],
-          labels: ["Cars", "Tools", "Machines"]
+          labels: ["Cars", "Machines", "Users"]
         },
         options: {
           responsive: true,

@@ -12,7 +12,7 @@
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();">Assign Manhole</button>
       </div>
       <div class="col-md-3">
-        <div class="dropbox-file">
+        <div class="dropbox-file button-2">
           <input
             type="file"
             :name="uploadFieldName"
