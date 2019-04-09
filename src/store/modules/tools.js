@@ -20,7 +20,8 @@ export default {
         tool_types: [],
         listType: 'all',
         history: [],
-        assignmentHistory: []
+        assignmentHistory: [],
+        toolAssignments: []
     },
     mutations: {
         SET_TOOL_TYPES(state, tool_types) {
@@ -31,6 +32,24 @@ export default {
         },
         ADD_TOOL(state, tool) {
             state.tools.push(tool)
+        },
+        ADD_TOOL_ASSIGNMENT(state, payload) {
+            state.toolAssignments.push(payload)
+        },
+        SET_TOOL_ASSIGNMENTS(state, payload) {
+            state.toolAssignments = payload
+        },
+        DELETE_TOOL_ASSIGNMENT(state, payload){
+            var index = state.toolAssignments.findIndex(toolAssignment => toolAssignment.id === payload.id);
+            state.toolAssignments.splice(index, 1);
+        },
+        UPDATE_TOOL_ASSIGNMENT(state, payload){
+            state.toolAssignments = state.toolAssignments.map(toolAssignment => {
+                if (toolAssignment.id === payload.id) {
+                    return Object.assign({}, toolAssignment, payload)
+                }
+                return toolAssignment
+            })
         },
         CHANGE_LIST_TYPE(state, payload){
             state.listType = payload
@@ -202,6 +221,34 @@ export default {
                     commit('ADD_HISTORY', history)
                 });
         },
+        loadToolAssignments({ commit, state }, payLoad){
+            api
+                .request("get", "toolsassignments/" )
+                .then(response => {
+                    commit('SET_TOOL_ASSIGNMENTS', response.data)
+                });
+        },
+        updateToolAssignment({ commit, state }, payLoad){
+            api
+                .request("patch", "toolsassignments/"+payLoad.id+"/", payLoad)
+                .then(response => {
+                    commit('UPDATE_TOOL_ASSIGNMENT', response.data)
+                });
+        },
+        addToolAssignment({ commit, state }, payLoad){
+            api
+                .request("post", "toolsassignments/", payLoad)
+                .then(response => {
+                    commit('ADD_TOOL_ASSIGNMENT', response.data)
+                });
+        },
+        deleteToolAssignment({ commit, state }, payLoad){
+            api
+                .request("delete", "toolsassignments/"+payLoad.id+"/")
+                .then(() => {
+                    commit('DELETE_TOOL_ASSIGNMENT', payLoad)
+                });
+        }
     },
     getters: {
         available: state => state.tools.filter(item => { return item.status.name === 'available' }),
@@ -227,6 +274,22 @@ export default {
         },
         assignmentHistory: (state, getters, rootState) => {
             return state.assignmentHistory
+        },
+        getToolAssignments: (state, getters, rootState) => {
+            return state.toolAssignments.map(item => {
+                let data = item
+                rootState.users.users.forEach(user => {
+                    if(data.user == user.id){
+                        data.username = user.first_name + " " + user.last_name
+                    }
+                })
+                rootState.tools.tools.forEach(tool => {
+                    if(data.tool == tool.id){
+                        data.toolname = tool.name 
+                    }
+                })
+                return data
+            })
         }
     }
 }

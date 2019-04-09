@@ -105,6 +105,18 @@
                 Tools
               </a>
             </router-link>
+            <router-link tag="li" to="/dash/tools/overview" v-if="this.$route.meta.type == 'Tools'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-cogs"></i></span>
+                Overview
+              </a>
+            </router-link> 
+            <router-link tag="li" to="/dash/tools/assignments" v-if="this.$route.meta.type == 'Tools'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-cogs"></i></span>
+                Assignments
+              </a>
+            </router-link> 
           </ul>
         </div>
 

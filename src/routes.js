@@ -13,7 +13,9 @@ import ResetPasswordView from "./components/auth/resetPassword.vue"
 import DashboardView from "./components/views/Dashboard.vue";
 import MaterialView from "./components/views/materials/Material.vue";
 import MaterialDashView from "./components/views/materials/materialsDash.vue";
-import ToolsView from "./components/views/tools.vue";
+import ToolsView from "./components/views/tools/tools.vue";
+import ToolsAssignmentView from "./components/views/tools/toolsAssignments.vue";
+import ToolsDashView from "./components/views/tools/toolsDash.vue";
 import ToolTypesView from "./components/views/settings/toolTypes.vue";
 import FleetView from "./components/views/fleet/fleet.vue";
 import FleetTypeView from "./components/views/settings/fleetTypes.vue"
@@ -212,9 +214,22 @@ const routes = [
       },
       {
         path: "tools",
-        component: ToolsView,
-        name: "Tools overview",
-        meta: { description: "Tools overview", requiresAuth: false }
+        component: ToolsDashView,
+        redirect: "tools/overview",
+        children: [
+          {
+            path: "overview",
+            component: ToolsView,
+            name: "Tools Overview",
+            meta: { description: "List of tools", requiresAuth: false, type: 'Tools' }
+          },
+          {
+            path: "assignments",
+            component: ToolsAssignmentView,
+            name: "Mechanic machinery",
+            meta: { description: "List of tool assignments", requiresAuth: false, type: 'Tools' }
+          }
+        ]
       },
       {
         path: "material_dash",
