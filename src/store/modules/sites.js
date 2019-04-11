@@ -634,6 +634,15 @@ export default {
                 .then(response => {
                     commit('UPDATE_BOQ', response.data) 
                 });
+        },
+        massAddTeams({ dispatch, commit, rootState }, payload){
+            commit('CHANGE_LOADING', true)
+            api
+                .request("post", "siteroles/import/", payload)
+                .then(response => {
+                    commit('CHANGE_LOADING', false)
+                    dispatch('sites/loadSiteRoles', payload.get('site'), {root:true})
+                });
         }
     },
     getters: {

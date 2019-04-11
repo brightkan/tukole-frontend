@@ -3,6 +3,7 @@
     <div class="auth-form container">
       <h3>Tukole</h3>
       <form>
+        <p v-if="danger != null" class="text-danger">{{ danger }}</p>
         <div class="form-group">
           <label>Email</label>
           <input class="form-control" name="email" type="email" v-model="email">
@@ -17,6 +18,10 @@
           :disabled="loading == 'loading'">
           {{ loading ? 'Loading...' : 'Submit' }}
         </button>
+        <p>
+          <span v-if="success == null">Back to</span>
+          <span v-if="success != null" class="text-success">{{ success }}</span> 
+          <router-link tag="a" to="/">Log in</router-link></p>
       </form>
     </div>
 
@@ -71,7 +76,9 @@ export default {
     return {
       loading: false,
       email: "",
-      c_email: ""
+      c_email: "",
+      danger: null,
+      success: null
     };
   },
   created() {
@@ -93,7 +100,20 @@ export default {
         .then(response => {
           this.toggleLoading();
           var data = response.data;
-          this.$router.push("/");
+
+          console.log(data)
+          if(data.error){
+            this.danger = data.error
+            this.toggleLoading();
+            this.c_email = ""
+            this.email = ""
+          }else{
+            this.toggleLoading();
+            this.c_email = ""
+            this.email = ""
+            this.success = "An email has been sent to you."
+            //this.$router.push("/");
+          } 
         })
         .catch(error => {
           this.toggleLoading();

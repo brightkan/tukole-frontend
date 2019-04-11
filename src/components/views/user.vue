@@ -113,6 +113,9 @@
                       <option v-bind:value="'garage_manager'">Garage Manager</option>
                       <option v-bind:value="'warehouse'">Warehouse</option>
                       <option v-bind:value="'mechanic'">Mechanic</option>
+                      <option v-bind:value="'tools_head_of_department'">Tools Head of Department</option>
+                      <option v-bind:value="'tools_manager'">Tools Manager</option>
+                      <option v-bind:value="'technician'">Technician</option>
                     </mdc-select>
                   </div>
                 </div>

@@ -161,16 +161,16 @@ export default {
                     commit('ADD_ASSIGNED_MANHOLE', manhole)
                 });
         },
-        massAssignManholes({ commit, rootState }, payload){
+        massAssignManholes({ dispatch, commit, rootState }, payload){
             commit('CHANGE_LOADING', true)
             api
                 .request("post", "manholes/assginimport/", payload)
                 .then(response => {
                     commit('CHANGE_LOADING', false)
-                    //commit('', response.data)
+                    //dispatch('manholes/loadloadCurrentManHole', {root:true})
                 });
         },
-        massAddManholes({ commit, rootState }, payload){
+        massAddManholes({ dispatch, commit, rootState }, payload){
             commit('CHANGE_LOADING', true)
             api
                 .request("post", "manholes/import/", payload)

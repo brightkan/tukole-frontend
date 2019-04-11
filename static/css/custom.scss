@@ -228,6 +228,20 @@
   }
 }
 
+.dropbox-file.rounded-square-2{
+  width: fit-content;
+  border-radius: 2px;
+  height: 24px;
+  margin-right: 5px;
+  input{
+    height: 100%;
+  }
+  p{
+    top: inherit;
+    transform: inherit;
+  }
+}
+
 .pagination-container{
   width: fit-content;
   margin-top: 25px;

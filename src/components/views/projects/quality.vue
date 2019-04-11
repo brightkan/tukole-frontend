@@ -33,12 +33,12 @@
                       <tbody>
                         <tr v-for="qualityCheck in qualityChecks" :key="qualityCheck.id" > 
                           <td>{{ qualityCheck.title }}</td>
-                          <td>{{ qualityCheck.description }}</td>
-                          <td>{{ qualityCheck.affected_teams }}</td>
-                          <td>{{ qualityCheck.priority }}</td>
+                          <td style="max-width: 300px">{{ qualityCheck.description }}</td>
+                          <td v-if="!qualityCheck.appraisal">{{ qualityCheck.affected_teams }}</td>
+                          <td v-if="!qualityCheck.appraisal">{{ qualityCheck.priority }}</td>
                           <td>
                             <span v-if="qualityCheck.status == 'fixed'">Fixed</span>
-                            <button v-if="qualityCheck.status == 'pending' || qualityCheck.status == null" class="mark-read" v-on:click="editQuality(qualityCheck)">Mark as fixed</button>
+                            <button v-if="(qualityCheck.status == 'pending' || qualityCheck.status == null) && !qualityCheck.appraisal" class="mark-read" v-on:click="editQuality(qualityCheck)">Mark as fixed</button>
                           </td>
                         </tr>
                         <tr v-if="qualityChecks.length <= 0">

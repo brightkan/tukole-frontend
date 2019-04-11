@@ -73,7 +73,7 @@ export default {
                     commit('DELETE_MATERIAL', payLoad)
                 });
         },
-        massAddMaterials({ commit, rootState }, payload){
+        massAddMaterials({ dispatch, commit, rootState }, payload){
             commit('CHANGE_LOADING', true)
             api
                 .request("post", "materials/import/", payload)

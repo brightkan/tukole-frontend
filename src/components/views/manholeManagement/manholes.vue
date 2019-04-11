@@ -7,7 +7,7 @@
       <div class="row search">
         <div class="input">
           <form method="get" action="/search">
-            <input name="q" type="text" size="40" placeholder="Search...">
+            <input name="q" type="text" size="40" placeholder="Search..." v-model="filter">
           </form>
         </div>
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetManhole()">Add Manhole</button>
@@ -35,7 +35,18 @@
       <div class="col-md-12">
         <div class="table-alt">
           <h3><i class="fa fa-users"></i> Manholes</h3>
-          <table>
+
+          <datatable :columns="table_columns" :data="manholes" :filter-by="filter">
+            <template scope="{ row }">
+                <tr>
+                    <td>{{ row.number }}</td>
+                    <td>{{ row.site ? row.site.site_name : '' }}</td>
+                    <td>{{ row.created | moment('MMM Do YYYY') }}</td>
+                </tr>
+            </template>
+          </datatable>
+
+          <!-- <table>
             <thead>
               <tr v-if="manholes.length > 0">
                 <td>Manhole</td>
@@ -58,7 +69,7 @@
                 <td colspan="6" class="text-center">No Manholes Yet</td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
         </div>
       </div>
     </div>
@@ -130,7 +141,19 @@ export default {
       currentStatus: null,
       uploadFieldName: "photos".mapState,
       formData: new FormData(),
-      fileNames: null
+      fileNames: null,
+
+
+      //dataTables implementation
+      filter: '',
+      table_columns: [
+          {label: 'Manhole', field: 'number'},
+          {label: 'Site', field: 'site.site_name'},
+          {label: 'Created', field: 'created'}
+      ],
+      rows: window.rows,
+      page: 1,
+      per_page: 10
     };
   },
   created() {},

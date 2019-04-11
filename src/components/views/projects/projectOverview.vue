@@ -123,6 +123,20 @@
                     class="float-right mdc-button mdc-button--raised"
                     v-on:click="addSiteRole = true"
                   >Add Member</button>
+                  <div class="float-right dropbox-file rounded-square-2">
+                    <input
+                      type="file"
+                      :name="uploadFieldName"
+                      :disabled="isSaving"
+                      @change="filesChangeExcel($event.target.name, $event.target.files);"
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      class="input-file file-upload"
+                    >
+                    <p v-if="isInitial">Upload Teams excel</p>
+                    <p v-if="isSaving">
+                      {{ fileNames }}
+                    </p>
+                  </div>
                 </h3>
                 <table>
                   <thead>
@@ -450,7 +464,7 @@
     <modal name="CommentModal" class="custom-modal" height="auto" :scrollable="true">
       <div class="row modal-header">
         <div class="col-md-12">
-          <h5 class="modal-title" id="exampleModalLabel">Survey Result title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Survey Drawing Comments</h5>
           <button type="button" class="close" v-on:click="hideCommentForm()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -773,7 +787,19 @@ export default {
       });
 
       this.currentStatus = STATUS_SAVING;
-    }
+    },
+    filesChangeExcel(fieldName, fileList) {
+      // handle file changes
+      if (!fileList.length) return;
+      // append the files to FormData
+      this.formData.append("file", fileList[0], fileList[0].name);
+      this.fileNames = fileList[0].name;
+
+
+      this.currentStatus = STATUS_SAVING;
+      this.formData.append("site", window.localStorage.getItem("selectsite"));
+      this.$store.dispatch("sites/massAddTeams", this.formData);
+    },
   }
 };
 </script>
