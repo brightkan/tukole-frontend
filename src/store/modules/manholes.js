@@ -9,6 +9,7 @@ export default {
             site: ""
         },
         manholes: [],
+        manholedurations: []
     },
     mutations: {
         SET_MANHOLE(state, payload) {
@@ -28,6 +29,9 @@ export default {
                 }
                 return manhole
             })
+        },
+        SET_MANHOLE_DURATION(state, payload) {
+            state.manholedurations = payload
         }
     },
     actions: {
@@ -85,6 +89,24 @@ export default {
                 .then(() => {
                     commit('DELETE_MANHOLE', payLoad)
                 });
+        },
+        getDurations({commit}, payload){
+            api
+                .request("get", "manholeduration/?user="+ payload.user +"&&manhole="+ payload.manhole)
+                .then(response => {
+                    commit('SET_MANHOLE_DURATION', response.data)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                    commit('SET_MANHOLE_DURATION', [])
+                });
         }
+    },
+    getters: {
+        getManhole: (state) => (manholeId) => {
+            let manholes = state.manholes.filter(item => { return item.id == manholeId})
+            return manholes[0]
+        },
     }
 }

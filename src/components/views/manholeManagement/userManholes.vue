@@ -45,17 +45,21 @@
                     <thead>
                       <tr v-if="getUserCurrentManholes(this.$route.params.id).length > 0">
                         <td>Name</td>
-                        <td>Login time</td>
-                        <td>Logout time</td>
                         <td>Assigned on</td>
+                        <td>Login Durations</td>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="manhole in getUserCurrentManholes(this.$route.params.id)" :key="manhole.id">
                         <td>{{ manhole.manhole }}</td>
-                        <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
-                        <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td>
+                        <!-- <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
+                        <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td> -->
                         <td>{{ manhole.created | moment('MMM Do YYYY')}}</td>
+                        <td>
+                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="showDurations(user, manhole.id)">
+                            Login History
+                          </a>  
+                        </td>
                       </tr>
                       <tr v-if="getUserCurrentManholes(this.$route.params.id).length <= 0">
                         <td colspan="7" class="text-center">No Manholes Yet</td>
@@ -71,17 +75,21 @@
                     <thead>
                       <tr v-if="getUserPreviousManholes(this.$route.params.id).length > 0">
                         <td>Name</td>
-                        <td>Login time</td>
-                        <td>Logout time</td>
+                        <!-- <td>Login time</td>
+                        <td>Logout time</td> -->
                         <td>Assigned on</td>
+                        <td>Login Durations</td>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="manhole in getUserPreviousManholes(this.$route.params.id)" :key="manhole.id">
                         <td>{{ manhole.manhole }}</td>
-                        <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
-                        <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td>
                         <td>{{ manhole.created | moment('MMM Do YYYY')}}</td>
+                        <td>
+                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="showDurations(user, manhole.id)">
+                            Login History
+                          </a>  
+                        </td>
                       </tr>
                       <tr v-if="getUserPreviousManholes(this.$route.params.id).length <= 0">
                         <td colspan="7" class="text-center">No Manholes Yet</td>
@@ -146,6 +154,7 @@ const STATUS_INITIAL = 0,
 export default {
   data(router) {
     return {
+      user: this.$route.params.id,
       selectedManhole: {
         manhole: '',
         user: this.$route.params.id
@@ -224,6 +233,10 @@ export default {
       this.uploadedFiles = null;
       this.uploadError = null;
       this.fileNames = null;
+    },
+    showDurations(user, manhole){
+
+      this.$router.push('/dash/manholeManagment/manholeDurations/'+user+'/'+manhole);
     }
   }
 };

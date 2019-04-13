@@ -44,7 +44,7 @@ export default {
                 });
 
                 await api
-                .request("get", "manholes/?site=" + payLoad)
+                .request("get", "manholesinstallation/?site=" + payLoad)
                 .then(response => {
                     commit('SET_MANHOLE_INSTALLATION', response.data)
                 });
@@ -61,9 +61,12 @@ export default {
                         mat = material
                     }
                 })
-                reports.push({"index": index, "created": element.created, "message": "Reinstallation with " + element.amount 
+
+                if(mat != null){
+                    reports.push({"index": index, "created": element.created, "message": "Reinstallation with " + element.amount 
                                 + " " + mat.measurement ? mat.measurement : '' + " of " + mat.name })
-                index++;
+                    index++;
+                }
             });
 
             state.roadCrossings.forEach(element => {
@@ -73,14 +76,23 @@ export default {
                         toolUsed = tool
                     }
                 })
-                reports.push({"index": index, "created": element.created, "message": "Road crossing of " + element.distance_crossed 
+                if(toolUsed != null){
+                    reports.push({"index": index, "created": element.created, "message": "Road crossing of " + element.distance_crossed 
                                 + " meters with " + toolUsed.name })
-                index++;
+                    index++;
+                }
             });
 
             state.trenchDistances.forEach(element => {
                 reports.push({"index": index, "created": element.created, "message": "Trenched " + element.distance 
                                 + " meters at depth of " + element.depth + " meters"})
+                index++;
+            });
+
+            state.manholeInstallations.forEach(element => {
+                console.log(element)
+                reports.push({"index": index, "created": element.created, "message": "Installed " + element.number_installed 
+                                + " manholes "})
                 index++;
             });
 

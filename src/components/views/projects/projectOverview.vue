@@ -635,10 +635,7 @@ export default {
       "sites/loadBoqs",
       window.localStorage.getItem("selectsite")
     );
-    this.$store.dispatch(
-      "reports/loadReports",
-      4
-    );
+    this.$store.dispatch("reports/loadReports",window.localStorage.getItem("selectsite"));
 
     //this is for the upload
     this.reset();

@@ -6,11 +6,11 @@
     <div class="container search-wrapper">
       <div class="row search">
         <div class="input">
-          <mdc-select label="Status">
+          <mdc-select label="All">
             <option v-on:click="filter('all')">All</option>
           </mdc-select>
           <form method="get" action="/search">
-            <input name="q" type="text" size="40" placeholder="Search...">
+            <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetTool()">Assign Tool</button>
@@ -22,7 +22,22 @@
       <div class="col-md-12">
         <div class="table-alt">
           <h3><i class="fa fa-wrench"></i> Tools</h3>
-          <table>
+          
+          <datatable :columns="table_columns" :data="getToolAssignments" :filter-by="filterTable">
+            <template scope="{ row }">
+                <tr>
+                  <td>{{ row.toolname }}</td>
+                  <td>{{ row.username }}</td>
+                  <td>{{ row.created | moment("DD, MM, YY") }}</td>
+                  <td class="text-right">
+                    <i class="fa fa-edit" v-on:click="editTool(row)"></i> 
+                    <i class="fa fa-times" v-on:click="deleteTool(row)"></i>
+                  </td>
+                </tr>
+            </template>
+          </datatable>
+
+          <!-- <table>
             <thead>
               <tr v-if="getToolAssignments.length > 0">
                 <td>Tool</td>
@@ -45,7 +60,7 @@
                 <td colspan="7" class="text-center">No Tools Assignments Yet</td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
         </div>
       </div>
     </div>
@@ -111,7 +126,19 @@ export default {
       toolAssignment: {
         user: "",
         tool: ""
-      }
+      },
+
+      //dataTables implementation
+      filterTable: '',
+      table_columns: [
+          {label: 'Tool', field: 'toolname'},
+          {label: 'User', field: 'username'},
+          {label: 'Assignment Date', field: 'created'},
+          {label: '', field: ''}
+      ],
+      rows: window.rows,
+      page: 1,
+      per_page: 10
     };
   },
   created() {},

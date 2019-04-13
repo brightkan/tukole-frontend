@@ -428,6 +428,7 @@ export default {
         }
       };
 
+      console.log(canvas)
       var ctx2 = document.getElementById(canvas).getContext("2d");
       document.getElementById(canvas).height = 70;
       document.getElementById(canvas).width = 100;

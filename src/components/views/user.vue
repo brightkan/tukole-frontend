@@ -18,7 +18,7 @@
             <option v-on:click="filter('ofc')">OFC</option>
           </mdc-select>
           <form method="get" action="/search">
-            <input name="q" type="text" size="40" placeholder="Search...">
+            <input name="q" type="text" size="40" placeholder="Search..." v-model="filterUser">
           </form>
         </div>
         <button class="mdc-button mdc-button--raised" v-on:click="showUserForm();resetUser()">Add User</button>
@@ -32,36 +32,23 @@
           <h3>
             <i class="fa fa-users"></i> Users
           </h3>
-          <table>
-            <thead>
-              <tr v-if="getAdminUsers.length > 0">
-                <td>Name</td>
-                <td>Contact</td>
-                <td>Email</td>
-                <td>Account Type</td>
-                <td>Role</td>
-                <td>Creation Date</td>
-                <td></td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="user in getAdminUsers" :key="user.id">
-                <td>{{ user.first_name }} {{ user.last_name}}</td>
-                <td>{{ user.phone_number }}</td>
-                <td>{{ user.email }}</td>
-                <td style="text-transform: capitalize">{{ user.type }}</td>
-                <td style="text-transform: capitalize">{{ user.role.replace('_', ' ') }}</td>
-                <td>{{ user.created | moment('MMM Do YYYY')}}</td>
-                <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editUser(user)"></i>
-                  <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
-                </td>
-              </tr>
-              <tr v-if="getAdminUsers.length <= 0">
-                <td colspan="7" class="text-center">No Users Yet</td>
-              </tr>
-            </tbody>
-          </table>
+
+          <datatable :columns="table_columns" :data="getAdminUsers" :filter-by="filterUser">
+            <template scope="{ row }">
+                <tr>
+                  <td>{{ row.first_name }} {{ row.last_name}}</td>
+                  <td>{{ row.phone_number }}</td>
+                  <td>{{ row.email }}</td>
+                  <td style="text-transform: capitalize">{{ row.type }}</td>
+                  <td style="text-transform: capitalize">{{ row.role.replace('_', ' ') }}</td>
+                  <td>{{ row.created | moment('MMM Do YYYY')}}</td>
+                  <td class="text-right">
+                    <i class="fa fa-edit" v-on:click="editUser(row)"></i>
+                    <i class="fa fa-times" v-on:click="deleteUser(row)"></i>
+                  </td>
+                </tr>
+            </template>
+          </datatable>
         </div>
       </div>
     </div>
@@ -167,7 +154,27 @@ export default {
         phone_number: "",
         role: "",
         workspace: window.localStorage.getItem("workspace")
-      }
+      },
+
+      //dataTables implementation
+      filterUser: '',
+      table_columns: [
+          {label: 'Name', representedAs: function (metric) {
+            var fName = metric.first_name ? metric.first_name : ""
+            var lName = metric.last_name ? metric.last_name : ""
+                  return fName + ' ' + lName
+              }, sortable: false
+          },
+          {label: 'Contact', field: 'phone_number'},
+          {label: 'Email', field: 'email'},
+          {label: 'Account Type', field: 'type'},
+          {label: 'Role', field: "role"},
+          {label: 'Created', field: 'created'},
+          {label: '', field: ''}
+      ],
+      rows: window.rows,
+      page: 1,
+      per_page: 10
     };
   },
   created() {},

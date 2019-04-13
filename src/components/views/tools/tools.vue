@@ -13,7 +13,7 @@
             <option v-on:click="filter('all')">All</option>
           </mdc-select>
           <form method="get" action="/search">
-            <input name="q" type="text" size="40" placeholder="Search...">
+            <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetTool()">Add Tool</button>
@@ -25,41 +25,27 @@
       <div class="col-md-12">
         <div class="table-alt">
           <h3><i class="fa fa-wrench"></i> Tools</h3>
-          <table>
-            <thead>
-              <tr v-if="getTools.length > 0">
-                <td>Tool</td>
-                <td>Serial Number</td>
-                <td>Type</td>
-                <td>status</td>
-                <td>Creation Date</td>
-                <td>History</td>
-                <td></td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="tool in getTools" :key="tool.id">
-                <td>{{ tool.name }}</td>
-                <td>{{ tool.humanUuid }}</td>
-                <td>{{ tool.type.type }}</td>
-                <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
-                <td>{{ tool.created | moment("DD, MM, YY") }}</td>
-                <td>
-                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(tool)" style="padding-top: 5px; padding-bottom: 5px;">
-                    Fault</a>  
-                  <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(tool)" style="padding-top: 5px; padding-bottom: 5px;">
-                    Assignment</a> 
-                </td>
-                <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editTool(tool)"></i> 
-                  <i class="fa fa-times" v-on:click="deleteTool(tool)"></i>
-                </td>
-              </tr>
-              <tr v-if="getTools.length <= 0">
-                <td colspan="7" class="text-center">No Tools Yet</td>
-              </tr>
-            </tbody>
-          </table>
+          <datatable :columns="table_columns" :data="getTools" :filter-by="filterTable">
+            <template scope="{ row }">
+                <tr>
+                  <td>{{ row.name }}</td>
+                  <td>{{ row.humanUuid }}</td>
+                  <td>{{ row.type.type }}</td>
+                  <td><span v-bind:class="row.status.color">{{ row.status.name }}</span></td>
+                  <td>{{ row.created | moment("DD, MM, YY") }}</td>
+                  <td>
+                    <a class="custom-btn text-white" data-toggle="modal" data-target="#showFaultHistory" v-on:click="selectFaultHistory(row)" style="padding-top: 5px; padding-bottom: 5px;">
+                      Fault</a>  
+                    <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(row)" style="padding-top: 5px; padding-bottom: 5px;">
+                      Assignment</a> 
+                  </td>
+                  <td class="text-right">
+                    <i class="fa fa-edit" v-on:click="editTool(row)"></i> 
+                    <i class="fa fa-times" v-on:click="deleteTool(row)"></i>
+                  </td>
+                </tr>
+            </template>
+          </datatable>
         </div>
       </div>
     </div>
@@ -196,7 +182,22 @@ export default {
         humanUuid: "",
         status: 'available', 
         workspace: window.localStorage.getItem("workspace")
-      }
+      },
+
+      //dataTables implementation
+      filterTable: '',
+      table_columns: [
+          {label: 'Tool', field: 'name'},
+          {label: 'Serial Number', field: 'humanUuid'},
+          {label: 'Type', field: 'type.type'},
+          {label: 'Status', field: 'status'},
+          {label: 'Creation Date', field: "created"},
+          {label: 'History', field: ''},
+          {label: '', field: ''}
+      ],
+      rows: window.rows,
+      page: 1,
+      per_page: 10
     };
   },
   created() {},

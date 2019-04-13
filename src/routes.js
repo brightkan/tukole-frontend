@@ -54,6 +54,7 @@ import GeneralSettingsView from "./components/views/settings/settingDash.vue"
 import MetricsView from "./components/views/settings/metrics.vue"
 import PerformanceView from "./components/views/performance.vue"
 import FuelConsumptionView from "./components/views/fuelConsumption.vue"
+import ManholeDurationView from "./components/views/manholeManagement/manholeDurations.vue"
 
 // Routes
 const routes = [
@@ -141,6 +142,12 @@ const routes = [
             component: UserManholesView,
             name: "User assigned manholes",
             meta: { description: "OFC user manholes", requiresAuth: false, type: "Manhole" }
+          },
+          {
+            path: "manholeDurations/:id/:manhole",
+            component: ManholeDurationView,
+            name: "Manhole durations",
+            meta: { description: "Manhole durations", requiresAuth: false, type: "Manhole" }
           },
           {
             path: "manholes",

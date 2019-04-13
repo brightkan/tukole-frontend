@@ -6,7 +6,7 @@
       <div class="row search">
         <div class="input">
           <form method="get" action="/search">
-            <input name="q" type="text" size="40" placeholder="Search...">
+            <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetMaterial()">Add Material</button>
@@ -32,31 +32,23 @@
       <div class="col-md-12">
         <div class="table-alt">
           <h3><i class="fa fa-wrench"></i>  Materials</h3>
-          <table>
-            <thead>
-              <tr v-if="materials.length > 0">
-                <td>Material</td>
-                <td>Measurement</td>
-                <td>Running Out</td>
-                <td>Unit Cost</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="material in materials" :key="material.id">
-                <td>{{ material.name }}</td>
-                <td style="text-transform: uppercase">{{ material.measurement }}</td>
-                <td>{{ material.running_out ? "Running out" : "Available" }}</td>
-                <td>{{ material.unit_cost }}</td>
-                <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editMaterial(material)"></i> 
-                  <i class="fa fa-times" v-on:click="deleteMaterial(material)"></i>
-                </td>
-              </tr>
-              <tr v-if="materials.length <= 0">
-                <td colspan="6" class="text-center">No Materials Yet</td>
-              </tr>
-            </tbody>
-          </table>
+
+          <datatable :columns="table_columns" :data="materials" :filter-by="filterTable">
+            <template scope="{ row }">
+                <tr>
+                  <td>{{ row.name }}</td>
+                  <td style="text-transform: uppercase">{{ row.measurement }}</td>
+                  <td>{{ row.running_out ? "Running out" : "Available" }}</td>
+                  <td>{{ row.unit_cost }}</td>
+                  <td class="text-right">
+                    <i class="fa fa-edit" v-on:click="editMaterial(row)"></i> 
+                    <i class="fa fa-times" v-on:click="deleteMaterial(row)"></i>
+                  </td>
+                </tr>
+            </template>
+          </datatable>
+
+          
         </div>
       </div>
     </div>
@@ -131,7 +123,23 @@ export default {
       currentStatus: null,
       uploadFieldName: "photos".mapState,
       formData: new FormData(),
-      fileNames: null
+      fileNames: null,
+
+      //dataTables implementation
+      filterTable: '',
+      table_columns: [
+          {label: 'Material', field: 'name'},
+          {label: 'Measurement', field: 'measurement'},
+          {label: 'Running Out', representedAs: function (metric) {
+                  return metric.running_out ? "Running out" : "Available"
+              }, sortable: false
+          },
+          {label: 'Unit Cost', field: 'unit_cost'},
+          {label: '', field: ''}
+      ],
+      rows: window.rows,
+      page: 1,
+      per_page: 10
     };
   },
   created() {},
@@ -182,8 +190,9 @@ export default {
     editMaterial(material){
       this.editMode = true;
       this.$modal.show("modal");
-      material.running_out = "" + material.running_out
-      this.material = Object.assign({}, material);
+      var editMaterial = Object.assign({}, material);
+      editMaterial.running_out = "" + material.running_out
+      this.material = editMaterial
     },
     deleteMaterial(material){
       if (confirm(`are you sure you want to delete ${material.name}?`)) {

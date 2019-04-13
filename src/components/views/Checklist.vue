@@ -6,7 +6,7 @@
       <div class="row search">
         <div class="input">
           <form method="get" action="/search">
-            <input name="q" type="text" size="40" placeholder="Search...">
+            <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
         <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetChecklistItem()">Add Checklist item</button>
@@ -18,26 +18,18 @@
       <div class="col-md-12">
         <div class="table-alt">
           <h3><i class="fa fa-check"></i> CheckList</h3>
-          <table>
-            <thead>
-              <tr v-if="checklist.length > 0">
-                <td>Name</td>
-                <td></td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in checklist" :key="item.id">
-                <td>{{ item.name }}</td>
-                <td class="text-right">
-                  <i class="fa fa-edit" v-on:click="editChecklistItem(item)"></i> 
-                  <i class="fa fa-times" v-on:click="deleteChecklistItem(item)"></i>
-                </td>
-              </tr>
-              <tr v-if="checklist.length <= 0">
-                <td colspan="6" class="text-center">No Items Yet</td>
-              </tr>
-            </tbody>
-          </table>
+
+          <datatable :columns="table_columns" :data="checklist" :filter-by="filterTable">
+            <template scope="{ row }">
+                <tr>
+                  <td>{{ row.name }}</td>
+                  <td class="text-right">
+                    <i class="fa fa-edit" v-on:click="editChecklistItem(row)"></i> 
+                    <i class="fa fa-times" v-on:click="deleteChecklistItem(row)"></i>
+                  </td>
+                </tr>
+            </template>
+          </datatable>
         </div>
       </div>
     </div>
@@ -91,7 +83,17 @@ export default {
       checklistItem: {
         name: "",
         workspace: window.localStorage.getItem("workspace")
-      }
+      },
+
+      //dataTables implementation
+      filterTable: '',
+      table_columns: [
+          {label: 'Name', field: 'name'},
+          {label: '', field: ''}
+      ],
+      rows: window.rows,
+      page: 1,
+      per_page: 10
     };
   },
   created() {},
