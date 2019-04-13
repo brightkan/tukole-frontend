@@ -10,21 +10,6 @@
     <!-- /.row -->
 
     <div class="row">
-      <div class="col-md-12">
-        <div class="box project-status">
-          <h4><span class="icon"><i class="fa fa-truck"></i></span> Project costs</h4>
-          <div class="chart-time-group">
-            <div>Annually</div>
-            <div style="background-color: #d9d9d9; color: rgb(168, 168, 168)">Monthly</div>
-          </div>
-          <div class="chart-wrapper">
-            <div class="chart" ref="chartdiv"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="col-md-4">
         <div class="box">
           <div class="container">
@@ -92,11 +77,14 @@
           </div>
         </div>
       </div>
+    </div>
+    <!-- /.row -->
 
-      <div class="col-md-4" style="margin-top: 25px">
+    <div class="row">
+      <div class="col-md-4">
         <div class="box project-status">
           <h4>Site Progress</h4>
-          <ul>
+          <ul style="height: 100%">
             <li v-for="site in siteProgress" :key="site.id">
               <p class="site-percentage">
                 {{ site.site_name }} <br>
@@ -106,8 +94,19 @@
           </ul>
         </div>
       </div>
+      <div class="col-md-8">
+        <div class="box project-status">
+          <h4><span class="icon"><i class="fa fa-truck"></i></span> Project costs</h4>
+          <div class="chart-time-group">
+            <div>Annually</div>
+            <div style="background-color: #d9d9d9; color: rgb(168, 168, 168)">Monthly</div>
+          </div>
+          <div class="chart-wrapper">
+            <div class="chart" ref="chartdiv"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- /.row -->
 
   </section>
   <!-- /.content -->
