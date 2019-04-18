@@ -707,7 +707,7 @@ export default {
             state.sites.forEach(site => {
                 let cost = Math.floor((Math.random() * 100) + 1);
 
-                siteCost.push({'site': site.site_name, 'cost' : cost})
+                siteCost.push({'site': site.site_name.substr(0, 10), 'cost' : cost})
             })
             return siteCost;
         }
