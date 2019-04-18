@@ -46,9 +46,7 @@
                   </td>
                 </tr>
             </template>
-          </datatable>
-
-          
+          </datatable>  
         </div>
       </div>
     </div>

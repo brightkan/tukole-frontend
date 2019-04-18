@@ -701,6 +701,15 @@ export default {
         },
         getSite: (state) => (site) => {
             return state.sites.filter(item => item.id == site);
+        },
+        getSiteCosts: (state) => {
+            let siteCost = []
+            state.sites.forEach(site => {
+                let cost = Math.floor((Math.random() * 100) + 1);
+
+                siteCost.push({'site': site.site_name, 'cost' : cost})
+            })
+            return siteCost;
         }
 
     }

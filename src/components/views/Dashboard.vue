@@ -15,11 +15,14 @@
           <div class="container">
             <ul id="myTabs" class="nav nav-tabs" role="tablist" data-tabs="tabs">
               <li>
-                <a class="active show" href="#Vechicles" data-toggle="tab">Vehicles</a></li>
+                <a class="active show" href="#Vechicles" data-toggle="tab">Vehicles</a>
+              </li>
               <li>
-                <a href="#Machines" data-toggle="tab">Machines</a></li>
+                <a href="#Machines" data-toggle="tab">Machines</a>
+              </li>
               <li>
-                <a href="#Tools" data-toggle="tab">Tools</a></li>
+                <a href="#Tools" data-toggle="tab">Tools</a>
+              </li>
             </ul>
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade show active" id="Vechicles">
@@ -44,11 +47,15 @@
 
       <div class="col-md-4">
         <div class="box project-status">
-          <h4>Material Status <small class="float-right text-muted">RUNNING OUT</small></h4>
+          <h4>
+            Material Status
+            <small class="float-right text-muted">RUNNING OUT</small>
+          </h4>
           <ul>
             <li v-for="material in runningOut" :key="material.id">
               <p>
-                {{ material.name }} <br>
+                {{ material.name }}
+                <br>
                 <span>{{ material.measurement }}</span>
               </p>
             </li>
@@ -60,17 +67,21 @@
         <div class="box project-status">
           <div class="container">
             <h4>
-              Fuel usage 
+              Fuel usage
               <small class="float-right">
                 <router-link tag="span" class="pageLink" to="/dash/fuelConsumption">
-                  <a>
-                    Details
-                  </a>
+                  <a>Details</a>
                 </router-link>
               </small>
             </h4>
-            <datepicker :minimumView="'month'" :maximumView="'month'" placeholder="Select Date" 
-            v-model="selectedDate" @closed="loadFuelConsumption" :format="'MMMM yyyy'"></datepicker>
+            <datepicker
+              :minimumView="'month'"
+              :maximumView="'month'"
+              placeholder="Select Date"
+              v-model="selectedDate"
+              @closed="loadFuelConsumption"
+              :format="'MMMM yyyy'"
+            ></datepicker>
             <div id="canvas-fuel" style="margin-top: 23px">
               <canvas id="chart-fuel" height="200" width="200"></canvas>
             </div>
@@ -87,7 +98,8 @@
           <ul style="height: 100%">
             <li v-for="site in siteProgress" :key="site.id">
               <p class="site-percentage">
-                {{ site.site_name }} <br>
+                {{ site.site_name }}
+                <br>
                 <span>{{ site.current_stage }}%</span>
               </p>
             </li>
@@ -96,18 +108,21 @@
       </div>
       <div class="col-md-8">
         <div class="box project-status">
-          <h4><span class="icon"><i class="fa fa-truck"></i></span> Project costs</h4>
+          <h4>
+            <span class="icon">
+              <i class="fa fa-truck"></i>
+            </span> Project costs
+          </h4>
           <div class="chart-time-group">
             <div>Annually</div>
             <div style="background-color: #d9d9d9; color: rgb(168, 168, 168)">Monthly</div>
           </div>
           <div class="chart-wrapper">
-            <div class="chart" ref="chartdiv"></div>
+            <div class="chart" ref="chartdiv" id="barGraph"></div>
           </div>
         </div>
       </div>
     </div>
-
   </section>
   <!-- /.content -->
 </template>
@@ -116,7 +131,7 @@
 import Chart from "chart.js";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
-import Datepicker from 'vuejs-datepicker';
+import Datepicker from "vuejs-datepicker";
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -130,7 +145,7 @@ export default {
   },
   data() {
     return {
-      selectedDate: new Date,
+      selectedDate: new Date(),
       generateRandomNumbers(numbers, max, min) {
         var a = [];
         for (var i = 0; i < numbers; i++) {
@@ -150,14 +165,14 @@ export default {
     isMobile() {
       return window.innerWidth <= 800 && window.innerHeight <= 600;
     },
-    runningOut(){
-      return this.$store.getters['materials/runningOut']
+    runningOut() {
+      return this.$store.getters["materials/runningOut"];
     },
-    siteProgress(){
-      return this.$store.getters['sites/getSites']
+    siteProgress() {
+      return this.$store.getters["sites/getSites"];
     },
     getUsersByType() {
-        return this.$store.getters['users/getUsersByType']
+      return this.$store.getters["users/getUsersByType"];
     },
     ...mapState({
       fuelSummary: state => state.fuelConsumption.summary
@@ -165,158 +180,97 @@ export default {
   },
   mounted() {
     this.$store.dispatch("materials/loadMaterials");
-    this.$store.dispatch("sites/loadSites", window.localStorage.getItem("workspace"));
-    this.$store.dispatch("users/loadUsers", window.localStorage.getItem("workspace"));
+    this.$store.dispatch(
+      "sites/loadSites",
+      window.localStorage.getItem("workspace")
+    );
+    this.$store.dispatch(
+      "users/loadUsers",
+      window.localStorage.getItem("workspace")
+    );
     let resFleets = this.$store.dispatch("fleets/loadFleets");
     let resMachines = this.$store.dispatch("machinery/loadMachines");
     let resTools = this.$store.dispatch("tools/loadTools");
-    Promise.all([resFleets, resMachines, resTools]).then( ()=> {
-      this.loadDoughnutGraph('chart-vechicles');
-      this.loadDoughnutGraph('chart-machines');
-      this.loadDoughnutGraph('chart-tools');
-      this.loadFuelConsumption()
+    Promise.all([resFleets, resMachines, resTools]).then(() => {
+      this.loadDoughnutGraph("chart-vechicles");
+      this.loadDoughnutGraph("chart-machines");
+      this.loadDoughnutGraph("chart-tools");
+      this.loadFuelConsumption();
     });
 
     this.$emit("customEventForValChange", this.$route.path);
 
-    // New Chart
-    let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
-
-    chart.paddingRight = 20;
-
-    // Add data
-    chart.data = [
-    {
-      "year": "1930",
-      "italy": 1,
-      "germany": 5,
-      "uk": 3
-    }, {
-      "year": "1934",
-      "italy": 1,
-      "germany": 2,
-      "uk": 6
-    }, {
-      "year": "1938",
-      "italy": 2,
-      "germany": 3,
-      "uk": 1
-    }, {
-      "year": "1950",
-      "italy": 3,
-      "germany": 4,
-      "uk": 1
-    }, {
-      "year": "1954",
-      "italy": 5,
-      "germany": 1,
-      "uk": 2
-    }, {
-      "year": "1958",
-      "italy": 3,
-      "germany": 2,
-      "uk": 1
-    }, {
-      "year": "1962",
-      "italy": 1,
-      "germany": 2,
-      "uk": 3
-    }, {
-      "year": "1966",
-      "italy": 2,
-      "germany": 1,
-      "uk": 5
-    }, {
-      "year": "1970",
-      "italy": 3,
-      "germany": 5,
-      "uk": 2
-    }, {
-      "year": "1974",
-      "italy": 4,
-      "germany": 3,
-      "uk": 6
-    }, {
-      "year": "1978",
-      "italy": 1,
-      "germany": 2,
-      "uk": 4
-    }
-    ];
-
-    // Create category axis
-    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "year";
-    categoryAxis.renderer.opposite = false;
-
-    // Create value axis
-    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    //valueAxis.renderer.inversed = true;
-    //valueAxis.title.text = "Place taken";
-    //valueAxis.renderer.minLabelPosition = 0.01;
-
-    // Create series
-    let series1 = chart.series.push(new am4charts.LineSeries());
-    series1.dataFields.valueY = "italy";
-    series1.dataFields.categoryX = "year";
-    series1.name = "Italy";
-    series1.strokeWidth = 3;
-    series1.bullets.push(new am4charts.CircleBullet());
-    //series1.tooltipText = "Place taken by {name} in {categoryX}: {valueY}";
-    series1.legendSettings.valueText = "{valueY}";
-    series1.visible  = false;
-
-    let series2 = chart.series.push(new am4charts.LineSeries());
-    series2.dataFields.valueY = "germany";
-    series2.dataFields.categoryX = "year";
-    series2.name = 'Germany';
-    series2.strokeWidth = 3;
-    series2.bullets.push(new am4charts.CircleBullet());
-    //series2.tooltipText = "Place taken by {name} in {categoryX}: {valueY}";
-    series2.legendSettings.valueText = "{valueY}";
-
-    let series3 = chart.series.push(new am4charts.LineSeries());
-    series3.dataFields.valueY = "uk";
-    series3.dataFields.categoryX = "year";
-    series3.name = 'United Kingdom';
-    series3.strokeWidth = 3;
-    series3.bullets.push(new am4charts.CircleBullet());
-    //series3.tooltipText = "Place taken by {name} in {categoryX}: {valueY}";
-    series3.legendSettings.valueText = "{valueY}";
-
-    // Add chart cursor
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.behavior = "zoomY";
-
-    // Add legend
-    // chart.legend = new am4charts.Legend();
-
-    this.chart = chart;
+    this.loadGraph()
   },
   methods: {
-    loadFuelConsumption(){
+    loadGraph(){
+      // New Chart
+      let element = document.getElementById('barGraph')
+
+      console.log(element)
+
+      let chart = am4core.create(element, am4charts.XYChart);
+
+      chart.paddingRight = 20;
+
+      // Add data
+      chart.data = this.$store.getters["sites/getSiteCosts"]
+
+
+      // Create axes
+      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      categoryAxis.dataFields.category = "site";
+      categoryAxis.title.text = "Sites";
+
+      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.title.text = "Site Costs";
+
+      // Create series
+      var series = chart.series.push(new am4charts.ColumnSeries());
+      series.dataFields.valueY = "cost";
+      series.dataFields.categoryX = "site";
+      series.name = "Costs";
+      series.columns.template.tooltipText = "Series: {name}\Site: {categoryX}\nValue: {valueY}";
+      series.columns.template.fill = am4core.color("#104547");
+
+      this.chart = chart;
+    },
+    loadFuelConsumption() {
       var d = new Date(this.selectedDate);
 
-      let resFleetFuelSummary = this.$store.dispatch("fuelConsumption/loadSummary", {type: "fleet", month: d.toISOString().slice(0, 10)});
-      let resMachineFuelSummary = this.$store.dispatch("fuelConsumption/loadSummary", {type: "machine", month: d.toISOString().slice(0, 10)});
-      let resUserFuelSummary = this.$store.dispatch("fuelConsumption/loadSummary", {type: "users", month: d.toISOString().slice(0, 10)});
-      Promise.all([resFleetFuelSummary, resMachineFuelSummary, resUserFuelSummary]).then( ()=> {
-        this.loadFuelGraph('chart-fuel');
+      let resFleetFuelSummary = this.$store.dispatch(
+        "fuelConsumption/loadSummary",
+        { type: "fleet", month: d.toISOString().slice(0, 10) }
+      );
+      let resMachineFuelSummary = this.$store.dispatch(
+        "fuelConsumption/loadSummary",
+        { type: "machine", month: d.toISOString().slice(0, 10) }
+      );
+      let resUserFuelSummary = this.$store.dispatch(
+        "fuelConsumption/loadSummary",
+        { type: "users", month: d.toISOString().slice(0, 10) }
+      );
+      Promise.all([
+        resFleetFuelSummary,
+        resMachineFuelSummary,
+        resUserFuelSummary
+      ]).then(() => {
+        this.loadFuelGraph("chart-fuel");
       });
     },
-    getUsersPercentage(type){
-      let users = this.$store.state.users.users
-      return ( this.getUsersByType(type).length / users.length ) * 100   
+    getUsersPercentage(type) {
+      let users = this.$store.state.users.users;
+      return (this.getUsersByType(type).length / users.length) * 100;
     },
-    loadFuelGraph(canvas){
+    loadFuelGraph(canvas) {
       let _this = this;
       var getData = function(type) {
-        if(type === 'car'){
-          return _this.$store.getters['fuelConsumption/getSummary'].fleet;
-        }else if(type === 'machine'){
-          return _this.$store.getters['fuelConsumption/getSummary'].machine;
-        }else {
-          return _this.$store.getters['fuelConsumption/getSummary'].user;
+        if (type === "car") {
+          return _this.$store.getters["fuelConsumption/getSummary"].fleet;
+        } else if (type === "machine") {
+          return _this.$store.getters["fuelConsumption/getSummary"].machine;
+        } else {
+          return _this.$store.getters["fuelConsumption/getSummary"].user;
         }
       };
       var config = {
@@ -324,11 +278,7 @@ export default {
         data: {
           datasets: [
             {
-              data: [
-                getData('car'),
-                getData('machine'),
-                getData('users'),
-              ],
+              data: [getData("car"), getData("machine"), getData("users")],
               backgroundColor: ["#FF5F58", "#FA9917", "#2AC940"],
               label: "Dataset 1",
               borderWidth: [2, 2, 2]
@@ -358,36 +308,39 @@ export default {
       document.getElementById(canvas).height = 70;
       document.getElementById(canvas).width = 100;
       new Chart(ctx, config);
+
+
+      this.loadGraph();
     },
-    loadDoughnutGraph(canvas){
+    loadDoughnutGraph(canvas) {
       /**
        * this is the for the dognut chart
        */
       let _this = this;
       var getData = function(canvas, type) {
-        if(canvas === 'chart-vechicles'){
-          if(type === 'broken'){
-            return _this.$store.getters['fleets/brokenDownVehicles'].length
-          }else if(type === 'assigned'){
-            return _this.$store.getters['fleets/assignedVehicles'].length
-          }else {
-            return _this.$store.getters['fleets/availableVehicles'].length
+        if (canvas === "chart-vechicles") {
+          if (type === "broken") {
+            return _this.$store.getters["fleets/brokenDownVehicles"].length;
+          } else if (type === "assigned") {
+            return _this.$store.getters["fleets/assignedVehicles"].length;
+          } else {
+            return _this.$store.getters["fleets/availableVehicles"].length;
           }
-        }else if(canvas === 'chart-machines') {
-          if(type === 'broken'){
-            return _this.$store.getters['machinery/brokenDown'].length
-          }else if(type === 'assigned'){
-            return _this.$store.getters['machinery/assigned'].length
-          }else {
-            return _this.$store.getters['machinery/available'].length
+        } else if (canvas === "chart-machines") {
+          if (type === "broken") {
+            return _this.$store.getters["machinery/brokenDown"].length;
+          } else if (type === "assigned") {
+            return _this.$store.getters["machinery/assigned"].length;
+          } else {
+            return _this.$store.getters["machinery/available"].length;
           }
-        }else{
-          if(type === 'broken'){
-            return _this.$store.getters['tools/brokenDown'].length
-          }else if(type === 'assigned'){
-            return _this.$store.getters['tools/assigned'].length
-          }else {
-            return _this.$store.getters['tools/available'].length
+        } else {
+          if (type === "broken") {
+            return _this.$store.getters["tools/brokenDown"].length;
+          } else if (type === "assigned") {
+            return _this.$store.getters["tools/assigned"].length;
+          } else {
+            return _this.$store.getters["tools/available"].length;
           }
         }
       };
@@ -398,9 +351,9 @@ export default {
           datasets: [
             {
               data: [
-                getData(canvas, 'broken'),
-                getData(canvas, 'assigned'),
-                getData(canvas, 'available')
+                getData(canvas, "broken"),
+                getData(canvas, "assigned"),
+                getData(canvas, "available")
               ],
               backgroundColor: ["#FF5F58", "#FA9917", "#2AC940"],
               label: "Dataset 1",
@@ -427,7 +380,7 @@ export default {
         }
       };
 
-      console.log(canvas)
+      console.log(canvas);
       var ctx2 = document.getElementById(canvas).getContext("2d");
       document.getElementById(canvas).height = 70;
       document.getElementById(canvas).width = 100;
@@ -442,16 +395,16 @@ export default {
 };
 </script>
 <style>
-.chart{
+.chart {
   width: 100%;
   height: 400px;
 }
 
-.chart-time-group{
+.chart-time-group {
   float: right;
 }
 
-.chart-time-group div{
+.chart-time-group div {
   float: left;
   width: 150px;
   border-radius: 6px;
@@ -567,7 +520,7 @@ export default {
   padding: 6px 8px;
   background-color: #265499;
 }
-.skills.empty{
+.skills.empty {
   padding-left: 0;
   padding-right: 1px;
   min-height: 22px;
@@ -651,7 +604,7 @@ export default {
   margin: 0px;
 }
 
-.project-status.box ul li .site-percentage{
+.project-status.box ul li .site-percentage {
   margin-bottom: 15px;
   line-height: 1.5em;
 }
@@ -710,9 +663,9 @@ export default {
   margin-left: 20px;
 }
 
-.project-status.box .site-percentage span{
-    font-size: 20px;
-    color: #6f6f6f;
-    line-height: 1.3em;
+.project-status.box .site-percentage span {
+  font-size: 20px;
+  color: #6f6f6f;
+  line-height: 1.3em;
 }
 </style>
