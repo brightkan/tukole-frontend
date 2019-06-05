@@ -8,8 +8,12 @@ export default {
             name: ""
         },
         checklist: [],
+        checklistResults: [],
     },
     mutations: {
+        SET_CHECKLIST_RESULT(state, payload) {
+            state.checklistResults = payload
+        },
         SET_CHECKLIST(state, payload) {
             state.checklist = payload
         },
@@ -36,6 +40,21 @@ export default {
                 .then(response => {
                     let checklist = response.data
                     commit('SET_CHECKLIST', checklist)
+                });
+        },
+        async loadChecklistResults({ dispatch, commit, state, rootState }) {
+            await api
+                .request("get", "fleetchecklistresults/")
+                .then(response => {
+                    let result = []
+                    response.data.forEach(element => {
+                        state.checklist.forEach(item => {
+                            if(item.id == element.fleet_check_list_item){
+                                result.push({"created": element.created, "request_object_id": element.request_object_id, "status": element.status, "checklist": item })
+                            }
+                        })
+                    });
+                    commit('SET_CHECKLIST_RESULT', result)
                 });
         },
         addChecklistItem({ commit, state, rootState }, payLoad) {

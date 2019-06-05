@@ -33,14 +33,14 @@ export default {
         ADD_FLEET(state, fleet) {
             state.fleets.push(fleet)
         },
-        CHANGE_LIST_TYPE(state, payload){
+        CHANGE_LIST_TYPE(state, payload) {
             state.listType = payload
         },
-        DELETE_FLEET(state, payload){
+        DELETE_FLEET(state, payload) {
             var index = state.fleets.findIndex(fleet => fleet.id === payload.id);
             state.fleets.splice(index, 1);
         },
-        UPDATE_FLEET(state, payload){
+        UPDATE_FLEET(state, payload) {
             state.fleets = state.fleets.map(fleet => {
                 if (fleet.id === payload.id) {
                     return Object.assign({}, fleet, payload)
@@ -48,14 +48,14 @@ export default {
                 return fleet
             })
         },
-        ADD_TYPE(state, tool){
+        ADD_TYPE(state, tool) {
             state.fleet_types.push(tool);
         },
-        DELETE_TYPE(state, payload){
+        DELETE_TYPE(state, payload) {
             var index = state.fleet_types.findIndex(type => type.id === payload.id);
             state.fleet_types.splice(index, 1);
         },
-        UPDATE_TYPE(state, payload){
+        UPDATE_TYPE(state, payload) {
             state.fleet_types = state.fleet_types.map(type => {
                 if (type.id === payload.id) {
                     return Object.assign({}, type, payload)
@@ -63,13 +63,13 @@ export default {
                 return type
             })
         },
-        SET_HISTORY(state, payload){
+        SET_HISTORY(state, payload) {
             state.history = payload
         },
-        ADD_HISTORY(state, payload){
+        ADD_HISTORY(state, payload) {
             state.history.push(payload)
         },
-        SET_ASSIGNMENT_HISTORY(state, payload){
+        SET_ASSIGNMENT_HISTORY(state, payload) {
             state.assignmentHistory = payload
         }
     },
@@ -88,12 +88,12 @@ export default {
                 .then(response => {
                     let fleets = response.data.map(fleet => {
                         state.fleet_types.forEach(element => {
-                            if(fleet.vehicle_type === element.id){
+                            if (fleet.vehicle_type === element.id) {
                                 fleet.vehicle_type = element;
                             }
                         });
                         rootState.statuses.forEach(element => {
-                            if(fleet.status === element.name){
+                            if (fleet.status === element.name) {
                                 fleet.status = element;
                             }
                         });
@@ -108,12 +108,12 @@ export default {
                 .then(response => {
                     let fleet = response.data;
                     state.fleet_types.forEach(element => {
-                        if(fleet.vehicle_type === element.id){
+                        if (fleet.vehicle_type === element.id) {
                             fleet.vehicle_type = element;
                         }
                     });
                     rootState.statuses.forEach(element => {
-                        if(fleet.status === element.name){
+                        if (fleet.status === element.name) {
                             fleet.status = element;
                         }
                     });
@@ -122,39 +122,39 @@ export default {
         },
         updateFleet({ commit, state, rootState }, payLoad) {
             api
-                .request("patch", "fleets/"+payLoad.id+"/", payLoad)
+                .request("patch", "fleets/" + payLoad.id + "/", payLoad)
                 .then(response => {
                     let fleet = response.data;
                     state.fleet_types.forEach(element => {
-                        if(fleet.vehicle_type === element.id){
+                        if (fleet.vehicle_type === element.id) {
                             fleet.vehicle_type = element;
                         }
                     });
                     rootState.statuses.forEach(element => {
-                        if(fleet.status === element.name){
+                        if (fleet.status === element.name) {
                             fleet.status = element;
                         }
                     });
                     commit('UPDATE_FLEET', fleet)
                 });
         },
-        deleteFleet({commit}, payLoad){
+        deleteFleet({ commit }, payLoad) {
             api
-                .request("delete", "fleets/"+payLoad.id+"/")
+                .request("delete", "fleets/" + payLoad.id + "/")
                 .then(() => {
                     commit('DELETE_FLEET', payLoad)
                 });
         },
-        deleteType({commit}, payLoad){
+        deleteType({ commit }, payLoad) {
             api
-                .request("delete", "fleet_types/"+payLoad.id+"/")
+                .request("delete", "fleet_types/" + payLoad.id + "/")
                 .then(() => {
                     commit('DELETE_TYPE', payLoad)
                 });
         },
         updateType({ commit }, payLoad) {
             api
-                .request("patch", "fleet_types/"+payLoad.id+"/", payLoad)
+                .request("patch", "fleet_types/" + payLoad.id + "/", payLoad)
                 .then(response => {
                     let type = response.data;
                     commit('UPDATE_TYPE', type)
@@ -168,17 +168,26 @@ export default {
                     commit('ADD_TYPE', type)
                 });
         },
-        getHistory({ commit, state }, payLoad) {
-            api
-                .request("get", "fleethistory/?fleet="+payLoad)
+        async getHistory({ dispatch, commit, state }, payLoad) {
+            await dispatch("checklist/loadChecklist", {}, { root: true });
+            await dispatch("checklist/loadChecklistResults", {}, { root: true });
+            await api
+                .request("get", "userfleetsassignments/")
                 .then(response => {
                     let type = response.data;
                     commit('SET_ASSIGNMENT_HISTORY', type)
                 });
         },
         getRepairHistory({ commit, state }, payLoad) {
-            api
+            /* api
                 .request("get", "repairhistory/?fleet="+payLoad.id+"&fleet_type="+payLoad.type)
+                .then(response => {
+                    let type = response.data;
+                    commit('SET_HISTORY', type)
+                }); */
+
+            api
+                .request("get", "repairticket/")
                 .then(response => {
                     let type = response.data;
                     commit('SET_HISTORY', type)
@@ -189,7 +198,7 @@ export default {
             api
                 .request("post", "repairhistory/", payLoad)
                 .then(response => {
-                    dispatch('updateFleet', {'id': payLoad.fleet, 'status': 'available'})
+                    dispatch('updateFleet', { 'id': payLoad.fleet, 'status': 'available' })
                     let history = response.data;
                     commit('ADD_HISTORY', history)
                 });
@@ -201,12 +210,12 @@ export default {
         assignedVehicles: state => state.fleets.filter(item => { return item.status.name === 'assigned' }),
         brokenDownVehicles: state => state.fleets.filter(item => { return item.status.name === 'broken_down' }),
         getFleets: (state, getters, rootState) => {
-            if(state.listType === 'all'){
+            if (state.listType === 'all') {
                 return state.fleets;
-            }else{
+            } else {
                 let fleets = [];
                 rootState.statuses.forEach(element => {
-                    if(state.listType === element.name){
+                    if (state.listType === element.name) {
                         fleets = state.fleets.filter(item => {
                             return item.status.name === element.name;
                         });
@@ -215,11 +224,34 @@ export default {
                 return fleets;
             }
         },
-        faultHistory: (state, getters, rootState) => {
-            return state.history.filter(item => { return item.type == 'fault_fix'})
+        faultHistory: (state, getters, rootState) => (id, type) =>{
+            console.log(state.history.filter(item => { return item.object_id == id && item.type == type }))
+            return state.history.filter(item => { return item.object_id == id && item.type == type })
         },
-        assignmentHistory: (state, getters, rootState) => {
-            return state.assignmentHistory
+        assignmentHistory: (state, getters, rootState) => (id) => {
+            let history = state.assignmentHistory.filter(item => {
+                return item.object_id === id
+            })
+
+            let mappedHistory = []
+            history.forEach(item => {
+                rootState.users.users.forEach(user => {
+                    if (item.user == user.id) {
+                        let checklistResult = []
+                        rootState.checklist.checklistResults.forEach(listItem => {
+                            if (listItem.request_object_id == item.id) {
+                                checklistResult.push(listItem)
+                            }
+                        })
+
+                        let checklistResultBefore = checklistResult.filter(listItem => listItem.status == "before")
+                        let checklistResultAfter = checklistResult.filter(listItem => listItem.status == "after")
+
+                        mappedHistory.push({ "checklistResultBefore": checklistResultBefore, "checklistResultAfter": checklistResultAfter, "id": item.id, "assigned_to": user.first_name + " " + user.last_name, "from": item.start_date, "to": item.end_date, "status": item.status })
+                    }
+                })
+            })
+            return mappedHistory
         }
     }
 }
