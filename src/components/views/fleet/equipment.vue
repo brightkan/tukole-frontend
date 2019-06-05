@@ -30,7 +30,7 @@
                 <tr>
                   <td>{{ row.name }}</td>
                   <td>{{ row.humanUuid }}</td>
-                  <td>Grader</td>
+                  <td>{{ row.type.type }}</td>
                   <td><span v-bind:class="row.status.color">{{ row.status.name.replace('_', ' ') }}</span></td>
                   <td>{{ row.created | moment("DD. MM. YY") }}</td>
                   <td>
@@ -70,17 +70,21 @@
                 <div class="row">
                   <div class="col-md-6">
                     <mdc-textfield v-model="machine.name" label="Machine Name" required outline/>
+                    <mdc-select v-model="machine.type" label="Type" required outlined>
+                      <option v-for="machine_type in machine_types" v-bind:value="machine_type.id" :key="machine_type.id">
+                        {{ machine_type.type }}
+                      </option>
+                    </mdc-select>
                   </div>
                   <div class="col-md-6">
                     <mdc-textfield v-model="machine.humanUuid" label="Serial Number" required outline/>
+                    <mdc-select v-model="machine.status" label="Status" required outlined>
+                      <option v-for="status in statuses" v-bind:value="status.name" :key="status.id">
+                        {{ status.name }}
+                      </option>
+                    </mdc-select>
                   </div>
                 </div>
-
-                <mdc-select v-model="machine.status" label="Status" required outlined>
-                  <option v-for="status in statuses" v-bind:value="status.name" :key="status.id">
-                    {{ status.name }}
-                  </option>
-                </mdc-select>
 
                 <p class="note">
                   <span>Note:</span> Make sure the details above are accurate and correct.
@@ -203,7 +207,8 @@ export default {
   computed: {
     ...mapState({
       machines: state => state.machinery.machines,
-      statuses: state => state.statuses
+      statuses: state => state.statuses,
+      machine_types: state => state.machinery.types,
     }),
     ...mapGetters('machinery', ['getMachines', 'assignmentHistory', 'faultHistory'])
   },

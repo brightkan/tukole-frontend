@@ -33,6 +33,20 @@ export default {
         siteReInstallations: [],
         siteRoadCrossings: [],
         siteTrenchDistances: [],
+
+        siteDuctInstallation: [],
+        siteCableInstallation: [],
+        siteOdfInstallation: [],
+        siteOdfTermination: [],
+        siteOthers: [],
+        siteHandHoleInstallation: [],
+        siteRouteChange: [],
+        siteTrunking: [],
+        siteManholeInstallations: [],
+
+        materialUsed: [],
+        materials: [],
+
         siteImages: [],
         pips: [],
         documents: []
@@ -158,6 +172,22 @@ export default {
         SET_SITE_TRENCH_DISTANCES(state, payload){
             state.siteTrenchDistances = payload;
         },
+
+        SET_SITE_MANHOLE_INSTALLATION(state, payload){state.siteManholeInstallations = payload;},
+
+        SET_SITE_DUCT_INSTALLATION(state, payload){state.siteDuctInstallation = payload;},
+        SET_SITE_CABLE_INSTALLATION(state, payload){state.siteCableInstallation = payload;},
+        SET_SITE_HANDHOLE_INSTALLATION(state, payload){state.siteHandHoleInstallation = payload;},
+        SET_SITE_ODF_INSTALLATION(state, payload){state.siteOdfInstallation = payload;},
+
+        SET_SITE_ODF_TERMINATION(state, payload){state.siteOdfTermination = payload;},
+        SET_SITE_OTHER(state, payload){state.siteOthers = payload;},
+        SET_SITE_ROUTE_CHANGE(state, payload){state.siteRouteChange = payload;},
+        SET_SITE_TRUNKING(state, payload){state.siteTrunking = payload;},
+
+        SET_SITE_MATERIALS_USED(state, payload){state.materialUsed = payload;},
+
+
         SET_SITE_IMAGES(state, payload){
             state.siteImages = payload;
         },
@@ -568,10 +598,83 @@ export default {
             api
                 .request("get", "distance/trenched/?site="+payload)
                 .then((response) => {
-                    
                     commit('SET_SITE_TRENCH_DISTANCES', response.data)
                 });
         },
+        loadSiteTrunking({commit}, payload) {
+            api
+                .request("get", "trunking/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_TRUNKING', response.data)
+                });
+        },
+        loadSiteRouteChange({commit}, payload) {
+            api
+                .request("get", "routechange/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_ROUTE_CHANGE', response.data)
+                });
+        },
+        loadSiteOther({commit}, payload) {
+            api
+                .request("get", "other/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_OTHER', response.data)
+                });
+        },
+        loadSiteOdfTermination({commit}, payload) {
+            api
+                .request("get", "odftermination/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_ODF_TERMINATION', response.data)
+                });
+        },
+        loadSiteOdfInstallation({commit}, payload) {
+            api
+                .request("get", "odfinstallation/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_ODF_INSTALLATION', response.data)
+                });
+        },
+        loadSiteHandoleInstallation({commit}, payload) {
+            api
+                .request("get", "handholeinstallation/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_HANDHOLE_INSTALLATION', response.data)
+                });
+        },
+        loadSiteCableInstallation({commit}, payload) {
+            api
+                .request("get", "cableinstallation/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_CABLE_INSTALLATION', response.data)
+                });
+        },
+        loadSiteDuctInstallation({commit}, payload) {
+            api
+                .request("get", "ductinstallation/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_DUCT_INSTALLATION', response.data)
+                });
+        },
+        loadSiteManholeInstallation({commit}, payload) {
+            api
+                .request("get", "manholesinstallation/?site="+payload)
+                .then((response) => {
+                    commit('SET_SITE_MANHOLE_INSTALLATION', response.data)
+                });
+        },
+
+        async loadMaterialUsed({dispatch, commit}) {
+            await dispatch("materials/loadMaterials",{}, {root:true});
+            await api
+                .request("get", "usedmaterials/")
+                .then((response) => {
+                    commit('SET_SITE_MATERIALS_USED', response.data)
+                });
+        },
+        
+
         loadSiteImages({commit}, payload) {
             api
                 .request("get", "sitesimages/?site="+payload)
@@ -701,6 +804,34 @@ export default {
         },
         getSite: (state) => (site) => {
             return state.sites.filter(item => item.id == site);
+        },
+        getActivityMaterialsUsed: (state, getters, rootState) => (activity) => {
+            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity); 
+            let mappedMaterialsUsed = []
+            materialsUsed.forEach(item => {
+                let material = item
+                rootState.materials.materials.forEach(mat => {
+                    if(mat.id == material.id){
+                        let price = item.quantity * mat.unit_cost
+                        mappedMaterialsUsed.push({"material": mat.name, "price": price, "measrement": mat.measurement, "quantity": item.quantity, "unit_cost": mat.unit_cost})
+                    }
+                })
+            })
+            return mappedMaterialsUsed
+        },
+        getTotalMaterialPrice: (state, getters, rootState) => (activity) => {
+            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity); 
+            let total = 0
+            materialsUsed.forEach(item => {
+                let material = item
+                rootState.materials.materials.forEach(mat => {
+                    if(mat.id == material.id){
+                        let price = item.quantity * mat.unit_cost
+                        total += price
+                    }
+                })
+            })
+            return total
         },
         getSiteCosts: (state) => {
             let siteCost = []

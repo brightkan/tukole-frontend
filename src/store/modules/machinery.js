@@ -87,6 +87,11 @@ export default {
                 .then(response => {
                     let machines = response.data.map(
                         machine => {
+                            state.types.forEach(element => {
+                                if(machine.type === element.id){
+                                    machine.type = element;
+                                }
+                            });
                             rootState.statuses.forEach(element => {
                                 if(machine.status === element.name){
                                     machine.status = element;
@@ -98,11 +103,17 @@ export default {
                     commit('SET_MACHINES', machines)
                 });
         },
-        addMachine({ commit, rootState }, payLoad) {
+        addMachine({ commit, state, rootState }, payLoad) {
             api
                 .request("post", "machinery/", payLoad)
                 .then(response => {
                     let machine = response.data;
+
+                    state.types.forEach(element => {
+                        if(machine.type === element.id){
+                            machine.type = element;
+                        }
+                    });
 
                     rootState.statuses.forEach(element => {
                         if(machine.status === element.name){

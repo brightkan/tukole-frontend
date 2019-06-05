@@ -49,6 +49,7 @@ import CompanyView from "./components/views/company/companies.vue"
 import CompanyUsers from "./components/views/company/companyUsers.vue"
 import ChecklistView from "./components/views/Checklist.vue"
 import SettingsView from "./components/views/projects/settings.vue"
+import MaterialUsedView from "./components/views/projects/materialUsed.vue"
 import QualityView from "./components/views/projects/quality.vue"
 import GeneralSettingsView from "./components/views/settings/settingDash.vue"
 import MetricsView from "./components/views/settings/metrics.vue"
@@ -336,6 +337,12 @@ const routes = [
                 component: ProjectReportsView,
                 name: "REPORTS",
                 meta: { description: "Project reports", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "materialsused/:id",
+                component: MaterialUsedView,
+                name: "MATERIALUSED",
+                meta: { description: "Activity material designs", requiresAuth: false, type: 'ProjectOverview' }
               },
               {
                 path: "gallery",

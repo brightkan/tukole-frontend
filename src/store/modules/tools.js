@@ -146,6 +146,7 @@ export default {
                 });
         },
         addType({ commit, state }, payLoad) {
+            console.log(payLoad)
             api
                 .request("post", "tools_types/", payLoad)
                 .then(response => {

@@ -87,7 +87,6 @@
                     <mdc-textfield v-model="site.site_name" label="Site Name" outline/>
                     <mdc-textfield v-model="site.expected_end_date" label="Expected end date" outline/>
                     <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline/>
-                    
                   </div>
                   <div class="col-md-6">
                     <mdc-textfield v-model="site.start_date" label="Start date" outline/>
@@ -97,9 +96,19 @@
                       </option>
                     </mdc-select>
                     <mdc-textfield v-model="site.location_long" label="Location Longitude" outline/>
-                    
                   </div>
                 </div>
+                <mdc-select v-model="site.site_type" label="Site Type" outlined>
+                    <option v-bind:value="'single'" :key="'1'">
+                      Single
+                    </option>
+                    <option v-bind:value="'dual'" :key="'2'">
+                      Dual
+                    </option>
+                    <option v-bind:value="'shared'" :key="'3'">
+                      Shared
+                    </option>
+                  </mdc-select>
 
                 <p class="note">
                   <span>Note:</span> Make sure the details above are accurate and correct.
@@ -211,6 +220,7 @@ export default {
         current_stage: 0,
         company: "",
         workspace: window.localStorage.getItem("workspace"),
+        site_type: ""
       }
     };
   },
@@ -266,6 +276,7 @@ export default {
         current_stage: 0,
         company: '',
         workspace: window.localStorage.getItem("workspace"),
+        site_type: ""
       }
     },
     selectSite(site){

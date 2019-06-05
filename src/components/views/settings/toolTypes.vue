@@ -93,7 +93,8 @@ export default {
       editMode: false,
       type: {
         type: "",
-        description: ""
+        description: "",
+        workspace: window.localStorage.getItem("workspace")
       }
     };
   },
@@ -134,7 +135,8 @@ export default {
       this.editMode = false;
       this.type = {
         type: "",
-        description: ""
+        description: "",
+        workspace: window.localStorage.getItem("workspace")
       }
     }
   }

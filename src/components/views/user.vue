@@ -40,7 +40,7 @@
                   <td>{{ row.phone_number }}</td>
                   <td>{{ row.email }}</td>
                   <td style="text-transform: capitalize">{{ row.type }}</td>
-                  <td style="text-transform: capitalize">{{ row.role.replace('_', ' ') }}</td>
+                  <td style="text-transform: capitalize">{{ row.role == "garage_manager" ? "Workshop Supervisior" :row.role.replace('_', ' ') }}</td>
                   <td>{{ row.created | moment('MMM Do YYYY')}}</td>
                   <td class="text-right">
                     <i class="fa fa-edit" v-on:click="editUser(row)"></i>
@@ -97,7 +97,7 @@
                       <option v-bind:value="'project_manager'">Project Manager</option>
                       <option v-bind:value="'fleet_manager'">Fleet Manager</option>
                       <option v-bind:value="'fuel_station_user'">Fuel Station User</option>
-                      <option v-bind:value="'garage_manager'">Garage Manager</option>
+                      <option v-bind:value="'garage_manager'">Workshop Supervisor</option>
                       <option v-bind:value="'warehouse'">Warehouse</option>
                       <option v-bind:value="'mechanic'">Mechanic</option>
                       <option v-bind:value="'tools_head_of_department'">Tools Head of Department</option>

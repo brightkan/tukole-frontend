@@ -95,6 +95,18 @@
                   </div>
                 </div>
 
+                <mdc-select v-model="site.site_type" label="Site Type" outlined>
+                  <option v-bind:value="'single'" :key="'1'">
+                    Single
+                  </option>
+                  <option v-bind:value="'dual'" :key="'2'">
+                    Dual
+                  </option>
+                  <option v-bind:value="'shared'" :key="'3'">
+                    Shared
+                  </option>
+                </mdc-select>
+
                 <div class="row">
                   <div class="col-md-12">
                     <div class="dropbox">
@@ -225,7 +237,8 @@ export default {
         isp_works_complete: 'false',
         osp_works_complete: 'false',
         ofc_works_complete: 'false',
-        site_powering_complete: 'false'
+        site_powering_complete: 'false',
+        site_type: ""
       },
 
       uploadedFiles: [],
@@ -326,7 +339,8 @@ export default {
         isp_works_complete: 'false',
         osp_works_complete: 'false',
         ofc_works_complete: 'false',
-        site_powering_complete: 'false'
+        site_powering_complete: 'false',
+        site_type: ""
       }
     },
     filter(type){
