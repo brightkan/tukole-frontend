@@ -41,7 +41,7 @@
             <router-link tag="li" to="/dash/equipment_dash/checklist" v-if="this.$route.meta.type == 'Fleets'">
               <a>
                 <span class="icon"><i class="fa fa-bell"></i></span>
-                Fleet Checklist
+                Checklist
               </a>
             </router-link>              
             <router-link tag="li" to="/dash/equipment_dash/equipments" v-if="this.$route.meta.type == 'Fleets'">

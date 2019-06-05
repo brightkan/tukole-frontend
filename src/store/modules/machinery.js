@@ -167,9 +167,11 @@ export default {
                     commit('ADD_TYPE', type)
                 });
         },
-        getHistory({ commit, state }, payLoad) {
-            api
-                .request("get", "machinehistory/?machine="+payLoad)
+        async getHistory({dispatch, commit, state, rootState }, payLoad) {
+            await dispatch("checklist/loadChecklist", {}, { root: true });
+            await dispatch("checklist/loadChecklistResults", {}, { root: true });
+            await api
+                .request("get", "userfleetsassignments/")
                 .then(response => {
                     let type = response.data;
                     commit('SET_ASSIGNMENT_HISTORY', type)
@@ -177,7 +179,7 @@ export default {
         },
         getRepairHistory({ commit, state }, payLoad) {
             api
-                .request("get", "repairhistory/?fleet="+payLoad.id+"&fleet_type="+payLoad.type)
+                .request("get", "repairticket/")
                 .then(response => {
                     let type = response.data;
                     commit('SET_HISTORY', type)
@@ -214,11 +216,33 @@ export default {
                 return machines;
             }
         },
-        faultHistory: (state, getters, rootState) => {
-            return state.history.filter(item => { return item.type == 'fault_fix'})
+        faultHistory: (state, getters, rootState) => (id, type) =>{
+            return state.history.filter(item => { return item.object_id == id && item.type == type })
         },
-        assignmentHistory: (state, getters, rootState) => {
-            return state.assignmentHistory
+        assignmentHistory: (state, getters, rootState) => (id) => {
+            let history = state.assignmentHistory.filter(item => {
+                return item.object_id === id
+            })
+
+            let mappedHistory = []
+            history.forEach(item => {
+                rootState.users.users.forEach(user => {
+                    if (item.user == user.id) {
+                        let checklistResult = []
+                        rootState.checklist.checklistResults.forEach(listItem => {
+                            if (listItem.request_object_id == item.id) {
+                                checklistResult.push(listItem)
+                            }
+                        })
+
+                        let checklistResultBefore = checklistResult.filter(listItem => listItem.status == "before")
+                        let checklistResultAfter = checklistResult.filter(listItem => listItem.status == "after")
+
+                        mappedHistory.push({ "checklistResultBefore": checklistResultBefore, "checklistResultAfter": checklistResultAfter, "id": item.id, "assigned_to": user.first_name + " " + user.last_name, "from": item.start_date, "to": item.end_date, "status": item.status })
+                    }
+                })
+            })
+            return mappedHistory
         }
     }
 }

@@ -21,7 +21,7 @@
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             class="input-file file-upload"
           >
-          <p v-if="isInitial">Click to excel file</p>
+          <p v-if="isInitial">Add to excel file</p>
           <p v-if="isSaving">
             {{ fileNames }}
           </p>
@@ -226,6 +226,7 @@ export default {
       
       this.formData.append("user_assigned", this.$route.params.id);
       this.$store.dispatch("users/massAssignManholes", this.formData);
+      this.reset()
     },
     reset() {
       // reset form to initial state
@@ -235,7 +236,6 @@ export default {
       this.fileNames = null;
     },
     showDurations(user, manhole){
-
       this.$router.push('/dash/manholeManagment/manholeDurations/'+user+'/'+manhole);
     }
   }

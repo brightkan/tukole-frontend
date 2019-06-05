@@ -74,15 +74,13 @@
         <div class="timeline-box">
           <h3 class="timeline-activites-label" style="padding: 0">Activities</h3>
 
-          <div v-for="report in getReports" :key="report.index" class="row timeline-content">
+          <div v-for="report in activities" :key="report.index" class="row timeline-content">
             <div class="col-md-2">{{ report.created | moment("MMM Do YYYY") }}</div>
             <div class="col-md-1">{{ report.created | moment("h:ss") }}</div>
             <div class="col-md-9">
-              {{ report.message }}
-              <span
-                type="button"
-              >
-                <img src="../../../assets/imgs/down-arrow.png">
+              <b>{{ report.title }}: </b> {{ report.description }} from {{ report.start_time | moment("MMM Do YYYY h:ss") }} to {{ report.end_time | moment("MMM Do YYYY h:ss") }}
+              <span class="float-right">
+                Duration: {{ report.duration / 60 | formatNumber }} mins
               </span>
             </div>
           </div>
@@ -592,7 +590,8 @@ export default {
       fleets: state => state.fleets.fleets,
       tools: state => state.tools.tools,
       machines: state => state.machinery.machines,
-      surveyComments: state => state.sites.surveyComments
+      surveyComments: state => state.sites.surveyComments,
+      activities: state => state.reports.activities
     }),
     getUsers() {
       return this.$store.getters["users/getUsers"];
@@ -631,12 +630,12 @@ export default {
       "sites/getSurveyImages",
       window.localStorage.getItem("selectsite")
     );
-    this.$store.dispatch(
-      "sites/loadBoqs",
+    this.$store.dispatch("sites/loadBoqs",
       window.localStorage.getItem("selectsite")
     );
-    this.$store.dispatch("reports/loadReports",window.localStorage.getItem("selectsite"));
+    //this.$store.dispatch("reports/loadReports",window.localStorage.getItem("selectsite"));
 
+    this.$store.dispatch("reports/loadActivities",window.localStorage.getItem("selectsite"));
     //this is for the upload
     this.reset();
   },
@@ -796,6 +795,7 @@ export default {
       this.currentStatus = STATUS_SAVING;
       this.formData.append("site", window.localStorage.getItem("selectsite"));
       this.$store.dispatch("sites/massAddTeams", this.formData);
+      this.reset()
     },
   }
 };

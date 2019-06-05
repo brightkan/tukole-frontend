@@ -841,6 +841,22 @@ export default {
                 siteCost.push({'site': site.site_name.substr(0, 10), 'cost' : cost})
             })
             return siteCost;
+        },
+        getTotalTrench: (state) => {
+            let total = 0
+            state.siteTrenchDistances.forEach(distance => {
+                total += distance.distance
+            })
+            console.log(total)
+            return total;
+        },
+        getTotalRoadCrossing: (state) => {
+            let total = 0
+            state.siteRoadCrossings.forEach(distance => {
+                total += distance.distance_crossed
+            })
+            console.log(total)
+            return total;
         }
 
     }

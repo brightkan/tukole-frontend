@@ -23,6 +23,7 @@
             <template scope="{ row }">
                 <tr>
                   <td>{{ row.name }}</td>
+                  <td>{{ row.type }}</td>
                   <td class="text-right">
                     <i class="fa fa-edit" v-on:click="editChecklistItem(row)"></i> 
                     <i class="fa fa-times" v-on:click="deleteChecklistItem(row)"></i>
@@ -53,6 +54,10 @@
                 <div class="row">
                   <div class="col-md-12">
                     <mdc-textfield v-model="checklistItem.name" label="Checklist Name" required outline/>
+                    <mdc-select v-model="checklistItem.type" label="Type" required outlined>
+                      <option v-bind:value="'fleet'" :key="'1'">Fleet</option>
+                      <option v-bind:value="'machine'" :key="'2'">Machine</option>
+                    </mdc-select>
                   </div>
                 </div>
 
@@ -82,13 +87,15 @@ export default {
       editMode: false,
       checklistItem: {
         name: "",
-        workspace: window.localStorage.getItem("workspace")
+        workspace: window.localStorage.getItem("workspace"),
+        type: ""
       },
 
       //dataTables implementation
       filterTable: '',
       table_columns: [
           {label: 'Name', field: 'name'},
+          {label: 'Type', field: 'type'},
           {label: '', field: ''}
       ],
       rows: window.rows,
@@ -135,7 +142,8 @@ export default {
       this.editMode = false;
       this.checklistItem = {
         name: "",
-        workspace: window.localStorage.getItem("workspace")
+        workspace: window.localStorage.getItem("workspace"),
+        type: ""
       }
     }
   }

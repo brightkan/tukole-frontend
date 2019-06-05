@@ -21,7 +21,7 @@
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             class="input-file file-upload"
           >
-          <p v-if="isInitial">Click to excel file</p>
+          <p v-if="isInitial">Add excel file</p>
           <p v-if="isSaving">
             {{ fileNames }}
           </p>

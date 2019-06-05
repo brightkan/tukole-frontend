@@ -167,8 +167,9 @@ export default {
                 .request("post", "manholes/assginimport/", payload)
                 .then(response => {
                     commit('CHANGE_LOADING', false)
-                    //dispatch('manholes/loadloadCurrentManHole', {root:true})
-                });
+                    dispatch('manholes/loadManHoles', {}, {root:true})
+                    dispatch('manholes/loadCurrentManHoles', payload.get("user_assigned"), {root:true})
+                }); 
         },
         massAddManholes({ dispatch, commit, rootState }, payload){
             commit('CHANGE_LOADING', true)

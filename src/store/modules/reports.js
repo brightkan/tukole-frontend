@@ -8,6 +8,8 @@ export default {
         trenchDistances: [],
         roadCrossings: [],
         manholeInstallations: [],
+
+        activities: []
     },
     mutations: {
         SET_REINSTALLATIONS(state, payLoad) {
@@ -22,6 +24,10 @@ export default {
         SET_MANHOLE_INSTALLATION(state, payLoad) {
             state.manholeInstallations = payLoad
         },
+
+        SET_ACTIVITIES(state, payLoad) {
+            state.activities = payLoad
+        },
     },
     actions: {
         async loadReports({ commit }, payLoad) {
@@ -31,22 +37,43 @@ export default {
                     commit('SET_REINSTALLATIONS', response.data)
                 });
 
-                await api
+            await api
                 .request("get", "roadcrossing/?site=" + payLoad)
                 .then(response => {
                     commit('SET_ROAD_CROSSING', response.data)
                 });
 
-                await api
+            await api
                 .request("get", "distance/trenched/?site=" + payLoad)
                 .then(response => {
                     commit('SET_TRENCH_DISTANCES', response.data)
                 });
 
-                await api
+            await api
                 .request("get", "manholesinstallation/?site=" + payLoad)
                 .then(response => {
                     commit('SET_MANHOLE_INSTALLATION', response.data)
+                });
+        },
+        async loadActivities({dispatch, commit, state, rootState}, payload){
+            await dispatch("users/loadUsers", window.localStorage.getItem("workspace"), { root: true });
+            await api
+                .request("get", "activity/?site=" + payload)
+                .then(response => {
+
+                    let mappedActivity = []
+
+                    response.data.forEach(activity => {
+                        rootState.users.users.forEach(user => {
+                            if(user.id == activity.user){
+                                mappedActivity.push({"user": user, "title": activity.title, "description": activity.description, "start_time": activity.start_time, "end_time": activity.end_time, "duration": activity.duration, "created": activity.created})
+                            }
+                        })
+                    })
+
+                    console.log(mappedActivity)
+
+                    commit('SET_ACTIVITIES', mappedActivity)
                 });
         }
     },
@@ -57,14 +84,16 @@ export default {
             state.reinstallations.forEach(element => {
                 let mat = null;
                 rootState.materials.materials.forEach(material => {
-                    if(element.material == material.id){
+                    if (element.material == material.id) {
                         mat = material
                     }
                 })
 
-                if(mat != null){
-                    reports.push({"index": index, "created": element.created, "message": "Reinstallation with " + element.amount 
-                                + " " + mat.measurement ? mat.measurement : '' + " of " + mat.name })
+                if (mat != null) {
+                    reports.push({
+                        "index": index, "created": element.created, "message": "Reinstallation with " + element.amount
+                            + " " + mat.measurement ? mat.measurement : '' + " of " + mat.name
+                    })
                     index++;
                 }
             });
@@ -72,31 +101,37 @@ export default {
             state.roadCrossings.forEach(element => {
                 let toolUsed = null;
                 rootState.tools.tools.forEach(tool => {
-                    if(element.tool == tool.id){
+                    if (element.tool == tool.id) {
                         toolUsed = tool
                     }
                 })
-                if(toolUsed != null){
-                    reports.push({"index": index, "created": element.created, "message": "Road crossing of " + element.distance_crossed 
-                                + " meters with " + toolUsed.name })
+                if (toolUsed != null) {
+                    reports.push({
+                        "index": index, "created": element.created, "message": "Road crossing of " + element.distance_crossed
+                            + " meters with " + toolUsed.name
+                    })
                     index++;
                 }
             });
 
             state.trenchDistances.forEach(element => {
-                reports.push({"index": index, "created": element.created, "message": "Trenched " + element.distance 
-                                + " meters at depth of " + element.depth + " meters"})
+                reports.push({
+                    "index": index, "created": element.created, "message": "Trenched " + element.distance
+                        + " meters at depth of " + element.depth + " meters"
+                })
                 index++;
             });
 
             state.manholeInstallations.forEach(element => {
                 console.log(element)
-                reports.push({"index": index, "created": element.created, "message": "Installed " + element.number_installed 
-                                + " manholes "})
+                reports.push({
+                    "index": index, "created": element.created, "message": "Installed " + element.number_installed
+                        + " manholes "
+                })
                 index++;
             });
 
-            reports.sort(function(a,b){
+            reports.sort(function (a, b) {
                 return new Date(b.created) - new Date(a.created);
             });
 

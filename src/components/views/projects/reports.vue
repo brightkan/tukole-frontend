@@ -1,5 +1,5 @@
 <template>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -15,400 +15,503 @@
     <div class="row">
       <div class="col-md-12">
         <div class="tab-layout">
-            <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
-              <li><a class="active" href="#manhole" data-toggle="tab" role="tab">Manholes</a></li>
-              <li><a href="#reInstallations" data-toggle="tab" role="tab" v-on:click="loadSiteReInstallations()">Reinstatements</a></li>
-              <li><a href="#roadCrossings" data-toggle="tab" role="tab" v-on:click="loadSiteRoadCrossings()">RoadCrossing</a></li>
-              <li><a href="#trenchDistances" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Trench Distance</a></li>
+          <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
+            <li>
+              <a class="active" href="#manhole" data-toggle="tab" role="tab">Manholes</a>
+            </li>
+            <li>
+              <a
+                href="#reInstallations"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteReInstallations()"
+              >Reinstatements</a>
+            </li>
+            <li>
+              <a
+                href="#roadCrossings"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteRoadCrossings()"
+              >RoadCrossing</a>
+            </li>
+            <li>
+              <a
+                href="#trenchDistances"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Trench Distance</a>
+            </li>
 
-              <li><a href="#ductInstallation" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Duct Installation</a></li>
-              <li><a href="#cableInstallation" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Cable Installation</a></li>
-              <li><a href="#odfInstallation" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Odf Installation</a></li>
-              <li><a href="#odfTermination" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Odf Termination</a></li>
+            <li>
+              <a
+                href="#ductInstallation"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Duct Installation</a>
+            </li>
+            <li>
+              <a
+                href="#cableInstallation"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Cable Installation</a>
+            </li>
+            <li>
+              <a
+                href="#odfInstallation"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Odf Installation</a>
+            </li>
+            <li>
+              <a
+                href="#odfTermination"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Odf Termination</a>
+            </li>
 
-              <li><a href="#routeChange" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Route Change</a></li>
-              <li><a href="#handholeInstallation" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">HandHole Installation</a></li>
-              <li><a href="#trunking" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Trunking</a></li>
-              <li><a href="#others" data-toggle="tab" role="tab" v-on:click="loadSiteTrenchDistances()">Others</a></li>
-            </ul>
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade show active" id="manhole">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>ManHole number</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="manholeInstallation in manholeInstallations" :key="manholeInstallation.id">
-                        <td>{{ manholeInstallation.number_installed }}</td>
-                        <td>{{ manholeInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(manholeInstallation)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="manholeInstallations.length <= 0">
-                        <td colspan="7" class="text-center">No ManHoles installed Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+            <li>
+              <a
+                href="#routeChange"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Route Change</a>
+            </li>
+            <li>
+              <a
+                href="#handholeInstallation"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >HandHole Installation</a>
+            </li>
+            <li>
+              <a
+                href="#trunking"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Trunking</a>
+            </li>
+            <li>
+              <a
+                href="#others"
+                data-toggle="tab"
+                role="tab"
+                v-on:click="loadSiteTrenchDistances()"
+              >Others</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade show active" id="manhole">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>ManHole number</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="manholeInstallation in manholeInstallations"
+                      :key="manholeInstallation.id"
+                    >
+                      <td>{{ manholeInstallation.number_installed }}</td>
+                      <td>{{ manholeInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(manholeInstallation)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="manholeInstallations.length <= 0">
+                      <td colspan="7" class="text-center">No ManHoles installed Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="reInstallations">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Type</td>
-                        <td>Material</td>
-                        <td>Quantity</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="reInstallation in reInstallations" :key="reInstallation.id">
-                        <td>{{ reInstallation.type }}</td>
-                        <td>{{ reInstallation.material.name }}</td>
-                        <td>{{ reInstallation.amount }} {{ reInstallation.material.measurement }}</td>
-                        <td>{{ reInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(reInstallation)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="reInstallations.length <= 0">
-                        <td colspan="7" class="text-center">No Site ReInstallations Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="roadCrossings">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Distance crossed</td>
-                        <td>Tool</td>
-                        <td>Creation Date</td>
-                        <td></td>>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
-                        <td>{{ roadCrossing.distance_crossed }} meters</td>
-                        <td>{{ roadCrossing.tool.name }}</td>
-                        <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(roadCrossing)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="roadCrossings.length <= 0">
-                        <td colspan="7" class="text-center">No Road crossings Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="trenchDistances">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Distance</td>
-                        <td>Depth</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="trenchDistance in trenchDistances" :key="trenchDistance.id">
-                        <td>{{ trenchDistance.distance }} meters</td>
-                        <td>{{ trenchDistance.depth }} meters</td>
-                        <td>{{ trenchDistance.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(trenchDistance)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="trenchDistances.length <= 0">
-                        <td colspan="7" class="text-center">No Trench Distance Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="cableInstallation">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Length</td>
-                        <td>Size</td>
-                        <td>Method</td>
-                        <td>Type</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="cableInstallation in cableInstallations" :key="cableInstallation.id">
-                        <td>{{ cableInstallation.distance }}</td>
-                        <td>{{ cableInstallation.depth }}</td>
-                        <td>{{ cableInstallation.depth }}</td>
-                        <td>{{ cableInstallation.depth }}</td>
-                        <td>{{ cableInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(cableInstallation)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="cableInstallations.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="ductInstallation">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Number</td>
-                        <td>Size</td>
-                        <td>Micro duct</td>
-                        <td>Duct type</td>
-                        <td>Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="ductInstallation in ductInstallations" :key="ductInstallation.id">
-                        <td>{{ ductInstallation.number }}</td>
-                        <td>{{ ductInstallation.size }}</td>
-                        <td>{{ ductInstallation.micro_duct }}</td>
-                        <td>{{ ductInstallation.duct_type }}</td>
-                        <td>{{ ductInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(ductInstallation)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="ductInstallations.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="handholeInstallation">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Number Installed</td>
-                        <td>Creation Date</td>
-                        <td></td>>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="handHoleInstallation in handHoleInstallations" :key="handHoleInstallation.id">
-                        <td>{{ handHoleInstallation.number_installed }}</td>
-                        <td>{{ handHoleInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(handholeInstallation)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="handHoleInstallations.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="odfInstallation">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Size</td>
-                        <td>Number installed</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="odfInstallation in odfInstallations" :key="odfInstallation.id">
-                        <td>{{ odfInstallation.size_of_odf }}</td>
-                        <td>{{ odfInstallation.number_of_odf_installed }}</td>
-                        <td>{{ odfInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(odfInstallation)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="odfInstallations.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="odfTermination">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Port</td>
-                        <td>Label</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="odfTermination in odfTerminations" :key="odfTermination.id">
-                        <td>{{ odfTermination.ports }}</td>
-                        <td>{{ odfTermination.label }}</td>
-                        <td>{{ odfTermination.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(odfTermination)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="odfTerminations.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="routeChange">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Reason</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="routeChange in routeChanges" :key="routeChange.id">
-                        <td>{{ routeChange.route_change_reason }}</td>
-                        <td>{{ routeChange.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(routeChange)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="routeChanges.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="trunking">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Meters Trunked</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="trunking in trunkings" :key="trunking.id">
-                        <td>{{ trunking.meters_trunked }}</td>
-                        <td>{{ trunking.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(trunking)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="trunkings.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div role="tabpanel" class="tab-pane fade" id="others">
-                <div class="table-alt"> 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <td>Other</td>
-                        <td>Creation Date</td>
-                        <td></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="other in others" :key="other.id">
-                        <td>{{ other.distance }}</td>
-                        <td>{{ other.created | moment("dddd, MMMM Do YYYY") }}</td>
-                        <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" 
-                            v-on:click="selectMaterialsUsed(other)">
-                            Materials Used
-                          </a> 
-                        </td>
-                      </tr>
-                      <tr v-if="others.length <= 0">
-                        <td colspan="7" class="text-center">No Data Yet</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
             </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="reInstallations">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Type</td>
+                      <td>Material</td>
+                      <td>Quantity</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="reInstallation in reInstallations" :key="reInstallation.id">
+                      <td>{{ reInstallation.type }}</td>
+                      <td>{{ reInstallation.material.name }}</td>
+                      <td>{{ reInstallation.amount }} {{ reInstallation.material.measurement }}</td>
+                      <td>{{ reInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(reInstallation)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="reInstallations.length <= 0">
+                      <td colspan="7" class="text-center">No Site ReInstallations Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="roadCrossings">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Distance crossed</td>
+                      <td>Tool</td>
+                      <td>Creation Date</td>
+                      <td></td>>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
+                      <td>{{ roadCrossing.distance_crossed }} meters</td>
+                      <td>{{ roadCrossing.tool.name }}</td>
+                      <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(roadCrossing)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="roadCrossings.length <= 0">
+                      <td colspan="7" class="text-center">No Road crossings Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="col-md-12">
+                  Total Road Crossing
+                  <span>{{getTotalRoadCrossing | formatNumber}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="trenchDistances">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Distance</td>
+                      <td>Depth</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="trenchDistance in trenchDistances" :key="trenchDistance.id">
+                      <td>{{ trenchDistance.distance }} meters</td>
+                      <td>{{ trenchDistance.depth }} meters</td>
+                      <td>{{ trenchDistance.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(trenchDistance)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="trenchDistances.length <= 0">
+                      <td colspan="7" class="text-center">No Trench Distance Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="col-md-12">
+                  Total Trench Distance
+                  <span>{{getTotalTrench + getTotalRoadCrossing | formatNumber}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="cableInstallation">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Length</td>
+                      <td>Size</td>
+                      <td>Method</td>
+                      <td>Type</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="cableInstallation in cableInstallations" :key="cableInstallation.id">
+                      <td>{{ cableInstallation.distance }}</td>
+                      <td>{{ cableInstallation.depth }}</td>
+                      <td>{{ cableInstallation.depth }}</td>
+                      <td>{{ cableInstallation.depth }}</td>
+                      <td>{{ cableInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(cableInstallation)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="cableInstallations.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="ductInstallation">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Number</td>
+                      <td>Size</td>
+                      <td>Micro duct</td>
+                      <td>Duct type</td>
+                      <td>Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="ductInstallation in ductInstallations" :key="ductInstallation.id">
+                      <td>{{ ductInstallation.number }}</td>
+                      <td>{{ ductInstallation.size }}</td>
+                      <td>{{ ductInstallation.micro_duct }}</td>
+                      <td>{{ ductInstallation.duct_type }}</td>
+                      <td>{{ ductInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(ductInstallation)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="ductInstallations.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="handholeInstallation">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Number Installed</td>
+                      <td>Creation Date</td>
+                      <td></td>>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="handHoleInstallation in handHoleInstallations"
+                      :key="handHoleInstallation.id"
+                    >
+                      <td>{{ handHoleInstallation.number_installed }}</td>
+                      <td>{{ handHoleInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(handholeInstallation)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="handHoleInstallations.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="odfInstallation">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Size</td>
+                      <td>Number installed</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="odfInstallation in odfInstallations" :key="odfInstallation.id">
+                      <td>{{ odfInstallation.size_of_odf }}</td>
+                      <td>{{ odfInstallation.number_of_odf_installed }}</td>
+                      <td>{{ odfInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(odfInstallation)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="odfInstallations.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="odfTermination">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Port</td>
+                      <td>Label</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="odfTermination in odfTerminations" :key="odfTermination.id">
+                      <td>{{ odfTermination.ports }}</td>
+                      <td>{{ odfTermination.label }}</td>
+                      <td>{{ odfTermination.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(odfTermination)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="odfTerminations.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="routeChange">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Reason</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="routeChange in routeChanges" :key="routeChange.id">
+                      <td>{{ routeChange.route_change_reason }}</td>
+                      <td>{{ routeChange.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(routeChange)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="routeChanges.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="trunking">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Meters Trunked</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="trunking in trunkings" :key="trunking.id">
+                      <td>{{ trunking.meters_trunked }}</td>
+                      <td>{{ trunking.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(trunking)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="trunkings.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="others">
+              <div class="table-alt">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td>Other</td>
+                      <td>Creation Date</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="other in others" :key="other.id">
+                      <td>{{ other.distance }}</td>
+                      <td>{{ other.created | moment("dddd, MMMM Do YYYY") }}</td>
+                      <td>
+                        <a
+                          class="custom-btn text-white"
+                          style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
+                          v-on:click="selectMaterialsUsed(other)"
+                        >Materials Used</a>
+                      </td>
+                    </tr>
+                    <tr v-if="others.length <= 0">
+                      <td colspan="7" class="text-center">No Data Yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
   </section>
 </template>
 
@@ -419,7 +522,10 @@ import { mapGetters } from "vuex";
 export default {
   created() {},
   mounted() {
-    this.$store.dispatch("sites/loadSiteManholeInstallation", window.localStorage.getItem("selectsite"));
+    this.$store.dispatch(
+      "sites/loadSiteManholeInstallation",
+      window.localStorage.getItem("selectsite")
+    );
   },
   computed: {
     ...mapState({
@@ -428,7 +534,6 @@ export default {
       reInstallations: state => state.sites.siteReInstallations,
       roadCrossings: state => state.sites.siteRoadCrossings,
       trenchDistances: state => state.sites.siteTrenchDistances,
-
       ductInstallations: state => state.sites.siteDuctInstallation,
       cableInstallations: state => state.sites.siteCableInstallation,
       odfInstallations: state => state.sites.siteOdfInstallation,
@@ -436,68 +541,101 @@ export default {
       others: state => state.sites.siteOthers,
       handHoleInstallations: state => state.sites.siteHandHoleInstallation,
       routeChanges: state => state.sites.siteRouteChange,
-      trunkings: state => state.sites.siteTrunking,
-    })
+      trunkings: state => state.sites.siteTrunking
+    }),
+    ...mapGetters("sites", ["getTotalTrench", "getTotalRoadCrossing"])
   },
   methods: {
-    loadSiteReInstallations(){
-      this.$store.dispatch("sites/loadSiteReInstallations", window.localStorage.getItem("selectsite"));
+    loadSiteReInstallations() {
+      this.$store.dispatch(
+        "sites/loadSiteReInstallations",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteRoadCrossings(){
-      this.$store.dispatch("sites/loadSiteRoadCrossings", window.localStorage.getItem("selectsite"));
+    loadSiteRoadCrossings() {
+      this.$store.dispatch(
+        "sites/loadSiteRoadCrossings",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteTrenchDistances(){
-      this.$store.dispatch("sites/loadSiteTrenchDistance", window.localStorage.getItem("selectsite"));
+    loadSiteTrenchDistances() {
+      this.$store.dispatch(
+        "sites/loadSiteTrenchDistance",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteTrunkings(){
-      this.$store.dispatch("sites/loadSiteTrunking", window.localStorage.getItem("selectsite"));
+    loadSiteTrunkings() {
+      this.$store.dispatch(
+        "sites/loadSiteTrunking",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteRouteChanges(){
-      this.$store.dispatch("sites/loadSiteRouteChange", window.localStorage.getItem("selectsite"));
+    loadSiteRouteChanges() {
+      this.$store.dispatch(
+        "sites/loadSiteRouteChange",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteOthers(){
-      this.$store.dispatch("sites/loadSiteOther", window.localStorage.getItem("selectsite"));
+    loadSiteOthers() {
+      this.$store.dispatch(
+        "sites/loadSiteOther",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteOdfTerminations(){
-      this.$store.dispatch("sites/loadSiteOdfTermination", window.localStorage.getItem("selectsite"));
+    loadSiteOdfTerminations() {
+      this.$store.dispatch(
+        "sites/loadSiteOdfTermination",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteOdfInstallations(){
-      this.$store.dispatch("sites/loadSiteOdfInstallation", window.localStorage.getItem("selectsite"));
+    loadSiteOdfInstallations() {
+      this.$store.dispatch(
+        "sites/loadSiteOdfInstallation",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteHandoleInstallations(){
-      this.$store.dispatch("sites/loadSiteHandoleInstallation", window.localStorage.getItem("selectsite"));
+    loadSiteHandoleInstallations() {
+      this.$store.dispatch(
+        "sites/loadSiteHandoleInstallation",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteCableInstallations(){
-      this.$store.dispatch("sites/loadSiteCableInstallation", window.localStorage.getItem("selectsite"));
+    loadSiteCableInstallations() {
+      this.$store.dispatch(
+        "sites/loadSiteCableInstallation",
+        window.localStorage.getItem("selectsite")
+      );
     },
-    loadSiteDuctInstallation(){
-      this.$store.dispatch("sites/loadSiteDuctInstallation", window.localStorage.getItem("selectsite"));
+    loadSiteDuctInstallation() {
+      this.$store.dispatch(
+        "sites/loadSiteDuctInstallation",
+        window.localStorage.getItem("selectsite")
+      );
     },
-
-    selectMaterialsUsed(activity){
-      this.$router.push('/dash/project/projects/materialsused/'+activity.id);
+    selectMaterialsUsed(activity) {
+      this.$router.push("/dash/project/projects/materialsused/" + activity.id);
     }
   }
 };
 </script>
 
-<style lang="scss" scoped> 
-.tab-layout{
-  ul{
+<style lang="scss" scoped>
+.tab-layout {
+  ul {
     width: 100%;
     max-height: 63px;
     width: 100%;
     overflow-y: hidden;
     display: -webkit-box;
 
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       height: 5px;
-      background-color: #F5F5F5;
+      background-color: #f5f5f5;
     }
 
     &::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-      background-color: #F5F5F5;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #f5f5f5;
     }
 
     &::-webkit-scrollbar-thumb {
@@ -506,12 +644,10 @@ export default {
     }
 
     li a {
-        padding: 12px !important;
+      padding: 12px !important;
     }
   }
-  
 }
-
 </style>
 
 
