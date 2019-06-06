@@ -511,7 +511,20 @@ export default {
         },
         loadBoqs({commit}, payload){
             api
-                .request("get", "siteboqs/?site="+payload)
+                .request("get", "siteboqs/"+payload+"/summary/")
+                .then((response) => {
+                    
+                    commit('SET_SITE_BOQS', response.data)
+                });
+        },
+        async loadSiteBoqs({commit}, payload){
+
+            /* payload.forEach(id => {
+
+            }) */
+
+            api
+                .request("get", "siteboqs/"+payload+"/summary/")
                 .then((response) => {
                     
                     commit('SET_SITE_BOQS', response.data)
@@ -749,10 +762,17 @@ export default {
         }
     },
     getters: {
-        getBoqTotal: (state) => {
+        getBoqEstimateTotal: (state) => {
             let total = 0;
             state.siteBoqs.forEach(boq => {
-                total += boq.estimate_quantity * boq.material_unit_cost
+                total += boq.total_estimate_quantity * boq.unit_cost
+            })
+            return total
+        },
+        getBoqActualTotal: (state) => {
+            let total = 0;
+            state.siteBoqs.forEach(boq => {
+                total += boq.total_actual_quantity * boq.unit_cost
             })
             return total
         },
@@ -836,6 +856,14 @@ export default {
         getSiteCosts: (state) => {
             let siteCost = []
             state.sites.forEach(site => {
+
+
+
+
+
+
+
+
                 let cost = Math.floor((Math.random() * 100) + 1);
 
                 siteCost.push({'site': site.site_name.substr(0, 10), 'cost' : cost})

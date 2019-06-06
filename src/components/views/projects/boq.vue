@@ -18,21 +18,23 @@
             <tr>
               <td>Item</td>
               <td>Measurement Unit</td>
-              <td>Type</td>
+              <td>Unit cost</td>
               <td>Actual Quantity</td>
+              <td>Total Actual Cost</td>
               <td>Estimated Quantity</td>
-              <td>Total Cost</td>
+              <td>Total Estimated Cost</td>
               <td></td>
             </tr>
           </thead>
           <tbody>
             <tr v-for="boq in boqs" :key="boq.id" > 
-              <td><span>1.</span> {{ boq.material_name }}</td>
-              <td>{{ boq.material_measurement }}</td>
-              <td>{{ boq.boq_type == 0 ? 'Surveyor Boq' : 'Worker Boq'}}</td>
-              <td>{{ boq.actual_quantity | formatNumber}}</td>
-              <td>{{ boq.estimate_quantity | formatNumber}}</td>
-              <td>{{ boq.estimate_quantity * boq.material_unit_cost | formatNumber}}</td>
+              <td>{{ boq.material }}</td>
+              <td>{{ boq.measurement_unit }}</td>
+              <td>{{ boq.unit_cost }}</td>
+              <td>{{ boq.total_actual_quantity | formatNumber}}</td>
+              <td>{{ boq.total_actual_quantity * boq.unit_cost | formatNumber}}</td>
+              <td>{{ boq.total_estimate_quantity | formatNumber}}</td>
+              <td>{{ boq.total_estimate_quantity * boq.unit_cost | formatNumber}}</td>
               <td class="text-right">
                   <i class="fa fa-edit" v-on:click="editBoq(boq)"></i> 
                 </td>
@@ -44,10 +46,14 @@
         </table>
 
         <p>
-          Total Project cost
-          
+          Total Project Estimated cost
+          <span style="margin-right: 15px">
+            USD {{getBoqEstimateTotal | formatNumber}}
+          </span>   
+
+          Total Project Actual cost
           <span>
-            USD {{getBoqTotal | formatNumber}}
+            USD {{getBoqActualTotal | formatNumber}}
           </span>
         </p>
       </div>
@@ -136,7 +142,7 @@ export default {
       boqs: state => state.sites.siteBoqs,
       materials: state => state.materials.materials
     }),
-    ...mapGetters('sites', ['getBoqTotal'])
+    ...mapGetters('sites', ['getBoqEstimateTotal', 'getBoqActualTotal'])
   },
   methods: {
     showForm() {
