@@ -185,7 +185,6 @@
 </template>
 
 <script>
-import faker from "faker";
 import { mapState } from "vuex";
 import config from "../config";
 import Sidebar from "./Sidebar";
@@ -215,10 +214,10 @@ export default {
     ...mapGetters('notifications', ['getReadNotifications', 'getUnReadNotifications']),
     demo() {
       return {
-        displayName: faker.name.findName(),
-        avatar: faker.image.avatar(),
-        email: faker.internet.email(),
-        randomCard: faker.helpers.createCard()
+        displayName: "Default Name",
+        avatar: "Default avatar",
+        email: "default email",
+        randomCard: "default card"
       };
     }
   },

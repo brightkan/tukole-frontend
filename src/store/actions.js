@@ -1,11 +1,12 @@
 import api from "../api";
-import _ from 'lodash'
+
+import map from 'lodash/map';
 
 export default {
     async loadUserWorkSpaces({ commit }) {
         let user = window.localStorage.getItem('user');
         const workspaces = await api.request("get", "/userworkspaces/?user=" + (JSON.parse(user)).user_id);
-        const enrichedWorkspaces = await Promise.all(_.map(workspaces.data, async (workspace) => {
+        const enrichedWorkspaces = await Promise.all(map(workspaces.data, async (workspace) => {
             const _workspace = await api.request("get", "workspaces/"+workspace.workspace+"/");
             return _workspace.data;
         }))

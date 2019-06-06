@@ -118,7 +118,12 @@
                     <tr>
                       <td>ManHole number</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('manholesinstallation')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -153,7 +158,12 @@
                       <td>Material</td>
                       <td>Quantity</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('reinstallation')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -186,7 +196,12 @@
                       <td>Distance crossed</td>
                       <td>Tool</td>
                       <td>Creation Date</td>
-                      <td></td>>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03"
+                        v-bind:href="getCsvUrl('roadcrossing')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -222,7 +237,12 @@
                       <td>Distance</td>
                       <td>Depth</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('distance/trenched')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -260,7 +280,12 @@
                       <td>Method</td>
                       <td>Type</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('cableinstallation')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -296,7 +321,12 @@
                       <td>Micro duct</td>
                       <td>Duct type</td>
                       <td>Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('ductinstallation')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -329,7 +359,12 @@
                     <tr>
                       <td>Number Installed</td>
                       <td>Creation Date</td>
-                      <td></td>>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('handholeinstallation')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -363,7 +398,12 @@
                       <td>Size</td>
                       <td>Number installed</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('odfinstallation')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -395,7 +435,12 @@
                       <td>Port</td>
                       <td>Label</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('odftermination')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -426,7 +471,12 @@
                     <tr>
                       <td>Reason</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('routechange')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -456,7 +506,12 @@
                     <tr>
                       <td>Meters Trunked</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('trunking')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -486,7 +541,12 @@
                     <tr>
                       <td>Other</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td>
+                        <a class="custom-btn text-white" 
+                        style="padding-top: 5px; padding-bottom: 5px; cursor: pointer; background: #f5ab03" 
+                        v-bind:href="getCsvUrl('other')">
+                        Download csv</a>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -614,6 +674,9 @@ export default {
     },
     selectMaterialsUsed(activity) {
       this.$router.push("/dash/project/projects/materialsused/" + activity.id);
+    },
+    getCsvUrl(type){
+      return "http://178.62.54.104/api/"+type+"/?site="+window.localStorage.getItem("selectsite")+"&format=csv"
     }
   }
 };
