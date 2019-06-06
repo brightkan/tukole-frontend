@@ -180,14 +180,18 @@ export default {
   },
   mounted() {
     this.$store.dispatch("materials/loadMaterials");
-    this.$store.dispatch(
-      "sites/loadSites",
-      window.localStorage.getItem("workspace")
-    );
+    if (this.$store.state.sites.siteTotals.length == 0) {
+      this.$store.dispatch(
+        "sites/loadSites2",
+        window.localStorage.getItem("workspace")
+      );
+    }
+
     this.$store.dispatch(
       "users/loadUsers",
       window.localStorage.getItem("workspace")
     );
+
     let resFleets = this.$store.dispatch("fleets/loadFleets");
     let resMachines = this.$store.dispatch("machinery/loadMachines");
     let resTools = this.$store.dispatch("tools/loadTools");
@@ -200,22 +204,23 @@ export default {
 
     this.$emit("customEventForValChange", this.$route.path);
 
-    this.loadGraph()
+    this.loadGraph();
+
+    //this.$store.commit('sites/CLEAR_SITE_TOTAL', {})
   },
   methods: {
-    loadGraph(){
+    loadGraph() {
       // New Chart
-      let element = document.getElementById('barGraph')
+      let element = document.getElementById("barGraph");
 
-      console.log(element)
+      console.log(element);
 
       let chart = am4core.create(element, am4charts.XYChart);
 
       chart.paddingRight = 20;
 
       // Add data
-      chart.data = this.$store.getters["sites/getSiteCosts"]
-
+      chart.data = this.$store.getters["sites/getSiteCosts"];
 
       // Create axes
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -230,7 +235,8 @@ export default {
       series.dataFields.valueY = "cost";
       series.dataFields.categoryX = "site";
       series.name = "Costs";
-      series.columns.template.tooltipText = "Series: {name}\Site: {categoryX}\nValue: {valueY}";
+      series.columns.template.tooltipText =
+        "Series: {name}Site: {categoryX}\nValue: {valueY}";
       series.columns.template.fill = am4core.color("#104547");
 
       this.chart = chart;
@@ -308,7 +314,6 @@ export default {
       document.getElementById(canvas).height = 70;
       document.getElementById(canvas).width = 100;
       new Chart(ctx, config);
-
 
       this.loadGraph();
     },

@@ -22,7 +22,7 @@ export default {
         sites: [],
         listType: 'all',
         requestListType: 'all',
-        requestStatus: ['accepted','pending','all'],
+        requestStatus: ['accepted', 'pending', 'all'],
         siteRoles: [],
         siteFleets: [],
         siteMachinery: [],
@@ -49,7 +49,9 @@ export default {
 
         siteImages: [],
         pips: [],
-        documents: []
+        documents: [],
+
+        siteTotals: []
     },
     mutations: {
         SET_SITE(state, site) {
@@ -61,11 +63,11 @@ export default {
         ADD_SITE(state, site) {
             state.sites.push(site)
         },
-        DELETE_SITE(state, payload){
+        DELETE_SITE(state, payload) {
             var index = state.sites.findIndex(site => site.id === payload.id);
             state.sites.splice(index, 1);
         },
-        UPDATE_SITE(state, payload){
+        UPDATE_SITE(state, payload) {
             state.sites = state.sites.map(site => {
                 if (site.id === payload.id) {
                     return Object.assign({}, site, payload)
@@ -73,13 +75,13 @@ export default {
                 return site
             })
         },
-        SET_SURVEY_RESULTS(state, payload){
+        SET_SURVEY_RESULTS(state, payload) {
             state.surveyResults = payload;
         },
-        ADD_SURVEY_RESULT(state, payload){
+        ADD_SURVEY_RESULT(state, payload) {
             state.surveyResults.push(payload);
         },
-        UPDATE_SURVEY_RESULT(state, payload){
+        UPDATE_SURVEY_RESULT(state, payload) {
             state.surveyResults = state.surveyResults.map(surveyResult => {
                 if (surveyResult.id === payload.id) {
                     return Object.assign({}, surveyResult, payload)
@@ -87,65 +89,65 @@ export default {
                 return surveyResult
             })
         },
-        SET_SURVEY_COMMENTS(state, payload){
+        SET_SURVEY_COMMENTS(state, payload) {
             state.surveyComments = payload;
         },
-        ADD_SURVEY_COMMENT(state, payload){
+        ADD_SURVEY_COMMENT(state, payload) {
             state.surveyComments.push(payload);
         },
-        CHANGE_LIST_TYPE(state, payLoad){
+        CHANGE_LIST_TYPE(state, payLoad) {
             state.listType = payLoad
         },
-        CHANGE_REQUEST_LIST(state, payLoad){
+        CHANGE_REQUEST_LIST(state, payLoad) {
             state.requestListType = payLoad
         },
-        SET_SITE_ROLES(state, payload){
+        SET_SITE_ROLES(state, payload) {
             state.siteRoles = payload;
         },
-        ADD_SITE_ROLE(state, payload){
+        ADD_SITE_ROLE(state, payload) {
             state.siteRoles.push(payload);
         },
-        DELETE_SITE_ROLE(state, payload){
+        DELETE_SITE_ROLE(state, payload) {
             var index = state.siteRoles.findIndex(siteRole => siteRole.id === payload.id);
             state.siteRoles.splice(index, 1);
         },
-        SET_SITE_FLEETS(state, payload){
+        SET_SITE_FLEETS(state, payload) {
             state.siteFleets = payload;
         },
-        ADD_SITE_FLEET(state, payload){
+        ADD_SITE_FLEET(state, payload) {
             state.siteFleets.push(payload);
         },
-        DELETE_SITE_FLEET(state, payload){
+        DELETE_SITE_FLEET(state, payload) {
             var index = state.siteFleets.findIndex(siteFleet => siteFleet.id === payload.id);
             state.siteFleets.splice(index, 1);
         },
-        SET_SITE_TOOLS(state, payload){
+        SET_SITE_TOOLS(state, payload) {
             state.siteTools = payload;
         },
-        ADD_SITE_TOOL(state, payload){
+        ADD_SITE_TOOL(state, payload) {
             state.siteTools.push(payload);
         },
-        DELETE_SITE_TOOL(state, payload){
+        DELETE_SITE_TOOL(state, payload) {
             var index = state.siteTools.findIndex(siteTool => siteTool.id === payload.id);
             state.siteTools.splice(index, 1);
         },
-        SET_SITE_MACHINERY(state, payload){
+        SET_SITE_MACHINERY(state, payload) {
             state.siteMachinery = payload;
         },
-        ADD_SITE_MACHINERY(state, payload){
+        ADD_SITE_MACHINERY(state, payload) {
             state.siteMachinery.push(payload);
         },
-        DELETE_SITE_MACHINERY(state, payload){
+        DELETE_SITE_MACHINERY(state, payload) {
             var index = state.siteMachinery.findIndex(siteMachine => siteMachine.id === payload.id);
             state.siteMachinery.splice(index, 1);
         },
-        SET_SITE_BOQS(state, payload){
+        SET_SITE_BOQS(state, payload) {
             state.siteBoqs = payload;
         },
-        SET_SITE_COSTS(state, payload){
+        SET_SITE_COSTS(state, payload) {
             state.siteCosts = payload;
         },
-        UPDATE_COST(state, payload){
+        UPDATE_COST(state, payload) {
             state.siteCosts = state.siteCosts.map(cost => {
                 if (cost.id === payload.id) {
                     return Object.assign({}, cost, payload)
@@ -153,48 +155,48 @@ export default {
                 return cost
             })
         },
-        ADD_COST(state, payload){
+        ADD_COST(state, payload) {
             state.siteCosts.push(payload)
         },
-        DELETE_SITE_COST(state, payload){
+        DELETE_SITE_COST(state, payload) {
             var index = state.siteCosts.findIndex(cost => cost.id === payload.id);
             state.siteCosts.splice(index, 1);
         },
-        SET_SITE_MANHOLES(state, payload){
+        SET_SITE_MANHOLES(state, payload) {
             state.siteManholes = payload;
         },
-        SET_SITE_RE_INSTALLATIONS(state, payload){
+        SET_SITE_RE_INSTALLATIONS(state, payload) {
             state.siteReInstallations = payload;
         },
-        SET_SITE_ROAD_CROSSINGS(state, payload){
+        SET_SITE_ROAD_CROSSINGS(state, payload) {
             state.siteRoadCrossings = payload;
         },
-        SET_SITE_TRENCH_DISTANCES(state, payload){
+        SET_SITE_TRENCH_DISTANCES(state, payload) {
             state.siteTrenchDistances = payload;
         },
 
-        SET_SITE_MANHOLE_INSTALLATION(state, payload){state.siteManholeInstallations = payload;},
+        SET_SITE_MANHOLE_INSTALLATION(state, payload) { state.siteManholeInstallations = payload; },
 
-        SET_SITE_DUCT_INSTALLATION(state, payload){state.siteDuctInstallation = payload;},
-        SET_SITE_CABLE_INSTALLATION(state, payload){state.siteCableInstallation = payload;},
-        SET_SITE_HANDHOLE_INSTALLATION(state, payload){state.siteHandHoleInstallation = payload;},
-        SET_SITE_ODF_INSTALLATION(state, payload){state.siteOdfInstallation = payload;},
+        SET_SITE_DUCT_INSTALLATION(state, payload) { state.siteDuctInstallation = payload; },
+        SET_SITE_CABLE_INSTALLATION(state, payload) { state.siteCableInstallation = payload; },
+        SET_SITE_HANDHOLE_INSTALLATION(state, payload) { state.siteHandHoleInstallation = payload; },
+        SET_SITE_ODF_INSTALLATION(state, payload) { state.siteOdfInstallation = payload; },
 
-        SET_SITE_ODF_TERMINATION(state, payload){state.siteOdfTermination = payload;},
-        SET_SITE_OTHER(state, payload){state.siteOthers = payload;},
-        SET_SITE_ROUTE_CHANGE(state, payload){state.siteRouteChange = payload;},
-        SET_SITE_TRUNKING(state, payload){state.siteTrunking = payload;},
+        SET_SITE_ODF_TERMINATION(state, payload) { state.siteOdfTermination = payload; },
+        SET_SITE_OTHER(state, payload) { state.siteOthers = payload; },
+        SET_SITE_ROUTE_CHANGE(state, payload) { state.siteRouteChange = payload; },
+        SET_SITE_TRUNKING(state, payload) { state.siteTrunking = payload; },
 
-        SET_SITE_MATERIALS_USED(state, payload){state.materialUsed = payload;},
+        SET_SITE_MATERIALS_USED(state, payload) { state.materialUsed = payload; },
 
 
-        SET_SITE_IMAGES(state, payload){
+        SET_SITE_IMAGES(state, payload) {
             state.siteImages = payload;
         },
-        SET_SITE_PIP(state, payload){
+        SET_SITE_PIP(state, payload) {
             state.pips = payload;
         },
-        UPDATE_PIP(state, payload){
+        UPDATE_PIP(state, payload) {
             state.pips = state.pips.map(plan => {
                 if (plan.id === payload.id) {
                     return Object.assign({}, plan, payload)
@@ -202,49 +204,69 @@ export default {
                 return plan
             })
         },
-        ADD_PIP(state, payload){
+        ADD_PIP(state, payload) {
             state.pips.push(payload)
         },
-        DELETE_SITE_PIP(state, payload){
+        DELETE_SITE_PIP(state, payload) {
             var index = state.pips.findIndex(plan => plan.id === payload.id);
             state.pips.splice(index, 1);
         },
-        SET_SITE_DOCUMENTS(state, payload){
+        SET_SITE_DOCUMENTS(state, payload) {
             state.documents = payload;
         },
-        ADD_DOCUMENTS(state, payload){
+        ADD_DOCUMENTS(state, payload) {
             state.documents.push(payload)
         },
-        CHANGE_LOADING(state, payload){
+        CHANGE_LOADING(state, payload) {
             state.loading = payload
         },
-        UPDATE_BOQ(state, payload){
+        UPDATE_BOQ(state, payload) {
             state.siteBoqs = state.siteBoqs.map(boq => {
                 if (boq.id === payload.id) {
                     return Object.assign({}, boq, payload)
                 }
                 return boq
             })
+        },
+        SET_SITE_TOTAL(state, payload) {
+            state.siteTotals.push(payload)
+        },
+        CLEAR_SITE_TOTAL(state, payload) {
+            state.siteTotals = []
         }
     },
     actions: {
-        async loadCurrentStage({commit}, payload){
-            return await api.request("get", "sitestatus/?site"+payload.id);
+        async loadCurrentStage({ commit }, payload) {
+            return await api.request("get", "sitestatus/?site" + payload.id);
         },
         loadSites({ commit, state }, payload) {
             api
-                .request("get", "sites/?workspace="+payload)
+                .request("get", "sites/?workspace=" + payload)
                 .then(response => {
                     let sites = response.data
 
                     commit('SET_SITES', sites)
                 });
         },
-        loadSite({dispatch, commit}, payload) {
+        async loadSites2({ dispatch, commit, state }, payload) {
+            console.log("calling 2.........")
+            await api
+                .request("get", "sites/?workspace=" + payload)
+                .then(response => {
+                    let sites = response.data
+
+                    commit('SET_SITES', sites)
+                });
+
+            state.sites.forEach(site => {
+                dispatch("sites/loadSiteTotals", site, { root: true });
+            })
+        },
+        loadSite({ dispatch, commit }, payload) {
             dispatch("loadSiteRoles", payload)
             dispatch("loadSiteFleets", payload)
             api
-                .request("get", "sites/"+payload+"/")
+                .request("get", "sites/" + payload + "/")
                 .then(response => {
                     let site = response.data
 
@@ -263,78 +285,78 @@ export default {
         updateSite({ commit, state, rootState }, payload) {
             commit('CHANGE_LOADING', true)
             api
-                .request("patch", "sites/"+payload.get('id')+"/", payload)
+                .request("patch", "sites/" + payload.get('id') + "/", payload)
                 .then(response => {
                     commit('CHANGE_LOADING', false)
                     commit('UPDATE_SITE', response.data)
                 });
         },
-        deleteSite({commit}, payload){
+        deleteSite({ commit }, payload) {
             api
-                .request("patch", "sites/"+payload.id+"/", {site_deleted: true})
+                .request("patch", "sites/" + payload.id + "/", { site_deleted: true })
                 .then(() => {
                     commit('DELETE_SITE', payload)
                 });
         },
-        getSurveyImages({commit}, payload){
+        getSurveyImages({ commit }, payload) {
             api
-                .request("get", "survey_results/?site="+payload)
+                .request("get", "survey_results/?site=" + payload)
                 .then(response => {
                     commit('SET_SURVEY_RESULTS', response.data)
-                }); 
+                });
         },
-        addSurveyResult({commit}, payload){
+        addSurveyResult({ commit }, payload) {
             api
                 .request("post", "survey_results/", payload)
                 .then(response => {
                     commit('ADD_SURVEY_RESULT', response.data)
-                }); 
+                });
         },
         updateSurveyResult({ commit }, payload) {
             api
-                .request("patch", "survey_results/"+payload.id+"/", {'acceptStatus' : payload.acceptStatus})
+                .request("patch", "survey_results/" + payload.id + "/", { 'acceptStatus': payload.acceptStatus })
                 .then(response => {
                     let survey_result = response.data;
-                    
+
                     commit('UPDATE_SURVEY_RESULT', survey_result)
                 });
         },
-        getSurveyComments({commit}, payload){
+        getSurveyComments({ commit }, payload) {
             api
-                .request("get", "survey_result_comments/?survey_result="+payload)
+                .request("get", "survey_result_comments/?survey_result=" + payload)
                 .then(response => {
                     commit('SET_SURVEY_COMMENTS', response.data)
-                }); 
+                });
         },
-        addSurveyComment({commit}, payload){
+        addSurveyComment({ commit }, payload) {
             api
                 .request("post", "survey_result_comments/", payload)
                 .then(response => {
                     commit('ADD_SURVEY_COMMENT', response.data)
-                }); 
+                });
         },
-        loadRequests({commit}, payload){
+        loadRequests({ commit }, payload) {
             // some api to get image
             commit('SET_SITE_REQUESTS', payload)
         },
-        addRequest({commit}, payload){
+        addRequest({ commit }, payload) {
             // some api to get image
             commit('ADD_SITE_REQUEST', payload)
         },
-        deleteRequest({commit}, payload){
+        deleteRequest({ commit }, payload) {
             // some api to get image
             commit('DELETE_SITE_REQUEST', payload)
         },
-        async loadSiteRoles({dispatch, commit, rootState}, payload){
-            await dispatch("users/loadUsers",window.localStorage.getItem("workspace"), {root:true});
+        async loadSiteRoles({ dispatch, commit, rootState }, payload) {
+            await dispatch("users/loadUsers", window.localStorage.getItem("workspace"), { root: true });
             await api
-                .request("get", "siteroles/?site="+payload)
+                .request("get", "siteroles/?site=" + payload)
                 .then((response) => {
                     let siteroles = response.data.map(item => {
                         let siteRole = item;
                         rootState.users.users.forEach(user => {
-                            if(item.user === user.id){
-                                siteRole.user =  user;
+                            if (item.user === user.id) {
+                                siteRole.user = user;
                             }
                         })
                         return siteRole;
@@ -342,44 +364,44 @@ export default {
                     commit('SET_SITE_ROLES', siteroles)
                 });
         },
-        addSiteRole({commit, rootState}, payload){
+        addSiteRole({ commit, rootState }, payload) {
             api
                 .request("post", "siteroles/", payload)
                 .then(response => {
                     let siteRole = response.data;
 
                     rootState.users.users.forEach(user => {
-                        if(siteRole.user === user.id){
-                            siteRole.user =  user;
+                        if (siteRole.user === user.id) {
+                            siteRole.user = user;
                         }
                     })
 
                     commit('ADD_SITE_ROLE', siteRole)
                 });
         },
-        deleteSiteRole({commit}, payload){
+        deleteSiteRole({ commit }, payload) {
             api
-                .request("delete", "siteroles/"+payload.id+"/")
+                .request("delete", "siteroles/" + payload.id + "/")
                 .then(() => {
                     commit('DELETE_SITE_ROLE', payload)
                 });
         },
-        addUserSiteFleet({commit}, payload){
+        addUserSiteFleet({ commit }, payload) {
             api
                 .request("post", "usersitefleets/", payload)
                 .then(response => {
-                    console.log("" + response.data );
+                    console.log("" + response.data);
                 });
         },
-        async loadSiteFleets({dispatch, commit, rootState}, payload){
-            await dispatch("fleets/loadFleets",{}, {root:true});
+        async loadSiteFleets({ dispatch, commit, rootState }, payload) {
+            await dispatch("fleets/loadFleets", {}, { root: true });
             await api
-                .request("get", "sitefleets/?site="+payload)
+                .request("get", "sitefleets/?site=" + payload)
                 .then((response) => {
                     let sitefleets = response.data.map(item => {
                         let siteFleet = item;
                         rootState.fleets.fleets.forEach(fleet => {
-                            if(item.fleet === fleet.id){
+                            if (item.fleet === fleet.id) {
                                 siteFleet.fleet = fleet;
                             }
                         })
@@ -388,9 +410,9 @@ export default {
                     commit('SET_SITE_FLEETS', sitefleets)
                 });
         },
-        addSiteFleet({commit, rootState}, payload){
+        addSiteFleet({ commit, rootState }, payload) {
             api
-                .request("post", "fleethistory/", {"fleet": payload.fleet, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0})
+                .request("post", "fleethistory/", { "fleet": payload.fleet, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0 })
                 .then(response => {
                     let type = response.data;
                 });
@@ -401,30 +423,30 @@ export default {
                     let siteFleet = response.data;
 
                     rootState.fleets.fleets.forEach(fleet => {
-                        if(siteFleet.fleet === fleet.id){
-                            siteFleet.fleet =  fleet;
+                        if (siteFleet.fleet === fleet.id) {
+                            siteFleet.fleet = fleet;
                         }
                     })
 
                     commit('ADD_SITE_FLEET', siteFleet)
                 });
         },
-        deleteSiteFleet({commit}, payload){
+        deleteSiteFleet({ commit }, payload) {
             api
-                .request("delete", "sitefleets/"+payload.id+"/")
+                .request("delete", "sitefleets/" + payload.id + "/")
                 .then(() => {
                     commit('DELETE_SITE_FLEET', payload)
                 });
         },
-        async loadSiteTools({dispatch, commit, rootState}, payload){
-            await dispatch("tools/loadTools",{}, {root:true});
+        async loadSiteTools({ dispatch, commit, rootState }, payload) {
+            await dispatch("tools/loadTools", {}, { root: true });
             await api
-                .request("get", "sitetools/?site="+payload)
+                .request("get", "sitetools/?site=" + payload)
                 .then((response) => {
                     let sitetools = response.data.map(item => {
                         let siteTool = item;
                         rootState.tools.tools.forEach(tool => {
-                            if(item.tool === tool.id){
+                            if (item.tool === tool.id) {
                                 siteTool.tool = tool;
                             }
                         })
@@ -433,12 +455,12 @@ export default {
                     commit('SET_SITE_TOOLS', sitetools)
                 });
         },
-        addSiteTool({commit, rootState}, payload){
+        addSiteTool({ commit, rootState }, payload) {
             api
-            .request("post", "toolhistory/", {"tool": payload.tool, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0})
-            .then(response => {
-                let type = response.data;
-            });
+                .request("post", "toolhistory/", { "tool": payload.tool, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0 })
+                .then(response => {
+                    let type = response.data;
+                });
 
             api
                 .request("post", "sitetools/", payload)
@@ -446,30 +468,30 @@ export default {
                     let siteTool = response.data;
 
                     rootState.tools.tools.forEach(tool => {
-                        if(siteTool.tool === tool.id){
-                            siteTool.tool =  tool;
+                        if (siteTool.tool === tool.id) {
+                            siteTool.tool = tool;
                         }
                     })
 
                     commit('ADD_SITE_TOOL', siteTool)
                 });
         },
-        deleteSiteTool({commit}, payload){
+        deleteSiteTool({ commit }, payload) {
             api
-                .request("delete", "sitetools/"+payload.id+"/")
+                .request("delete", "sitetools/" + payload.id + "/")
                 .then(() => {
                     commit('DELETE_SITE_TOOL', payload)
                 });
         },
-        async loadSiteMachinery({dispatch, commit, rootState}, payload){
-            await dispatch("machinery/loadMachines",{}, {root:true});
+        async loadSiteMachinery({ dispatch, commit, rootState }, payload) {
+            await dispatch("machinery/loadMachines", {}, { root: true });
             await api
-                .request("get", "sitemachines/?site="+payload)
+                .request("get", "sitemachines/?site=" + payload)
                 .then((response) => {
                     let siteMachinery = response.data.map(item => {
                         let siteMachine = item;
                         rootState.machinery.machines.forEach(machine => {
-                            if(item.machine === machine.id){
+                            if (item.machine === machine.id) {
                                 siteMachine.machine = machine;
                             }
                         })
@@ -478,12 +500,12 @@ export default {
                     commit('SET_SITE_MACHINERY', siteMachinery)
                 });
         },
-        addSiteMachinery({commit, rootState}, payload){
+        addSiteMachinery({ commit, rootState }, payload) {
 
             let now = new Date()
 
             api
-                .request("post", "machinehistory/", {"machine": payload.machine, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0})
+                .request("post", "machinehistory/", { "machine": payload.machine, "user": (JSON.parse(window.localStorage.getItem('user'))).user_id, "history_type": "assignment", "time_to_fix": 0 })
                 .then(response => {
                     let type = response.data;
                 });
@@ -494,63 +516,75 @@ export default {
                     let siteMachine = response.data;
 
                     rootState.machinery.machines.forEach(machine => {
-                        if(siteMachine.machine === machine.id){
-                            siteMachine.machine =  machine;
+                        if (siteMachine.machine === machine.id) {
+                            siteMachine.machine = machine;
                         }
                     })
 
                     commit('ADD_SITE_MACHINERY', siteMachine)
                 });
         },
-        deleteSiteMachinery({commit}, payload){
+        deleteSiteMachinery({ commit }, payload) {
             api
-                .request("delete", "sitemachines/"+payload.id+"/")
+                .request("delete", "sitemachines/" + payload.id + "/")
                 .then(() => {
                     commit('DELETE_SITE_MACHINERY', payload)
                 });
         },
-        loadBoqs({commit}, payload){
+        loadBoqs({ commit }, payload) {
             api
-                .request("get", "siteboqs/"+payload+"/summary/")
+                .request("get", "siteboqs/" + payload + "/summary/")
                 .then((response) => {
-                    
+
                     commit('SET_SITE_BOQS', response.data)
                 });
         },
-        async loadSiteBoqs({commit}, payload){
-
-            /* payload.forEach(id => {
-
-            }) */
-
-            api
-                .request("get", "siteboqs/"+payload+"/summary/")
+        async loadSiteTotals({ dispatch, commit, state, rootState }, payload) {
+            console.log('here now')
+            let siteTotal = 0
+            await api
+                .request("get", "siteboqs/" + payload.id + "/summary/")
                 .then((response) => {
-                    
-                    commit('SET_SITE_BOQS', response.data)
+                    let total = 0
+                    response.data.forEach(boq => {
+                        total += boq.total_actual_quantity * boq.unit_cost
+                    })
+                    siteTotal += total
                 });
-        },
-        loadCosts({commit}, payload) {
-            api
-                .request("get", "cost/?site="+payload)
+
+            await api
+                .request("get", "cost/?site=" + payload.id)
                 .then((response) => {
-                    
+                    response.data.forEach(cost => {
+                        siteTotal += cost.value
+                    })
+                });
+
+            console.log({ "site": payload.site_name, "total": siteTotal })
+
+            commit('SET_SITE_TOTAL', { "site": payload.site_name.substr(0, 10), "cost": siteTotal })
+        },
+        loadCosts({ commit }, payload) {
+            api
+                .request("get", "cost/?site=" + payload)
+                .then((response) => {
+
                     commit('SET_SITE_COSTS', response.data)
                 });
         },
-        deleteCosts({commit}, payload){
+        deleteCosts({ commit }, payload) {
             api
-                .request("delete", "cost/"+payload.id+"/")
+                .request("delete", "cost/" + payload.id + "/")
                 .then(() => {
-                    commit('DELETE_SITE_COST', payload) 
+                    commit('DELETE_SITE_COST', payload)
                 });
         },
         updateCost({ commit, state, rootState }, payload) {
             api
-                .request("patch", "cost/"+payload.id+"/", payload)
+                .request("patch", "cost/" + payload.id + "/", payload)
                 .then(response => {
                     let cost = response.data;
-                    commit('UPDATE_COST', cost) 
+                    commit('UPDATE_COST', cost)
                 });
         },
         addCost({ commit, rootState }, payload) {
@@ -559,26 +593,26 @@ export default {
                 .then(response => {
                     let cost = response.data;
 
-                    commit('ADD_COST', cost) 
+                    commit('ADD_COST', cost)
                 });
         },
-        loadSiteManholes({commit}, payload) {
+        loadSiteManholes({ commit }, payload) {
             api
-                .request("get", "manholes/?site="+payload)
+                .request("get", "manholes/?site=" + payload)
                 .then((response) => {
-                    
+
                     commit('SET_SITE_MANHOLES', response.data)
                 });
         },
-        async loadSiteReInstallations({dispatch, commit, rootState}, payload) {
-            await dispatch("materials/loadMaterials",{}, {root:true});
+        async loadSiteReInstallations({ dispatch, commit, rootState }, payload) {
+            await dispatch("materials/loadMaterials", {}, { root: true });
             await api
-                .request("get", "reinstallation/?site="+payload)
+                .request("get", "reinstallation/?site=" + payload)
                 .then((response) => {
                     let reinstallations = response.data.map(item => {
                         let reinstallation = item;
                         rootState.materials.materials.forEach(material => {
-                            if(item.material === material.id){
+                            if (item.material === material.id) {
                                 reinstallation.material = material;
                             }
                         })
@@ -588,138 +622,135 @@ export default {
                     commit('SET_SITE_RE_INSTALLATIONS', reinstallations)
                 });
         },
-        async loadSiteRoadCrossings({dispatch, commit, rootState}, payload) {
-            await dispatch("tools/loadTools",{}, {root:true});
+        async loadSiteRoadCrossings({ dispatch, commit, rootState }, payload) {
+            await dispatch("tools/loadTools", {}, { root: true });
             await api
-                .request("get", "roadcrossing/?site="+payload)
+                .request("get", "roadcrossing/?site=" + payload)
                 .then((response) => {
 
                     let roadcrossings = response.data.map(item => {
                         let roadcrossing = item;
                         rootState.tools.tools.forEach(tool => {
-                            if(item.tool === tool.id){
+                            if (item.tool === tool.id) {
                                 roadcrossing.tool = tool;
                             }
                         })
                         return roadcrossing;
                     });
-                    
+
                     commit('SET_SITE_ROAD_CROSSINGS', roadcrossings)
                 });
         },
-        loadSiteTrenchDistance({commit}, payload) {
+        loadSiteTrenchDistance({ commit }, payload) {
             api
-                .request("get", "distance/trenched/?site="+payload)
+                .request("get", "distance/trenched/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_TRENCH_DISTANCES', response.data)
                 });
         },
-        loadSiteTrunking({commit}, payload) {
+        loadSiteTrunking({ commit }, payload) {
             api
-                .request("get", "trunking/?site="+payload)
+                .request("get", "trunking/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_TRUNKING', response.data)
                 });
         },
-        loadSiteRouteChange({commit}, payload) {
+        loadSiteRouteChange({ commit }, payload) {
             api
-                .request("get", "routechange/?site="+payload)
+                .request("get", "routechange/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_ROUTE_CHANGE', response.data)
                 });
         },
-        loadSiteOther({commit}, payload) {
+        loadSiteOther({ commit }, payload) {
             api
-                .request("get", "other/?site="+payload)
+                .request("get", "other/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_OTHER', response.data)
                 });
         },
-        loadSiteOdfTermination({commit}, payload) {
+        loadSiteOdfTermination({ commit }, payload) {
             api
-                .request("get", "odftermination/?site="+payload)
+                .request("get", "odftermination/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_ODF_TERMINATION', response.data)
                 });
         },
-        loadSiteOdfInstallation({commit}, payload) {
+        loadSiteOdfInstallation({ commit }, payload) {
             api
-                .request("get", "odfinstallation/?site="+payload)
+                .request("get", "odfinstallation/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_ODF_INSTALLATION', response.data)
                 });
         },
-        loadSiteHandoleInstallation({commit}, payload) {
+        loadSiteHandoleInstallation({ commit }, payload) {
             api
-                .request("get", "handholeinstallation/?site="+payload)
+                .request("get", "handholeinstallation/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_HANDHOLE_INSTALLATION', response.data)
                 });
         },
-        loadSiteCableInstallation({commit}, payload) {
+        loadSiteCableInstallation({ commit }, payload) {
             api
-                .request("get", "cableinstallation/?site="+payload)
+                .request("get", "cableinstallation/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_CABLE_INSTALLATION', response.data)
                 });
         },
-        loadSiteDuctInstallation({commit}, payload) {
+        loadSiteDuctInstallation({ commit }, payload) {
             api
-                .request("get", "ductinstallation/?site="+payload)
+                .request("get", "ductinstallation/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_DUCT_INSTALLATION', response.data)
                 });
         },
-        loadSiteManholeInstallation({commit}, payload) {
+        loadSiteManholeInstallation({ commit }, payload) {
             api
-                .request("get", "manholesinstallation/?site="+payload)
+                .request("get", "manholesinstallation/?site=" + payload)
                 .then((response) => {
                     commit('SET_SITE_MANHOLE_INSTALLATION', response.data)
                 });
         },
-
-        async loadMaterialUsed({dispatch, commit}) {
-            await dispatch("materials/loadMaterials",{}, {root:true});
+        async loadMaterialUsed({ dispatch, commit }) {
+            await dispatch("materials/loadMaterials", {}, { root: true });
             await api
                 .request("get", "usedmaterials/")
                 .then((response) => {
                     commit('SET_SITE_MATERIALS_USED', response.data)
                 });
         },
-        
-
-        loadSiteImages({commit}, payload) {
+        loadSiteImages({ commit }, payload) {
             api
-                .request("get", "sitesimages/?site="+payload)
+                .request("get", "sitesimages/?site=" + payload)
                 .then((response) => {
-                    
+
                     commit('SET_SITE_IMAGES', response.data)
                 });
         },
-        loadPIP({commit}, payload) {
+        loadPIP({ commit }, payload) {
             api
-                .request("get", "sitespips/?site="+payload)
+                .request("get", "sitespips/?site=" + payload)
                 .then((response) => {
                     let pips = response.data
                     commit('SET_SITE_PIP', pips)
                 });
         },
-        deletePIP({commit}, payload){
+        deletePIP({ commit }, payload) {
             api
-                .request("delete", "sitespips/"+payload.id+"/")
+                .request("delete", "sitespips/" + payload.id + "/")
                 .then(() => {
-                    commit('DELETE_SITE_PIP', payload) 
+                    commit('DELETE_SITE_PIP', payload)
                 });
         },
         updatePIP({ commit, state, rootState }, payload) {
             api
-                .request("patch", "sitespips/"+payload.id+"/", payload)
+                .request("patch", "sitespips/" + payload.id + "/", payload)
                 .then(response => {
                     let pip = response.data;
-                    commit('UPDATE_PIP', pip) 
+                    commit('UPDATE_PIP', pip)
                 });
 
-            commit('UPDATE_PIP', payload) 
+            commit('UPDATE_PIP', payload)
         },
         addPIP({ commit, rootState }, payload) {
             api
@@ -727,37 +758,37 @@ export default {
                 .then(response => {
                     let pip = response.data;
 
-                    commit('ADD_PIP', pip) 
+                    commit('ADD_PIP', pip)
                 });
         },
         getSiteDocuments({ commit, rootState }, payload) {
             api
-                .request("get", "sitesdocuments/?site="+payload)
+                .request("get", "sitesdocuments/?site=" + payload)
                 .then(response => {
                     commit('SET_SITE_DOCUMENTS', response.data)
-                }); 
+                });
         },
         addDocument({ commit, state }, payload) {
             api
                 .request("post", "sitesdocuments/", payload)
                 .then(response => {
                     commit('ADD_DOCUMENTS', response.data)
-                }); 
-        }, 
-        updateBoq({ commit, state }, payload){
-            api
-                .request("patch", "siteboqs/"+payload.id+"/", payload)
-                .then(response => {
-                    commit('UPDATE_BOQ', response.data) 
                 });
         },
-        massAddTeams({ dispatch, commit, rootState }, payload){
+        updateBoq({ commit, state }, payload) {
+            api
+                .request("patch", "siteboqs/" + payload.id + "/", payload)
+                .then(response => {
+                    commit('UPDATE_BOQ', response.data)
+                });
+        },
+        massAddTeams({ dispatch, commit, rootState }, payload) {
             commit('CHANGE_LOADING', true)
             api
                 .request("post", "siteroles/import/", payload)
                 .then(response => {
                     commit('CHANGE_LOADING', false)
-                    dispatch('sites/loadSiteRoles', payload.get('site'), {root:true})
+                    dispatch('sites/loadSiteRoles', payload.get('site'), { root: true })
                 });
         }
     },
@@ -777,43 +808,44 @@ export default {
             return total
         },
         getSites: (state) => {
-            //logic goes here
-
-            if(window.localStorage.getItem('clientType') === 'client'){
+            if (window.localStorage.getItem('clientType') === 'client') {
                 return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus);
-            }else{
+            } else {
                 return state.sites.filter(item => item.ackStatus);
-            }   
+            }
+        },
+        getAllSites: (state) => {
+            return state.sites
         },
         getRequests: (state) => {
-            if(state.requestListType === 'all'){
-                if(window.localStorage.getItem('clientType') === 'client'){
+            if (state.requestListType === 'all') {
+                if (window.localStorage.getItem('clientType') === 'client') {
                     return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
-                }else{
+                } else {
                     return state.sites;
-                }   
-            }else{
+                }
+            } else {
                 let requests = [];
                 state.requestStatus.forEach(element => {
-                    if(state.requestListType === 'pending'){
+                    if (state.requestListType === 'pending') {
                         requests = state.sites.filter(item => !item.ackStatus);
-                    }else if(state.requestListType === 'accepted'){
+                    } else if (state.requestListType === 'accepted') {
                         requests = state.sites.filter(item => item.ackStatus);
                     }
                 });
 
-                if(window.localStorage.getItem('clientType') === 'client'){
+                if (window.localStorage.getItem('clientType') === 'client') {
                     return requests.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
-                }else{
+                } else {
                     return requests;
-                }   
+                }
             }
         },
         getBeforeImages: (state) => {
-            return state.siteImages.filter(image => { return image.status === 'before'})
+            return state.siteImages.filter(image => { return image.status === 'before' })
         },
         getAfterImages: (state) => {
-            return state.siteImages.filter(image => { return image.status === 'after'})
+            return state.siteImages.filter(image => { return image.status === 'after' })
         },
         getCostTotal: (state) => {
             let total = 0
@@ -826,26 +858,26 @@ export default {
             return state.sites.filter(item => item.id == site);
         },
         getActivityMaterialsUsed: (state, getters, rootState) => (activity) => {
-            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity); 
+            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity);
             let mappedMaterialsUsed = []
             materialsUsed.forEach(item => {
                 let material = item
                 rootState.materials.materials.forEach(mat => {
-                    if(mat.id == material.id){
+                    if (mat.id == material.id) {
                         let price = item.quantity * mat.unit_cost
-                        mappedMaterialsUsed.push({"material": mat.name, "price": price, "measrement": mat.measurement, "quantity": item.quantity, "unit_cost": mat.unit_cost})
+                        mappedMaterialsUsed.push({ "material": mat.name, "price": price, "measrement": mat.measurement, "quantity": item.quantity, "unit_cost": mat.unit_cost })
                     }
                 })
             })
             return mappedMaterialsUsed
         },
         getTotalMaterialPrice: (state, getters, rootState) => (activity) => {
-            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity); 
+            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity);
             let total = 0
             materialsUsed.forEach(item => {
                 let material = item
                 rootState.materials.materials.forEach(mat => {
-                    if(mat.id == material.id){
+                    if (mat.id == material.id) {
                         let price = item.quantity * mat.unit_cost
                         total += price
                     }
@@ -855,20 +887,12 @@ export default {
         },
         getSiteCosts: (state) => {
             let siteCost = []
-            state.sites.forEach(site => {
-
-
-
-
-
-
-
-
+            /* state.sites.forEach(site => {
                 let cost = Math.floor((Math.random() * 100) + 1);
 
-                siteCost.push({'site': site.site_name.substr(0, 10), 'cost' : cost})
-            })
-            return siteCost;
+                siteCost.push({ 'site': site.site_name.substr(0, 10), 'cost': cost })
+            }) */
+            return state.siteTotals;
         },
         getTotalTrench: (state) => {
             let total = 0
