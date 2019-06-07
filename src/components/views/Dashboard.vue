@@ -213,8 +213,6 @@ export default {
       // New Chart
       let element = document.getElementById("barGraph");
 
-      console.log(element);
-
       let chart = am4core.create(element, am4charts.XYChart);
 
       chart.paddingRight = 20;
@@ -385,7 +383,6 @@ export default {
         }
       };
 
-      console.log(canvas);
       var ctx2 = document.getElementById(canvas).getContext("2d");
       document.getElementById(canvas).height = 70;
       document.getElementById(canvas).width = 100;

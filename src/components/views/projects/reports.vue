@@ -49,7 +49,7 @@
                 href="#ductInstallation"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteDuctInstallation()"
               >Duct Installation</a>
             </li>
             <li>
@@ -57,7 +57,7 @@
                 href="#cableInstallation"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteCableInstallations()"
               >Cable Installation</a>
             </li>
             <li>
@@ -65,7 +65,7 @@
                 href="#odfInstallation"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteOdfInstallations()"
               >Odf Installation</a>
             </li>
             <li>
@@ -73,7 +73,7 @@
                 href="#odfTermination"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteOdfTerminations()"
               >Odf Termination</a>
             </li>
 
@@ -82,7 +82,7 @@
                 href="#routeChange"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteRouteChanges()"
               >Route Change</a>
             </li>
             <li>
@@ -90,7 +90,7 @@
                 href="#handholeInstallation"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteHandoleInstallations()"
               >HandHole Installation</a>
             </li>
             <li>
@@ -98,7 +98,7 @@
                 href="#trunking"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteTrunkings()"
               >Trunking</a>
             </li>
             <li>
@@ -106,7 +106,7 @@
                 href="#others"
                 data-toggle="tab"
                 role="tab"
-                v-on:click="loadSiteTrenchDistances()"
+                v-on:click="loadSiteOthers()"
               >Others</a>
             </li>
           </ul>
@@ -137,7 +137,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(manholeInstallation)"
+                          v-on:click="selectMaterialsUsed(manholeInstallation, 'manholeInstallations')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -176,7 +176,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(reInstallation)"
+                          v-on:click="selectMaterialsUsed(reInstallation, 'reInstatement')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -213,7 +213,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(roadCrossing)"
+                          v-on:click="selectMaterialsUsed(roadCrossing, 'roadCrossing')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -254,7 +254,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(trenchDistance)"
+                          v-on:click="selectMaterialsUsed(trenchDistance, 'trenchDistance')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -299,7 +299,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(cableInstallation)"
+                          v-on:click="selectMaterialsUsed(cableInstallation, 'cableInstallation')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -340,7 +340,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(ductInstallation)"
+                          v-on:click="selectMaterialsUsed(ductInstallation, 'ductInstallation')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -378,7 +378,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(handholeInstallation)"
+                          v-on:click="selectMaterialsUsed(handholeInstallation, 'handholeInstallation')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -415,7 +415,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(odfInstallation)"
+                          v-on:click="selectMaterialsUsed(odfInstallation, 'odfInstallation')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -452,7 +452,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(odfTermination)"
+                          v-on:click="selectMaterialsUsed(odfTermination, 'odfTermination')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -487,7 +487,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(routeChange)"
+                          v-on:click="selectMaterialsUsed(routeChange, 'changeRoute')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -522,7 +522,7 @@
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(trunking)"
+                          v-on:click="selectMaterialsUsed(trunking, 'trunking')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -551,13 +551,13 @@
                   </thead>
                   <tbody>
                     <tr v-for="other in others" :key="other.id">
-                      <td>{{ other.distance }}</td>
+                      <td>{{ other.reason }}</td>
                       <td>{{ other.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
                         <a
                           class="custom-btn text-white"
                           style="padding-top: 5px; padding-bottom: 5px; cursor: pointer"
-                          v-on:click="selectMaterialsUsed(other)"
+                          v-on:click="selectMaterialsUsed(other, 'other')"
                         >Materials Used</a>
                       </td>
                     </tr>
@@ -672,8 +672,8 @@ export default {
         window.localStorage.getItem("selectsite")
       );
     },
-    selectMaterialsUsed(activity) {
-      this.$router.push("/dash/project/projects/materialsused/" + activity.id);
+    selectMaterialsUsed(activity, type) {
+      this.$router.push("/dash/project/projects/materialsused/" + activity.id + "/" + type);
     },
     getCsvUrl(type){
       return "http://178.62.54.104/api/"+type+"/?site="+window.localStorage.getItem("selectsite")+"&format=csv"

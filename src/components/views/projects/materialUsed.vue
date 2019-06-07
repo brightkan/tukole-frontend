@@ -65,24 +65,17 @@ export default {
   },
   created() {},
   mounted() {
-    console.log("katuula")
-
     this.$store.dispatch("sites/loadMaterialUsed");
 
     this.getMaterialsUsed();
     this.getTotal()
   },
-  computed: {
-    // ...mapState({
-    //   materials: state => state.sites.materialUsed
-    // })
-  },
   methods: {
     getMaterialsUsed(){
-      this.materials = this.$store.getters['sites/getActivityMaterialsUsed'](this.$route.params.id);
+      this.materials = this.$store.getters['sites/getActivityMaterialsUsed'](this.$route.params.id, this.$route.params.type);
     },
     getTotal(){
-      this.totalCost = this.$store.getters['sites/getTotalMaterialPrice'](this.$route.params.id);
+      this.totalCost = this.$store.getters['sites/getTotalMaterialPrice'](this.$route.params.id, this.$route.params.type);
     }
   }
 };

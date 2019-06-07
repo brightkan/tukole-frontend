@@ -234,8 +234,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route);
-
     this.$store.dispatch("getUser", (JSON.parse(window.localStorage.getItem('user'))).user_id)
     this.$store.dispatch("notifications/loadNotifications", (JSON.parse(window.localStorage.getItem('user'))).user_id);
     this.$store.commit("SET_USER_TYPE", window.localStorage.getItem('clientType'));

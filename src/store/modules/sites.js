@@ -249,7 +249,6 @@ export default {
                 });
         },
         async loadSites2({ dispatch, commit, state }, payload) {
-            console.log("calling 2.........")
             await api
                 .request("get", "sites/?workspace=" + payload)
                 .then(response => {
@@ -540,7 +539,6 @@ export default {
                 });
         },
         async loadSiteTotals({ dispatch, commit, state, rootState }, payload) {
-            console.log('here now')
             let siteTotal = 0
             await api
                 .request("get", "siteboqs/" + payload.id + "/summary/")
@@ -857,13 +855,12 @@ export default {
         getSite: (state) => (site) => {
             return state.sites.filter(item => item.id == site);
         },
-        getActivityMaterialsUsed: (state, getters, rootState) => (activity) => {
-            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity);
+        getActivityMaterialsUsed: (state, getters, rootState) => (activity, type) => {
+            let materialsUsed = state.materialUsed.filter(item => (item.object_id == activity) && (item.object_type == type));
             let mappedMaterialsUsed = []
             materialsUsed.forEach(item => {
-                let material = item
                 rootState.materials.materials.forEach(mat => {
-                    if (mat.id == material.id) {
+                    if (mat.id == item.material) {
                         let price = item.quantity * mat.unit_cost
                         mappedMaterialsUsed.push({ "material": mat.name, "price": price, "measrement": mat.measurement, "quantity": item.quantity, "unit_cost": mat.unit_cost })
                     }
@@ -871,13 +868,12 @@ export default {
             })
             return mappedMaterialsUsed
         },
-        getTotalMaterialPrice: (state, getters, rootState) => (activity) => {
-            let materialsUsed = state.materialUsed.filter(item => item.object_id == activity);
+        getTotalMaterialPrice: (state, getters, rootState) => (activity, type) => {
+            let materialsUsed = state.materialUsed.filter(item => (item.object_id == activity) && (item.object_type == type));
             let total = 0
             materialsUsed.forEach(item => {
-                let material = item
                 rootState.materials.materials.forEach(mat => {
-                    if (mat.id == material.id) {
+                    if (mat.id == item.material) {
                         let price = item.quantity * mat.unit_cost
                         total += price
                     }
@@ -886,12 +882,6 @@ export default {
             return total
         },
         getSiteCosts: (state) => {
-            let siteCost = []
-            /* state.sites.forEach(site => {
-                let cost = Math.floor((Math.random() * 100) + 1);
-
-                siteCost.push({ 'site': site.site_name.substr(0, 10), 'cost': cost })
-            }) */
             return state.siteTotals;
         },
         getTotalTrench: (state) => {
@@ -899,7 +889,6 @@ export default {
             state.siteTrenchDistances.forEach(distance => {
                 total += distance.distance
             })
-            console.log(total)
             return total;
         },
         getTotalRoadCrossing: (state) => {
@@ -907,7 +896,6 @@ export default {
             state.siteRoadCrossings.forEach(distance => {
                 total += distance.distance_crossed
             })
-            console.log(total)
             return total;
         }
 

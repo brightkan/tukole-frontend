@@ -339,7 +339,7 @@ const routes = [
                 meta: { description: "Project reports", requiresAuth: false, type: 'ProjectOverview' }
               },
               {
-                path: "materialsused/:id",
+                path: "materialsused/:id/:type",
                 component: MaterialUsedView,
                 name: "MATERIALUSED",
                 meta: { description: "Activity material designs", requiresAuth: false, type: 'ProjectOverview' }

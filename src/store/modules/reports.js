@@ -60,7 +60,6 @@ export default {
             await api
                 .request("get", "activity/?site=" + payload)
                 .then(response => {
-
                     let mappedActivity = []
 
                     response.data.forEach(activity => {
@@ -70,8 +69,6 @@ export default {
                             }
                         })
                     })
-
-                    console.log(mappedActivity)
 
                     commit('SET_ACTIVITIES', mappedActivity)
                 });
