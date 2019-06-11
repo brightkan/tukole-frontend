@@ -64,7 +64,7 @@
                             <td>{{ incident.title }}</td>
                             <td>{{ incident.description }}</td>
                             <td>{{ incident.type }}</td>
-                            <td><a v-bind:href="challenge.image" target="_blank"><img style="max-height: 100px" v-bind:src="challenge.image"/></a></td>
+                            <td><a v-bind:href="incident.image" target="_blank"><img style="max-height: 100px" v-bind:src="incident.image"/></a></td>
                           </tr>
                           <tr v-if="incidents.length <= 0">
                             <td colspan="6" class="text-center">No incidents Yet</td>

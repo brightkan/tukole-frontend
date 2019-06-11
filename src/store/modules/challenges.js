@@ -24,6 +24,7 @@ export default {
             state.challenges = challenges
         },
         SET_INCIDENTS(state, incidents) {
+            console.log(incidents)
             state.incidents = incidents
         }
     },
@@ -36,7 +37,7 @@ export default {
                     commit('SET_CHALLENGES', challenges)
                 });
         },
-        loadIncidents({ commit }) {
+        loadIncidents({ commit }, payload) {
             api
                 .request("get", "incidents/?site=" + payload)
                 .then(response => {
