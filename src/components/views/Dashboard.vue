@@ -113,10 +113,7 @@
               <i class="fa fa-truck"></i>
             </span> Project costs
           </h4>
-          <div class="chart-time-group">
-            <div>Annually</div>
-            <div style="background-color: #d9d9d9; color: rgb(168, 168, 168)">Monthly</div>
-          </div>
+          
           <div class="chart-wrapper">
             <div class="chart" ref="chartdiv" id="barGraph"></div>
           </div>
