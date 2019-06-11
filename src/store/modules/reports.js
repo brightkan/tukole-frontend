@@ -65,10 +65,12 @@ export default {
                     response.data.forEach(activity => {
                         rootState.users.users.forEach(user => {
                             if(user.id == activity.user){
-                                mappedActivity.push({"user": user, "title": activity.title, "description": activity.description, "start_time": activity.start_time, "end_time": activity.end_time, "duration": activity.duration, "created": activity.created})
+                                mappedActivity.push({"user": user, "title": activity.title, "description": activity.description, "start_time": activity.start_time, "end_time": activity.end_time, "duration": activity.duration, "created": activity.created, "image": activity.image})
                             }
                         })
                     })
+
+                    console.log(mappedActivity)
 
                     commit('SET_ACTIVITIES', mappedActivity)
                 });

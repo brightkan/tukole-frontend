@@ -27,6 +27,7 @@
                               <td>Title</td>
                               <td>Description</td>
                               <td>Type</td>
+                              <td>Image</td>
                             </tr>
                           </thead>
                           <tbody>
@@ -34,6 +35,7 @@
                               <td>{{ challenge.title }}</td>
                               <td>{{ challenge.description }}</td>
                               <td>{{ challenge.type }}</td>
+                              <td><a v-bind:href="challenge.image" target="_blank"><img style="height: 100px" v-bind:src="challenge.image"/></a></td>
                             </tr>
                             <tr v-if="challenges.length <= 0">
                               <td colspan="6" class="text-center">No challenges Yet</td>
@@ -54,6 +56,7 @@
                             <td>Title</td>
                             <td>Description</td>
                             <td>Type</td>
+                            <td>Image</td>
                           </tr>
                         </thead>
                         <tbody>
@@ -61,6 +64,7 @@
                             <td>{{ incident.title }}</td>
                             <td>{{ incident.description }}</td>
                             <td>{{ incident.type }}</td>
+                            <td><a v-bind:href="challenge.image" target="_blank"><img style="height: 100px" v-bind:src="challenge.image"/></a></td>
                           </tr>
                           <tr v-if="incidents.length <= 0">
                             <td colspan="6" class="text-center">No incidents Yet</td>

@@ -78,10 +78,12 @@
             <div class="col-md-2">{{ report.created | moment("MMM Do YYYY") }}</div>
             <div class="col-md-1">{{ report.created | moment("h:ss") }}</div>
             <div class="col-md-9">
-              <b>{{ report.title }}: </b> {{ report.description }} from {{ report.start_time | moment("MMM Do YYYY h:ss") }} to {{ report.end_time | moment("MMM Do YYYY h:ss") }}
+              <b>{{ report.title }} <i>by {{ report.user.first_name }} {{ report.user.last_name }}</i>: </b> {{ report.description }} from {{ report.start_time | moment("MMM Do YYYY h:ss") }} to {{ report.end_time | moment("MMM Do YYYY h:ss") }}
               <span class="float-right">
                 Duration: {{ report.duration / 60 | formatNumber }} mins
               </span>
+              <br/>
+              <a v-bind:href="report.image" target="_blank"><img style="max-height: 100px" v-bind:src="report.image"/></a>
             </div>
           </div>
 
