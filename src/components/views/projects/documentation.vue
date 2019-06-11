@@ -31,6 +31,7 @@
             </p>
             <p>{{ document.title }}</p>
           </a>
+          <span v-if="$store.state.user_type != 'client'" style="cursor: pointer; color: blue; text-align: center; width: 100%; display: block;" v-on:click="removeDocument(document)">Remove</span>
         </div>
       </div>
         
@@ -138,12 +139,13 @@ export default {
     this.reset();
   },
   methods: {
+    removeDocument(document){
+      this.$store.dispatch("sites/deleteDocument", document);
+    },
     saveDocument() {
       const { document } = this;
-
       this.formData.append('title', document.title)
       this.formData.append('site', window.localStorage.getItem("selectsite"))
-
       this.$store.dispatch("sites/addDocument", this.formData);
     },
     //this is for the upload

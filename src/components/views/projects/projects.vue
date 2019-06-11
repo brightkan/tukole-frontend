@@ -155,7 +155,7 @@
               Site Costs
             </a>
           </router-link>  
-          <router-link tag="li" to="/dash/project/projects/documentation" v-if="$store.state.user_type != 'client'">
+          <router-link tag="li" to="/dash/project/projects/documentation">
             <a href="#">
               Documents
             </a>

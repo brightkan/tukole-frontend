@@ -211,6 +211,10 @@ export default {
             var index = state.pips.findIndex(plan => plan.id === payload.id);
             state.pips.splice(index, 1);
         },
+        DELETE_SITE_DOCUMENT(state, payload) {
+            var index = state.documents.findIndex(document => document.id === payload.id);
+            state.documents.splice(index, 1);
+        },
         SET_SITE_DOCUMENTS(state, payload) {
             state.documents = payload;
         },
@@ -771,6 +775,13 @@ export default {
                 .request("post", "sitesdocuments/", payload)
                 .then(response => {
                     commit('ADD_DOCUMENTS', response.data)
+                });
+        },
+        deleteDocument({ commit, state }, payload) {
+            api
+                .request("delete", "sitesdocuments/"+ payload.id + "/")
+                .then(response => {
+                    commit('DELETE_SITE_DOCUMENT', response.data)
                 });
         },
         updateBoq({ commit, state }, payload) {
