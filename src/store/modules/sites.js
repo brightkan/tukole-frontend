@@ -562,8 +562,6 @@ export default {
                     })
                 });
 
-            console.log({ "site": payload.site_name, "total": siteTotal })
-
             commit('SET_SITE_TOTAL', { "site": payload.site_name.substr(0, 10), "cost": siteTotal })
         },
         loadCosts({ commit }, payload) {

@@ -85,11 +85,11 @@
                 <div class="row">
                   <div class="col-md-6">
                     <mdc-textfield v-model="site.site_name" label="Site Name" outline/>
-                    <mdc-textfield v-model="site.expected_end_date" label="Expected end date" outline/>
+                    <mdc-textfield v-model="site.expected_end_date" label="Expected end date" type="date" outline/>
                     <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline/>
                   </div>
                   <div class="col-md-6">
-                    <mdc-textfield v-model="site.start_date" label="Start date" outline/>
+                    <mdc-textfield v-model="site.start_date" label="Start date" type="date" outline/>
                     <mdc-select v-model="site.company" label="Company" outlined>
                       <option v-for="company in companies" v-bind:value="company.id" :key="company.id">
                         {{ company.name }}
@@ -202,6 +202,11 @@ import moment from 'moment'
 const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
 
 export default {
+  props: {
+      type: {
+        type: Date
+      }
+  },
   mixins: [select],
   data(router) {
     return {
@@ -212,11 +217,11 @@ export default {
         site_name: "",
         location_lat: "",
         location_long: "",
-        start_date: "",
-        expected_end_date: "",
-        archivedStatus: "",
+        start_date: moment().format('YYYY-MM-DD'),
+        expected_end_date: moment().format('YYYY-MM-DD'),
+        archivedStatus: false,
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
-        ackStatus: "",
+        ackStatus: true,
         current_stage: 0,
         company: "",
         workspace: window.localStorage.getItem("workspace"),
@@ -268,11 +273,11 @@ export default {
         site_name: "",
         location_lat: "",
         location_long: "",
-        start_date: "",
-        expected_end_date: "",
-        archivedStatus: "",
+        start_date: moment().format('YYYY-MM-DD'),
+        expected_end_date: moment().format('YYYY-MM-DD'),
+        archivedStatus: false,
         clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
-        ackStatus: "",
+        ackStatus: true,
         current_stage: 0,
         company: '',
         workspace: window.localStorage.getItem("workspace"),

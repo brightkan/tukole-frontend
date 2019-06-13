@@ -280,6 +280,7 @@ export default {
       const { site } = this;
       this.$modal.hide("modal");
 
+      this.formData.append("id", site.id);
       this.formData.append("site_name", site.site_name);
       this.formData.append("location_lat", site.location_lat);
       this.formData.append("location_long", site.location_long);
