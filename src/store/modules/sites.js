@@ -827,9 +827,9 @@ export default {
         getRequests: (state) => {
             if (state.requestListType === 'all') {
                 if (window.localStorage.getItem('clientType') === 'client') {
-                    return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
+                    return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.site_deleted == false);
                 } else {
-                    return state.sites;
+                    return state.sites.filter(item => item.site_deleted == false);
                 }
             } else {
                 let requests = [];
@@ -842,9 +842,9 @@ export default {
                 });
 
                 if (window.localStorage.getItem('clientType') === 'client') {
-                    return requests.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId);
+                    return requests.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.site_deleted == false);
                 } else {
-                    return requests;
+                    return requests.filter(item => item.site_deleted == false);
                 }
             }
         },

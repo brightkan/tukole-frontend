@@ -62,7 +62,7 @@ export default {
                     let manholes = response.data.map(item => {
                         state.manholes.forEach(element => {
                             if(item.manhole == element.id){
-                                item.manhole = element.number
+                                item.manhole = element
                             }
                         })
                         return item
@@ -78,7 +78,7 @@ export default {
                     let manholes = response.data.map(item => {
                         state.manholes.forEach(element => {
                             if(item.manhole == element.id){
-                                item.manhole = element.number
+                                item.manhole = element
                             }
                         })
                         return item
@@ -216,24 +216,21 @@ export default {
             return users[0]
         },
         getUserCurrentManholes: (state) => (userId) => {
+            console.log(state.currentAssignedManholes.filter(manholeEntry => {return manholeEntry.user == userId}))
             return state.currentAssignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
         },
         getUsersByType: (state) => (type) => {
             return state.users.filter(user => { return user.role == type })
         },
         getUserPreviousManholes: (state) => (userId) => {
-
             var filterManholes = []
-
             state.assignedManholes.forEach(manhole => {
                 let accepted = true;
                 state.currentAssignedManholes.forEach(current => {
-                    
-                    if(current.manhole == manhole.manhole){
+                    if(current.manhole.number == manhole.manhole.number){
                         accepted = false;
                     }
                 })
-
                 if(accepted){
                     filterManholes.push(manhole)
                 } 

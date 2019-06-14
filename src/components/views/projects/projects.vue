@@ -30,7 +30,7 @@
                 <span v-if="site.site_ready_for_connection && !site.site_connected"></span>
               </h3>
             </div>
-            <div class="row stats">
+            <!-- <div class="row stats">
               <div class="col-md-6">
                 <span class="icon" style="background: #b7f5b5"><i class="fa fa-truck"></i></span>
                 <div>
@@ -45,7 +45,7 @@
                   <span>Workers</span>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <div class="col-md-12"><p>Progress</p></div>
               <div class="col-md-12">

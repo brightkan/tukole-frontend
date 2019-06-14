@@ -51,12 +51,12 @@
                     </thead>
                     <tbody>
                       <tr v-for="manhole in getUserCurrentManholes(this.$route.params.id)" :key="manhole.id">
-                        <td>{{ manhole.manhole }}</td>
+                        <td>{{ manhole.manhole.number }}</td>
                         <!-- <td>{{ manhole.login_time | moment("HH:mm:ss") }}</td>
                         <td>{{ manhole.logout_time | moment("HH:mm:ss") }}</td> -->
                         <td>{{ manhole.created | moment('MMM Do YYYY')}}</td>
                         <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="showDurations(user, manhole.id)">
+                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="showDurations(manhole.user, manhole.manhole.id)">
                             Login History
                           </a>  
                         </td>
@@ -83,10 +83,10 @@
                     </thead>
                     <tbody>
                       <tr v-for="manhole in getUserPreviousManholes(this.$route.params.id)" :key="manhole.id">
-                        <td>{{ manhole.manhole }}</td>
+                        <td>{{ manhole.manhole.number }}</td>
                         <td>{{ manhole.created | moment('MMM Do YYYY')}}</td>
                         <td>
-                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="showDurations(user, manhole.id)">
+                          <a class="custom-btn text-white" style="padding-top: 5px; padding-bottom: 5px; cursor: pointer" v-on:click="showDurations(manhole.user, manhole.manhole.id)">
                             Login History
                           </a>  
                         </td>

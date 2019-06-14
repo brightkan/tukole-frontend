@@ -1,5 +1,5 @@
 <template>
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
@@ -8,10 +8,11 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button v-if="$store.state.user_type == 'client'" 
-          type="button" v-on:click="showForm();resetRequest()">
-          Add Request
-        </button>
+        <button
+          v-if="$store.state.user_type == 'client'"
+          type="button"
+          v-on:click="showForm();resetRequest()"
+        >Add Request</button>
       </div>
     </div>
     <!-- /.row -->
@@ -19,7 +20,9 @@
     <div class="row">
       <div class="col-md-12">
         <div class="table-alt">
-          <h3><i class="fa fa-sitemap"></i> Requests</h3>
+          <h3>
+            <i class="fa fa-sitemap"></i> Requests
+          </h3>
           <table>
             <thead>
               <tr v-if="getRequests.length > 0">
@@ -27,7 +30,7 @@
                 <td>Creation Date</td>
                 <td>Acknowledgement Status</td>
                 <td>Site Drawing</td>
-                <td></td>
+                <td>Actions</td>
               </tr>
             </thead>
             <tbody>
@@ -36,12 +39,22 @@
                 <td>{{ request.created | moment("MMM Do YYYY")}}</td>
                 <td>{{ request.ackStatus ? 'Acknowledged' : 'Not Acknowledged' }}</td>
                 <td>
-                  <a v-if="request.site_drawing != null" class="mdc-button mdc-button--raised" target="_blank"
-                    v-bind:href="request.site_drawing" download>Download</a>
+                  <a
+                    v-if="request.site_drawing != null"
+                    class="mdc-button mdc-button--raised"
+                    target="_blank"
+                    v-bind:href="request.site_drawing"
+                    download
+                  >Download</a>
                   <span v-if="request.site_drawing == null">No Drawing</span>
                 </td>
                 <td class="text-right">
-                  <button v-if="!request.ackStatus && $store.state.user_type != 'client'" v-on:click="ackSite(request)">Acknowledge site</button>
+                  <button
+                    class="mdc-button mdc-button--raised"
+                    style="margin-right: 15px"
+                    v-if="!request.ackStatus && $store.state.user_type != 'client'"
+                    v-on:click="ackSite(request)"
+                  >Acknowledge site</button>
                   <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteSite(request)"></i>
                 </td>
               </tr>
@@ -53,11 +66,15 @@
         </div>
       </div>
     </div>
-    
-
 
     <!-- Modal -->
-    <modal name="modal" class="custom-modal" height="auto" :scrollable="true" v-if="this.$route.meta.type != 'ProjectOverview'">
+    <modal
+      name="modal"
+      class="custom-modal"
+      height="auto"
+      :scrollable="true"
+      v-if="this.$route.meta.type != 'ProjectOverview'"
+    >
       <div class="row modal-header">
         <div class="col-md-12">
           <h5 class="modal-title" id="exampleModalLabel">Add Request</h5>
@@ -76,7 +93,11 @@
                   <div class="col-md-6">
                     <mdc-textfield v-model="site.site_name" label="Request Name" outline required/>
                     <mdc-textfield v-model="site.site_address" label="Site address" outline/>
-                    <mdc-textfield v-model="site.site_contact_person" label="Site Contact Person" outline/>
+                    <mdc-textfield
+                      v-model="site.site_contact_person"
+                      label="Site Contact Person"
+                      outline
+                    />
                     <mdc-textfield
                       v-model="site.site_contact_phone_number"
                       label="Contact Person Number"
@@ -90,30 +111,35 @@
                   <div class="col-md-6">
                     <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline/>
                     <mdc-textfield v-model="site.location_long" label="Location longitude" outline/>
-                    <mdc-textfield v-model="site.original_trenching_distance" label="Original trenching distance" outline/>                   
-                    <mdc-textfield v-model="site.current_trenching_distance" label="Current trenched distance" outline/>
+                    <mdc-textfield
+                      v-model="site.original_trenching_distance"
+                      label="Original trenching distance"
+                      outline
+                    />
+                    <!-- <mdc-textfield
+                      v-model="site.current_trenching_distance"
+                      label="Current trenched distance"
+                      outline
+                    /> -->
+                    <mdc-select v-model="site.site_type" label="Site Type" outlined>
+                      <option v-bind:value="'single'" :key="'1'">Single</option>
+                      <option v-bind:value="'dual'" :key="'2'">Dual</option>
+                      <option v-bind:value="'shared'" :key="'3'">Shared</option>
+                    </mdc-select>
                   </div>
                 </div>
 
-                <mdc-select v-model="site.site_type" label="Site Type" outlined>
-                  <option v-bind:value="'single'" :key="'1'">
-                    Single
-                  </option>
-                  <option v-bind:value="'dual'" :key="'2'">
-                    Dual
-                  </option>
-                  <option v-bind:value="'shared'" :key="'3'">
-                    Shared
-                  </option>
-                </mdc-select>
+                
 
                 <div class="row">
                   <div class="col-md-12">
                     <div class="dropbox">
-                      <p class="note" v-if="isInitial">Click to upload</p>
-                      <p class="note" v-if="isSaving">
-                        {{ fileName }}
-                      </p>
+                      <p
+                        class="note"
+                        v-if="isInitial"
+                        style="position: absolute;"
+                      >Click to upload site drawing</p>
+                      <p class="note" v-if="isSaving">{{ fileName }}</p>
                       <input
                         type="file"
                         multiple
@@ -121,72 +147,123 @@
                         :disabled="isSaving"
                         @change="filesChange($event.target.name, $event.target.files);"
                         accept="image/*"
-                        class="input-file">
+                        class="input-file"
+                      >
                     </div>
                   </div>
                 </div>
 
                 <br>
 
+                <!-- <div class="row">
+                  <div class="col-md-6">
+                    <p class="note">Site Completed</p>
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.site_completed"
+                      name="site_completed"
+                      value="true"
+                      label="Yes"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.site_completed"
+                      name="site_completed"
+                      value="false"
+                      label="NO"
+                    />
+                  </div>
+                </div>
+
                 <div class="row">
-                      <div class="col-md-6">
-                        <p class="note">Site Completed</p>
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.site_completed" name="site_completed" value="true" label="Yes"  />
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.site_completed" name="site_completed" value="false" label="NO" />
-                      </div>
-                    </div>
+                  <div class="col-md-6">
+                    <p class="note">ISP Works Complete</p>
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.isp_works_complete"
+                      name="isp_works_complete"
+                      value="true"
+                      label="Yes"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.isp_works_complete"
+                      name="isp_works_complete"
+                      value="false"
+                      label="NO"
+                    />
+                  </div>
+                </div>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <p class="note">ISP Works Complete</p>
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.isp_works_complete" name="isp_works_complete" value="true" label="Yes"  />
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.isp_works_complete" name="isp_works_complete" value="false" label="NO" />
-                      </div>
-                    </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="note">OSP Works Complete</p>
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.osp_works_complete"
+                      name="osp_works_complete"
+                      value="true"
+                      label="Yes"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.osp_works_complete"
+                      name="osp_works_complete"
+                      value="false"
+                      label="NO"
+                    />
+                  </div>
+                </div>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <p class="note">OSP Works Complete</p>
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.osp_works_complete" name="osp_works_complete" value="true" label="Yes"  />
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.osp_works_complete" name="osp_works_complete" value="false" label="NO" />
-                      </div>
-                    </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="note">OFC Works Complete</p>
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.ofc_works_complete"
+                      name="ofc_works_complete"
+                      value="true"
+                      label="Yes"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.ofc_works_complete"
+                      name="ofc_works_complete"
+                      value="false"
+                      label="NO"
+                    />
+                  </div>
+                </div>
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <p class="note">OFC Works Complete</p>
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.ofc_works_complete" name="ofc_works_complete" value="true" label="Yes"  />
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.ofc_works_complete" name="ofc_works_complete" value="false" label="NO" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-6">
-                        <p class="note">Site powering complete</p>
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.site_powering_complete" name="site_powering_complete" value="true" label="Yes"  />
-                      </div>
-                      <div class="col-md-3">
-                        <mdc-radio v-model="site.site_powering_complete" name="site_powering_complete" value="false" label="NO" />
-                      </div>
-                    </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="note">Site powering complete</p>
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.site_powering_complete"
+                      name="site_powering_complete"
+                      value="true"
+                      label="Yes"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <mdc-radio
+                      v-model="site.site_powering_complete"
+                      name="site_powering_complete"
+                      value="false"
+                      label="NO"
+                    />
+                  </div>
+                </div> -->
 
                 <p class="note">
                   <span>Note:</span> Make sure the details above are accurate and correct.
@@ -200,7 +277,6 @@
         </div>
       </div>
     </modal>
-
   </section>
 </template>
 
@@ -224,20 +300,20 @@ export default {
         location_lat: "",
         location_long: "",
         archivedStatus: false,
-        clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        clientId: JSON.parse(window.localStorage.getItem("user")).user_id,
         ackStatus: false,
-        company: window.localStorage.getItem('company'),
+        company: window.localStorage.getItem("company"),
         workspace: window.localStorage.getItem("workspace"),
         original_trenching_distance: "",
         current_trenching_distance: "",
         site_contact_person: "",
         site_contact_phone_number: "",
         site_address: "",
-        site_completed: 'false',
-        isp_works_complete: 'false',
-        osp_works_complete: 'false',
-        ofc_works_complete: 'false',
-        site_powering_complete: 'false',
+        site_completed: "false",
+        isp_works_complete: "false",
+        osp_works_complete: "false",
+        ofc_works_complete: "false",
+        site_powering_complete: "false",
         site_type: ""
       },
 
@@ -246,16 +322,19 @@ export default {
       currentStatus: null,
       uploadFieldName: "photos".mapState,
       formData: new FormData(),
-      fileName: "",
+      fileName: ""
     };
   },
   mounted() {
-    this.$store.dispatch("sites/loadSites", window.localStorage.getItem("workspace"));
+    this.$store.dispatch(
+      "sites/loadSites",
+      window.localStorage.getItem("workspace")
+    );
     this.reset();
   },
   computed: {
-    ...mapState('sites',["sites"]),
-    ...mapGetters('sites', ['getRequests']),
+    ...mapState("sites", ["sites"]),
+    ...mapGetters("sites", ["getRequests"]),
     isInitial() {
       return this.currentStatus === STATUS_INITIAL;
     },
@@ -289,63 +368,72 @@ export default {
       this.formData.append("ackStatus", site.ackStatus);
       this.formData.append("company", site.company);
       this.formData.append("workspace", site.workspace);
-      this.formData.append("original_trenching_distance", site.original_trenching_distance);
+      this.formData.append(
+        "original_trenching_distance",
+        site.original_trenching_distance
+      );
       this.formData.append("site_contact_person", site.site_contact_person);
-      this.formData.append("site_contact_phone_number", site.site_contact_phone_number);
+      this.formData.append(
+        "site_contact_phone_number",
+        site.site_contact_phone_number
+      );
       this.formData.append("site_address", site.site_address);
       this.formData.append("site_completed", site.site_completed);
       this.formData.append("isp_works_complete", site.isp_works_complete);
       this.formData.append("osp_works_complete", site.osp_works_complete);
       this.formData.append("ofc_works_complete", site.ofc_works_complete);
-      this.formData.append("site_powering_complete", site.site_powering_complete);
+      this.formData.append(
+        "site_powering_complete",
+        site.site_powering_complete
+      );
 
-      console.log(this.formData)
+      console.log(this.formData);
 
       if (this.isValidTel) {
-        if(this.editMode){
+        if (this.editMode) {
           this.$store.dispatch("sites/updateSite", this.formData);
-        }else{
+        } else {
           this.$store.dispatch("sites/addSite", this.formData);
         }
       }
     },
-    ackSite(site){
+    ackSite(site) {
       this.editMode = true;
       this.site = Object.assign({}, site);
       this.site.ackStatus = true;
       this.saveSite();
     },
-    deleteSite(site){
+    deleteSite(site) {
       if (confirm(`are you sure you want to delete ${site.site_name}?`)) {
-          this.$store.dispatch("sites/deleteSite", site);
+        this.$store.dispatch("sites/deleteSite", site);
       }
     },
-    resetRequest(){
+    resetRequest() {
       this.editMode = false;
       this.site = {
         site_name: "",
         location_lat: "",
         location_long: "",
         archivedStatus: false,
-        clientId: (JSON.parse(window.localStorage.getItem('user'))).user_id,
+        clientId: JSON.parse(window.localStorage.getItem("user")).user_id,
         ackStatus: false,
-        company: window.localStorage.getItem('company'),
+        company: window.localStorage.getItem("company"),
         workspace: window.localStorage.getItem("workspace"),
         original_trenching_distance: "",
         current_trenching_distance: "",
         site_contact_person: "",
         site_contact_phone_number: "",
         site_address: "",
-        site_completed: 'false',
-        isp_works_complete: 'false',
-        osp_works_complete: 'false',
-        ofc_works_complete: 'false',
-        site_powering_complete: 'false',
+        site_completed: "false",
+        isp_works_complete: "false",
+        osp_works_complete: "false",
+        ofc_works_complete: "false",
+        site_powering_complete: "false",
         site_type: ""
-      }
+      };
     },
-    filter(type){
-      this.$store.commit('sites/CHANGE_REQUEST_LIST', type)
+    filter(type) {
+      this.$store.commit("sites/CHANGE_REQUEST_LIST", type);
     },
 
     reset() {
@@ -382,7 +470,6 @@ export default {
 </script>
 
 <style>
-
 </style>
 
 

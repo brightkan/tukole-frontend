@@ -324,9 +324,18 @@ export default {
       );
       this.formData.append("site_connected", site.site_connected);
       this.formData.append("site_connected", site.site_connected);
-      this.formData.append("survey_date", site.survey_date);
-      this.formData.append("site_connection_date", site.site_connection_date);
-      this.formData.append("site_usd_rate", site.site_usd_rate);
+
+      if(site.survey_date != null){
+        this.formData.append("survey_date", site.survey_date);
+      }
+      
+      if(site.site_connection_date != null){
+        this.formData.append("site_connection_date", site.site_connection_date);
+      }
+
+      if(site.site_usd_rate != null){
+        this.formData.append("site_usd_rate", site.site_usd_rate);
+      }
 
       this.$store.dispatch("sites/updateSite", this.formData);
       this.editSite = false;
