@@ -14,6 +14,10 @@
                 <tr>
                     <td>{{ row.start_time | moment('MMM Do YYYY hh:mm a') }}</td>
                     <td>{{ row.end_time | moment('MMM Do YYYY hh:mm a') }}</td>
+                    <td>{{row.to_fibers}}</td>
+                    <td>{{row.to_tube}}</td>
+                    <td>{{row.from_fibers}}</td>
+                    <td>{{row.from_tube}}</td>
                     <td>{{ row.created | moment('MMM Do YYYY') }}</td>
                 </tr>
             </template>
@@ -37,6 +41,10 @@ export default {
       table_columns: [
           {label: 'Login time', field: 'start_time'},
           {label: 'Logout time', field: 'end_time'},
+          {label: 'To Fibers', field: 'to_fibers'},
+          {label: 'To Tube', field: 'to_tube'},
+          {label: 'From Fibers', field: 'from_fibers'},
+          {label: 'From Tube', field: 'from_tube'},
           {label: 'Created', field: 'created'}
       ],
       rows: window.rows,
