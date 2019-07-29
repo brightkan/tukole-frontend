@@ -30,7 +30,7 @@
         <span class="page">Tools</span>
       </a>
     </router-link>
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/users">
+    <router-link v-if="$store.state.user_type != 'client' && $store.state.user_role == 'project_manager'" tag="li" class="pageLink" to="/dash/users">
       <a>
         <i class="fa fa-users"></i>
         <span class="page">Users</span>

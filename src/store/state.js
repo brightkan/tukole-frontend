@@ -5,6 +5,7 @@ export default {
   user: null,
   token: null,
   user_type: 'client',
+  user_role: '',
   workspace: {
     id: null,
     name: null,

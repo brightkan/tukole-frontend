@@ -20,4 +20,7 @@ export default {
   SET_USER_TYPE (state, user_type){
     state.user_type = user_type
   },
+  SET_USER_ROLE (state, user_role){
+    state.user_role = user_role
+  },
 }

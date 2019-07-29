@@ -115,16 +115,19 @@ export default {
 
             if(data.part_of_workspace){
 
-              if(/* data.user_role == 'ofc' || data.user_role == 'isp' */ false){
-                window.localStorage.removeItem('token');
-                this.response = "Error, check your credentials";
-                //this.$router.push('/');
-              }else{
+              console.log(data.user_type)
+
+              if(data.user_type == "admin" || data.user_type == "client"){
                 window.localStorage.setItem("clientType", data.user_type)
                 window.localStorage.setItem("workspace", data.workspace)
                 window.localStorage.setItem("company", data.company)
-                
+                window.localStorage.setItem("userRole", data.user_role)
+
                 this.$router.push('/dash')
+              }else{
+                window.localStorage.removeItem('token');
+                this.response = "Error, You don't have access permissions";
+                //this.$router.push('/');
               }
             }else{
               this.response = "Error, check your workspace";

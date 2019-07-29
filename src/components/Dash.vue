@@ -237,6 +237,7 @@ export default {
     this.$store.dispatch("getUser", (JSON.parse(window.localStorage.getItem('user'))).user_id)
     this.$store.dispatch("notifications/loadNotifications", (JSON.parse(window.localStorage.getItem('user'))).user_id);
     this.$store.commit("SET_USER_TYPE", window.localStorage.getItem('clientType'));
+    this.$store.commit("SET_USER_ROLE", window.localStorage.getItem('userRole'));
     if(window.localStorage.getItem('clientType') === 'client'){
       this.$router.push('/dash/project');
     }else{
