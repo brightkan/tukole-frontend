@@ -631,7 +631,7 @@ export default {
                     let roadcrossings = response.data.map(item => {
                         let roadcrossing = item;
                         rootState.machinery.machines.forEach(machine => {
-                            if (item.machine === machine.id) {
+                            if (item.machinery === machine.id) {
                                 roadcrossing.machinery = machine;
                             }
                         })
@@ -849,10 +849,22 @@ export default {
             }
         },
         getBeforeImages: (state) => {
-            return state.siteImages.filter(image => { return image.status === 'before' })
+            return state.siteImages.filter(image => { return image.status === 'before' }).map(image => {
+                if(image.lat != null){
+                    image.lat = parseFloat(image.lat).toFixed(7)
+                    image.long = parseFloat(image.long).toFixed(7)
+                }
+                return image;
+            })
         },
         getAfterImages: (state) => {
-            return state.siteImages.filter(image => { return image.status === 'after' })
+            return state.siteImages.filter(image => { return image.status === 'after' }).map(image => {
+                if(image.lat != null){
+                    image.lat = parseFloat(image.lat).toFixed(7)
+                    image.long = parseFloat(image.long).toFixed(7)
+                }
+                return image;
+            })
         },
         getCostTotal: (state) => {
             let total = 0

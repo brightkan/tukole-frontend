@@ -30,8 +30,8 @@
                   <div class="gallery_image card">
                     <img v-bind:src="image.image">
                     <div class="row">
-                      <div class="col-md-12">
-                        <b>({{image.lat}}, {{ image.long}})</b>
+                      <div class="col-md-12 text-center">
+                        <b>({{image.lat}}, {{ image.long}})</b><br>
                         {{ image.created | moment("dddd, MMMM Do YYYY") }}
                       </div>
                     </div>
@@ -48,8 +48,8 @@
                   <div class="gallery_image card">
                     <img v-bind:src="image.image">
                     <div class="row">
-                      <div class="col-md-12">
-                        <b>({{image.lat}}, {{ image.long}})</b>
+                      <div class="col-md-12 text-center">
+                        <b>({{image.lat}}, {{ image.long}})</b><br>
                         {{ image.created | moment("dddd, MMMM Do YYYY") }}
                       </div>
                     </div>

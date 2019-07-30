@@ -69,9 +69,6 @@ export default {
                             }
                         })
                     })
-
-                    console.log(mappedActivity)
-
                     commit('SET_ACTIVITIES', mappedActivity)
                 });
         }

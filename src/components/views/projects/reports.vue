@@ -194,7 +194,7 @@
                   <thead>
                     <tr>
                       <td>Distance crossed</td>
-                      <td>Tool</td>
+                      <td>Machine</td>
                       <td>Creation Date</td>
                       <td>
                         <a class="custom-btn text-white" 
@@ -207,7 +207,7 @@
                   <tbody>
                     <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
                       <td>{{ roadCrossing.distance_crossed }} meters</td>
-                      <td>{{ roadCrossing.machinery.name }}</td>
+                      <td>{{ roadCrossing.machinery != null ? roadCrossing.machinery.name : "" }}</td>
                       <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
                         <a
@@ -697,6 +697,7 @@ export default {
     }
 
     &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
       background-color: #f5f5f5;
     }
