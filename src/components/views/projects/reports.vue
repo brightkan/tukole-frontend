@@ -207,7 +207,7 @@
                   <tbody>
                     <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
                       <td>{{ roadCrossing.distance_crossed }} meters</td>
-                      <td>{{ roadCrossing.tool.name }}</td>
+                      <td>{{ roadCrossing.machinery.name }}</td>
                       <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
                         <a

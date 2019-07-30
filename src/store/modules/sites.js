@@ -623,16 +623,16 @@ export default {
                 });
         },
         async loadSiteRoadCrossings({ dispatch, commit, rootState }, payload) {
-            await dispatch("tools/loadTools", {}, { root: true });
+            await dispatch("machinery/loadMachines", {}, { root: true });
             await api
                 .request("get", "roadcrossing/?site=" + payload)
                 .then((response) => {
 
                     let roadcrossings = response.data.map(item => {
                         let roadcrossing = item;
-                        rootState.tools.tools.forEach(tool => {
-                            if (item.tool === tool.id) {
-                                roadcrossing.tool = tool;
+                        rootState.machinery.machines.forEach(machine => {
+                            if (item.machine === machine.id) {
+                                roadcrossing.machinery = machine;
                             }
                         })
                         return roadcrossing;
