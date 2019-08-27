@@ -159,6 +159,7 @@
                               </option>
                             </mdc-select>
                           </div>
+                          
                           <div class="form-group col-md-3">
                             <mdc-select v-model="siteRole.role" label="Role" required outlined>
                               <option :value="'driver'">Driver</option>
@@ -172,21 +173,7 @@
                               <option :value="'osp_supervisor'">OSP Supervisor</option>
                             </mdc-select>
                           </div>
-                          <div class="form-group col-md-3">
-                            <mdc-select
-                              v-if="siteRole.role == 'driver'"
-                              v-model="userFleet"
-                              label="Site Fleet"
-                              required
-                              outlined
-                            >
-                              <option
-                                v-for="siteFleet in siteFleets"
-                                :key="siteFleet.id"
-                                :value="siteFleet.id"
-                              >{{ siteFleet.fleet.name }}</option>
-                            </mdc-select>
-                          </div>
+                          
                           <div class="form-group col-md-3">
                             <button class="float-right mdc-button mdc-button--raised">Add</button>
                           </div>
