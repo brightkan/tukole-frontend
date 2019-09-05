@@ -1,6 +1,27 @@
 
 import api from "../../api";
 
+function updateState(state, payload){
+    state = state.map(item => {
+        if (item.id === payload.id) {
+            return Object.assign({}, item, payload)
+        }
+        return item
+    })
+}
+
+function fetchUser(data, commit, action){
+    data.forEach((item, index) => {
+        api
+            .request("get", "users/" + item.user + "/")
+            .then(response => {
+                let user = response.data
+                item.user = user.first_name + " " + user.last_name
+                commit(action, item)
+            });
+    })
+}
+
 export default {
     namespaced: true,
     state: {
@@ -186,9 +207,20 @@ export default {
         SET_SITE_OTHER(state, payload) { state.siteOthers = payload; },
         SET_SITE_ROUTE_CHANGE(state, payload) { state.siteRouteChange = payload; },
         SET_SITE_TRUNKING(state, payload) { state.siteTrunking = payload; },
-
         SET_SITE_MATERIALS_USED(state, payload) { state.materialUsed = payload; },
 
+        UPDATE_SITE_MANHOLE_INSTALLATION(state, payload){updateState(state.siteManholeInstallations, payload)},
+        UPDATE_SITE_DUCT_INSTALLATION(state, payload){updateState(state.siteDuctInstallation, payload)},
+        UPDATE_SITE_CABLE_INSTALLATION(state, payload){updateState(state.siteCableInstallation, payload)},
+        UPDATE_SITE_HANDHOLE_INSTALLATION(state, payload){updateState(state.siteHandHoleInstallation, payload)},
+        UPDATE_SITE_ODF_INSTALLATION(state, payload){updateState(state.siteOdfInstallation, payload)},
+        UPDATE_SITE_OTHER(state, payload){updateState(state.siteOthers, payload)},
+        UPDATE_SITE_ODF_TERMINATION(state, payload){updateState(state.siteOdfTermination, payload)},
+        UPDATE_SITE_ROUTE_CHANGE(state, payload){updateState(state.siteRouteChange, payload)},
+        UPDATE_SITE_TRENCH_DISTANCES(state, payload){updateState(state.siteTrenchDistances, payload)},
+        UPDATE_SITE_ROAD_CROSSINGS(state, payload){updateState(state.siteRoadCrossings, payload)},
+        UPDATE_SITE_RE_INSTALLATIONS(state, payload){updateState(state.siteReInstallations, payload)},
+        UPDATE_SITE_TRUNKING(state, payload){updateState(state.siteTrunking, payload)},
 
         SET_SITE_IMAGES(state, payload) {
             state.siteImages = payload;
@@ -619,6 +651,8 @@ export default {
                         return reinstallation;
                     });
 
+                    fetchUser(response.data, commit, 'UPDATE_SITE_RE_INSTALLATIONS')
+
                     commit('SET_SITE_RE_INSTALLATIONS', reinstallations)
                 });
         },
@@ -638,6 +672,8 @@ export default {
                         return roadcrossing;
                     });
 
+                    fetchUser(response.data, commit, 'UPDATE_SITE_ROAD_CROSSINGS')
+
                     commit('SET_SITE_ROAD_CROSSINGS', roadcrossings)
                 });
         },
@@ -645,6 +681,7 @@ export default {
             api
                 .request("get", "distance/trenched/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_TRENCH_DISTANCES')
                     commit('SET_SITE_TRENCH_DISTANCES', response.data)
                 });
         },
@@ -652,6 +689,7 @@ export default {
             api
                 .request("get", "trunking/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_TRUNKING')
                     commit('SET_SITE_TRUNKING', response.data)
                 });
         },
@@ -659,6 +697,7 @@ export default {
             api
                 .request("get", "routechange/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_ROUTE_CHANGE')
                     commit('SET_SITE_ROUTE_CHANGE', response.data)
                 });
         },
@@ -666,6 +705,7 @@ export default {
             api
                 .request("get", "other/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_OTHER')
                     commit('SET_SITE_OTHER', response.data)
                 });
         },
@@ -673,6 +713,7 @@ export default {
             api
                 .request("get", "odftermination/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_ODF_TERMINATION')
                     commit('SET_SITE_ODF_TERMINATION', response.data)
                 });
         },
@@ -680,6 +721,7 @@ export default {
             api
                 .request("get", "odfinstallation/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_ODF_INSTALLATION')
                     commit('SET_SITE_ODF_INSTALLATION', response.data)
                 });
         },
@@ -687,6 +729,7 @@ export default {
             api
                 .request("get", "handholeinstallation/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_HANDHOLE_INSTALLATION')
                     commit('SET_SITE_HANDHOLE_INSTALLATION', response.data)
                 });
         },
@@ -694,6 +737,7 @@ export default {
             api
                 .request("get", "cableinstallation/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_CABLE_INSTALLATION')
                     commit('SET_SITE_CABLE_INSTALLATION', response.data)
                 });
         },
@@ -701,6 +745,7 @@ export default {
             api
                 .request("get", "ductinstallation/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_DUCT_INSTALLATION')
                     commit('SET_SITE_DUCT_INSTALLATION', response.data)
                 });
         },
@@ -708,6 +753,7 @@ export default {
             api
                 .request("get", "manholesinstallation/?site=" + payload)
                 .then((response) => {
+                    fetchUser(response.data, commit, 'UPDATE_SITE_MANHOLE_INSTALLATION')
                     commit('SET_SITE_MANHOLE_INSTALLATION', response.data)
                 });
         },

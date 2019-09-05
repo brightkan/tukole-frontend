@@ -418,7 +418,6 @@ a {
   padding-top: 64px;
 }
 .wrapper.fixed_layout .main-sidebar {
-  position: fixed;
   height: 100vh;
 }
 

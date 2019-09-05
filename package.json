@@ -50,6 +50,7 @@
     "vuex-router-sync": "^4.1.2"
   },
   "devDependencies": {
+    "@tygr/vue-async-filter": "^1.1.1",
     "autoprefixer": "^6.7.2",
     "babel-core": "^6.26.3",
     "babel-eslint": "^7.1.1",

@@ -117,6 +117,7 @@
                   <thead>
                     <tr>
                       <td>ManHole number</td>
+                      <td>User</td>
                       <td>Creation Date</td>
                       <td>
                         <a class="custom-btn text-white" 
@@ -132,6 +133,7 @@
                       :key="manholeInstallation.id"
                     >
                       <td>{{ manholeInstallation.number_installed }}</td>
+                      <td>{{ manholeInstallation.user }}</td>
                       <td>{{ manholeInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
                         <a
@@ -154,6 +156,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Type</td>
                       <td>Material</td>
                       <td>Quantity</td>
@@ -168,6 +171,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="reInstallation in reInstallations" :key="reInstallation.id">
+                      <td>{{ reInstallation.user }}</td>
                       <td>{{ reInstallation.type }}</td>
                       <td>{{ reInstallation.material.name }}</td>
                       <td>{{ reInstallation.amount }} {{ reInstallation.material.measurement }}</td>
@@ -193,6 +197,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Distance crossed</td>
                       <td>Machine</td>
                       <td>Creation Date</td>
@@ -206,6 +211,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="roadCrossing in roadCrossings" :key="roadCrossing.id">
+                      <td>{{ roadCrossing.user }}</td>
                       <td>{{ roadCrossing.distance_crossed }} meters</td>
                       <td>{{ roadCrossing.machinery != null ? roadCrossing.machinery.name : "" }}</td>
                       <td>{{ roadCrossing.created | moment("dddd, MMMM Do YYYY") }}</td>
@@ -234,6 +240,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Distance</td>
                       <td>Depth</td>
                       <td>Creation Date</td>
@@ -247,6 +254,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="trenchDistance in trenchDistances" :key="trenchDistance.id">
+                      <td>{{ trenchDistance.user }}</td>
                       <td>{{ trenchDistance.distance }} meters</td>
                       <td>{{ trenchDistance.depth }} meters</td>
                       <td>{{ trenchDistance.created | moment("dddd, MMMM Do YYYY") }}</td>
@@ -275,6 +283,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Length</td>
                       <td>Size</td>
                       <td>Method</td>
@@ -290,6 +299,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="cableInstallation in cableInstallations" :key="cableInstallation.id">
+                      <td>{{ cableInstallation.user }}</td>
                       <td>{{ cableInstallation.distance }}</td>
                       <td>{{ cableInstallation.depth }}</td>
                       <td>{{ cableInstallation.depth }}</td>
@@ -316,6 +326,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Number</td>
                       <td>Size</td>
                       <td>Micro duct</td>
@@ -331,6 +342,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="ductInstallation in ductInstallations" :key="ductInstallation.id">
+                      <td>{{ ductInstallation.user }}</td>
                       <td>{{ ductInstallation.number }}</td>
                       <td>{{ ductInstallation.size }}</td>
                       <td>{{ ductInstallation.micro_duct }}</td>
@@ -357,6 +369,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Number Installed</td>
                       <td>Creation Date</td>
                       <td>
@@ -372,6 +385,7 @@
                       v-for="handHoleInstallation in handHoleInstallations"
                       :key="handHoleInstallation.id"
                     >
+                      <td>{{ handHoleInstallation.user }}</td>
                       <td>{{ handHoleInstallation.number_installed }}</td>
                       <td>{{ handHoleInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
@@ -395,6 +409,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Size</td>
                       <td>Number installed</td>
                       <td>Creation Date</td>
@@ -408,6 +423,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="odfInstallation in odfInstallations" :key="odfInstallation.id">
+                      <td>{{ odfInstallation.user }}</td>
                       <td>{{ odfInstallation.size_of_odf }}</td>
                       <td>{{ odfInstallation.number_of_odf_installed }}</td>
                       <td>{{ odfInstallation.created | moment("dddd, MMMM Do YYYY") }}</td>
@@ -432,6 +448,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Port</td>
                       <td>Label</td>
                       <td>Creation Date</td>
@@ -445,6 +462,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="odfTermination in odfTerminations" :key="odfTermination.id">
+                      <td>{{ odfTermination.user }}</td>
                       <td>{{ odfTermination.ports }}</td>
                       <td>{{ odfTermination.label }}</td>
                       <td>{{ odfTermination.created | moment("dddd, MMMM Do YYYY") }}</td>
@@ -469,6 +487,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Reason</td>
                       <td>Creation Date</td>
                       <td>
@@ -481,6 +500,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="routeChange in routeChanges" :key="routeChange.id">
+                      <td>{{ routeChange.user }}</td>
                       <td>{{ routeChange.route_change_reason }}</td>
                       <td>{{ routeChange.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
@@ -504,6 +524,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Meters Trunked</td>
                       <td>Creation Date</td>
                       <td>
@@ -516,6 +537,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="trunking in trunkings" :key="trunking.id">
+                      <td>{{ trunking.user }}</td>
                       <td>{{ trunking.meters_trunked }}</td>
                       <td>{{ trunking.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
@@ -539,6 +561,7 @@
                 <table class="table">
                   <thead>
                     <tr>
+                      <td>User</td>
                       <td>Other</td>
                       <td>Creation Date</td>
                       <td>
@@ -551,6 +574,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="other in others" :key="other.id">
+                      <td>{{ other.user }}</td>
                       <td>{{ other.reason }}</td>
                       <td>{{ other.created | moment("dddd, MMMM Do YYYY") }}</td>
                       <td>
