@@ -40,7 +40,7 @@
                     <i class="fa fa-wrench"></i> Fuel consumption 
                   </h3>
                   <datatable :columns="table_columns" :data="fuelRequests" :filter-by="filter">
-                    <template scope="{ row }">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td>{{ row.humanUuid }}</td>
                             <td>{{ row.fuel_amount }}</td>
@@ -63,7 +63,7 @@
                     <i class="fa fa-wrench"></i> Fuel consumption 
                   </h3>
                   <datatable :columns="table_columns" :data="fuelRequests" :filter-by="filter">
-                    <template scope="{ row }">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td>{{ row.humanUuid }}</td>
                             <td>{{ row.fuel_amount }}</td>
@@ -86,7 +86,7 @@
                     <i class="fa fa-wrench"></i> Fuel consumption 
                   </h3>
                   <datatable :columns="table_columns" :data="fuelRequests" :filter-by="filter">
-                    <template scope="{ row }">
+                    <template slot-scope="{ row }">
                         <tr>
                             <td>{{ row.humanUuid }}</td>
                             <td>{{ row.fuel_amount }}</td>

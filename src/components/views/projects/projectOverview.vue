@@ -208,7 +208,7 @@
                   <thead>
                     <tr v-if="siteFleets.length > 0">
                       <td>Vehicle</td>
-                      <td>Serial Number</td>
+                      <td>Number Plate</td>
                       <td>Type</td>
                       <td>Creation Date</td>
                       <td></td>

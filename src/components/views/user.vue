@@ -34,7 +34,7 @@
           </h3>
 
           <datatable :columns="table_columns" :data="getAdminUsers" :filter-by="filterUser">
-            <template scope="{ row }">
+            <template slot-scope="{ row }">
                 <tr>
                   <td>{{ row.first_name }} {{ row.last_name}}</td>
                   <td>{{ row.phone_number }}</td>

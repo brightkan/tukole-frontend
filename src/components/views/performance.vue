@@ -22,7 +22,7 @@
         <div class="table-alt">
           <h3><i class="fa fa-wrench"></i> User Performance</h3>
           <datatable :columns="table_columns" :data="userMetrics" :filter-by="filter">
-            <template scope="{ row }">
+            <template slot-scope="{ row }">
                 <tr>
                     <td>{{ row.user.first_name }} {{ row.user.last_name }}</td>
                     <td>{{ row.site.site_name }}</td>

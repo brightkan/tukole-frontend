@@ -37,7 +37,7 @@
           <h3><i class="fa fa-users"></i> Manholes</h3>
 
           <datatable :columns="table_columns" :data="manholes" :filter-by="filter">
-            <template scope="{ row }">
+            <template slot-scope="{ row }">
                 <tr>
                     <td>{{ row.number }}</td>
                     <td>{{ row.site ? row.site.site_name : '' }}</td>

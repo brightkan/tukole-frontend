@@ -20,7 +20,7 @@
           <h3><i class="fa fa-check"></i> CheckList</h3>
 
           <datatable :columns="table_columns" :data="checklist" :filter-by="filterTable">
-            <template scope="{ row }">
+            <template slot-scope="{ row }">
                 <tr>
                   <td>{{ row.name }}</td>
                   <td>{{ row.type }}</td>

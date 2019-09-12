@@ -82,7 +82,7 @@
               <i class="fa fa-truck"></i> Fleet
             </h3>
             <datatable :columns="table_columns" :data="getFleets" :filter-by="filterTable">
-              <template scope="{ row }">
+              <template slot-scope="{ row }">
                 <tr>
                   <td>{{ row.name }}</td>
                   <td>{{ row.humanUuid }}</td>
@@ -136,7 +136,7 @@
                 <div>
                   <div class="row">
                     <div class="col-md-6">
-                      <mdc-textfield v-model="fleet.name" label="Fleet Name" required outline/>
+                      <mdc-textfield v-model="fleet.name" label="Vehicle" required outline/>
                       <mdc-select v-model="fleet.vehicle_type" label="Type" required outlined>
                         <option
                           v-for="fleet_type in fleet_types"
@@ -148,7 +148,7 @@
                     <div class="col-md-6">
                       <mdc-textfield
                         v-model="fleet.humanUuid"
-                        label="Serial Number"
+                        label="Number Plate"
                         required
                         outline
                       />
@@ -301,7 +301,7 @@ export default {
       filterTable: "",
       table_columns: [
         { label: "Vehicle", field: "name" },
-        { label: "Serial Number", field: "humanUuid" },
+        { label: "Number Plate", field: "humanUuid" },
         { label: "Type", field: "type.type" },
         { label: "Status", field: "status" },
         { label: "Creation Date", field: "created" },

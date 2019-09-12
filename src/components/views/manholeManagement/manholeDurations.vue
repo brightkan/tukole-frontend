@@ -10,7 +10,7 @@
         <div class="table-alt">
           <h3><i class="fa fa-users"></i>{{ getUser() }} - {{ getManhole() }} - Manhole Login Duration</h3>
           <datatable :columns="table_columns" :data="manholedurations" :filter-by="filter">
-            <template scope="{ row }">
+            <template slot-scope="{ row }">
                 <tr>
                     <td>{{ row.start_time | moment('MMM Do YYYY hh:mm a') }}</td>
                     <td>{{ row.end_time | moment('MMM Do YYYY hh:mm a') }}</td>

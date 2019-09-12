@@ -26,7 +26,7 @@
         <div class="table-alt">
           <h3><i class="fa fa-wrench"></i> Tools</h3>
           <datatable :columns="table_columns" :data="getTools" :filter-by="filterTable">
-            <template scope="{ row }">
+            <template slot-scope="{ row }">
                 <tr>
                   <td>{{ row.name }}</td>
                   <td>{{ row.humanUuid }}</td>
