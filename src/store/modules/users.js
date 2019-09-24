@@ -23,14 +23,14 @@ export default {
         ADD_USER(state, user) {
             state.users.push(user)
         },
-        CHANGE_LIST_TYPE(state, payLoad){
+        CHANGE_LIST_TYPE(state, payLoad) {
             state.listType = payLoad
         },
-        DELETE_USER(state, payload){
+        DELETE_USER(state, payload) {
             var index = state.users.findIndex(user => user.id === payload.id);
             state.users.splice(index, 1);
         },
-        UPDATE_USER(state, payload){
+        UPDATE_USER(state, payload) {
             state.users = state.users.map(user => {
                 if (user.id === payload.id) {
                     return Object.assign({}, user, payload)
@@ -44,24 +44,24 @@ export default {
         ADD_ASSIGNED_MANHOLE(state, payload) {
             state.assignedManholes.push(payload)
         },
-        SET_ASSIGNED_MANHOLES(state, payload){
+        SET_ASSIGNED_MANHOLES(state, payload) {
             state.assignedManholes = payload
         },
-        SET_CURRENT_ASSIGNED_MANHOLES(state, payload){
+        SET_CURRENT_ASSIGNED_MANHOLES(state, payload) {
             state.currentAssignedManholes = payload
         },
-        CHANGE_LOADING(state, payload){
+        CHANGE_LOADING(state, payload) {
             state.loading = payload
         }
     },
     actions: {
-        async getUserAssignedManholes({ commit, state }, payload){
+        async getUserAssignedManholes({ commit, state }, payload) {
             await api
-                .request("get", "manholesassignment/all/?user="+payload)
+                .request("get", "manholesassignment/all/?user=" + payload)
                 .then(response => {
                     let manholes = response.data.map(item => {
                         state.manholes.forEach(element => {
-                            if(item.manhole == element.id){
+                            if (item.manhole == element.id) {
                                 item.manhole = element
                             }
                         })
@@ -73,31 +73,31 @@ export default {
         },
         async loadCurrentManHoles({ commit, state }, payload) {
             await api
-                .request("get", "manholesassignment/?user="+payload)
+                .request("get", "manholesassignment/?user=" + payload)
                 .then(response => {
                     let manholes = response.data.map(item => {
                         state.manholes.forEach(element => {
-                            if(item.manhole == element.id){
+                            if (item.manhole == element.id) {
                                 item.manhole = element
                             }
                         })
                         return item
                     });
-                    
+
                     commit('SET_CURRENT_ASSIGNED_MANHOLES', manholes)
                 });
         },
         async loadUsers({ dispatch, commit, rootState }, payload) {
             await api
-                .request("get", "users/?workspace="+payload)
+                .request("get", "users/?workspace=" + payload)
                 .then(response => {
                     let users = response.data
-                    
-                    users.filter(item => { 
+
+                    users.filter(item => {
                         /* if(item.role === 'ofc'){
                             dispatch("loadCurrentManHoles", item.id);
                         } */
-                        return item.role === 'ofc' 
+                        return item.role === 'ofc'
                     })
 
                     commit('SET_USERS', users)
@@ -112,6 +112,24 @@ export default {
                     commit('ADD_USER', user)
                 });
         },
+        reInvite({ commit, rootState }, payload) {
+            console.log(payload)
+            api
+                .request("post", "users/" + payload.id + "/reinvite/", 
+                {
+                    "first_name": payload.first_name,
+                    "last_name": payload.last_name,
+                    "email": payload.email,
+                    "type": payload.type,
+                    "contract_type": payload.contract_type,
+                    "role": payload.role,
+                    "phone_number": payload.phone_number,
+                    "workspace": payload.user_workspace,
+                    "password": payload.password,
+                    "company": payload.company
+                })
+                .then(response => { });
+        },
         inviteUser({ commit, rootState }, payLoad) {
             api
                 .request("post", "users/invite/", payLoad)
@@ -123,16 +141,16 @@ export default {
         },
         updateUser({ commit, state, rootState }, payLoad) {
             api
-                .request("patch", "users/"+payLoad.id+"/", payLoad)
+                .request("patch", "users/" + payLoad.id + "/", payLoad)
                 .then(response => {
                     let user = response.data;
-                    
+
                     commit('UPDATE_USER', user)
                 });
         },
-        deleteUser({commit}, payLoad){
+        deleteUser({ commit }, payLoad) {
             api
-                .request("delete", "users/"+payLoad.id+"/")
+                .request("delete", "users/" + payLoad.id + "/")
                 .then(() => {
                     commit('DELETE_USER', payLoad)
                 });
@@ -142,18 +160,18 @@ export default {
                 .request("get", "manholes/")
                 .then(response => {
                     let manholes = response.data
-                    
+
                     commit('SET_MANHOLES', manholes)
                 });
         },
         assignManhole({ commit, state, rootState }, payload) {
             api
-                .request("post", "manholes/"+payload.manhole+"/assign/", payload)
+                .request("post", "manholes/" + payload.manhole + "/assign/", payload)
                 .then(response => {
                     let manhole = response.data
 
                     state.manholes.forEach(item => {
-                        if(manhole.manhole == item.id){
+                        if (manhole.manhole == item.id) {
                             manhole.manhole = item.number
                         }
                     })
@@ -161,34 +179,34 @@ export default {
                     commit('ADD_ASSIGNED_MANHOLE', manhole)
                 });
         },
-        massAssignManholes({ dispatch, commit, rootState }, payload){
+        massAssignManholes({ dispatch, commit, rootState }, payload) {
             commit('CHANGE_LOADING', true)
             api
                 .request("post", "manholes/assginimport/", payload)
                 .then(response => {
                     commit('CHANGE_LOADING', false)
-                    dispatch('manholes/loadManHoles', {}, {root:true})
-                    dispatch('manholes/loadCurrentManHoles', payload.get("user_assigned"), {root:true})
-                }); 
+                    dispatch('manholes/loadManHoles', {}, { root: true })
+                    dispatch('manholes/loadCurrentManHoles', payload.get("user_assigned"), { root: true })
+                });
         },
-        massAddManholes({ dispatch, commit, rootState }, payload){
+        massAddManholes({ dispatch, commit, rootState }, payload) {
             commit('CHANGE_LOADING', true)
             api
                 .request("post", "manholes/import/", payload)
                 .then(response => {
                     commit('CHANGE_LOADING', false)
-                    dispatch('manholes/loadManholes', {root:true})
+                    dispatch('manholes/loadManholes', { root: true })
                 });
         },
     },
     getters: {
         getUsers: (state) => {
-            if(state.listType === 'all'){
+            if (state.listType === 'all') {
                 return state.users;
-            }else{
+            } else {
                 let users = [];
                 state.listTypes.forEach(element => {
-                    if(state.listType === element){
+                    if (state.listType === element) {
                         users = state.users.filter(item => {
                             return item.type === element;
                         });
@@ -204,7 +222,7 @@ export default {
             return state.users.filter(item => { return item.role === 'ofc' }).map(element => {
                 element.assignManholes = [];
                 state.assignedManholes.forEach(manholeEntry => {
-                    if(manholeEntry.user === element.id){
+                    if (manholeEntry.user === element.id) {
                         element.assignManholes.push(manholeEntry.manhole)
                     }
                 })
@@ -212,12 +230,12 @@ export default {
             })
         },
         getUser: (state) => (userId) => {
-            let users = state.users.filter(item => { return item.id == userId})
+            let users = state.users.filter(item => { return item.id == userId })
             return users[0]
         },
         getUserCurrentManholes: (state) => (userId) => {
-            console.log(state.currentAssignedManholes.filter(manholeEntry => {return manholeEntry.user == userId}))
-            return state.currentAssignedManholes.filter(manholeEntry => {return manholeEntry.user == userId})
+            console.log(state.currentAssignedManholes.filter(manholeEntry => { return manholeEntry.user == userId }))
+            return state.currentAssignedManholes.filter(manholeEntry => { return manholeEntry.user == userId })
         },
         getUsersByType: (state) => (type) => {
             return state.users.filter(user => { return user.role == type })
@@ -227,16 +245,16 @@ export default {
             state.assignedManholes.forEach(manhole => {
                 let accepted = true;
                 state.currentAssignedManholes.forEach(current => {
-                    if(current.manhole.number == manhole.manhole.number){
+                    if (current.manhole.number == manhole.manhole.number) {
                         accepted = false;
                     }
                 })
-                if(accepted){
+                if (accepted) {
                     filterManholes.push(manhole)
-                } 
+                }
             })
 
-            return filterManholes.filter(manholeEntry => {return manholeEntry.user == userId})
+            return filterManholes.filter(manholeEntry => { return manholeEntry.user == userId })
         },
         getCompanyUsers: (state) => (company) => {
             return state.users.filter(user => { return user.company == company })

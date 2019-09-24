@@ -43,6 +43,7 @@
                   <td style="text-transform: capitalize">{{ row.role == "garage_manager" ? "Workshop Supervisior" :row.role.replace('_', ' ') }}</td>
                   <td>{{ row.created | moment('MMM Do YYYY')}}</td>
                   <td class="text-right">
+                    <a class="re-invite-link" v-on:click="reInvite(row)">ReInvite</a>
                     <i class="fa fa-edit" v-on:click="editUser(row)"></i>
                     <i class="fa fa-times" v-on:click="deleteUser(row)"></i>
                   </td>
@@ -188,6 +189,10 @@ export default {
     ...mapGetters("users", ["getAdminUsers"])
   },
   methods: {
+    reInvite(user) {
+      this.$store.dispatch("users/reInvite", user)
+      return false;
+    },
     showUserForm() {
       this.$modal.show("userForm");
     },
@@ -263,6 +268,11 @@ export default {
   &:-moz-placeholder {
     @content;
   }
+}
+
+.re-invite-link{
+  cursor: pointer;
+  margin-right: 5px;
 }
 
 .table-alt {

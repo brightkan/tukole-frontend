@@ -31,6 +31,7 @@
                     <img v-bind:src="image.image">
                     <div class="row">
                       <div class="col-md-12 text-center">
+                        <span v-if="image.user.role">{{ image.user.role }} </span> <br v-if="image.user.role">
                         <b>({{image.lat}}, {{ image.long}})</b><br>
                         {{ image.created | moment("dddd, MMMM Do YYYY") }}
                       </div>
@@ -49,6 +50,7 @@
                     <img v-bind:src="image.image">
                     <div class="row">
                       <div class="col-md-12 text-center">
+                        <span v-if="image.user.role">{{ image.user.role }} </span> <br v-if="image.user.role">
                         <b>({{image.lat}}, {{ image.long}})</b><br>
                         {{ image.created | moment("dddd, MMMM Do YYYY") }}
                       </div>
