@@ -221,7 +221,7 @@
                           <div class="form-group col-md-10">
                             <mdc-select v-model="siteFleet.fleet" label="Fleet" required outlined>
                                <option v-for="fleet in fleets" :key="fleet.id" v-bind:value="fleet.id" >
-                                 {{ fleet.name }}</option>
+                                 {{ fleet.name }} - {{ fleet.humanUuid }}</option>
                             </mdc-select>
                           </div>
                           <div class="form-group col-md-2">
@@ -718,9 +718,29 @@ export default {
       this.userFleet = null;
     },
     saveSiteFleet(role) {
+      let save = true
+      let status = false
       this.addSiteFleet = false;
       const { siteFleet } = this;
-      this.$store.dispatch("sites/addSiteFleet", siteFleet);
+      this.$store.state.sites.siteFleets.forEach(element => {
+        if(element.fleet.id == siteFleet.fleet){
+          save = false
+        }
+      });
+      this.$store.state.fleets.fleets.forEach(element => {
+        if(element.id == siteFleet.fleet && element.status.name == "available"){
+          status = true
+        }
+      });
+      if(save){
+        if(status){
+          this.$store.dispatch("sites/addSiteFleet", siteFleet);
+        }else{
+          alert("this fleet is not avaiable")
+        }
+      }else{
+        alert("this fleet already exists in the list")
+      }
     },
     saveSiteTool(tool) {
       this.addSiteTool = false;
