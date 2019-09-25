@@ -13,7 +13,8 @@
             <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetTool()">Assign Tool</button>
+        <button v-if="$store.state.user_role != 'management'" 
+        class="mdc-button mdc-button--raised" v-on:click="showForm();resetTool()">Assign Tool</button>
       </div>
     </div>
     <!-- /.row -->
@@ -29,7 +30,7 @@
                   <td>{{ row.toolname }}</td>
                   <td>{{ row.username }}</td>
                   <td>{{ row.created | moment("DD, MM, YY") }}</td>
-                  <td class="text-right">
+                  <td v-if="$store.state.user_role != 'management'" class="text-right">
                     <i class="fa fa-edit" v-on:click="editTool(row)"></i> 
                     <i class="fa fa-times" v-on:click="deleteTool(row)"></i>
                   </td>

@@ -9,7 +9,7 @@
       </div>
 
       <div class="comp-title col-md-3">
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetType()">
+        <button v-if="$store.state.user_role != 'management'" class="mdc-button mdc-button--raised" v-on:click="showForm();resetType()">
           Add fleet type
         </button>
       </div>
@@ -26,7 +26,7 @@
                 <td>Type</td>
                 <td>Description</td>
                 <td>Creation Date</td>
-                <td></td>
+                <td v-if="$store.state.user_role != 'management'"></td>
               </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
                 <td>{{ type.type }}</td>
                 <td>{{ type.description }}</td>
                 <td>12. 08. 2018</td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role != 'management'" class="text-right">
                   <i class="fa fa-edit" v-on:click="editType(type)"></i> 
                   <i class="fa fa-times" v-on:click="deleteType(type)"></i>
                 </td>

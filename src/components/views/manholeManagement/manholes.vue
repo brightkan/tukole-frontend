@@ -10,9 +10,10 @@
             <input name="q" type="text" size="40" placeholder="Search..." v-model="filter">
           </form>
         </div>
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetManhole()">Add Manhole</button>
+        <button v-if="$store.state.user_role != 'management'"
+          class="mdc-button mdc-button--raised" v-on:click="showForm();resetManhole()">Add Manhole</button>
 
-        <div class="dropbox-file rounded-square">
+        <div v-if="$store.state.user_role != 'management'" class="dropbox-file rounded-square">
           <input
             type="file"
             :name="uploadFieldName"

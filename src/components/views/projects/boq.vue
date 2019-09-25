@@ -19,11 +19,11 @@
               <td>Item</td>
               <td>Measurement Unit</td>
               <td>Unit cost</td>
-              <td>Actual Quantity</td>
-              <td>Total Actual Cost</td>
-              <td>Estimated Quantity</td>
-              <td>Total Estimated Cost</td>
-              <td></td>
+              <td v-if="$store.state.user_role == 'management'" >Actual Quantity</td>
+              <td v-if="$store.state.user_role == 'management'">Total Actual Cost</td>
+              <td v-if="$store.state.user_role == 'management'">Estimated Quantity</td>
+              <td v-if="$store.state.user_role == 'management'">Total Estimated Cost</td>
+              <td v-if="$store.state.user_role != 'management'"></td>
             </tr>
           </thead>
           <tbody>
@@ -31,11 +31,11 @@
               <td>{{ boq.material }}</td>
               <td>{{ boq.measurement_unit }}</td>
               <td>{{ boq.unit_cost }}</td>
-              <td>{{ boq.total_actual_quantity | formatNumber}}</td>
-              <td>{{ boq.total_actual_quantity * boq.unit_cost | formatNumber}}</td>
-              <td>{{ boq.total_estimate_quantity | formatNumber}}</td>
-              <td>{{ boq.total_estimate_quantity * boq.unit_cost | formatNumber}}</td>
-              <td class="text-right">
+              <td v-if="$store.state.user_role == 'management'">{{ boq.total_actual_quantity | formatNumber}}</td>
+              <td v-if="$store.state.user_role == 'management'">{{ boq.total_actual_quantity * boq.unit_cost | formatNumber}}</td>
+              <td v-if="$store.state.user_role == 'management'">{{ boq.total_estimate_quantity | formatNumber}}</td>
+              <td v-if="$store.state.user_role == 'management'">{{ boq.total_estimate_quantity * boq.unit_cost | formatNumber}}</td>
+              <td v-if="$store.state.user_role != 'management'" class="text-right">
                   <i class="fa fa-edit" v-on:click="editBoq(boq)"></i> 
                 </td>
             </tr>

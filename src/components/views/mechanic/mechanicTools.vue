@@ -23,7 +23,7 @@
                 <td>Type</td>
                 <td>status</td>
                 <td>Creation Date</td>
-                <td></td>
+                <td v-if="$store.state.user_role != 'management'"></td>
               </tr>
             </thead>
             <tbody>
@@ -33,7 +33,7 @@
                 <td>{{ tool.type.type }}</td>
                 <td><span v-bind:class="tool.status.color">{{ tool.status.name }}</span></td>
                 <td>{{ tool.created | moment("dddd, MMMM Do YYYY") }}</td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role != 'management'" class="text-right">
                   <a class="custom-btn text-white" v-on:click="showForm();fixTool(tool)" style="padding-top: 5px; padding-bottom: 5px;">
                     Fix</a>
                 </td>

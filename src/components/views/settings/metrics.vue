@@ -9,7 +9,7 @@
       </div>
 
       <div class="comp-title col-md-3">
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetType()">
+        <button v-if="$store.state.user_role != 'management'"  class="mdc-button mdc-button--raised" v-on:click="showForm();resetType()">
           Add Metric
         </button>
       </div>
@@ -29,7 +29,7 @@
                 <td>Max Time</td>
                 <td>Points</td>
                 <td>Created At</td>
-                <td></td>
+                <td v-if="$store.state.user_role != 'management'"></td>
               </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@
                 <td>{{ metric.max_time }}</td>
                 <td>{{ metric.points }}</td>
                 <td>{{ metric.created | moment("DD, MM, YY") }}</td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role != 'management'" class="text-right">
                   <i class="fa fa-edit" v-on:click="editMetric(metric)"></i> 
                   <i class="fa fa-times" v-on:click="deleteMetric(metric)"></i>
                 </td>

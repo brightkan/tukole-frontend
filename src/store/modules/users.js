@@ -9,7 +9,8 @@ export default {
         users: [],
         listType: 'all',
         listTypes: [
-            'admin', 'super_admin', 'client', 'warehouse_manager', 'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc'
+            'admin', 'super_admin', 'client', 'warehouse_manager', 
+            'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc', 'management'
         ],
         manholes: [],
         assignedManholes: [],

@@ -16,12 +16,14 @@
             <option v-on:click="filter('osp')">OSP</option>
             <option v-on:click="filter('isp')">ISP</option>
             <option v-on:click="filter('ofc')">OFC</option>
+            <option v-on:click="filter('management')">Management</option>
           </mdc-select>
           <form method="get" action="/search">
             <input name="q" type="text" size="40" placeholder="Search..." v-model="filterUser">
           </form>
         </div>
-        <button class="mdc-button mdc-button--raised" v-on:click="showUserForm();resetUser()">Add User</button>
+        <button v-if="$store.state.user_role != 'management'" 
+        class="mdc-button mdc-button--raised" v-on:click="showUserForm();resetUser()">Add User</button>
       </div>
     </div>
 
@@ -42,8 +44,8 @@
                   <td style="text-transform: capitalize">{{ row.type }}</td>
                   <td style="text-transform: capitalize">{{ row.role == "garage_manager" ? "Workshop Supervisior" :row.role.replace('_', ' ') }}</td>
                   <td>{{ row.created | moment('MMM Do YYYY')}}</td>
-                  <td><a class="re-invite-link" v-on:click="reInvite(row)">ReInvite</a></td>
-                  <td class="text-right" style="width: 100px;">
+                  <td v-if="$store.state.user_role != 'management'"><a class="re-invite-link" v-on:click="reInvite(row)">ReInvite</a></td>
+                  <td v-if="$store.state.user_role != 'management'" class="text-right" style="width: 100px;">
                     <i class="fa fa-edit" v-on:click="editUser(row)"></i>
                     <i class="fa fa-times" v-on:click="deleteUser(row)"></i>
                   </td>
@@ -104,6 +106,7 @@
                       <option v-bind:value="'tools_head_of_department'">Tools Head of Department</option>
                       <option v-bind:value="'tools_manager'">Tools Manager</option>
                       <option v-bind:value="'technician'">Technician</option>
+                      <option v-bind:value="'management'">Management</option>
                     </mdc-select>
                   </div>
                 </div>

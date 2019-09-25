@@ -29,7 +29,8 @@
         <div class="pip-box">
           <h4>Project Implementation Plan 
 
-            <a class="custom-btn text-white float-right" data-toggle="modal" data-target="#addPIP" v-on:click="resetPIP()" style="padding-top: 5px; padding-bottom: 5px;">
+            <a v-if="$store.state.user_role != 'management'" 
+              class="custom-btn text-white float-right" data-toggle="modal" data-target="#addPIP" v-on:click="resetPIP()" style="padding-top: 5px; padding-bottom: 5px;">
               Add project plan
             </a> 
           </h4>

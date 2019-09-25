@@ -210,7 +210,7 @@
         <div class="row">
           <div class="col-md-4 container">
             <button
-              v-if="!editSite"
+              v-if="!editSite && $store.state.user_role != 'management'"
               style="width: 100%"
               type="button"
               class="btn btn-default ac_btn"

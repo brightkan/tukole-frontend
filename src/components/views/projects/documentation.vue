@@ -16,7 +16,8 @@
       <div class="boq-list">
 
       <div class="comp-title col-md-2">
-        <button type="button" data-toggle="modal" data-target="#addDocument" v-on:click="reset()">
+        <button v-if="$store.state.user_role != 'management'" 
+          type="button" data-toggle="modal" data-target="#addDocument" v-on:click="reset()">
           Add Document
         </button>
       </div>

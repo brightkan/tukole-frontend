@@ -9,7 +9,9 @@
             <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetChecklistItem()">Add Checklist item</button>
+        <button v-if="$store.state.user_role != 'management'" 
+        class="mdc-button mdc-button--raised" v-on:click="showForm();resetChecklistItem()">
+        Add Checklist item</button>
       </div>
     </div>
     <!-- /.row -->
@@ -24,7 +26,7 @@
                 <tr>
                   <td>{{ row.name }}</td>
                   <td>{{ row.type }}</td>
-                  <td class="text-right">
+                  <td v-if="$store.state.user_role != 'management'" class="text-right">
                     <i class="fa fa-edit" v-on:click="editChecklistItem(row)"></i> 
                     <i class="fa fa-times" v-on:click="deleteChecklistItem(row)"></i>
                   </td>

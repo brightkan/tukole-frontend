@@ -9,8 +9,9 @@
             <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetMaterial()">Add Material</button>
-        <div class="dropbox-file rounded-square">
+        <button v-if="$store.state.user_role != 'management'" 
+        class="mdc-button mdc-button--raised" v-on:click="showForm();resetMaterial()">Add Material</button>
+        <div v-if="$store.state.user_role != 'management'" class="dropbox-file rounded-square">
           <input
             type="file"
             :name="uploadFieldName"
@@ -40,7 +41,7 @@
                   <td style="text-transform: uppercase">{{ row.measurement }}</td>
                   <td>{{ row.running_out ? "Running out" : "Available" }}</td>
                   <td>{{ row.unit_cost }}</td>
-                  <td class="text-right">
+                  <td v-if="$store.state.user_role != 'management'" class="text-right">
                     <i class="fa fa-edit" v-on:click="editMaterial(row)"></i> 
                     <i class="fa fa-times" v-on:click="deleteMaterial(row)"></i>
                   </td>

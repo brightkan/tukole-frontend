@@ -8,7 +8,8 @@
       </div>
 
       <div class="comp-title col-md-2">
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetUser()">
+        <button v-if="$store.state.user_role != 'management'" 
+          class="mdc-button mdc-button--raised" v-on:click="showForm();resetUser()">
           Add Users
         </button>
       </div>
@@ -26,7 +27,7 @@
                 <td>Contact</td>
                 <td>Email</td>
                 <td>Creation Date</td>
-                <td></td>
+                <td v-if="$store.state.user_role != 'management'"></td>
               </tr>
             </thead>
             <tbody>
@@ -35,7 +36,7 @@
                 <td>{{ user.phone_number }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.created | moment('MMM Do YYYY')}}</td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role != 'management'" class="text-right">
                   <i class="fa fa-edit" v-on:click="editUser(user)"></i> 
                   <i class="fa fa-times" v-on:click="deleteUser(user)"></i>
                 </td>

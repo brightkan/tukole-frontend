@@ -8,7 +8,8 @@
       </div>
 
       <div v-if="$store.state.user_type != 'client'" class="comp-title col-md-2">
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetCompany()">
+        <button v-if="$store.state.user_role != 'management'" 
+          class="mdc-button mdc-button--raised" v-on:click="showForm();resetCompany()">
           Add Company
         </button>
       </div>

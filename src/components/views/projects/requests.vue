@@ -30,7 +30,7 @@
                 <td>Creation Date</td>
                 <td>Acknowledgement Status</td>
                 <td>Site Drawing</td>
-                <td>Actions</td>
+                <td v-if="$store.state.user_role != 'management'">Actions</td>
               </tr>
             </thead>
             <tbody>
@@ -48,7 +48,7 @@
                   >Download</a>
                   <span v-if="request.site_drawing == null">No Drawing</span>
                 </td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role != 'management'" class="text-right">
                   <button
                     class="mdc-button mdc-button--raised"
                     style="margin-right: 15px"

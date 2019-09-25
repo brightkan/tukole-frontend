@@ -14,8 +14,8 @@
             <input name="q" type="text" size="40" placeholder="Search..." />
           </form>
         </div>
-        <button
-          v-if="$store.state.user_type != 'client'"
+        <button 
+          v-if="$store.state.user_type != 'client' && $store.state.user_role != 'management'"
           class="mdc-button mdc-button--raised"
           v-on:click="showSiteForm();resetSite()"
         >Add Site</button>

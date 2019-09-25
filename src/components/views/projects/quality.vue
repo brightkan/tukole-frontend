@@ -27,7 +27,7 @@
                           <td>Description</td>
                           <td>Affected teams</td>
                           <td>Priority</td>
-                          <td>Status</td>
+                          <td v-if="$store.state.user_role != 'management'">Status</td>
                         </tr>
                       </thead>
                       <tbody>
@@ -36,7 +36,7 @@
                           <td style="max-width: 300px">{{ qualityCheck.description }}</td>
                           <td v-if="!qualityCheck.appraisal">{{ qualityCheck.affected_teams }}</td>
                           <td v-if="!qualityCheck.appraisal">{{ qualityCheck.priority }}</td>
-                          <td>
+                          <td v-if="$store.state.user_role != 'management'">
                             <span v-if="qualityCheck.status == 'fixed'">Fixed</span>
                             <button v-if="(qualityCheck.status == 'pending' || qualityCheck.status == null) && !qualityCheck.appraisal" class="mark-read" v-on:click="editQuality(qualityCheck)">Mark as fixed</button>
                           </td>

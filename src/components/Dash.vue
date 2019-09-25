@@ -241,7 +241,11 @@ export default {
     if(window.localStorage.getItem('clientType') === 'client'){
       this.$router.push('/dash/project');
     }else{
-      this.$router.push('/dash/dashboard');
+      if(window.localStorage.getItem('userRole') == 'managment'){
+        this.$router.push('/dash/dashboard');
+      }else{
+        this.$router.push('/dash/project');
+      }
     }
   }
 };

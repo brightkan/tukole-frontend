@@ -120,10 +120,12 @@
                   <i class="fa fa-wrench"></i>
                   Site Team
                   <button
+                    v-if="$store.state.user_role != 'management'"
                     class="float-right mdc-button mdc-button--raised"
                     v-on:click="addSiteRole = true"
                   >Add Member</button>
-                  <div class="float-right dropbox-file rounded-square-2">
+                  <div v-if="$store.state.user_role != 'management'" 
+                    class="float-right dropbox-file rounded-square-2">
                     <input
                       type="file"
                       :name="uploadFieldName"
@@ -145,7 +147,7 @@
                       <td>Contact</td>
                       <td>Role</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td v-if="$store.state.user_role != 'management'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -185,7 +187,7 @@
                       <td>{{ siteRole.user.phone_number }}</td>
                       <td style="text-transform: capitalize">{{ siteRole.role }}</td>
                       <td>{{ siteRole.created | moment("MMM Do YYYY") }}</td>
-                      <td>
+                      <td v-if="$store.state.user_role != 'management'">
                         <i class="fa fa-times" v-on:click="deleteSiteRole(siteRole)"></i>
                       </td>
                     </tr>
@@ -201,7 +203,8 @@
                 <h3>
                   <i class="fa fa-wrench"></i>
                   Site Fleet
-                  <button class="float-right mdc-button mdc-button--raised" v-on:click="addSiteFleet = true">
+                  <button v-if="$store.state.user_role != 'management'" 
+                    class="float-right mdc-button mdc-button--raised" v-on:click="addSiteFleet = true">
                     Add Fleet</button>
                 </h3>
                 <table>
@@ -211,7 +214,7 @@
                       <td>Number Plate</td>
                       <td>Type</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td v-if="$store.state.user_role != 'management'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -235,7 +238,7 @@
                       <td>{{ siteFleet.fleet.humanUuid }}</td>
                       <td>{{ siteFleet.fleet.vehicle_type.type }}</td>
                       <td>{{ siteFleet.created | moment("MMM Do YYYY") }}</td>
-                      <td>
+                      <td v-if="$store.state.user_role != 'management'">
                         <i class="fa fa-times" v-on:click="deleteSiteFleet(siteFleet)"></i>
                       </td>
                     </tr>
@@ -251,7 +254,8 @@
                 <h3>
                   <i class="fa fa-wrench"></i>
                   Site Tools
-                  <button class="float-right mdc-button mdc-button--raised" v-on:click="addSiteTool = true">
+                  <button v-if="$store.state.user_role != 'management'" 
+                    class="float-right mdc-button mdc-button--raised" v-on:click="addSiteTool = true">
                     Add Tool</button>
                 </h3>
                 <table>
@@ -261,7 +265,7 @@
                       <td>Serial Number</td>
                       <td>Type</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td v-if="$store.state.user_role != 'management'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -285,7 +289,7 @@
                       <td>{{ siteTool.tool.humanUuid }}</td>
                       <td>{{ siteTool.tool.type.type }}</td>
                       <td>{{ siteTool.created | moment("MMM Do YYYY") }}</td>
-                      <td>
+                      <td v-if="$store.state.user_role != 'management'">
                         <i class="fa fa-times" v-on:click="deleteSiteTool(siteTool)"></i>
                       </td>
                     </tr>
@@ -302,7 +306,8 @@
                 <h3>
                   <i class="fa fa-wrench"></i>
                   Site Machinery
-                  <button class="float-right mdc-button mdc-button--raised" v-on:click="addSiteMachinery = true">
+                  <button v-if="$store.state.user_role != 'management'" 
+                    class="float-right mdc-button mdc-button--raised" v-on:click="addSiteMachinery = true">
                     Add Machine</button>
                 </h3>
                 <table>
@@ -311,7 +316,7 @@
                       <td>Machine</td>
                       <td>Serial Number</td>
                       <td>Creation Date</td>
-                      <td></td>
+                      <td v-if="$store.state.user_role != 'management'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -334,7 +339,7 @@
                       <td>{{ siteMachine.machine.name }}</td>
                       <td>{{ siteMachine.machine.humanUuid }}</td>
                       <td>{{ siteMachine.created | moment("MMM Do YYYY") }}</td>
-                      <td>
+                      <td v-if="$store.state.user_role != 'management'">
                         <i class="fa fa-times" v-on:click="deleteSiteMachinery(siteMachine)"></i>
                       </td>
                     </tr>
@@ -358,7 +363,9 @@
           <h3>
             <i class="fa fa-wrench"></i>
             Survey Results
-            <button class="float-right mdc-button mdc-button--raised" v-on:click="openSurveyForm();resetSurveyResult();reset();">
+            <button v-if="$store.state.user_role != 'management'" 
+              class="float-right mdc-button mdc-button--raised" 
+              v-on:click="openSurveyForm();resetSurveyResult();reset();">
               Upload survey result</button>
           </h3>
           <table>

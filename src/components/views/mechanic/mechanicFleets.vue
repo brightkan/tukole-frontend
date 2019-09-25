@@ -23,7 +23,7 @@
                 <td>Type</td>
                 <td>status</td>
                 <td>Creation Date</td>
-                <td></td>
+                <td v-if="$store.state.user_role != 'management'"></td>
               </tr>
             </thead>
             <tbody>
@@ -33,7 +33,7 @@
                 <td>{{ fleet.vehicle_type.type }}</td>
                 <td><span v-bind:class="fleet.status.color">{{ fleet.status.name.replace('_', ' ') }}</span></td>
                 <td>12. 08. 2018</td>
-                <td class="text-right"> 
+                <td v-if="$store.state.user_role != 'management'" class="text-right"> 
                   <a class="custom-btn text-white" v-on:click="showForm();fixFleet(fleet)" style="padding-top: 5px; padding-bottom: 5px;">
                     Fix</a>
                 </td>

@@ -21,7 +21,7 @@
                 <td>Serial Number</td>
                 <td>status</td>
                 <td>Creation Date</td>
-                <td></td>
+                <td v-if="$store.state.user_role != 'management'"></td>
               </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
                 <td>{{ machine.humanUuid }}</td>
                 <td><span v-bind:class="machine.status.color">{{ machine.status.name.replace('_', ' ') }}</span></td>
                 <td>{{ machine.created | moment("dddd, MMMM Do YYYY") }}</td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role != 'management'" class="text-right">
                   <a class="custom-btn text-white" v-on:click="showForm();fixMachine(machine)" style="padding-top: 5px; padding-bottom: 5px;">
                     Fix</a>
                 </td>
