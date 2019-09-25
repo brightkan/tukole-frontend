@@ -15,7 +15,7 @@
     <div class="row">
       <div class="boq-list">
         <div class="comp-title col-md-2">
-          <button v-if="$store.state.user_role != 'management'" 
+          <button v-if="$store.state.user_role == 'project_manager'" 
             type="button" data-toggle="modal" data-target="#addCost" v-on:click="resetCost()">
             Add Cost
           </button>
@@ -26,14 +26,14 @@
             <tr>
               <td>Cost Name</td>
               <td>Value</td>
-              <td></td>
+              <td v-if="$store.state.user_role == 'project_manager'"></td>
             </tr>
           </thead>
           <tbody>
             <tr v-for="cost in costs" :key="cost.id" > 
               <td><span>1.</span> {{ cost.name }}</td>
               <td>{{ cost.value | formatNumber }}</td>
-              <td class="text-right">
+              <td v-if="$store.state.user_role == 'project_manager'" class="text-right">
                 <i class="fa fa-edit" v-on:click="editCost(cost)" data-toggle="modal" data-target="#addCost"></i> 
                 <i class="fa fa-times" v-on:click="deleteCost(cost)"></i>
               </td>

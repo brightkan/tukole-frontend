@@ -16,7 +16,7 @@
       <div class="boq-list">
 
       <div class="comp-title col-md-2">
-        <button v-if="$store.state.user_role != 'management'" 
+        <button v-if="$store.state.user_role == 'project_manager'" 
           type="button" data-toggle="modal" data-target="#addDocument" v-on:click="reset()">
           Add Document
         </button>

@@ -48,11 +48,11 @@
                   >Download</a>
                   <span v-if="request.site_drawing == null">No Drawing</span>
                 </td>
-                <td v-if="$store.state.user_role != 'management'" class="text-right">
+                <td v-if="$store.state.user_role == 'project_manager'" class="text-right">
                   <button
                     class="mdc-button mdc-button--raised"
                     style="margin-right: 15px"
-                    v-if="!request.ackStatus && $store.state.user_type != 'client'"
+                    v-if="!request.ackStatus && $store.state.user_type == 'project_manager'"
                     v-on:click="ackSite(request)"
                   >Acknowledge site</button>
                   <i v-if="!request.ackStatus" class="fa fa-times" v-on:click="deleteSite(request)"></i>

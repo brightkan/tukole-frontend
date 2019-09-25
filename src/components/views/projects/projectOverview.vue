@@ -120,11 +120,11 @@
                   <i class="fa fa-wrench"></i>
                   Site Team
                   <button
-                    v-if="$store.state.user_role != 'management'"
+                    v-if="$store.state.user_role == 'project_manager'"
                     class="float-right mdc-button mdc-button--raised"
                     v-on:click="addSiteRole = true"
                   >Add Member</button>
-                  <div v-if="$store.state.user_role != 'management'" 
+                  <div v-if="$store.state.user_role == 'project_manager'" 
                     class="float-right dropbox-file rounded-square-2">
                     <input
                       type="file"
@@ -147,7 +147,7 @@
                       <td>Contact</td>
                       <td>Role</td>
                       <td>Creation Date</td>
-                      <td v-if="$store.state.user_role != 'management'"></td>
+                      <td v-if="$store.state.user_role == 'project_manager'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -187,7 +187,7 @@
                       <td>{{ siteRole.user.phone_number }}</td>
                       <td style="text-transform: capitalize">{{ siteRole.role }}</td>
                       <td>{{ siteRole.created | moment("MMM Do YYYY") }}</td>
-                      <td v-if="$store.state.user_role != 'management'">
+                      <td v-if="$store.state.user_role == 'project_manager'">
                         <i class="fa fa-times" v-on:click="deleteSiteRole(siteRole)"></i>
                       </td>
                     </tr>
@@ -203,7 +203,7 @@
                 <h3>
                   <i class="fa fa-wrench"></i>
                   Site Fleet
-                  <button v-if="$store.state.user_role != 'management'" 
+                  <button v-if="$store.state.user_role == 'project_manager'" 
                     class="float-right mdc-button mdc-button--raised" v-on:click="addSiteFleet = true">
                     Add Fleet</button>
                 </h3>
@@ -214,7 +214,7 @@
                       <td>Number Plate</td>
                       <td>Type</td>
                       <td>Creation Date</td>
-                      <td v-if="$store.state.user_role != 'management'"></td>
+                      <td v-if="$store.state.user_role == 'project_manager'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -238,7 +238,7 @@
                       <td>{{ siteFleet.fleet.humanUuid }}</td>
                       <td>{{ siteFleet.fleet.vehicle_type.type }}</td>
                       <td>{{ siteFleet.created | moment("MMM Do YYYY") }}</td>
-                      <td v-if="$store.state.user_role != 'management'">
+                      <td v-if="$store.state.user_role == 'project_manager'">
                         <i class="fa fa-times" v-on:click="deleteSiteFleet(siteFleet)"></i>
                       </td>
                     </tr>
@@ -254,7 +254,7 @@
                 <h3>
                   <i class="fa fa-wrench"></i>
                   Site Tools
-                  <button v-if="$store.state.user_role != 'management'" 
+                  <button v-if="$store.state.user_role == 'project_manager'" 
                     class="float-right mdc-button mdc-button--raised" v-on:click="addSiteTool = true">
                     Add Tool</button>
                 </h3>
@@ -265,7 +265,7 @@
                       <td>Serial Number</td>
                       <td>Type</td>
                       <td>Creation Date</td>
-                      <td v-if="$store.state.user_role != 'management'"></td>
+                      <td v-if="$store.state.user_role == 'project_manager'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -289,7 +289,7 @@
                       <td>{{ siteTool.tool.humanUuid }}</td>
                       <td>{{ siteTool.tool.type.type }}</td>
                       <td>{{ siteTool.created | moment("MMM Do YYYY") }}</td>
-                      <td v-if="$store.state.user_role != 'management'">
+                      <td v-if="$store.state.user_role == 'project_manager'">
                         <i class="fa fa-times" v-on:click="deleteSiteTool(siteTool)"></i>
                       </td>
                     </tr>
@@ -306,7 +306,7 @@
                 <h3>
                   <i class="fa fa-wrench"></i>
                   Site Machinery
-                  <button v-if="$store.state.user_role != 'management'" 
+                  <button v-if="$store.state.user_role == 'project_manager'" 
                     class="float-right mdc-button mdc-button--raised" v-on:click="addSiteMachinery = true">
                     Add Machine</button>
                 </h3>
@@ -316,7 +316,7 @@
                       <td>Machine</td>
                       <td>Serial Number</td>
                       <td>Creation Date</td>
-                      <td v-if="$store.state.user_role != 'management'"></td>
+                      <td v-if="$store.state.user_role == 'project_manager'"></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -339,7 +339,7 @@
                       <td>{{ siteMachine.machine.name }}</td>
                       <td>{{ siteMachine.machine.humanUuid }}</td>
                       <td>{{ siteMachine.created | moment("MMM Do YYYY") }}</td>
-                      <td v-if="$store.state.user_role != 'management'">
+                      <td v-if="$store.state.user_role == 'project_manager'">
                         <i class="fa fa-times" v-on:click="deleteSiteMachinery(siteMachine)"></i>
                       </td>
                     </tr>
@@ -363,7 +363,7 @@
           <h3>
             <i class="fa fa-wrench"></i>
             Survey Results
-            <button v-if="$store.state.user_role != 'management'" 
+            <button v-if="$store.state.user_role == 'project_manager'" 
               class="float-right mdc-button mdc-button--raised" 
               v-on:click="openSurveyForm();resetSurveyResult();reset();">
               Upload survey result</button>

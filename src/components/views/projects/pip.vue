@@ -29,7 +29,7 @@
         <div class="pip-box">
           <h4>Project Implementation Plan 
 
-            <a v-if="$store.state.user_role != 'management'" 
+            <a v-if="$store.state.user_role == 'project_manager'" 
               class="custom-btn text-white float-right" data-toggle="modal" data-target="#addPIP" v-on:click="resetPIP()" style="padding-top: 5px; padding-bottom: 5px;">
               Add project plan
             </a> 
@@ -45,7 +45,7 @@
                 <td>Tasks</td>
                 <td>Start</td>
                 <td>End</td>
-                <td></td>
+                <td v-if="$store.state.user_role == 'project_manager'"></td>
               </tr>
             </thead>
             <tbody>
@@ -53,7 +53,7 @@
                 <td>{{ index + 1 }}. {{ plan.task }}</td>
                 <td>{{ plan.start | moment("dddd, MMMM Do YYYY") }}</td>
                 <td>{{ plan.end | moment("dddd, MMMM Do YYYY") }}</td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role == 'project_manager'" class="text-right">
                   <i class="fa fa-edit" v-on:click="editPIP(plan)" data-toggle="modal" data-target="#addPIP"></i> 
                   <i class="fa fa-times" v-on:click="deletePIP(plan)"></i>
                 </td>

@@ -9,11 +9,11 @@
         <h3>{{ getUser() }}</h3>
       </div>
       <div class="col-md-3"> 
-        <button v-if="$store.state.user_role != 'management'" 
+        <button v-if="$store.state.user_role == 'project_manager'" 
         class="mdc-button mdc-button--raised" v-on:click="showForm();">Assign Manhole</button>
       </div>
       <div class="col-md-3">
-        <div v-if="$store.state.user_role != 'management'" class="dropbox-file button-2">
+        <div v-if="$store.state.user_role == 'project_manager'" class="dropbox-file button-2">
           <input
             type="file"
             :name="uploadFieldName"
