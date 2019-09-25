@@ -28,7 +28,7 @@
     <!-- /.row -->
     <div class="row">
       <div class="col-md-12">
-        <div class="table-alt">
+        <div class="table-alt table-responsive">
           <h3>
             <i class="fa fa-users"></i> Users
           </h3>
@@ -42,8 +42,8 @@
                   <td style="text-transform: capitalize">{{ row.type }}</td>
                   <td style="text-transform: capitalize">{{ row.role == "garage_manager" ? "Workshop Supervisior" :row.role.replace('_', ' ') }}</td>
                   <td>{{ row.created | moment('MMM Do YYYY')}}</td>
-                  <td class="text-right">
-                    <a class="re-invite-link" v-on:click="reInvite(row)">ReInvite</a>
+                  <td><a class="re-invite-link" v-on:click="reInvite(row)">ReInvite</a></td>
+                  <td class="text-right" style="width: 100px;">
                     <i class="fa fa-edit" v-on:click="editUser(row)"></i>
                     <i class="fa fa-times" v-on:click="deleteUser(row)"></i>
                   </td>
@@ -171,6 +171,7 @@ export default {
           {label: 'Account Type', field: 'type'},
           {label: 'Role', field: "role"},
           {label: 'Created', field: 'created'},
+          {label: '', field: ''},
           {label: '', field: ''}
       ],
       rows: window.rows,
