@@ -2,29 +2,48 @@
   <div class="row">
     <div class="auth-form container">
       <h3>Tukole</h3>
-      <div v-if=response class="col-md-12 error"><p class="vertical-5p lead">{{response}}</p></div>
+      <div v-if="response" class="col-md-12 error">
+        <p class="vertical-5p lead">{{response}}</p>
+      </div>
       <form @submit.prevent="checkCreds">
         <div class="form-group">
           <label>Workspace Name</label>
-          <input class="form-control" name="wk_name" type="text" v-model="workspace">
+          <input class="form-control" name="wk_name" type="text" v-model="workspace" />
         </div>
 
         <div class="form-group">
           <label>Username/Email</label>
-          <input class="form-control" name="email" type="email" v-model="email">
+          <input class="form-control" name="email" type="email" v-model="email" />
         </div>
 
         <div class="form-group">
           <label>Password</label>
-          <input class="form-control" name="password" type="password" v-model="password">
+          <input class="form-control" name="password" type="password" v-model="password" />
         </div>
 
-        <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading" 
-          :disabled="loading == 'loading'">
-          {{ loading ? 'Loading...' : 'Submit' }}
-        </button>
-        <p>Have no account? <router-link tag="a" to="/create_workspace">Sign Up</router-link></p>
-        <p><router-link tag="a" to="/forgot_password">Forgot password</router-link></p>
+        <button
+          type="submit"
+          v-bind:class="'btn btn-primary btn-lg ' + loading"
+          :disabled="loading == 'loading'"
+        >{{ loading ? 'Loading...' : 'Submit' }}</button>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="field">
+              <p>
+                <input type="checkbox" id="checkbox" v-model="remember_me" /> Remember me
+              </p>
+              <p>
+                <router-link tag="a" to="/forgot_password">Forgot password</router-link>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <p>
+              Have no account?
+              <router-link tag="a" to="/create_workspace">Sign Up</router-link>
+            </p>
+          </div>
+        </div>
       </form>
     </div>
 
@@ -36,38 +55,37 @@
       </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img class="first-slide" src="../../assets/imgs/construction.jpg" alt="First slide">
+          <img class="first-slide" src="../../assets/imgs/construction.jpg" alt="First slide" />
           <div class="overlay-effect h-100 w-100">
             <div class="container">
-            <div class="carousel-caption text-left">
-              <h1>Soliton Uganda</h1>
+              <div class="carousel-caption text-left">
+                <h1>Soliton Uganda</h1>
+              </div>
             </div>
-          </div>
           </div>
         </div>
         <div class="carousel-item">
-          <img class="second-slide" src="../../assets/imgs/dev_bg.jpg" alt="Second slide">
+          <img class="second-slide" src="../../assets/imgs/dev_bg.jpg" alt="Second slide" />
           <div class="overlay-effect h-100 w-100">
             <div class="container">
-            <div class="carousel-caption text-left">
-              <h1>Another example headline.</h1>
+              <div class="carousel-caption text-left">
+                <h1>Another example headline.</h1>
+              </div>
             </div>
-          </div>
           </div>
         </div>
         <div class="carousel-item">
-          <img class="third-slide" src="../../assets/imgs/industries.jpg" alt="Third slide">
+          <img class="third-slide" src="../../assets/imgs/industries.jpg" alt="Third slide" />
           <div class="overlay-effect h-100 w-100">
             <div class="container">
-            <div class="carousel-caption text-left">
-              <h1>One more for good measure.</h1>
+              <div class="carousel-caption text-left">
+                <h1>One more for good measure.</h1>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -83,12 +101,13 @@ export default {
       email: "",
       password: "",
       workspace: "",
-      response: ""
+      response: "",
+      remember_me: false
     };
   },
   methods: {
     checkCreds() {
-      const { email, password, workspace } = this;
+      const { email, password, workspace, remember_me } = this;
 
       this.toggleLoading();
       this.resetResponse();
@@ -110,26 +129,27 @@ export default {
 
             if (window.localStorage) {
               window.localStorage.setItem("token", token);
+              window.localStorage.setItem("refreshToken", data.refresh);
+              window.localStorage.setItem("rememberMe", remember_me);
               window.localStorage.setItem("user", JSON.stringify(data));
             }
 
-            if(data.part_of_workspace){
+            if (data.part_of_workspace) {
+              console.log(data.user_type);
 
-              console.log(data.user_type)
+              if (data.user_type == "admin" || data.user_type == "client") {
+                window.localStorage.setItem("clientType", data.user_type);
+                window.localStorage.setItem("workspace", data.workspace);
+                window.localStorage.setItem("company", data.company);
+                window.localStorage.setItem("userRole", data.user_role);
 
-              if(data.user_type == "admin" || data.user_type == "client"){
-                window.localStorage.setItem("clientType", data.user_type)
-                window.localStorage.setItem("workspace", data.workspace)
-                window.localStorage.setItem("company", data.company)
-                window.localStorage.setItem("userRole", data.user_role)
-
-                this.$router.push('/dash')
-              }else{
-                window.localStorage.removeItem('token');
+                this.$router.push("/dash");
+              } else {
+                window.localStorage.removeItem("token");
                 this.response = "Error, You don't have access permissions";
                 //this.$router.push('/');
               }
-            }else{
+            } else {
               this.response = "Error, check your workspace";
             }
 
@@ -163,7 +183,6 @@ body {
   padding-bottom: 3rem;
   color: #5a5a5a;
 }
-
 
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
@@ -206,15 +225,15 @@ body {
   height: 100%;
 }
 
-.carousel-indicators{
+.carousel-indicators {
   /* margin-left: 45px; */
 }
 
 .carousel-caption {
-    width: fit-content;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
+  width: fit-content;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .overlay-effect {
@@ -229,7 +248,7 @@ body {
   z-index: 1024;
 }
 
-.auth-form{
+.auth-form {
   width: 50%;
   position: absolute;
   z-index: 100;
@@ -243,45 +262,46 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-.auth-form  h3{
+.auth-form h3 {
   margin-bottom: 15px;
   font-weight: bold;
-  color: #256AE1;
+  color: #256ae1;
 }
 
-.auth-form  h4{
+.auth-form h4 {
   font-size: 16px;
   margin-bottom: 30px;
   font-weight: bold;
-  color: #256AE1;
+  color: #256ae1;
 }
 
-.auth-form p a{
-  color: #256AE1
+.auth-form p a {
+  color: #256ae1;
 }
 
-.auth-form input, .auth-form select{
-  border-color: #256AE1;
+.auth-form input,
+.auth-form select {
+  border-color: #256ae1;
   border-radius: 5px;
   background: transparent;
 }
 
-.auth-form button{
-	width: 100%;
-  background-color: #256AE1;
-  box-shadow: 0 2px 1px 0 rgba(51,153,255,0.27);
+.auth-form button {
+  width: 100%;
+  background-color: #256ae1;
+  box-shadow: 0 2px 1px 0 rgba(51, 153, 255, 0.27);
   border-radius: 40px;
   margin: 15px 0;
   padding: 10px;
   font-size: 16px;
 }
 
-.error{
+.error {
   background: #db7474;
   color: white;
 }
 
-.error p{
+.error p {
   font-size: 1.1em;
   text-align: center;
 }

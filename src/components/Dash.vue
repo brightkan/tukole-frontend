@@ -224,6 +224,8 @@ export default {
   methods: {
     Logout(){
       window.localStorage.removeItem('token');
+      window.localStorage.removeItem('refreshToken');
+      window.localStorage.removeItem('remember_me');
       this.$router.push('/');
     },
     showNotifications(){

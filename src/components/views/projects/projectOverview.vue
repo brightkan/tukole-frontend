@@ -363,7 +363,7 @@
           <h3>
             <i class="fa fa-wrench"></i>
             Survey Results
-            <button v-if="$store.state.user_role == 'project_manager'" 
+            <button v-if="$store.state.user_role == 'surveyor'" 
               class="float-right mdc-button mdc-button--raised" 
               v-on:click="openSurveyForm();resetSurveyResult();reset();">
               Upload survey result</button>
