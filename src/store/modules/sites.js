@@ -862,9 +862,9 @@ export default {
         },
         getSites: (state) => {
             if (window.localStorage.getItem('clientType') === 'client') {
-                return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus);
+                return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus && item.site_surveyed);
             } else {
-                return state.sites.filter(item => item.ackStatus);
+                return state.sites.filter(item => item.ackStatus && item.site_surveyed);
             }
         },
         getSiteSurveys: (state) => {
