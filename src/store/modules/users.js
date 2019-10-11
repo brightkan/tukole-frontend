@@ -10,7 +10,7 @@ export default {
         listType: 'all',
         listTypes: [
             'admin', 'super_admin', 'client', 'warehouse_manager', 
-            'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc', 'management'
+            'fleet_manager', 'project_manager', 'osp', 'isp', 'ofc', 'management', 'super_administrator'
         ],
         manholes: [],
         assignedManholes: [],
@@ -262,6 +262,9 @@ export default {
         },
         getAdminUsers: (state) => {
             return state.users.filter(user => { return user.company == null })
+        },
+        checkNumberOfAdmins: (state) => {
+            return (state.users.filter(user => { return user.role == 'super_administrator' })).length
         }
     }
 }

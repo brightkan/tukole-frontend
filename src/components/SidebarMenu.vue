@@ -54,12 +54,12 @@
         <span class="page">Manhole</span>
       </a>
     </router-link>
-    <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/mechanic">
+    <!-- <router-link v-if="$store.state.user_type != 'client'" tag="li" class="pageLink" to="/dash/mechanic">
       <a>
         <i class="fa fa-cogs"></i>
         <span class="page">Garage</span>
       </a>
-    </router-link>
+    </router-link> -->
     <router-link tag="li" class="pageLink" to="/dash/empolyeePermissions">
       <a>
         <i class="fas fa-bell"></i>

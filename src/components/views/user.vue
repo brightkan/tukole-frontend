@@ -17,6 +17,7 @@
             <option v-on:click="filter('isp')">ISP</option>
             <option v-on:click="filter('ofc')">OFC</option>
             <option v-on:click="filter('management')">Management</option>
+            <option v-on:click="filter('super_administrator')">Management</option>
           </mdc-select>
           <form method="get" action="/search">
             <input name="q" type="text" size="40" placeholder="Search..." v-model="filterUser">
@@ -107,6 +108,7 @@
                       <option v-bind:value="'tools_manager'">Tools Manager</option>
                       <option v-bind:value="'technician'">Technician</option>
                       <option v-bind:value="'management'">Management</option>
+                      <option v-bind:value="'super_administrator'">Super Administrator</option>
                     </mdc-select>
                   </div>
                 </div>
@@ -215,8 +217,19 @@ export default {
     },
     saveUser() {
       const { user } = this;
-      console.log(user);
       this.$modal.hide("userForm");
+
+      if(JSON.parse(window.localStorage.getItem("user")).user_id == user.id){
+        if(user.role != "super_administrator" && this.$store.getters["users/checkNumberOfAdmins"] < 2){
+          alert("This workspace needs atleast one super admin")
+          return;
+        }
+      }else {
+        if(user.role != "super_administrator" && this.$store.getters["users/checkNumberOfAdmins"] < 2){
+          alert("This workspace needs atleast one super admin")
+          return;
+        }
+      }
 
       if (this.isValidTel) {
         if (this.editMode) {

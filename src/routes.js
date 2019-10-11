@@ -32,6 +32,7 @@ import ChallengesView from "./components/views/projects/challengesIncidents.vue"
 import ProjectView from "./components/views/projects/project.vue";
 import ProjectsView from "./components/views/projects/projects.vue";
 import RequestsView from "./components/views/projects/requests.vue";
+import SurveyRequestsView from "./components/views/projects/surveyRequests.vue";
 import ProjectOverView from "./components/views/projects/projectOverview.vue";
 import ProjectReportsView from "./components/views/projects/reports.vue"
 import NotificationsView from "./components/views/notifications.vue"
@@ -375,6 +376,44 @@ const routes = [
             component: RequestsView,
             name: "Requests",
             meta: { description: "List of survey requests", requiresAuth: false, type: 'Projects' }
+          },
+          {
+            path: "suveryRequests",
+            component: SurveyRequestsView,
+            name: "Requests",
+            meta: { description: "List of sites to be surveyed", requiresAuth: false, type: 'Projects' },
+            children: [
+              {
+                path: "overview",
+                component: ProjectOverView,
+                name: "Overview",
+                meta: { description: "Project Overview", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "boq",
+                component: BoqView,
+                name: "Boq",
+                meta: { description: "List of our boq", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "documentation",
+                component: ProjectDocumentationView,
+                name: "DOCUMENTATION",
+                meta: { description: "Project documentation", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "gallery",
+                component: GalleryView,
+                name: "GALLERY",
+                meta: { description: "Project images", requiresAuth: false, type: 'ProjectOverview' }
+              },
+              {
+                path: "settings",
+                component: SettingsView,
+                name: "Settings",
+                meta: { description: "Project settings", requiresAuth: false, type: 'ProjectOverview' }
+              }
+            ]
           }
         ]
       }

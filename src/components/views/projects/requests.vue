@@ -91,8 +91,8 @@
               <div>
                 <div class="row">
                   <div class="col-md-6">
-                    <mdc-textfield v-model="site.site_name" label="Request Name" outline required/>
-                    <mdc-textfield v-model="site.site_address" label="Site address" outline/>
+                    <mdc-textfield v-model="site.site_name" label="Request Name" outline required />
+                    <mdc-textfield v-model="site.site_address" label="Site address" outline />
                     <mdc-textfield
                       v-model="site.site_contact_person"
                       label="Site Contact Person"
@@ -109,18 +109,18 @@
                     />
                   </div>
                   <div class="col-md-6">
-                    <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline/>
-                    <mdc-textfield v-model="site.location_long" label="Location longitude" outline/>
+                    <mdc-textfield v-model="site.location_lat" label="Location Latitude" outline />
+                    <mdc-textfield v-model="site.location_long" label="Location longitude" outline />
                     <mdc-textfield
                       v-model="site.original_trenching_distance"
-                      label="Original trenching distance"
+                      label="Original trenching distance in Meters"
                       outline
                     />
                     <!-- <mdc-textfield
                       v-model="site.current_trenching_distance"
                       label="Current trenched distance"
                       outline
-                    /> -->
+                    />-->
                     <mdc-select v-model="site.site_type" label="Site Type" outlined>
                       <option v-bind:value="'single'" :key="'1'">Single</option>
                       <option v-bind:value="'dual'" :key="'2'">Dual</option>
@@ -128,8 +128,6 @@
                     </mdc-select>
                   </div>
                 </div>
-
-                
 
                 <div class="row">
                   <div class="col-md-12">
@@ -148,12 +146,12 @@
                         @change="filesChange($event.target.name, $event.target.files);"
                         accept="image/*"
                         class="input-file"
-                      >
+                      />
                     </div>
                   </div>
                 </div>
 
-                <br>
+                <br />
 
                 <!-- <div class="row">
                   <div class="col-md-6">
@@ -263,7 +261,7 @@
                       label="NO"
                     />
                   </div>
-                </div> -->
+                </div>-->
 
                 <p class="note">
                   <span>Note:</span> Make sure the details above are accurate and correct.
@@ -469,7 +467,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.custom-modal .v--modal-box.v--modal {
+  width: 700px !important;
+}
 </style>
 
 
