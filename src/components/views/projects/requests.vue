@@ -29,7 +29,7 @@
                 <td>Request</td>
                 <td>Creation Date</td>
                 <td>Acknowledgement Status</td>
-                <td>Site Drawing</td>
+                <!-- <td>Site Drawing</td> -->
                 <td v-if="$store.state.user_role != 'management'">Actions</td>
               </tr>
             </thead>
@@ -38,7 +38,7 @@
                 <td>{{ request.site_name }}</td>
                 <td>{{ request.created | moment("MMM Do YYYY")}}</td>
                 <td>{{ request.ackStatus ? 'Acknowledged' : 'Not Acknowledged' }}</td>
-                <td>
+                <!-- <td>
                   <a
                     v-if="request.site_drawing != null"
                     class="mdc-button mdc-button--raised"
@@ -47,7 +47,7 @@
                     download
                   >Download</a>
                   <span v-if="request.site_drawing == null">No Drawing</span>
-                </td>
+                </td> -->
                 <td v-if="$store.state.user_role == 'project_manager'" class="text-right">
                   <button
                     class="mdc-button mdc-button--raised"
@@ -116,11 +116,6 @@
                       label="Original trenching distance in Meters"
                       outline
                     />
-                    <!-- <mdc-textfield
-                      v-model="site.current_trenching_distance"
-                      label="Current trenched distance"
-                      outline
-                    />-->
                     <mdc-select v-model="site.site_type" label="Site Type" outlined>
                       <option v-bind:value="'single'" :key="'1'">Single</option>
                       <option v-bind:value="'dual'" :key="'2'">Dual</option>
@@ -129,7 +124,7 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-md-12">
                     <div class="dropbox">
                       <p
@@ -149,119 +144,9 @@
                       />
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <br />
-
-                <!-- <div class="row">
-                  <div class="col-md-6">
-                    <p class="note">Site Completed</p>
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.site_completed"
-                      name="site_completed"
-                      value="true"
-                      label="Yes"
-                    />
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.site_completed"
-                      name="site_completed"
-                      value="false"
-                      label="NO"
-                    />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <p class="note">ISP Works Complete</p>
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.isp_works_complete"
-                      name="isp_works_complete"
-                      value="true"
-                      label="Yes"
-                    />
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.isp_works_complete"
-                      name="isp_works_complete"
-                      value="false"
-                      label="NO"
-                    />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <p class="note">OSP Works Complete</p>
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.osp_works_complete"
-                      name="osp_works_complete"
-                      value="true"
-                      label="Yes"
-                    />
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.osp_works_complete"
-                      name="osp_works_complete"
-                      value="false"
-                      label="NO"
-                    />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <p class="note">OFC Works Complete</p>
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.ofc_works_complete"
-                      name="ofc_works_complete"
-                      value="true"
-                      label="Yes"
-                    />
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.ofc_works_complete"
-                      name="ofc_works_complete"
-                      value="false"
-                      label="NO"
-                    />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <p class="note">Site powering complete</p>
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.site_powering_complete"
-                      name="site_powering_complete"
-                      value="true"
-                      label="Yes"
-                    />
-                  </div>
-                  <div class="col-md-3">
-                    <mdc-radio
-                      v-model="site.site_powering_complete"
-                      name="site_powering_complete"
-                      value="false"
-                      label="NO"
-                    />
-                  </div>
-                </div>-->
 
                 <p class="note">
                   <span>Note:</span> Make sure the details above are accurate and correct.

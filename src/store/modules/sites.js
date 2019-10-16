@@ -790,7 +790,7 @@ export default {
         },
         updatePIP({ commit, state, rootState }, payload) {
             api
-                .request("patch", "sitespips/" + payload.id + "/", payload)
+                .request("patch", "sitespips/" + payload.get('id') + "/", payload)
                 .then(response => {
                     let pip = response.data;
                     commit('UPDATE_PIP', pip)

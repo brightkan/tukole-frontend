@@ -441,6 +441,8 @@
 
                 <mdc-textfield v-model="surveyResult.title" label="Title" required outline/>
 
+                <mdc-textfield v-model="surveyResult.description" label="Type description" fullwidth multiline required outline/>
+
                 <p class="note">
                   <span>Note:</span> Make sure the details above are accurate and correct.
                 </p>
@@ -497,7 +499,6 @@
             </div>
           </div>
           <div class="modal-footer">
-            <!-- <button class="mdc-button mdc-button--raised" >Add survey result</button> -->
             <form>
               <select
                 class="form-control"
@@ -555,7 +556,8 @@ export default {
       },
       surveyResult: {
         file_url: "",
-        title: ""
+        title: "",
+        description: ""
       },
 
       //this is for the upload
@@ -670,6 +672,7 @@ export default {
       const { surveyResult } = this;
       this.hideSurveyForm();
       this.formData.append("title", surveyResult.title);
+      this.formData.append("description", surveyResult.description);
       this.formData.append("site", window.localStorage.getItem("selectsite"));
       this.formData.append("surveyor",JSON.parse(window.localStorage.getItem("user")).user_id);
       this.formData.append("acceptStatus", "false");
@@ -709,7 +712,9 @@ export default {
     },
     resetSurveyResult() {
       this.surveyResult = {
-        file: ""
+        file: "",
+        title: "",
+        description: ""
       };
     },
     saveSiteRole(role) {
