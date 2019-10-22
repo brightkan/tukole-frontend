@@ -3,7 +3,7 @@
     <div class="auth-form container">
       <h3>Tukole</h3>
       <div v-if="response" class="col-md-12 error">
-        <p class="vertical-5p lead">{{response}}</p>
+        <p class="vertical-5p lead" style="color: white">{{response}}</p>
       </div>
       <form @submit.prevent="checkCreds">
         <div class="form-group">
@@ -147,7 +147,6 @@ export default {
               } else {
                 window.localStorage.removeItem("token");
                 this.response = "Error, You don't have access permissions";
-                //this.$router.push('/');
               }
             } else {
               this.response = "Error, check your workspace";
@@ -159,7 +158,9 @@ export default {
         .catch(error => {
           this.$store.commit("TOGGLE_LOADING");
 
-          this.response = "Error, check your login credentials";
+          console.log(error.response.data['non_field_errors'])
+
+          this.response = error.response.data['non_field_errors'][0];
           this.toggleLoading();
         });
     },

@@ -89,7 +89,7 @@ export default {
         type: 'admin',
         contract_type: 'permanent',
         phone_number:  '',
-        role: 'project_manager'
+        role: 'super_administrator'
       }
     }
   },
