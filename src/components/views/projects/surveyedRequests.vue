@@ -14,7 +14,7 @@
     <!-- /.row -->
 
     <div class="row" v-if="this.$route.meta.type != 'ProjectOverview'">
-      <div class="col-md-4 site" v-for="site in getSiteSurveys" :key="site.id">
+      <div class="col-md-4 site" v-for="site in getSurveyedSites" :key="site.id">
         <a v-on:click="selectSite(site)">
           <div class="project-card" v-bind:class="site.id == selectedSite ? 'active' : ''">
             <div class="site-bg" v-bind:style="{ backgroundImage: 'url('+site.site_image+')'}">
@@ -154,7 +154,7 @@ export default {
   },
   computed: {
     ...mapState("sites", ["sites"]),
-    ...mapGetters("sites", ["getSiteSurveys"])
+    ...mapGetters("sites", ["getSurveyedSites"])
   },
   methods: {
     reformateDate(date) {

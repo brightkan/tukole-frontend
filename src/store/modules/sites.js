@@ -871,9 +871,18 @@ export default {
             if (window.localStorage.getItem('clientType') === 'client') {
                 return state.sites.filter(item => (
                     JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus
-                    && !item.site_connection_request_acknowledged);
+                    && !item.site_connection_request_acknowledged && !site.site_surveyed );
             } else {
-                return state.sites.filter(item => item.ackStatus && !item.site_connection_request_acknowledged);
+                return state.sites.filter(item => item.ackStatus && !item.site_connection_request_acknowledged && !item.site_surveyed );
+            }
+        },
+        getSurveyedSites: (state) => {
+            if (window.localStorage.getItem('clientType') === 'client') {
+                return state.sites.filter(item => (
+                    JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus
+                    && !item.site_connection_request_acknowledged && site.site_surveyed );
+            } else {
+                return state.sites.filter(item => item.ackStatus && !item.site_connection_request_acknowledged && item.site_surveyed);
             }
         },
         getAllSites: (state) => {

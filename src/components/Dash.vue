@@ -20,6 +20,12 @@
                 Current
               </a>
             </router-link>  
+            <router-link tag="li" to="/dash/project/surveyedRequests" v-if="this.$route.meta.type == 'Projects' || this.$route.meta.type == 'ProjectOverview'">
+              <a href="#">
+                <span class="icon"><i class="fa fa-truck"></i></span>
+                Surveyed Sites
+              </a>
+            </router-link> 
             <router-link tag="li" to="/dash/project/suveryRequests" v-if="this.$route.meta.type == 'Projects' || this.$route.meta.type == 'ProjectOverview'">
               <a href="#">
                 <span class="icon"><i class="fa fa-truck"></i></span>
