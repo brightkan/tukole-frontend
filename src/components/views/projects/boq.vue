@@ -45,7 +45,7 @@
           </tbody>
         </table>
 
-        <p>
+        <p v-if="$store.state.user_role == 'management'">
           Total Project Estimated cost
           <span style="margin-right: 15px">
             USD {{getBoqEstimateTotal | formatNumber}}

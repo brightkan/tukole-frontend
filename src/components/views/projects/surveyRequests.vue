@@ -29,7 +29,10 @@
               <div class="col-md-12">
                 <p>
                   Progress
-                  <small style="margin-top: 5px;" class="float-right">{{site.current_stage}}%</small>
+                  <small
+                    style="margin-top: 5px;"
+                    class="float-right"
+                  >{{site.current_stage}}%</small>
                 </p>
               </div>
               <div class="col-md-12">
@@ -43,6 +46,10 @@
                     v-bind:style="{width: site.current_stage + '%'}"
                   ></div>
                 </div>
+              </div>
+              <div class="col-md-12">
+                <p style="font-weight: normal; margin-top: 10px">Site surveyed: 
+                  <span v-bind:class="site.site_surveyed ? 'text-success': 'text-danger'" style="font-weight: bold;">{{ site.site_surveyed}}</span></p>
               </div>
             </div>
           </div>
@@ -63,7 +70,9 @@
       >
         <h3>
           {{ activeSite.site_name }}
-          <small class="float-right">{{ activeSite.current_stage }}% completed</small>
+          <small
+            class="float-right"
+          >{{ activeSite.current_stage }}% completed</small>
         </h3>
       </div>
     </div>

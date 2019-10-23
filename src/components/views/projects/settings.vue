@@ -80,7 +80,7 @@
             >
           </div>
         </div>
-        <div class="row" v-if="$store.state.user_type != 'client'">
+        <div class="row" v-if="$store.state.user_type != 'client' && site.site_surveyed">
           <div class="col-md-6">
             <p class="switch-label">Acknowledge Site connection request:</p>
           </div>

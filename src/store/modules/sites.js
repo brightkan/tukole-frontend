@@ -1,7 +1,7 @@
 
 import api from "../../api";
 
-function updateState(state, payload){
+function updateState(state, payload) {
     state = state.map(item => {
         if (item.id === payload.id) {
             return Object.assign({}, item, payload)
@@ -10,7 +10,7 @@ function updateState(state, payload){
     })
 }
 
-function fetchUser(data, commit, action){
+function fetchUser(data, commit, action) {
     data.forEach((item, index) => {
         api
             .request("get", "users/" + item.user + "/")
@@ -209,18 +209,18 @@ export default {
         SET_SITE_TRUNKING(state, payload) { state.siteTrunking = payload; },
         SET_SITE_MATERIALS_USED(state, payload) { state.materialUsed = payload; },
 
-        UPDATE_SITE_MANHOLE_INSTALLATION(state, payload){updateState(state.siteManholeInstallations, payload)},
-        UPDATE_SITE_DUCT_INSTALLATION(state, payload){updateState(state.siteDuctInstallation, payload)},
-        UPDATE_SITE_CABLE_INSTALLATION(state, payload){updateState(state.siteCableInstallation, payload)},
-        UPDATE_SITE_HANDHOLE_INSTALLATION(state, payload){updateState(state.siteHandHoleInstallation, payload)},
-        UPDATE_SITE_ODF_INSTALLATION(state, payload){updateState(state.siteOdfInstallation, payload)},
-        UPDATE_SITE_OTHER(state, payload){updateState(state.siteOthers, payload)},
-        UPDATE_SITE_ODF_TERMINATION(state, payload){updateState(state.siteOdfTermination, payload)},
-        UPDATE_SITE_ROUTE_CHANGE(state, payload){updateState(state.siteRouteChange, payload)},
-        UPDATE_SITE_TRENCH_DISTANCES(state, payload){updateState(state.siteTrenchDistances, payload)},
-        UPDATE_SITE_ROAD_CROSSINGS(state, payload){updateState(state.siteRoadCrossings, payload)},
-        UPDATE_SITE_RE_INSTALLATIONS(state, payload){updateState(state.siteReInstallations, payload)},
-        UPDATE_SITE_TRUNKING(state, payload){updateState(state.siteTrunking, payload)},
+        UPDATE_SITE_MANHOLE_INSTALLATION(state, payload) { updateState(state.siteManholeInstallations, payload) },
+        UPDATE_SITE_DUCT_INSTALLATION(state, payload) { updateState(state.siteDuctInstallation, payload) },
+        UPDATE_SITE_CABLE_INSTALLATION(state, payload) { updateState(state.siteCableInstallation, payload) },
+        UPDATE_SITE_HANDHOLE_INSTALLATION(state, payload) { updateState(state.siteHandHoleInstallation, payload) },
+        UPDATE_SITE_ODF_INSTALLATION(state, payload) { updateState(state.siteOdfInstallation, payload) },
+        UPDATE_SITE_OTHER(state, payload) { updateState(state.siteOthers, payload) },
+        UPDATE_SITE_ODF_TERMINATION(state, payload) { updateState(state.siteOdfTermination, payload) },
+        UPDATE_SITE_ROUTE_CHANGE(state, payload) { updateState(state.siteRouteChange, payload) },
+        UPDATE_SITE_TRENCH_DISTANCES(state, payload) { updateState(state.siteTrenchDistances, payload) },
+        UPDATE_SITE_ROAD_CROSSINGS(state, payload) { updateState(state.siteRoadCrossings, payload) },
+        UPDATE_SITE_RE_INSTALLATIONS(state, payload) { updateState(state.siteReInstallations, payload) },
+        UPDATE_SITE_TRUNKING(state, payload) { updateState(state.siteTrunking, payload) },
 
         SET_SITE_IMAGES(state, payload) {
             state.siteImages = payload;
@@ -823,7 +823,7 @@ export default {
         },
         deleteDocument({ commit, state }, payload) {
             api
-                .request("delete", "sitesdocuments/"+ payload.id + "/")
+                .request("delete", "sitesdocuments/" + payload.id + "/")
                 .then(response => {
                     commit('DELETE_SITE_DOCUMENT', response.data)
                 });
@@ -862,18 +862,18 @@ export default {
         },
         getSites: (state) => {
             if (window.localStorage.getItem('clientType') === 'client') {
-                return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus && item.site_surveyed);
+                return state.sites.filter(item => (JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus && item.site_connection_request_acknowledged);
             } else {
-                return state.sites.filter(item => item.ackStatus && item.site_surveyed);
+                return state.sites.filter(item => item.ackStatus && item.site_connection_request_acknowledged);
             }
         },
         getSiteSurveys: (state) => {
             if (window.localStorage.getItem('clientType') === 'client') {
                 return state.sites.filter(item => (
                     JSON.parse(window.localStorage.getItem('user'))).user_id == item.clientId && item.ackStatus
-                    && !item.site_surveyed);
+                    && !item.site_connection_request_acknowledged);
             } else {
-                return state.sites.filter(item => item.ackStatus && !item.site_surveyed);
+                return state.sites.filter(item => item.ackStatus && !item.site_connection_request_acknowledged);
             }
         },
         getAllSites: (state) => {
@@ -905,7 +905,7 @@ export default {
         },
         getBeforeImages: (state) => {
             return state.siteImages.filter(image => { return image.status === 'before' }).map(image => {
-                if(image.lat != null){
+                if (image.lat != null) {
                     image.lat = parseFloat(image.lat).toFixed(7)
                     image.long = parseFloat(image.long).toFixed(7)
                 }
@@ -914,7 +914,7 @@ export default {
         },
         getAfterImages: (state) => {
             return state.siteImages.filter(image => { return image.status === 'after' }).map(image => {
-                if(image.lat != null){
+                if (image.lat != null) {
                     image.lat = parseFloat(image.lat).toFixed(7)
                     image.long = parseFloat(image.long).toFixed(7)
                 }
