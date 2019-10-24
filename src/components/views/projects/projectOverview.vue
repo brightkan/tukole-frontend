@@ -264,7 +264,7 @@
                       <td>Tool</td>
                       <td>Serial Number</td>
                       <td>Type</td>
-                      <td>Creation Date</td>
+                      <!-- <td>Creation Date</td> -->
                       <td v-if="$store.state.user_role == 'project_manager'"></td>
                     </tr>
                   </thead>
@@ -287,8 +287,8 @@
                     <tr v-for="siteTool in siteTools" :key="siteTool.id">
                       <td>{{ siteTool.tool.name }}</td>
                       <td>{{ siteTool.tool.humanUuid }}</td>
-                      <td>{{ siteTool.tool.type.type }}</td>
-                      <td>{{ siteTool.created | moment("MMM Do YYYY") }}</td>
+                      <td>{{ siteTool.tool.type ? siteTool.tool.type.type : '' }}</td>
+                      <!-- <td>{{ siteTool.created | moment("MMM Do YYYY") }}</td> -->
                       <td v-if="$store.state.user_role == 'project_manager'">
                         <i class="fa fa-times" v-on:click="deleteSiteTool(siteTool)"></i>
                       </td>
