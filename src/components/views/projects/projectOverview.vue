@@ -236,7 +236,7 @@
                     <tr v-for="siteFleet in siteFleets" :key="siteFleet.id">
                       <td>{{ siteFleet.fleet.name }}</td>
                       <td>{{ siteFleet.fleet.humanUuid }}</td>
-                      <td>{{ siteFleet.fleet.vehicle_type.type }}</td>
+                      <td>{{ siteFleet.fleet.vehicle_type ? siteFleet.fleet.vehicle_type.type : '' }}</td>
                       <td>{{ siteFleet.created | moment("MMM Do YYYY") }}</td>
                       <td v-if="$store.state.user_role == 'project_manager'">
                         <i class="fa fa-times" v-on:click="deleteSiteFleet(siteFleet)"></i>
@@ -275,7 +275,7 @@
                           <div class="form-group col-md-10">
                             <mdc-select v-model="siteTool.tool" label="Tool" required outlined>
                                <option v-for="tool in tools" :key="tool.id" v-bind:value="tool.id" >
-                              {{ tool.name }}</option>
+                              {{ tool.name }} - {{ tool.humanUuid }}</option>
                             </mdc-select>
                           </div>
                           <div class="form-group col-md-2">
@@ -326,7 +326,7 @@
                           <div class="form-group col-md-10">
                             <mdc-select v-model="siteMachinery.machine" label="Machine" required outlined>
                                <option v-for="machine in machines" :key="machine.id" v-bind:value="machine.id">
-                                 {{ machine.name }}</option>
+                                 {{ machine.name }} - {{ machine.humanUuid }}</option>
                             </mdc-select>
                           </div>
                           <div class="form-group col-md-2">
