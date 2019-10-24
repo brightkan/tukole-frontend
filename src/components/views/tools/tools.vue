@@ -16,7 +16,7 @@
             <input name="q" type="text" size="40" placeholder="Search..." v-model="filterTable">
           </form>
         </div>
-        <button v-if="$store.state.user_role != 'management'" 
+        <button v-if="$store.state.user_role == 'tools_manager'" 
         class="mdc-button mdc-button--raised" v-on:click="showForm();resetTool()">Add Tool</button>
       </div>
     </div>
@@ -40,7 +40,7 @@
                     <a class="custom-btn text-white" data-toggle="modal" data-target="#showHistory" v-on:click="selectAssignmentHistory(row)" style="padding-top: 5px; padding-bottom: 5px;">
                       Assignment</a> 
                   </td>
-                  <td v-if="$store.state.user_role != 'management'" class="text-right">
+                  <td v-if="$store.state.user_role == 'tools_manager'" class="text-right">
                     <i class="fa fa-edit" v-on:click="editTool(row)"></i> 
                     <i class="fa fa-times" v-on:click="deleteTool(row)"></i>
                   </td>

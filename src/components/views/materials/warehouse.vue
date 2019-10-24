@@ -12,7 +12,7 @@
       </div>
 
       <div class="comp-title col-md-3">
-        <button class="mdc-button mdc-button--raised" v-on:click="showForm();resetWarehouseMaterial()">
+        <button v-if="$store.state.user_role == 'warehouse'" class="mdc-button mdc-button--raised" v-on:click="showForm();resetWarehouseMaterial()">
           Add Warehouse Material
         </button>
       </div>
@@ -30,7 +30,7 @@
                 <td>Quantity</td>
                 <td>Status</td>
                 <td>Date</td>
-                <td></td>
+                <td v-if="$store.state.user_role == 'warehouse'"></td>
               </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                 <td style="text-transform: uppercase">{{ warehouseMaterial.quantity }}</td>
                 <td>{{ warehouseMaterial.is_returned ? "Returning" : "Outgoing" }}</td>
                 <td>{{ warehouseMaterial.created | moment("dddd, MMMM Do YYYY") }}</td>
-                <td class="text-right">
+                <td v-if="$store.state.user_role == 'warehouse'" class="text-right">
                   <i class="fa fa-edit" v-on:click="editWarehouseMaterial(warehouseMaterial)"></i> 
                   <i class="fa fa-times" v-on:click="deleteWarehouseMaterial(warehouseMaterial)"></i>
                 </td>

@@ -5,11 +5,11 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="comp-title col-md-9">
-        <h3>Tool types</h3>
+        <h3>Machine types</h3>
       </div>
 
       <div class="comp-title col-md-3">
-        <button v-if="$store.state.user_role != 'management'" class="mdc-button mdc-button--raised" v-on:click="showForm();resetType()">
+        <button v-if="$store.state.user_role == 'fleet_manager'" class="mdc-button mdc-button--raised" v-on:click="showForm();resetType()">
           Add Machinery type
         </button>
       </div>
@@ -26,7 +26,7 @@
                 <td>Type</td>
                 <td>Description</td>
                 <td>Creation Date</td>
-                <td v-if="$store.state.user_role != 'management'"></td>
+                <td v-if="$store.state.user_role == 'fleet_manager'"></td>
               </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
                 <td>{{ type.type }}</td>
                 <td>{{ type.description }}</td>
                 <td>12. 08. 2018</td>
-                <td v-if="$store.state.user_role != 'management'" class="text-right">
+                <td v-if="$store.state.user_role == 'fleet_manager'" class="text-right">
                   <i class="fa fa-edit" v-on:click="editType(type)" data-toggle="modal" data-target="#addMachineryType"></i> 
                   <i class="fa fa-times" v-on:click="deleteType(type)"></i>
                 </td>
