@@ -162,6 +162,8 @@ export default {
         workspace: window.localStorage.getItem("workspace")
       },
 
+      editUserRole: "",
+
       //dataTables implementation
       filterUser: '',
       table_columns: [
@@ -220,13 +222,13 @@ export default {
       this.$modal.hide("userForm");
 
       if(JSON.parse(window.localStorage.getItem("user")).user_id == user.id){
-        if(user.role != "super_administrator" && this.$store.getters["users/checkNumberOfAdmins"] < 2){
-          alert("This workspace needs atleast one super admin")
+        if(user.role != "super_administrator" && this.$store.getters["users/checkNumberOfAdmins"] == 1 && this.editUserRole == "super_administrator"){
+          alert("This workspace needs atleast one super admin...")
           return;
         }
       }else {
-        if(user.role != "super_administrator" && this.$store.getters["users/checkNumberOfAdmins"] < 2){
-          alert("This workspace needs atleast one super admin")
+        if(user.role != "super_administrator" && this.$store.getters["users/checkNumberOfAdmins"] == 1 && this.editUserRole == "super_administrator"){
+          alert("This workspace needs atleast one super admin...")
           return;
         }
       }
@@ -243,6 +245,7 @@ export default {
       this.$store.commit("users/CHANGE_LIST_TYPE", type);
     },
     editUser(user) {
+      this.editUserRole = user.role;
       this.editMode = true;
       this.user = Object.assign({}, user);
       this.$modal.show("userForm");
